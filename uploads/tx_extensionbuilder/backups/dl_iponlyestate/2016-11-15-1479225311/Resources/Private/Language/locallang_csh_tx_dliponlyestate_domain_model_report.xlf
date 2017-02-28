@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2016-11-15T15:53:02Z" product-name="dl_iponlyestate">
+		<header/>
+		<body>
+			<trans-unit id="version.description">
+				<source>version</source>
+			</trans-unit>
+			<trans-unit id="date.description">
+				<source>date</source>
+			</trans-unit>
+			<trans-unit id="critical_remarks.description">
+				<source>criticalRemarks</source>
+			</trans-unit>
+			<trans-unit id="remarks.description">
+				<source>remarks</source>
+			</trans-unit>
+			<trans-unit id="note.description">
+				<source>note</source>
+			</trans-unit>
+			<trans-unit id="purchase.description">
+				<source>purchase</source>
+			</trans-unit>
+			<trans-unit id="comment.description">
+				<source>comment</source>
+			</trans-unit>
+			<trans-unit id="question.description">
+				<source>question</source>
+			</trans-unit>
+			<trans-unit id="responsible_technician.description">
+				<source>responsibleTechnician</source>
+			</trans-unit>
+			<trans-unit id="technician.description">
+				<source>technician</source>
+			</trans-unit>
+			<trans-unit id="dynamic_column.description">
+				<source>dynamicColumn</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

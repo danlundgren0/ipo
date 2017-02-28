@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2016-11-15T16:02:31Z" product-name="dl_iponlyestate">
+		<header/>
+		<body>
+			<trans-unit id="tx_dliponlyestate_domain_model_estate">
+				<source>Estate</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_estate.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_estate.node_type">
+				<source>Node Type</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_estate.control_points">
+				<source>Control Points</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_technician">
+				<source>Technician</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_nodetype">
+				<source>Node Type</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_nodetype.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_controlpoint">
+				<source>Control Point</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_controlpoint.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_controlpoint.report">
+				<source>Report</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_question">
+				<source>Question</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_dynamiccolumn">
+				<source>Dynamic Column</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_dynamiccolumn.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_dynamiccolumn.text">
+				<source>Text</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report">
+				<source>Report</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.version">
+				<source>Version</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.date">
+				<source>Date</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.critical_remarks">
+				<source>Critical Remarks</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.remarks">
+				<source>Remarks</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.note">
+				<source>Note</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.purchase">
+				<source>Purchase</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.comment">
+				<source>Comment</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.question">
+				<source>Question</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.responsible_technician">
+				<source>Responsible Technician</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.technician">
+				<source>Technician</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.dynamic_column">
+				<source>Dynamic Column</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_estate.responsible_technician">
+				<source>Responsible Technician</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_estate.technician">
+				<source>Technician</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_question.critical_remarks">
+				<source>Critical Remarks</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_question.remarks">
+				<source>Remarks</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_question.note">
+				<source>Note</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_question.purchase">
+				<source>Purchase</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_nodetype.type">
+				<source>Type</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_node">
+				<source>Node</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_node.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_controlpoint.question">
+				<source>Question</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

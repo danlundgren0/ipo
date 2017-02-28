@@ -1,0 +1,59 @@
+/*
+// Include font-awseome in RTE css (for ext:iconfont)
+//@import "/typo3conf/ext/iconfont/Resources/Public/Lib/font-awesome/css/font-awesome.min.css";
+*/
+
+// ------------------------------------------------------------
+// content related bootstrap settings
+//
+// (overwritten) bootstrap variables
+@import "../../../lib/bootstrap/scss/bootstrap/variables";
+
+@import "../../../lib/bootstrap/scss/bootstrap/mixins";
+@import "../../../lib/bootstrap/scss/bootstrap/normalize";
+@import "../../../lib/bootstrap/scss/bootstrap/scaffolding";
+@import "../../../lib/bootstrap/scss/bootstrap/type";
+@import "../../../lib/bootstrap/scss/bootstrap/code";
+@import "../../../lib/bootstrap/scss/bootstrap/tables";
+@import "../../../lib/bootstrap/scss/bootstrap/buttons";
+@import "../../../lib/bootstrap/scss/bootstrap/badges";
+@import "../../../lib/bootstrap/scss/bootstrap/alerts";
+
+
+// ------------------------------------------------------------
+// Import this site's theme less for content
+//
+@import "../includes/content";
+
+
+// ------------------------------------------------------------
+// RTE format options
+// (at least one property required, no output in css if empty!)
+//
+p.lead { color: inherit; }
+
+p.text-left { color: inherit; }
+p.text-center { color: inherit; }
+p.text-right { color: inherit; }
+p.text-justify { color: inherit; }
+
+h2.text-left, h3.text-left, h4.text-left, h5.text-left { color: inherit; }
+h2.text-center, h3.text-center, h4.text-center, h5.text-center { color: inherit; }
+h2.text-right, h3.text-right, h4.text-right, h5.text-right { color: inherit; }
+
+blockquote.pull-left { box-sizing: inherit; }
+blockquote.pull-right { box-sizing: inherit;}
+
+span.badge { box-sizing: inherit; }
+span.text-info { box-sizing: inherit; }
+span.text-success { box-sizing: inherit; }
+span.text-warning { box-sizing: inherit; }
+span.text-danger { box-sizing: inherit; }
+
+table.table { display: table; }
+
+a.btn { box-sizing: inherit; }
+a.btn-default { box-sizing: inherit; }
+a.btn-primary { box-sizing: inherit; }
+a.btn-success { box-sizing: inherit; }
+a.btn-warning { box-sizing: inherit; }

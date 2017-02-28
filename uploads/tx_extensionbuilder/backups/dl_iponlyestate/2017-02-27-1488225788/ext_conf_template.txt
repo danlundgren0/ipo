@@ -1,0 +1,2 @@
+# cat=basic/ids/a; type=int; label=User group with responsible technicians
+responsibleTechnicians =

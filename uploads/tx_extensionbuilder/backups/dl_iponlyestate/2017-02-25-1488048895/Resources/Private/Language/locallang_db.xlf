@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2017-02-25T18:48:08Z" product-name="dl_iponlyestate">
+		<header/>
+		<body>
+			<trans-unit id="tx_dliponlyestate_domain_model_estate">
+				<source>Estate</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_estate.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_estate.control_points">
+				<source>Control Points</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_technician">
+				<source>Technician</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tx_extbase_type.Tx_DlIponlyestate_Technician">
+				<source>Iponly Estate Technician</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_nodetype">
+				<source>Node Type</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_nodetype.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_controlpoint">
+				<source>Control Point</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_controlpoint.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_controlpoint.report">
+				<source>Report</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_controlpoint.node_type">
+				<source>Node Type</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_controlpoint.questions">
+				<source>Questions</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_controlpoint.allowed_technicians">
+				<source>Allowed Technicians</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_controlpoint.alllowed_responsible_technicians">
+				<source>Alllowed Responsible Technicians</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_question">
+				<source>Question</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_question.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_question.reports">
+				<source>Reports</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_dynamiccolumn">
+				<source>Dynamic Column</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_dynamiccolumn.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_dynamiccolumn.text">
+				<source>Text</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report">
+				<source>Report</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.version">
+				<source>Version</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.date">
+				<source>Date</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.critical_remarks">
+				<source>Critical Remarks</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.remarks">
+				<source>Remarks</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.purchase">
+				<source>Purchase</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.dynamic_column">
+				<source>Dynamic Column</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.executive_technician">
+				<source>Executive Technician</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.comments">
+				<source>Comments</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.photos">
+				<source>Photos</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_comment">
+				<source>Comment</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_comment.comment">
+				<source>Comment</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_photo">
+				<source>Photo</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_photo.image">
+				<source>Image</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_controlpoint.technicians">
+				<source>Technicians</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_controlpoint.responsible_technicians">
+				<source>Responsible Technicians</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.note">
+				<source>Note</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.comment">
+				<source>Comment</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_estate.node_type">
+				<source>Node Type</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.question">
+				<source>Question</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.responsible_technician">
+				<source>Responsible Technician</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.technician">
+				<source>Technician</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_estate.responsible_technician">
+				<source>Responsible Technician</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_estate.technician">
+				<source>Technician</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_question.critical_remarks">
+				<source>Critical Remarks</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_question.remarks">
+				<source>Remarks</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_question.note">
+				<source>Note</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_question.purchase">
+				<source>Purchase</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_nodetype.type">
+				<source>Type</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_node">
+				<source>Node</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_node.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_controlpoint.question">
+				<source>Question</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tx_extbase_type.Tx_DlIponlyestate_Estate">
+				<source>Iponly Estate Estate</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

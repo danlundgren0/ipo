@@ -1,0 +1,17 @@
+
+plugin.tx_dliponlyestate_controlpoint {
+	view {
+		# cat=plugin.tx_dliponlyestate_controlpoint/file; type=string; label=Path to template root (FE)
+		templateRootPath = EXT:dl_iponlyestate/Resources/Private/Templates/
+		# cat=plugin.tx_dliponlyestate_controlpoint/file; type=string; label=Path to template partials (FE)
+		partialRootPath = EXT:dl_iponlyestate/Resources/Private/Partials/
+		# cat=plugin.tx_dliponlyestate_controlpoint/file; type=string; label=Path to template layouts (FE)
+		layoutRootPath = EXT:dl_iponlyestate/Resources/Private/Layouts/
+	}
+	persistence {
+		# cat=plugin.tx_dliponlyestate_controlpoint//a; type=string; label=Default storage PID
+		storagePid =
+	}
+}
+
+## EXTENSION BUILDER DEFAULTS END TOKEN - Everything BEFORE this line is overwritten with the defaults of the extension builder

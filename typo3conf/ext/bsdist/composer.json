@@ -1,0 +1,16 @@
+{
+  "name": "laxap/bsdist",
+  "type": "typo3-cms-extension",
+  "version": "1.3.3",
+  "description": "An initial page tree will be imported and bootstrap_core will be installed. A collection of files for the website layout and extension configuration is included.",
+  "keywords": ["typo3", "TYPO3 CMS", "bootstrap", "bsdist", "distribution"],
+  "homepage": "http://www.bsdist.ch",
+  "license": "GPL-2.0+",
+  "authors": [
+    {
+      "name": "Pascal Mayer",
+      "email": "typo3@bsdist.ch",
+      "role": "Developer"
+    }
+  ]
+}

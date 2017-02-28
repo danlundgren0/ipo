@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2016-11-14T07:20:39Z" product-name="dl_iponlyestate">
+		<header/>
+		<body>
+			<trans-unit id="node_type.description">
+				<source>nodeType</source>
+			</trans-unit>
+			<trans-unit id="control_points.description">
+				<source>controlPoints</source>
+			</trans-unit>
+			<trans-unit id="responsible_technician.description">
+				<source>responsibleTechnician</source>
+			</trans-unit>
+			<trans-unit id="technician.description">
+				<source>technician</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

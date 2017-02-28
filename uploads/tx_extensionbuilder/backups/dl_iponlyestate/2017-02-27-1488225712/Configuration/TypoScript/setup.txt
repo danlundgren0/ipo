@@ -1,0 +1,60 @@
+
+plugin.tx_dliponlyestate_cp {
+	view {
+		templateRootPaths.0 = {$plugin.tx_dliponlyestate_cp.view.templateRootPath}
+		partialRootPaths.0 = {$plugin.tx_dliponlyestate_cp.view.partialRootPath}
+		layoutRootPaths.0 = {$plugin.tx_dliponlyestate_cp.view.layoutRootPath}
+	}
+	persistence {
+		storagePid = {$plugin.tx_dliponlyestate_cp.persistence.storagePid}
+	}
+}
+
+plugin.tx_dliponlyestate._CSS_DEFAULT_STYLE (
+	textarea.f3-form-error {
+		background-color:#FF9F9F;
+		border: 1px #FF0000 solid;
+	}
+
+	input.f3-form-error {
+		background-color:#FF9F9F;
+		border: 1px #FF0000 solid;
+	}
+
+	.tx-dl-iponlyestate table {
+		border-collapse:separate;
+		border-spacing:10px;
+	}
+
+	.tx-dl-iponlyestate table th {
+		font-weight:bold;
+	}
+
+	.tx-dl-iponlyestate table td {
+		vertical-align:top;
+	}
+
+	.typo3-messages .message-error {
+		color:red;
+	}
+
+	.typo3-messages .message-ok {
+		color:green;
+	}
+
+)
+
+## EXTENSION BUILDER DEFAULTS END TOKEN - Everything BEFORE this line is overwritten with the defaults of the extension builder
+plugin.tx_dliponlyestate_cp {
+	persistence {
+		storagePid = {$plugin.tx_dliponlyestate_cp.persistence.storagePid}
+		recursive = 99
+	}	
+}
+plugin.tx_dliponlyestate {
+	settings {
+		Ids {
+			reportPid = {$plugin.tx_dliponlyestate.settings.ids.reportPid}
+		}
+	}
+}
