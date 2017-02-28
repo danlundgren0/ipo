@@ -1,0 +1,6 @@
+In the Owner drop-down, select the account you wish to create the repository on.
+
+# Ignore everything in this directory
+*
+# Except this file
+!.gitignore
