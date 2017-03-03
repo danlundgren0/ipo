@@ -88,6 +88,9 @@ CREATE TABLE tx_dliponlyestate_domain_model_controlpoint (
 	pid int(11) DEFAULT '0' NOT NULL,
 
 	name varchar(255) DEFAULT '' NOT NULL,
+	header varchar(255) DEFAULT '' NOT NULL,
+	description text NOT NULL,
+	image int(11) unsigned NOT NULL default '0',
 	responsible_technician int(11) DEFAULT '0' NOT NULL,
 	node_type int(11) unsigned DEFAULT '0',
 	questions int(11) unsigned DEFAULT '0' NOT NULL,
@@ -131,6 +134,9 @@ CREATE TABLE tx_dliponlyestate_domain_model_question (
 	pid int(11) DEFAULT '0' NOT NULL,
 
 	name varchar(255) DEFAULT '' NOT NULL,
+	header varchar(255) DEFAULT '' NOT NULL,
+	description text NOT NULL,
+	image int(11) unsigned NOT NULL default '0',
 	reports int(11) unsigned DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,

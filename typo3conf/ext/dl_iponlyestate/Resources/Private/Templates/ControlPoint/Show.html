@@ -13,8 +13,31 @@ in /Configuration/ExtensionBuilder/settings.yaml:
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
 
 <f:section name="main">
-<h1>Single View for ControlPoint</h1>
-
+<div class="contaier">
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-6">
+        <h1>{controlPoint.header}</h1>
+        <div>{controlPoint.description}</div>
+      </div>
+      <div class="col-md-6">
+        <img src="{controlPoint.image.originalResource.publicUrl}" width="554" height="332" class="img-responsive" />
+      </div>
+    </div>
+    <f:for each="{controlPoint.questions}" as="question">
+      <f:if condition="{question.header} != ''">
+        <div class="row">
+          <div class="col-md-8">
+            <h1>{question.header}</h1>
+            <div>{question.description}</div>
+          </div>
+          <div class="col-md-4">
+            <img src="{question.image.originalResource.publicUrl}" width="554" height="332" class="img-responsive" />
+          </div>
+        </div>
+      </f:if>
+    </f:for>
+  </div>
+</div>
 <f:flashMessages />
-<f:render partial="ControlPoint/Properties" arguments="{controlPoint:controlPoint}" />
 </f:section>

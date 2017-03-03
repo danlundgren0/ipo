@@ -77,9 +77,16 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
      */
     public function showAction()
     {
-        if ((int)$this->settings['ControlPoint'] > 0) {
+        if ((int) $this->settings['ControlPoint'] > 0) {
             $controlPoint = $this->controlPointRepository->findByUid((int) $this->settings['ControlPoint']);
             $this->view->assign('controlPoint', $controlPoint);
+\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
+ array(
+  'class' => __CLASS__,
+  'function' => __FUNCTION__,
+  'controlPoint' => $controlPoint,
+ )
+);            
         }
     }
 

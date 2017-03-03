@@ -48,6 +48,27 @@ class Question extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $reports = null;
     
     /**
+     * header
+     *
+     * @var string
+     */
+    protected $header = '';
+    
+    /**
+     * description
+     *
+     * @var string
+     */
+    protected $description = '';
+    
+    /**
+     * image
+     *
+     * @var \TYPO3\CMS\Extbase\Domain\Model\FileReference
+     */
+    protected $image = null;
+    
+    /**
      * Returns the name
      *
      * @return string $name
@@ -131,6 +152,69 @@ class Question extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setReports(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $reports)
     {
         $this->reports = $reports;
+    }
+    
+    /**
+     * Returns the header
+     *
+     * @return string $header
+     */
+    public function getHeader()
+    {
+        return $this->header;
+    }
+    
+    /**
+     * Sets the header
+     *
+     * @param string $header
+     * @return void
+     */
+    public function setHeader($header)
+    {
+        $this->header = $header;
+    }
+    
+    /**
+     * Returns the description
+     *
+     * @return string $description
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+    
+    /**
+     * Sets the description
+     *
+     * @param string $description
+     * @return void
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+    
+    /**
+     * Returns the image
+     *
+     * @return \TYPO3\CMS\Extbase\Domain\Model\FileReference $image
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+    
+    /**
+     * Sets the image
+     *
+     * @param \TYPO3\CMS\Extbase\Domain\Model\FileReference $image
+     * @return void
+     */
+    public function setImage(\TYPO3\CMS\Extbase\Domain\Model\FileReference $image)
+    {
+        $this->image = $image;
     }
 
 }

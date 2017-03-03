@@ -79,6 +79,82 @@ class QuestionTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 	/**
 	 * @test
 	 */
+	public function getHeaderReturnsInitialValueForString()
+	{
+		$this->assertSame(
+			'',
+			$this->subject->getHeader()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setHeaderForStringSetsHeader()
+	{
+		$this->subject->setHeader('Conceived at T3CON10');
+
+		$this->assertAttributeEquals(
+			'Conceived at T3CON10',
+			'header',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getDescriptionReturnsInitialValueForString()
+	{
+		$this->assertSame(
+			'',
+			$this->subject->getDescription()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setDescriptionForStringSetsDescription()
+	{
+		$this->subject->setDescription('Conceived at T3CON10');
+
+		$this->assertAttributeEquals(
+			'Conceived at T3CON10',
+			'description',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getImageReturnsInitialValueForFileReference()
+	{
+		$this->assertEquals(
+			NULL,
+			$this->subject->getImage()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setImageForFileReferenceSetsImage()
+	{
+		$fileReferenceFixture = new \TYPO3\CMS\Extbase\Domain\Model\FileReference();
+		$this->subject->setImage($fileReferenceFixture);
+
+		$this->assertAttributeEquals(
+			$fileReferenceFixture,
+			'image',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
 	public function getReportsReturnsInitialValueForReport()
 	{
 		$newObjectStorage = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();

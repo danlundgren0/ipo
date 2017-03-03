@@ -20,14 +20,14 @@ return array(
 			'starttime' => 'starttime',
 			'endtime' => 'endtime',
 		),
-		'searchFields' => 'name,responsible_technician,node_type,questions,',
+		'searchFields' => 'name,header,description,image,responsible_technician,node_type,questions,',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('dl_iponlyestate') . 'Resources/Public/Icons/tx_dliponlyestate_domain_model_controlpoint.gif'
 	),
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, responsible_technician, node_type, questions',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, header, description, image, responsible_technician, node_type, questions',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, responsible_technician, node_type, questions, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, header, description;;;richtext:rte_transform[mode=ts_links], image, responsible_technician, node_type, questions, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -124,6 +124,87 @@ return array(
 				'type' => 'input',
 				'size' => 30,
 				'eval' => 'trim'
+			),
+		),
+		'header' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_controlpoint.header',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			),
+		),
+		'description' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_controlpoint.description',
+			'config' => array(
+				'type' => 'text',
+				'cols' => 40,
+				'rows' => 15,
+				'eval' => 'trim',
+				'wizards' => array(
+					'RTE' => array(
+						'icon' => 'wizard_rte2.gif',
+						'notNewRecords'=> 1,
+						'RTEonly' => 1,
+						'module' => array(
+							'name' => 'wizard_rich_text_editor',
+							'urlParameters' => array(
+								'mode' => 'wizard',
+								'act' => 'wizard_rte.php'
+							)
+						),
+						'title' => 'LLL:EXT:cms/locallang_ttc.xlf:bodytext.W.RTE',
+						'type' => 'script'
+					)
+				)
+			),
+		),
+		'image' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_controlpoint.image',
+			'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
+				'image',
+				array(
+					'appearance' => array(
+						'createNewRelationLinkTitle' => 'LLL:EXT:cms/locallang_ttc.xlf:images.addFileReference'
+					),
+					'foreign_types' => array(
+						'0' => array(
+							'showitem' => '
+							--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+							--palette--;;filePalette'
+						),
+						\TYPO3\CMS\Core\Resource\File::FILETYPE_TEXT => array(
+							'showitem' => '
+							--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+							--palette--;;filePalette'
+						),
+						\TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => array(
+							'showitem' => '
+							--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+							--palette--;;filePalette'
+						),
+						\TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO => array(
+							'showitem' => '
+							--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+							--palette--;;filePalette'
+						),
+						\TYPO3\CMS\Core\Resource\File::FILETYPE_VIDEO => array(
+							'showitem' => '
+							--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+							--palette--;;filePalette'
+						),
+						\TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION => array(
+							'showitem' => '
+							--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+							--palette--;;filePalette'
+						)
+					),
+					'maxitems' => 1
+				),
+				$GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
 			),
 		),
 		'responsible_technician' => array(

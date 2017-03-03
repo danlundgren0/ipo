@@ -160,6 +160,36 @@
                             "propertyDescription": "",
                             "propertyIsExcludeField": true,
                             "propertyIsRequired": false,
+                            "propertyName": "header",
+                            "propertyType": "String",
+                            "uid": "97270633613"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "description",
+                            "propertyType": "RichText",
+                            "uid": "281508469430"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "image",
+                            "propertyType": "Image",
+                            "uid": "655811949121"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
                             "propertyName": "responsibleTechnician",
                             "propertyType": "Select",
                             "uid": "741696913920"
@@ -234,6 +264,36 @@
                             "propertyName": "name",
                             "propertyType": "String",
                             "uid": "1354330000120"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "header",
+                            "propertyType": "String",
+                            "uid": "1242329412022"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "description",
+                            "propertyType": "RichText",
+                            "uid": "828000838171"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "image",
+                            "propertyType": "Image",
+                            "uid": "631356220989"
                         }
                     ]
                 },
@@ -681,7 +741,7 @@
         }
     ],
     "log": {
-        "last_modified": "2017-02-28 03:53",
+        "last_modified": "2017-03-02 08:04",
         "extension_builder_version": "7.6.0",
         "be_user": " (1)"
     }
