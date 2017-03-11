@@ -79,6 +79,184 @@ class EstateTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 	/**
 	 * @test
 	 */
+	public function getAdressReturnsInitialValueForString()
+	{
+		$this->assertSame(
+			'',
+			$this->subject->getAdress()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setAdressForStringSetsAdress()
+	{
+		$this->subject->setAdress('Conceived at T3CON10');
+
+		$this->assertAttributeEquals(
+			'Conceived at T3CON10',
+			'adress',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getPostalCodeReturnsInitialValueForString()
+	{
+		$this->assertSame(
+			'',
+			$this->subject->getPostalCode()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setPostalCodeForStringSetsPostalCode()
+	{
+		$this->subject->setPostalCode('Conceived at T3CON10');
+
+		$this->assertAttributeEquals(
+			'Conceived at T3CON10',
+			'postalCode',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getCityReturnsInitialValueForString()
+	{
+		$this->assertSame(
+			'',
+			$this->subject->getCity()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setCityForStringSetsCity()
+	{
+		$this->subject->setCity('Conceived at T3CON10');
+
+		$this->assertAttributeEquals(
+			'Conceived at T3CON10',
+			'city',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getWidthReturnsInitialValueForInt()
+	{	}
+
+	/**
+	 * @test
+	 */
+	public function setWidthForIntSetsWidth()
+	{	}
+
+	/**
+	 * @test
+	 */
+	public function getLengthReturnsInitialValueForInt()
+	{	}
+
+	/**
+	 * @test
+	 */
+	public function setLengthForIntSetsLength()
+	{	}
+
+	/**
+	 * @test
+	 */
+	public function getDoorPositionReturnsInitialValueForString()
+	{
+		$this->assertSame(
+			'',
+			$this->subject->getDoorPosition()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setDoorPositionForStringSetsDoorPosition()
+	{
+		$this->subject->setDoorPosition('Conceived at T3CON10');
+
+		$this->assertAttributeEquals(
+			'Conceived at T3CON10',
+			'doorPosition',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getLatitudeReturnsInitialValueForFloat()
+	{
+		$this->assertSame(
+			0.0,
+			$this->subject->getLatitude()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setLatitudeForFloatSetsLatitude()
+	{
+		$this->subject->setLatitude(3.14159265);
+
+		$this->assertAttributeEquals(
+			3.14159265,
+			'latitude',
+			$this->subject,
+			'',
+			0.000000001
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getLongitudeReturnsInitialValueForFloat()
+	{
+		$this->assertSame(
+			0.0,
+			$this->subject->getLongitude()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setLongitudeForFloatSetsLongitude()
+	{
+		$this->subject->setLongitude(3.14159265);
+
+		$this->assertAttributeEquals(
+			3.14159265,
+			'longitude',
+			$this->subject,
+			'',
+			0.000000001
+		);
+	}
+
+	/**
+	 * @test
+	 */
 	public function getControlPointsReturnsInitialValueForControlPoint()
 	{
 		$newObjectStorage = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();

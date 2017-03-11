@@ -42,6 +42,86 @@
                             "propertyName": "name",
                             "propertyType": "String",
                             "uid": "1117431162708"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "adress",
+                            "propertyType": "String",
+                            "uid": "104107388653"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "postalCode",
+                            "propertyType": "String",
+                            "uid": "622691483094"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "city",
+                            "propertyType": "String",
+                            "uid": "823440492159"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "width",
+                            "propertyType": "Integer",
+                            "uid": "427142329821"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "length",
+                            "propertyType": "Integer",
+                            "uid": "212429514037"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "doorPosition",
+                            "propertyType": "String",
+                            "uid": "229192426569"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "latitude",
+                            "propertyType": "Float",
+                            "uid": "1110614263977"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "longitude",
+                            "propertyType": "Float",
+                            "uid": "1208164345754"
                         }
                     ]
                 },
@@ -298,18 +378,7 @@
                     ]
                 },
                 "relationGroup": {
-                    "relations": [
-                        {
-                            "foreignRelationClass": "",
-                            "lazyLoading": false,
-                            "propertyIsExcludeField": true,
-                            "relationDescription": "",
-                            "relationName": "reports",
-                            "relationType": "zeroToMany",
-                            "relationWire": "[wired]",
-                            "uid": "1255445062016"
-                        }
-                    ]
+                    "relations": []
                 }
             }
         },
@@ -376,8 +445,8 @@
         {
             "config": {
                 "position": [
-                    771,
-                    66
+                    755,
+                    98
                 ]
             },
             "name": "New Model Object",
@@ -411,7 +480,17 @@
                             "maxItems": "1",
                             "propertyDescription": "",
                             "propertyIsExcludeField": true,
-                            "propertyIsRequired": false,
+                            "propertyIsRequired": true,
+                            "propertyName": "name",
+                            "propertyType": "String",
+                            "uid": "1084518155232"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": true,
                             "propertyName": "version",
                             "propertyType": "Integer",
                             "uid": "646713471781"
@@ -432,9 +511,9 @@
                             "propertyDescription": "",
                             "propertyIsExcludeField": true,
                             "propertyIsRequired": false,
-                            "propertyName": "criticalRemarks",
+                            "propertyName": "isComplete",
                             "propertyType": "Boolean",
-                            "uid": "1107480398575"
+                            "uid": "563195732294"
                         },
                         {
                             "allowedFileTypes": "",
@@ -442,9 +521,9 @@
                             "propertyDescription": "",
                             "propertyIsExcludeField": true,
                             "propertyIsRequired": false,
-                            "propertyName": "remarks",
-                            "propertyType": "Boolean",
-                            "uid": "10385863508"
+                            "propertyName": "estate",
+                            "propertyType": "Select",
+                            "uid": "1232238380645"
                         },
                         {
                             "allowedFileTypes": "",
@@ -452,9 +531,19 @@
                             "propertyDescription": "",
                             "propertyIsExcludeField": true,
                             "propertyIsRequired": false,
-                            "propertyName": "purchase",
-                            "propertyType": "Boolean",
-                            "uid": "50751294748"
+                            "propertyName": "nodeType",
+                            "propertyType": "Select",
+                            "uid": "1450462563138"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "controlPoint",
+                            "propertyType": "Select",
+                            "uid": "44105470921"
                         },
                         {
                             "allowedFileTypes": "",
@@ -463,8 +552,98 @@
                             "propertyIsExcludeField": true,
                             "propertyIsRequired": false,
                             "propertyName": "executiveTechnician",
-                            "propertyType": "String",
-                            "uid": "267534374421"
+                            "propertyType": "Select",
+                            "uid": "1025267183214"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "responsibleTechnicians",
+                            "propertyType": "Select",
+                            "uid": "442522893672"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "noOfCriticalRemarks",
+                            "propertyType": "Integer",
+                            "uid": "39564196090"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "noOfRemarks",
+                            "propertyType": "Integer",
+                            "uid": "980209987775"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "noOfOldRemarks",
+                            "propertyType": "Integer",
+                            "uid": "1076846503462"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "noOfNotes",
+                            "propertyType": "Integer",
+                            "uid": "988841768635"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "noOfPurchases",
+                            "propertyType": "Integer",
+                            "uid": "1217805396707"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "reportIsPosted",
+                            "propertyType": "Boolean",
+                            "uid": "1420149515372"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "The date when the inspection started",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "startDate",
+                            "propertyType": "NativeDate",
+                            "uid": "304509777608"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "The date when the inspection ended. All remarks has state OK.",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "endDate",
+                            "propertyType": "NativeDate",
+                            "uid": "857737023790"
                         }
                     ]
                 },
@@ -485,20 +664,10 @@
                             "lazyLoading": false,
                             "propertyIsExcludeField": true,
                             "relationDescription": "",
-                            "relationName": "comments",
+                            "relationName": "notes",
                             "relationType": "zeroToMany",
                             "relationWire": "[wired]",
                             "uid": "1268338550483"
-                        },
-                        {
-                            "foreignRelationClass": "",
-                            "lazyLoading": false,
-                            "propertyIsExcludeField": true,
-                            "relationDescription": "",
-                            "relationName": "photos",
-                            "relationType": "zeroToMany",
-                            "relationWire": "[wired]",
-                            "uid": "1301587012134"
                         }
                     ]
                 }
@@ -507,21 +676,21 @@
         {
             "config": {
                 "position": [
-                    1116,
-                    268
+                    1118,
+                    199
                 ]
             },
             "name": "New Model Object",
             "value": {
                 "actionGroup": {
-                    "_default0_list": false,
-                    "_default1_show": false,
+                    "_default0_list": true,
+                    "_default1_show": true,
                     "_default2_new_create": false,
                     "_default3_edit_update": false,
                     "_default4_delete": false,
                     "customActions": []
                 },
-                "name": "Comment",
+                "name": "Note",
                 "objectsettings": {
                     "addDeletedField": true,
                     "addHiddenField": true,
@@ -546,56 +715,66 @@
                             "propertyName": "comment",
                             "propertyType": "Text",
                             "uid": "183525694639"
-                        }
-                    ]
-                },
-                "relationGroup": {
-                    "relations": []
-                }
-            }
-        },
-        {
-            "config": {
-                "position": [
-                    1113,
-                    516
-                ]
-            },
-            "name": "New Model Object",
-            "value": {
-                "actionGroup": {
-                    "_default0_list": false,
-                    "_default1_show": false,
-                    "_default2_new_create": false,
-                    "_default3_edit_update": false,
-                    "_default4_delete": false,
-                    "customActions": []
-                },
-                "name": "Photo",
-                "objectsettings": {
-                    "addDeletedField": true,
-                    "addHiddenField": true,
-                    "addStarttimeEndtimeFields": true,
-                    "aggregateRoot": true,
-                    "categorizable": false,
-                    "description": "",
-                    "mapToTable": "",
-                    "parentClass": "",
-                    "sorting": false,
-                    "type": "Entity",
-                    "uid": "593928875374"
-                },
-                "propertyGroup": {
-                    "properties": [
+                        },
                         {
                             "allowedFileTypes": "",
                             "maxItems": "1",
                             "propertyDescription": "",
                             "propertyIsExcludeField": true,
                             "propertyIsRequired": false,
-                            "propertyName": "image",
-                            "propertyType": "File",
-                            "uid": "633335468770"
+                            "propertyName": "state",
+                            "propertyType": "String",
+                            "uid": "817809387724"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "images",
+                            "propertyType": "Image",
+                            "uid": "1458013773715"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": true,
+                            "propertyName": "remarkType",
+                            "propertyType": "Select",
+                            "uid": "608669346046"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": true,
+                            "propertyName": "question",
+                            "propertyType": "Select",
+                            "uid": "1402965631184"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": true,
+                            "propertyName": "version",
+                            "propertyType": "Integer",
+                            "uid": "112349026407"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": true,
+                            "propertyName": "isComplete",
+                            "propertyType": "Boolean",
+                            "uid": "726745174611"
                         }
                     ]
                 },
@@ -650,6 +829,15 @@
                 },
                 "key": "estate",
                 "name": "Estate"
+            },
+            {
+                "actions": {
+                    "controllerActionCombinations": "AjaxRequest => getJson",
+                    "noncacheableActions": "AjaxRequest => getJson",
+                    "switchableActions": "Display Items\nAjaxRequest -> getJson;"
+                },
+                "key": "ajaxrequest",
+                "name": "Ajax Request"
             }
         ],
         "vendorName": "DanLundgren"
@@ -705,18 +893,6 @@
         },
         {
             "src": {
-                "moduleId": 3,
-                "terminal": "relationWire_0",
-                "uid": "1255445062016"
-            },
-            "tgt": {
-                "moduleId": 5,
-                "terminal": "SOURCES",
-                "uid": "906208451263"
-            }
-        },
-        {
-            "src": {
                 "moduleId": 5,
                 "terminal": "relationWire_1",
                 "uid": "1268338550483"
@@ -726,22 +902,10 @@
                 "terminal": "SOURCES",
                 "uid": "20361535465"
             }
-        },
-        {
-            "src": {
-                "moduleId": 5,
-                "terminal": "relationWire_2",
-                "uid": "1301587012134"
-            },
-            "tgt": {
-                "moduleId": 7,
-                "terminal": "SOURCES",
-                "uid": "593928875374"
-            }
         }
     ],
     "log": {
-        "last_modified": "2017-03-02 08:04",
+        "last_modified": "2017-03-10 06:46",
         "extension_builder_version": "7.6.0",
         "be_user": " (1)"
     }

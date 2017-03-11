@@ -1,0 +1,41 @@
+<f:comment>
+<div id="acc_{question.uid}" role="tablist" aria-multiselectable="true" class="noteContainer">
+</f:comment>
+<div>DEBUG: data-questionuid:{question.uid} data-cpuid:{controlPoint.uid} data-reportuid:{unPostedReport.uid} data-noteuid:-1 notever:-1</div>
+<div class="noteContainer" data-questionuid="{question.uid}" data-nodetypeuid="{controlPoint.nodeType.uid}" data-cpuid="{controlPoint.uid}" data-reportuid="{unPostedReport.uid}" data-noteuid="-1" data-notever="-1">
+  <input type="hidden" name="note" value="1" data-version="-1" />
+  <div class="card">
+    <div>
+      <f:comment>
+      <div id="collapse_{question.uid}" class="collapse state-buttons">
+      </f:comment>
+      <div class="state-buttons">
+        <button type="button" class="btn btn-success btn-ipaction" data-type="1" aria-pressed="false">OK</button>
+        <button type="button" class="btn btn-danger btn-ipaction" data-type="2" aria-pressed="false">Krit.</button>
+        <button type="button" class="btn btn-warning btn-ipaction" data-type="3" aria-pressed="false">Anm.</button>
+        <button type="button" class="btn btn-secondary btn-ipaction" data-type="4" aria-pressed="false">Inköp</button>
+        <button type="button" class="btn btn-info btn-ipaction" data-type="foto" aria-pressed="false">
+          <span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+    <div class="card-header" role="tab">
+      <h5 class="mb-0">
+        <h3>
+          <input class="input-note" id="input_{question.uid}_NEW" type="text" />
+          <f:comment>
+          <a data-toggle="collapse" data-parent="#acc_{question.uid}" href="#collapse_{question.uid}" aria-expanded="true" aria-controls="collapse_{question.uid}" class="collapsed">
+            <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+          </a>
+          </f:comment>
+          <span class="save-btn hidden">
+            <button type="button" class="btn btn-success">Spara</button>
+          </span>
+          <span class="add-btn hidden">
+            <button type="button" class="btn btn-secondary">Lägg till notering</button>
+          </span>                            
+        </h3>
+      </h5>
+    </div>
+  </div>
+</div>

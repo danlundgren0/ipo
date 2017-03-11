@@ -40,14 +40,6 @@ class Question extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $name = '';
     
     /**
-     * reports
-     *
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\DanLundgren\DlIponlyestate\Domain\Model\Report>
-     * @cascade remove
-     */
-    protected $reports = null;
-    
-    /**
      * header
      *
      * @var string
@@ -108,50 +100,7 @@ class Question extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     protected function initStorageObjects()
     {
-        $this->reports = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-    }
-    
-    /**
-     * Adds a Report
-     *
-     * @param \DanLundgren\DlIponlyestate\Domain\Model\Report $report
-     * @return void
-     */
-    public function addReport(\DanLundgren\DlIponlyestate\Domain\Model\Report $report)
-    {
-        $this->reports->attach($report);
-    }
-    
-    /**
-     * Removes a Report
-     *
-     * @param \DanLundgren\DlIponlyestate\Domain\Model\Report $reportToRemove The Report to be removed
-     * @return void
-     */
-    public function removeReport(\DanLundgren\DlIponlyestate\Domain\Model\Report $reportToRemove)
-    {
-        $this->reports->detach($reportToRemove);
-    }
-    
-    /**
-     * Returns the reports
-     *
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\DanLundgren\DlIponlyestate\Domain\Model\Report> $reports
-     */
-    public function getReports()
-    {
-        return $this->reports;
-    }
-    
-    /**
-     * Sets the reports
-     *
-     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\DanLundgren\DlIponlyestate\Domain\Model\Report> $reports
-     * @return void
-     */
-    public function setReports(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $reports)
-    {
-        $this->reports = $reports;
+        
     }
     
     /**

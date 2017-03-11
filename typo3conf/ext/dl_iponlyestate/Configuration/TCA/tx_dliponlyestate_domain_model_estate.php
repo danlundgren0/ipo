@@ -20,14 +20,14 @@ return array(
 			'starttime' => 'starttime',
 			'endtime' => 'endtime',
 		),
-		'searchFields' => 'name,control_points,',
+		'searchFields' => 'name,adress,postal_code,city,width,length,door_position,latitude,longitude,control_points,',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('dl_iponlyestate') . 'Resources/Public/Icons/tx_dliponlyestate_domain_model_estate.gif'
 	),
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, control_points',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, adress, postal_code, city, width, length, door_position, latitude, longitude, control_points',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, control_points, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, adress, postal_code, city, width, length, door_position, latitude, longitude, control_points, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -125,6 +125,78 @@ return array(
 				'size' => 30,
 				'eval' => 'trim'
 			),
+		),
+		'adress' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_estate.adress',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			),
+		),
+		'postal_code' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_estate.postal_code',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			),
+		),
+		'city' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_estate.city',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			),
+		),
+		'width' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_estate.width',
+			'config' => array(
+				'type' => 'input',
+				'size' => 4,
+				'eval' => 'int'
+			)
+		),
+		'length' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_estate.length',
+			'config' => array(
+				'type' => 'input',
+				'size' => 4,
+				'eval' => 'int'
+			)
+		),
+		'door_position' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_estate.door_position',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			),
+		),
+		'latitude' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_estate.latitude',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'double2'
+			)
+		),
+		'longitude' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_estate.longitude',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'double2'
+			)
 		),
 		'control_points' => array(
 			'exclude' => 1,

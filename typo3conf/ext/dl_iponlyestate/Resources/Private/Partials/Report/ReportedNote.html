@@ -1,0 +1,33 @@
+<div>DEBUG: data-questionuid:{question.uid} data-cpuid:{controlPoint.uid} data-reportuid:{unPostedReport.uid} data-noteuid:{note.uid} notever:{note.version}</div>
+<div class="noteContainer" data-questionuid="{question.uid}" data-nodetypeuid="{controlPoint.nodeType.uid}" data-cpuid="{controlPoint.uid}" data-reportuid="{unPostedReport.uid}" data-noteuid="{note.uid}" data-notever="{note.version}">
+  <h1>OLD NOTES</h1>
+  
+    <input type="hidden" name="note" value="1" data-version="-1" />
+    <div class="card">
+      <div>
+        <div class="state-buttons">
+          <button type="button" class="btn btn-success btn-ipaction disabled {f:if(condition: '{note.remarkType} == 1', then: ' active', else: '')}" data-type="1" aria-pressed="false">OK</button>
+          <button type="button" class="btn btn-danger btn-ipaction disabled {f:if(condition: '{note.remarkType} == 2', then: ' active', else: '')}" data-type="2" aria-pressed="false">Krit.</button>
+          <button type="button" class="btn btn-warning btn-ipaction disabled {f:if(condition: '{note.remarkType} == 3', then: ' active', else: '')}" data-type="3" aria-pressed="false">Anm.</button>
+          <button type="button" class="btn btn-secondary btn-ipaction disabled {f:if(condition: '{note.remarkType} == 4', then: ' active', else: '')}" data-type="4" aria-pressed="false">Inköp</button>
+          <button type="button" class="btn btn-info btn-ipaction disabled" data-type="foto" aria-pressed="false">
+            <span class="glyphicon glyphicon-camera disabled" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+      <div class="card-header" role="tab">
+        <h5 class="mb-0">
+          <h3>
+            <input class="input-note" id="input_{question.uid}_NEW" type="text" value="{note.comment}" />
+            <span class="save-btn hidden">
+              <button type="button" class="btn btn-success">Spara</button>
+            </span>
+            <span class="add-btn hidden">
+              <button type="button" class="btn btn-secondary">Lägg till notering</button>
+            </span>                            
+          </h3>
+        </h5>
+      </div>
+  </div>
+  
+</div>

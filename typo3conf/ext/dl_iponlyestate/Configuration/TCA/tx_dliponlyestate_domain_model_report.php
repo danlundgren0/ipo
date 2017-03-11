@@ -2,7 +2,7 @@
 return array(
 	'ctrl' => array(
 		'title'	=> 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_report',
-		'label' => 'version',
+		'label' => 'name',
 		'tstamp' => 'tstamp',
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
@@ -20,14 +20,14 @@ return array(
 			'starttime' => 'starttime',
 			'endtime' => 'endtime',
 		),
-		'searchFields' => 'version,date,critical_remarks,remarks,purchase,executive_technician,dynamic_column,comments,photos,',
+		'searchFields' => 'name,version,date,is_complete,estate,node_type,control_point,executive_technician,responsible_technicians,no_of_critical_remarks,no_of_remarks,no_of_old_remarks,no_of_notes,no_of_purchases,report_is_posted,start_date,end_date,dynamic_column,notes,',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('dl_iponlyestate') . 'Resources/Public/Icons/tx_dliponlyestate_domain_model_report.gif'
 	),
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, version, date, critical_remarks, remarks, purchase, executive_technician, dynamic_column, comments, photos',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, version, date, is_complete, estate, node_type, control_point, executive_technician, responsible_technicians, no_of_critical_remarks, no_of_remarks, no_of_old_remarks, no_of_notes, no_of_purchases, report_is_posted, start_date, end_date, dynamic_column, notes',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, version, date, critical_remarks, remarks, purchase, executive_technician, dynamic_column, comments, photos, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, version, date, is_complete, estate, node_type, control_point, executive_technician, responsible_technicians, no_of_critical_remarks, no_of_remarks, no_of_old_remarks, no_of_notes, no_of_purchases, report_is_posted, start_date, end_date, dynamic_column, notes, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -117,13 +117,22 @@ return array(
 			),
 		),
 
+		'name' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_report.name',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim,required'
+			),
+		),
 		'version' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_report.version',
 			'config' => array(
 				'type' => 'input',
 				'size' => 4,
-				'eval' => 'int'
+				'eval' => 'int,required'
 			)
 		),
 		'date' => array(
@@ -138,37 +147,159 @@ return array(
 				'default' => '0000-00-00'
 			),
 		),
-		'critical_remarks' => array(
+		'is_complete' => array(
 			'exclude' => 1,
-			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_report.critical_remarks',
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_report.is_complete',
 			'config' => array(
 				'type' => 'check',
 				'default' => 0
 			)
 		),
-		'remarks' => array(
+		'estate' => array(
 			'exclude' => 1,
-			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_report.remarks',
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_report.estate',
 			'config' => array(
-				'type' => 'check',
-				'default' => 0
-			)
+				'type' => 'select',
+				'renderType' => 'selectSingle',
+				'items' => array(
+					array('-- Label --', 0),
+				),
+				'size' => 1,
+				'maxitems' => 1,
+				'eval' => ''
+			),
 		),
-		'purchase' => array(
+		'node_type' => array(
 			'exclude' => 1,
-			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_report.purchase',
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_report.node_type',
 			'config' => array(
-				'type' => 'check',
-				'default' => 0
-			)
+				'type' => 'select',
+				'renderType' => 'selectSingle',
+				'items' => array(
+					array('-- Label --', 0),
+				),
+				'size' => 1,
+				'maxitems' => 1,
+				'eval' => ''
+			),
+		),
+		'control_point' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_report.control_point',
+			'config' => array(
+				'type' => 'select',
+				'renderType' => 'selectSingle',
+				'items' => array(
+					array('-- Label --', 0),
+				),
+				'size' => 1,
+				'maxitems' => 1,
+				'eval' => ''
+			),
 		),
 		'executive_technician' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_report.executive_technician',
 			'config' => array(
+				'type' => 'select',
+				'renderType' => 'selectSingle',
+				'items' => array(
+					array('-- Label --', 0),
+				),
+				'size' => 1,
+				'maxitems' => 1,
+				'eval' => ''
+			),
+		),
+		'responsible_technicians' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_report.responsible_technicians',
+			'config' => array(
+				'type' => 'select',
+				'renderType' => 'selectSingle',
+				'items' => array(
+					array('-- Label --', 0),
+				),
+				'size' => 1,
+				'maxitems' => 1,
+				'eval' => ''
+			),
+		),
+		'no_of_critical_remarks' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_report.no_of_critical_remarks',
+			'config' => array(
 				'type' => 'input',
-				'size' => 30,
-				'eval' => 'trim'
+				'size' => 4,
+				'eval' => 'int'
+			)
+		),
+		'no_of_remarks' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_report.no_of_remarks',
+			'config' => array(
+				'type' => 'input',
+				'size' => 4,
+				'eval' => 'int'
+			)
+		),
+		'no_of_old_remarks' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_report.no_of_old_remarks',
+			'config' => array(
+				'type' => 'input',
+				'size' => 4,
+				'eval' => 'int'
+			)
+		),
+		'no_of_notes' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_report.no_of_notes',
+			'config' => array(
+				'type' => 'input',
+				'size' => 4,
+				'eval' => 'int'
+			)
+		),
+		'no_of_purchases' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_report.no_of_purchases',
+			'config' => array(
+				'type' => 'input',
+				'size' => 4,
+				'eval' => 'int'
+			)
+		),
+		'report_is_posted' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_report.report_is_posted',
+			'config' => array(
+				'type' => 'check',
+				'default' => 0
+			)
+		),
+		'start_date' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_report.start_date',
+			'config' => array(
+				'dbType' => 'date',
+				'type' => 'input',
+				'size' => 7,
+				'eval' => 'date',
+				'checkbox' => 0,
+				'default' => '0000-00-00'
+			),
+		),
+		'end_date' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_report.end_date',
+			'config' => array(
+				'dbType' => 'date',
+				'type' => 'input',
+				'size' => 7,
+				'eval' => 'date',
+				'checkbox' => 0,
+				'default' => '0000-00-00'
 			),
 		),
 		'dynamic_column' => array(
@@ -189,30 +320,12 @@ return array(
 			),
 
 		),
-		'comments' => array(
+		'notes' => array(
 			'exclude' => 1,
-			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_report.comments',
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_report.notes',
 			'config' => array(
 				'type' => 'inline',
-				'foreign_table' => 'tx_dliponlyestate_domain_model_comment',
-				'foreign_field' => 'report',
-				'maxitems' => 9999,
-				'appearance' => array(
-					'collapseAll' => 0,
-					'levelLinksPosition' => 'top',
-					'showSynchronizationLink' => 1,
-					'showPossibleLocalizationRecords' => 1,
-					'showAllLocalizationLink' => 1
-				),
-			),
-
-		),
-		'photos' => array(
-			'exclude' => 1,
-			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_report.photos',
-			'config' => array(
-				'type' => 'inline',
-				'foreign_table' => 'tx_dliponlyestate_domain_model_photo',
+				'foreign_table' => 'tx_dliponlyestate_domain_model_note',
 				'foreign_field' => 'report',
 				'maxitems' => 9999,
 				'appearance' => array(
@@ -226,10 +339,5 @@ return array(
 
 		),
 		
-		'question' => array(
-			'config' => array(
-				'type' => 'passthrough',
-			),
-		),
 	),
 );## EXTENSION BUILDER DEFAULTS END TOKEN - Everything BEFORE this line is overwritten with the defaults of the extension builder

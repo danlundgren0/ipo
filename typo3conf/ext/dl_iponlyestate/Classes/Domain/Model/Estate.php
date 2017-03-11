@@ -47,6 +47,62 @@ class Estate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $controlPoints = null;
     
     /**
+     * adress
+     *
+     * @var string
+     */
+    protected $adress = '';
+    
+    /**
+     * postalCode
+     *
+     * @var string
+     */
+    protected $postalCode = '';
+    
+    /**
+     * city
+     *
+     * @var string
+     */
+    protected $city = '';
+    
+    /**
+     * width
+     *
+     * @var int
+     */
+    protected $width = 0;
+    
+    /**
+     * length
+     *
+     * @var int
+     */
+    protected $length = 0;
+    
+    /**
+     * doorPosition
+     *
+     * @var string
+     */
+    protected $doorPosition = '';
+    
+    /**
+     * latitude
+     *
+     * @var float
+     */
+    protected $latitude = 0.0;
+    
+    /**
+     * longitude
+     *
+     * @var float
+     */
+    protected $longitude = 0.0;
+    
+    /**
      * __construct
      */
     public function __construct()
@@ -130,6 +186,174 @@ class Estate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setName($name)
     {
         $this->name = $name;
+    }
+    
+    /**
+     * Returns the adress
+     *
+     * @return string $adress
+     */
+    public function getAdress()
+    {
+        return $this->adress;
+    }
+    
+    /**
+     * Sets the adress
+     *
+     * @param string $adress
+     * @return void
+     */
+    public function setAdress($adress)
+    {
+        $this->adress = $adress;
+    }
+    
+    /**
+     * Returns the postalCode
+     *
+     * @return string $postalCode
+     */
+    public function getPostalCode()
+    {
+        return $this->postalCode;
+    }
+    
+    /**
+     * Sets the postalCode
+     *
+     * @param string $postalCode
+     * @return void
+     */
+    public function setPostalCode($postalCode)
+    {
+        $this->postalCode = $postalCode;
+    }
+    
+    /**
+     * Returns the city
+     *
+     * @return string $city
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+    
+    /**
+     * Sets the city
+     *
+     * @param string $city
+     * @return void
+     */
+    public function setCity($city)
+    {
+        $this->city = $city;
+    }
+    
+    /**
+     * Returns the width
+     *
+     * @return int $width
+     */
+    public function getWidth()
+    {
+        return $this->width;
+    }
+    
+    /**
+     * Sets the width
+     *
+     * @param int $width
+     * @return void
+     */
+    public function setWidth($width)
+    {
+        $this->width = $width;
+    }
+    
+    /**
+     * Returns the length
+     *
+     * @return int $length
+     */
+    public function getLength()
+    {
+        return $this->length;
+    }
+    
+    /**
+     * Sets the length
+     *
+     * @param int $length
+     * @return void
+     */
+    public function setLength($length)
+    {
+        $this->length = $length;
+    }
+    
+    /**
+     * Returns the doorPosition
+     *
+     * @return string $doorPosition
+     */
+    public function getDoorPosition()
+    {
+        return $this->doorPosition;
+    }
+    
+    /**
+     * Sets the doorPosition
+     *
+     * @param string $doorPosition
+     * @return void
+     */
+    public function setDoorPosition($doorPosition)
+    {
+        $this->doorPosition = $doorPosition;
+    }
+    
+    /**
+     * Returns the latitude
+     *
+     * @return float $latitude
+     */
+    public function getLatitude()
+    {
+        return $this->latitude;
+    }
+    
+    /**
+     * Sets the latitude
+     *
+     * @param float $latitude
+     * @return void
+     */
+    public function setLatitude($latitude)
+    {
+        $this->latitude = $latitude;
+    }
+    
+    /**
+     * Returns the longitude
+     *
+     * @return float $longitude
+     */
+    public function getLongitude()
+    {
+        return $this->longitude;
+    }
+    
+    /**
+     * Sets the longitude
+     *
+     * @param float $longitude
+     * @return void
+     */
+    public function setLongitude($longitude)
+    {
+        $this->longitude = $longitude;
     }
 
 }

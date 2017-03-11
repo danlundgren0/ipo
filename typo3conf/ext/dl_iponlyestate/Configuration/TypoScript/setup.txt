@@ -21,6 +21,17 @@ plugin.tx_dliponlyestate_estate {
 	}
 }
 
+plugin.tx_dliponlyestate_ajaxrequest {
+	view {
+		templateRootPaths.0 = {$plugin.tx_dliponlyestate_ajaxrequest.view.templateRootPath}
+		partialRootPaths.0 = {$plugin.tx_dliponlyestate_ajaxrequest.view.partialRootPath}
+		layoutRootPaths.0 = {$plugin.tx_dliponlyestate_ajaxrequest.view.layoutRootPath}
+	}
+	persistence {
+		storagePid = {$plugin.tx_dliponlyestate_ajaxrequest.persistence.storagePid}
+	}
+}
+
 plugin.tx_dliponlyestate._CSS_DEFAULT_STYLE (
 	textarea.f3-form-error {
 		background-color:#FF9F9F;
@@ -65,7 +76,40 @@ plugin.tx_dliponlyestate_cp {
 plugin.tx_dliponlyestate {
 	settings {
 		Ids {
+			EstateId = {$plugin.tx_dliponlyestate.settings.ids.EstateId}
 			reportPid = {$plugin.tx_dliponlyestate.settings.ids.reportPid}
+		}
+	}
+}
+plugin.tx_dliponlyestate_ajaxrequest.persistence.storagePid = {$plugin.tx_dliponlyestate_cp.persistence.storagePid}
+plugin.tx_dliponlyestate_ajaxrequest.persistence.recursive = 99
+page.includeJSFooter.vajer = EXT:dl_iponlyestate/Resources/Public/Js/vajer.js
+page.includeCSS.vajer2 = EXT:dl_iponlyestate/Resources/Public/Css/vajer.css
+
+#/var/www/iponly/typo3conf/ext/dl_iponlyestate/Resources/Public/Js
+DanLAjaxPrototype = PAGE
+DanLAjaxPrototype {
+	typeNum = 777888
+	config {
+    	disableAllHeaderCode = 1
+    	xhtml_cleaning = 0
+    	admPanel = 0
+    	debug = 0
+    	no_cache = 1
+    	additionalHeaders = Content-type:application/json
+  	}
+  	10 = USER_INT
+	10 {
+		userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+		extensionName = DlIponlyestate		
+		pluginName = Ajaxrequest
+		vendorName = DanLundgren
+		controller = AjaxRequest
+		action = getJson
+		switchableControllerActions {
+			AjaxRequest {
+            	1 = getJson
+			}
 		}
 	}
 }

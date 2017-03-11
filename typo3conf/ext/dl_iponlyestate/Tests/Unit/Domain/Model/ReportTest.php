@@ -54,6 +54,31 @@ class ReportTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 	/**
 	 * @test
 	 */
+	public function getNameReturnsInitialValueForString()
+	{
+		$this->assertSame(
+			'',
+			$this->subject->getName()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setNameForStringSetsName()
+	{
+		$this->subject->setName('Conceived at T3CON10');
+
+		$this->assertAttributeEquals(
+			'Conceived at T3CON10',
+			'name',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
 	public function getVersionReturnsInitialValueForInt()
 	{	}
 
@@ -92,24 +117,24 @@ class ReportTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 	/**
 	 * @test
 	 */
-	public function getCriticalRemarksReturnsInitialValueForBool()
+	public function getIsCompleteReturnsInitialValueForBool()
 	{
 		$this->assertSame(
 			FALSE,
-			$this->subject->getCriticalRemarks()
+			$this->subject->getIsComplete()
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function setCriticalRemarksForBoolSetsCriticalRemarks()
+	public function setIsCompleteForBoolSetsIsComplete()
 	{
-		$this->subject->setCriticalRemarks(TRUE);
+		$this->subject->setIsComplete(TRUE);
 
 		$this->assertAttributeEquals(
 			TRUE,
-			'criticalRemarks',
+			'isComplete',
 			$this->subject
 		);
 	}
@@ -117,24 +142,144 @@ class ReportTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 	/**
 	 * @test
 	 */
-	public function getRemarksReturnsInitialValueForBool()
+	public function getEstateReturnsInitialValueForInt()
+	{	}
+
+	/**
+	 * @test
+	 */
+	public function setEstateForIntSetsEstate()
+	{	}
+
+	/**
+	 * @test
+	 */
+	public function getNodeTypeReturnsInitialValueForInt()
+	{	}
+
+	/**
+	 * @test
+	 */
+	public function setNodeTypeForIntSetsNodeType()
+	{	}
+
+	/**
+	 * @test
+	 */
+	public function getControlPointReturnsInitialValueForInt()
+	{	}
+
+	/**
+	 * @test
+	 */
+	public function setControlPointForIntSetsControlPoint()
+	{	}
+
+	/**
+	 * @test
+	 */
+	public function getExecutiveTechnicianReturnsInitialValueForInt()
+	{	}
+
+	/**
+	 * @test
+	 */
+	public function setExecutiveTechnicianForIntSetsExecutiveTechnician()
+	{	}
+
+	/**
+	 * @test
+	 */
+	public function getResponsibleTechniciansReturnsInitialValueForInt()
+	{	}
+
+	/**
+	 * @test
+	 */
+	public function setResponsibleTechniciansForIntSetsResponsibleTechnicians()
+	{	}
+
+	/**
+	 * @test
+	 */
+	public function getNoOfCriticalRemarksReturnsInitialValueForInt()
+	{	}
+
+	/**
+	 * @test
+	 */
+	public function setNoOfCriticalRemarksForIntSetsNoOfCriticalRemarks()
+	{	}
+
+	/**
+	 * @test
+	 */
+	public function getNoOfRemarksReturnsInitialValueForInt()
+	{	}
+
+	/**
+	 * @test
+	 */
+	public function setNoOfRemarksForIntSetsNoOfRemarks()
+	{	}
+
+	/**
+	 * @test
+	 */
+	public function getNoOfOldRemarksReturnsInitialValueForInt()
+	{	}
+
+	/**
+	 * @test
+	 */
+	public function setNoOfOldRemarksForIntSetsNoOfOldRemarks()
+	{	}
+
+	/**
+	 * @test
+	 */
+	public function getNoOfNotesReturnsInitialValueForInt()
+	{	}
+
+	/**
+	 * @test
+	 */
+	public function setNoOfNotesForIntSetsNoOfNotes()
+	{	}
+
+	/**
+	 * @test
+	 */
+	public function getNoOfPurchasesReturnsInitialValueForInt()
+	{	}
+
+	/**
+	 * @test
+	 */
+	public function setNoOfPurchasesForIntSetsNoOfPurchases()
+	{	}
+
+	/**
+	 * @test
+	 */
+	public function getReportIsPostedReturnsInitialValueForBool()
 	{
 		$this->assertSame(
 			FALSE,
-			$this->subject->getRemarks()
+			$this->subject->getReportIsPosted()
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function setRemarksForBoolSetsRemarks()
+	public function setReportIsPostedForBoolSetsReportIsPosted()
 	{
-		$this->subject->setRemarks(TRUE);
+		$this->subject->setReportIsPosted(TRUE);
 
 		$this->assertAttributeEquals(
 			TRUE,
-			'remarks',
+			'reportIsPosted',
 			$this->subject
 		);
 	}
@@ -142,24 +287,25 @@ class ReportTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 	/**
 	 * @test
 	 */
-	public function getPurchaseReturnsInitialValueForBool()
+	public function getStartDateReturnsInitialValueForDateTime()
 	{
-		$this->assertSame(
-			FALSE,
-			$this->subject->getPurchase()
+		$this->assertEquals(
+			NULL,
+			$this->subject->getStartDate()
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function setPurchaseForBoolSetsPurchase()
+	public function setStartDateForDateTimeSetsStartDate()
 	{
-		$this->subject->setPurchase(TRUE);
+		$dateTimeFixture = new \DateTime();
+		$this->subject->setStartDate($dateTimeFixture);
 
 		$this->assertAttributeEquals(
-			TRUE,
-			'purchase',
+			$dateTimeFixture,
+			'startDate',
 			$this->subject
 		);
 	}
@@ -167,24 +313,25 @@ class ReportTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 	/**
 	 * @test
 	 */
-	public function getExecutiveTechnicianReturnsInitialValueForString()
+	public function getEndDateReturnsInitialValueForDateTime()
 	{
-		$this->assertSame(
-			'',
-			$this->subject->getExecutiveTechnician()
+		$this->assertEquals(
+			NULL,
+			$this->subject->getEndDate()
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function setExecutiveTechnicianForStringSetsExecutiveTechnician()
+	public function setEndDateForDateTimeSetsEndDate()
 	{
-		$this->subject->setExecutiveTechnician('Conceived at T3CON10');
+		$dateTimeFixture = new \DateTime();
+		$this->subject->setEndDate($dateTimeFixture);
 
 		$this->assertAttributeEquals(
-			'Conceived at T3CON10',
-			'executiveTechnician',
+			$dateTimeFixture,
+			'endDate',
 			$this->subject
 		);
 	}
@@ -248,28 +395,28 @@ class ReportTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 	/**
 	 * @test
 	 */
-	public function getCommentsReturnsInitialValueForComment()
+	public function getNotesReturnsInitialValueForNote()
 	{
 		$newObjectStorage = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
 		$this->assertEquals(
 			$newObjectStorage,
-			$this->subject->getComments()
+			$this->subject->getNotes()
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function setCommentsForObjectStorageContainingCommentSetsComments()
+	public function setNotesForObjectStorageContainingNoteSetsNotes()
 	{
-		$comment = new \DanLundgren\DlIponlyestate\Domain\Model\Comment();
-		$objectStorageHoldingExactlyOneComments = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-		$objectStorageHoldingExactlyOneComments->attach($comment);
-		$this->subject->setComments($objectStorageHoldingExactlyOneComments);
+		$note = new \DanLundgren\DlIponlyestate\Domain\Model\Note();
+		$objectStorageHoldingExactlyOneNotes = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+		$objectStorageHoldingExactlyOneNotes->attach($note);
+		$this->subject->setNotes($objectStorageHoldingExactlyOneNotes);
 
 		$this->assertAttributeEquals(
-			$objectStorageHoldingExactlyOneComments,
-			'comments',
+			$objectStorageHoldingExactlyOneNotes,
+			'notes',
 			$this->subject
 		);
 	}
@@ -277,83 +424,27 @@ class ReportTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 	/**
 	 * @test
 	 */
-	public function addCommentToObjectStorageHoldingComments()
+	public function addNoteToObjectStorageHoldingNotes()
 	{
-		$comment = new \DanLundgren\DlIponlyestate\Domain\Model\Comment();
-		$commentsObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', array('attach'), array(), '', FALSE);
-		$commentsObjectStorageMock->expects($this->once())->method('attach')->with($this->equalTo($comment));
-		$this->inject($this->subject, 'comments', $commentsObjectStorageMock);
+		$note = new \DanLundgren\DlIponlyestate\Domain\Model\Note();
+		$notesObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', array('attach'), array(), '', FALSE);
+		$notesObjectStorageMock->expects($this->once())->method('attach')->with($this->equalTo($note));
+		$this->inject($this->subject, 'notes', $notesObjectStorageMock);
 
-		$this->subject->addComment($comment);
+		$this->subject->addNote($note);
 	}
 
 	/**
 	 * @test
 	 */
-	public function removeCommentFromObjectStorageHoldingComments()
+	public function removeNoteFromObjectStorageHoldingNotes()
 	{
-		$comment = new \DanLundgren\DlIponlyestate\Domain\Model\Comment();
-		$commentsObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', array('detach'), array(), '', FALSE);
-		$commentsObjectStorageMock->expects($this->once())->method('detach')->with($this->equalTo($comment));
-		$this->inject($this->subject, 'comments', $commentsObjectStorageMock);
+		$note = new \DanLundgren\DlIponlyestate\Domain\Model\Note();
+		$notesObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', array('detach'), array(), '', FALSE);
+		$notesObjectStorageMock->expects($this->once())->method('detach')->with($this->equalTo($note));
+		$this->inject($this->subject, 'notes', $notesObjectStorageMock);
 
-		$this->subject->removeComment($comment);
-
-	}
-
-	/**
-	 * @test
-	 */
-	public function getPhotosReturnsInitialValueForPhoto()
-	{
-		$newObjectStorage = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-		$this->assertEquals(
-			$newObjectStorage,
-			$this->subject->getPhotos()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setPhotosForObjectStorageContainingPhotoSetsPhotos()
-	{
-		$photo = new \DanLundgren\DlIponlyestate\Domain\Model\Photo();
-		$objectStorageHoldingExactlyOnePhotos = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-		$objectStorageHoldingExactlyOnePhotos->attach($photo);
-		$this->subject->setPhotos($objectStorageHoldingExactlyOnePhotos);
-
-		$this->assertAttributeEquals(
-			$objectStorageHoldingExactlyOnePhotos,
-			'photos',
-			$this->subject
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function addPhotoToObjectStorageHoldingPhotos()
-	{
-		$photo = new \DanLundgren\DlIponlyestate\Domain\Model\Photo();
-		$photosObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', array('attach'), array(), '', FALSE);
-		$photosObjectStorageMock->expects($this->once())->method('attach')->with($this->equalTo($photo));
-		$this->inject($this->subject, 'photos', $photosObjectStorageMock);
-
-		$this->subject->addPhoto($photo);
-	}
-
-	/**
-	 * @test
-	 */
-	public function removePhotoFromObjectStorageHoldingPhotos()
-	{
-		$photo = new \DanLundgren\DlIponlyestate\Domain\Model\Photo();
-		$photosObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', array('detach'), array(), '', FALSE);
-		$photosObjectStorageMock->expects($this->once())->method('detach')->with($this->equalTo($photo));
-		$this->inject($this->subject, 'photos', $photosObjectStorageMock);
-
-		$this->subject->removePhoto($photo);
+		$this->subject->removeNote($note);
 
 	}
 }

@@ -40,27 +40,6 @@ class ControlPoint extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $name = '';
     
     /**
-     * responsibleTechnician
-     *
-     * @var int
-     */
-    protected $responsibleTechnician = 0;
-    
-    /**
-     * nodeType
-     *
-     * @var \DanLundgren\DlIponlyestate\Domain\Model\NodeType
-     */
-    protected $nodeType = null;
-    
-    /**
-     * Control Pints and Questions have many-to-many relation.
-     *
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\DanLundgren\DlIponlyestate\Domain\Model\Question>
-     */
-    protected $questions = null;
-    
-    /**
      * header
      *
      * @var string
@@ -80,6 +59,27 @@ class ControlPoint extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var \TYPO3\CMS\Extbase\Domain\Model\FileReference
      */
     protected $image = null;
+    
+    /**
+     * responsibleTechnician
+     *
+     * @var int
+     */
+    protected $responsibleTechnician = 0;
+    
+    /**
+     * nodeType
+     *
+     * @var \DanLundgren\DlIponlyestate\Domain\Model\NodeType
+     */
+    protected $nodeType = null;
+    
+    /**
+     * Control Pints and Questions have many-to-many relation.
+     *
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\DanLundgren\DlIponlyestate\Domain\Model\Question>
+     */
+    protected $questions = null;
     
     /**
      * __construct

@@ -14,6 +14,7 @@ if (!defined('TYPO3_MODE')) {
 	array(
 		'Estate' => '',
 		'ControlPoint' => '',
+		'Note' => '',
 		
 	)
 );
@@ -29,6 +30,21 @@ if (!defined('TYPO3_MODE')) {
 	array(
 		'Estate' => '',
 		'ControlPoint' => '',
+		'Note' => '',
+		
+	)
+);
+
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+	'DanLundgren.' . $_EXTKEY,
+	'Ajaxrequest',
+	array(
+		'AjaxRequest' => 'getJson',
+		
+	),
+	// non-cacheable actions
+	array(
+		'AjaxRequest' => 'getJson',
 		
 	)
 );

@@ -33,9 +33,18 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
 
     /**
+     * name
+     *
+     * @var string
+     * @validate NotEmpty
+     */
+    protected $name = '';
+    
+    /**
      * version
      *
      * @var int
+     * @validate NotEmpty
      */
     protected $version = 0;
     
@@ -47,32 +56,88 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $date = null;
     
     /**
-     * criticalRemarks
+     * isComplete
      *
      * @var bool
      */
-    protected $criticalRemarks = false;
+    protected $isComplete = false;
     
     /**
-     * remarks
+     * estate
      *
-     * @var bool
+     * @var int
      */
-    protected $remarks = false;
+    protected $estate = 0;
     
     /**
-     * purchase
+     * nodeType
      *
-     * @var bool
+     * @var int
      */
-    protected $purchase = false;
+    protected $nodeType = 0;
+    
+    /**
+     * controlPoint
+     *
+     * @var int
+     */
+    protected $controlPoint = 0;
     
     /**
      * executiveTechnician
      *
-     * @var string
+     * @var int
      */
-    protected $executiveTechnician = '';
+    protected $executiveTechnician = 0;
+    
+    /**
+     * responsibleTechnicians
+     *
+     * @var int
+     */
+    protected $responsibleTechnicians = 0;
+    
+    /**
+     * noOfCriticalRemarks
+     *
+     * @var int
+     */
+    protected $noOfCriticalRemarks = 0;
+    
+    /**
+     * noOfRemarks
+     *
+     * @var int
+     */
+    protected $noOfRemarks = 0;
+    
+    /**
+     * noOfOldRemarks
+     *
+     * @var int
+     */
+    protected $noOfOldRemarks = 0;
+    
+    /**
+     * noOfNotes
+     *
+     * @var int
+     */
+    protected $noOfNotes = 0;
+    
+    /**
+     * noOfPurchases
+     *
+     * @var int
+     */
+    protected $noOfPurchases = false;
+    
+    /**
+     * reportIsPosted
+     *
+     * @var bool
+     */
+    protected $reportIsPosted = false;
     
     /**
      * dynamicColumn
@@ -83,20 +148,26 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $dynamicColumn = null;
     
     /**
-     * comments
+     * notes
      *
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\DanLundgren\DlIponlyestate\Domain\Model\Comment>
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\DanLundgren\DlIponlyestate\Domain\Model\Note>
      * @cascade remove
      */
-    protected $comments = null;
+    protected $notes = null;
     
     /**
-     * photos
+     * The date when the inspection started
      *
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\DanLundgren\DlIponlyestate\Domain\Model\Photo>
-     * @cascade remove
+     * @var \DateTime
      */
-    protected $photos = null;
+    protected $startDate = null;
+    
+    /**
+     * The date when the inspection ended. All remarks has state OK.
+     *
+     * @var \DateTime
+     */
+    protected $endDate = null;
     
     /**
      * __construct
@@ -118,8 +189,7 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected function initStorageObjects()
     {
         $this->dynamicColumn = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-        $this->comments = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-        $this->photos = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        $this->notes = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
     }
     
     /**
@@ -165,27 +235,6 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
     
     /**
-     * Returns the criticalRemarks
-     *
-     * @return bool $criticalRemarks
-     */
-    public function getCriticalRemarks()
-    {
-        return $this->criticalRemarks;
-    }
-    
-    /**
-     * Sets the criticalRemarks
-     *
-     * @param bool $criticalRemarks
-     * @return void
-     */
-    public function setCriticalRemarks($criticalRemarks)
-    {
-        $this->criticalRemarks = $criticalRemarks;
-    }
-    
-    /**
      * Returns the boolean state of criticalRemarks
      *
      * @return bool
@@ -193,27 +242,6 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function isCriticalRemarks()
     {
         return $this->criticalRemarks;
-    }
-    
-    /**
-     * Returns the remarks
-     *
-     * @return bool $remarks
-     */
-    public function getRemarks()
-    {
-        return $this->remarks;
-    }
-    
-    /**
-     * Sets the remarks
-     *
-     * @param bool $remarks
-     * @return void
-     */
-    public function setRemarks($remarks)
-    {
-        $this->remarks = $remarks;
     }
     
     /**
@@ -234,27 +262,6 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function isNote()
     {
         return $this->note;
-    }
-    
-    /**
-     * Returns the purchase
-     *
-     * @return bool $purchase
-     */
-    public function getPurchase()
-    {
-        return $this->purchase;
-    }
-    
-    /**
-     * Sets the purchase
-     *
-     * @param bool $purchase
-     * @return void
-     */
-    public function setPurchase($purchase)
-    {
-        $this->purchase = $purchase;
     }
     
     /**
@@ -313,93 +320,332 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Adds a Comment
      *
-     * @param \DanLundgren\DlIponlyestate\Domain\Model\Comment $comment
+     * @param \DanLundgren\DlIponlyestate\Domain\Model\Note $note
      * @return void
      */
-    public function addComment(\DanLundgren\DlIponlyestate\Domain\Model\Comment $comment)
+    public function addNote(\DanLundgren\DlIponlyestate\Domain\Model\Note $note)
     {
-        $this->comments->attach($comment);
+        $this->notes->attach($note);
     }
     
     /**
      * Removes a Comment
      *
-     * @param \DanLundgren\DlIponlyestate\Domain\Model\Comment $commentToRemove The Comment to be removed
+     * @param \DanLundgren\DlIponlyestate\Domain\Model\Note $noteToRemove The Note to be removed
      * @return void
      */
-    public function removeComment(\DanLundgren\DlIponlyestate\Domain\Model\Comment $commentToRemove)
+    public function removeNote(\DanLundgren\DlIponlyestate\Domain\Model\Note $noteToRemove)
     {
-        $this->comments->detach($commentToRemove);
+        $this->notes->detach($noteToRemove);
     }
     
     /**
-     * Returns the comments
+     * Returns the notes
      *
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\DanLundgren\DlIponlyestate\Domain\Model\Comment> $comments
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\DanLundgren\DlIponlyestate\Domain\Model\Note> notes
      */
-    public function getComments()
+    public function getNotes()
     {
-        return $this->comments;
+        return $this->notes;
     }
     
     /**
-     * Sets the comments
+     * Sets the notes
      *
-     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\DanLundgren\DlIponlyestate\Domain\Model\Comment> $comments
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\DanLundgren\DlIponlyestate\Domain\Model\Note> $notes
      * @return void
      */
-    public function setComments(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $comments)
+    public function setNotes(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $notes)
     {
-        $this->comments = $comments;
+        $this->notes = $notes;
     }
     
     /**
-     * Adds a Photo
+     * Returns the isComplete
      *
-     * @param \DanLundgren\DlIponlyestate\Domain\Model\Photo $photo
+     * @return bool $isComplete
+     */
+    public function getIsComplete()
+    {
+        return $this->isComplete;
+    }
+    
+    /**
+     * Sets the isComplete
+     *
+     * @param bool $isComplete
      * @return void
      */
-    public function addPhoto(\DanLundgren\DlIponlyestate\Domain\Model\Photo $photo)
+    public function setIsComplete($isComplete)
     {
-        $this->photos->attach($photo);
+        $this->isComplete = $isComplete;
     }
     
     /**
-     * Removes a Photo
+     * Returns the boolean state of isComplete
      *
-     * @param \DanLundgren\DlIponlyestate\Domain\Model\Photo $photoToRemove The Photo to be removed
+     * @return bool
+     */
+    public function isIsComplete()
+    {
+        return $this->isComplete;
+    }
+    
+    /**
+     * Returns the name
+     *
+     * @return string $name
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+    
+    /**
+     * Sets the name
+     *
+     * @param string $name
      * @return void
      */
-    public function removePhoto(\DanLundgren\DlIponlyestate\Domain\Model\Photo $photoToRemove)
+    public function setName($name)
     {
-        $this->photos->detach($photoToRemove);
+        $this->name = $name;
     }
     
     /**
-     * Returns the photos
+     * Returns the estate
      *
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\DanLundgren\DlIponlyestate\Domain\Model\Photo> $photos
+     * @return int $estate
      */
-    public function getPhotos()
+    public function getEstate()
     {
-        return $this->photos;
+        return $this->estate;
     }
     
     /**
-     * Sets the photos
+     * Sets the estate
      *
-     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\DanLundgren\DlIponlyestate\Domain\Model\Photo> $photos
+     * @param int $estate
      * @return void
      */
-    public function setPhotos(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $photos)
+    public function setEstate($estate)
     {
-        $this->photos = $photos;
+        $this->estate = $estate;
+    }
+    
+    /**
+     * Returns the nodeType
+     *
+     * @return int $nodeType
+     */
+    public function getNodeType()
+    {
+        return $this->nodeType;
+    }
+    
+    /**
+     * Sets the nodeType
+     *
+     * @param int $nodeType
+     * @return void
+     */
+    public function setNodeType($nodeType)
+    {
+        $this->nodeType = $nodeType;
+    }
+    
+    /**
+     * Returns the controlPoint
+     *
+     * @return int $controlPoint
+     */
+    public function getControlPoint()
+    {
+        return $this->controlPoint;
+    }
+    
+    /**
+     * Sets the controlPoint
+     *
+     * @param string $controlPoint
+     * @return void
+     */
+    public function setControlPoint($controlPoint)
+    {
+        $this->controlPoint = $controlPoint;
+    }
+    
+    /**
+     * Returns the responsibleTechnicians
+     *
+     * @return int $responsibleTechnicians
+     */
+    public function getResponsibleTechnicians()
+    {
+        return $this->responsibleTechnicians;
+    }
+    
+    /**
+     * Sets the responsibleTechnicians
+     *
+     * @param int $responsibleTechnicians
+     * @return void
+     */
+    public function setResponsibleTechnicians($responsibleTechnicians)
+    {
+        $this->responsibleTechnicians = $responsibleTechnicians;
+    }
+    
+    /**
+     * Returns the noOfCriticalRemarks
+     *
+     * @return int $noOfCriticalRemarks
+     */
+    public function getNoOfCriticalRemarks()
+    {
+        return $this->noOfCriticalRemarks;
+    }
+    
+    /**
+     * Sets the noOfCriticalRemarks
+     *
+     * @param int $noOfCriticalRemarks
+     * @return void
+     */
+    public function setNoOfCriticalRemarks($noOfCriticalRemarks)
+    {
+        $this->noOfCriticalRemarks = $noOfCriticalRemarks;
+    }
+    
+    /**
+     * Returns the noOfRemarks
+     *
+     * @return int $noOfRemarks
+     */
+    public function getNoOfRemarks()
+    {
+        return $this->noOfRemarks;
+    }
+    
+    /**
+     * Sets the noOfRemarks
+     *
+     * @param int $noOfRemarks
+     * @return void
+     */
+    public function setNoOfRemarks($noOfRemarks)
+    {
+        $this->noOfRemarks = $noOfRemarks;
+    }
+    
+    /**
+     * Returns the noOfOldRemarks
+     *
+     * @return int $noOfOldRemarks
+     */
+    public function getNoOfOldRemarks()
+    {
+        return $this->noOfOldRemarks;
+    }
+    
+    /**
+     * Sets the noOfOldRemarks
+     *
+     * @param int $noOfOldRemarks
+     * @return void
+     */
+    public function setNoOfOldRemarks($noOfOldRemarks)
+    {
+        $this->noOfOldRemarks = $noOfOldRemarks;
+    }
+    
+    /**
+     * Returns the noOfNotes
+     *
+     * @return int $noOfNotes
+     */
+    public function getNoOfNotes()
+    {
+        return $this->noOfNotes;
+    }
+    
+    /**
+     * Sets the noOfNotes
+     *
+     * @param int $noOfNotes
+     * @return void
+     */
+    public function setNoOfNotes($noOfNotes)
+    {
+        $this->noOfNotes = $noOfNotes;
+    }
+    
+    /**
+     * Returns the boolean state of purchaseNeeded
+     *
+     * @return bool
+     */
+    public function isPurchaseNeeded()
+    {
+        return $this->purchaseNeeded;
+    }
+    
+    /**
+     * Returns the noOfPurchases
+     *
+     * @return int noOfPurchases
+     */
+    public function getNoOfPurchases()
+    {
+        return $this->noOfPurchases;
+    }
+    
+    /**
+     * Sets the noOfPurchases
+     *
+     * @param bool $noOfPurchases
+     * @return void
+     */
+    public function setNoOfPurchases($noOfPurchases)
+    {
+        $this->noOfPurchases = $noOfPurchases;
+    }
+    
+    /**
+     * Returns the reportIsPosted
+     *
+     * @return bool $reportIsPosted
+     */
+    public function getReportIsPosted()
+    {
+        return $this->reportIsPosted;
+    }
+    
+    /**
+     * Sets the reportIsPosted
+     *
+     * @param bool $reportIsPosted
+     * @return void
+     */
+    public function setReportIsPosted($reportIsPosted)
+    {
+        $this->reportIsPosted = $reportIsPosted;
+    }
+    
+    /**
+     * Returns the boolean state of reportIsPosted
+     *
+     * @return bool
+     */
+    public function isReportIsPosted()
+    {
+        return $this->reportIsPosted;
     }
     
     /**
      * Returns the executiveTechnician
      *
-     * @return string $executiveTechnician
+     * @return int $executiveTechnician
      */
     public function getExecutiveTechnician()
     {
@@ -409,12 +655,54 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the executiveTechnician
      *
-     * @param string $executiveTechnician
+     * @param int $executiveTechnician
      * @return void
      */
     public function setExecutiveTechnician($executiveTechnician)
     {
         $this->executiveTechnician = $executiveTechnician;
+    }
+    
+    /**
+     * Returns the startDate
+     *
+     * @return \DateTime $startDate
+     */
+    public function getStartDate()
+    {
+        return $this->startDate;
+    }
+    
+    /**
+     * Sets the startDate
+     *
+     * @param \DateTime $startDate
+     * @return void
+     */
+    public function setStartDate(\DateTime $startDate)
+    {
+        $this->startDate = $startDate;
+    }
+    
+    /**
+     * Returns the endDate
+     *
+     * @return \DateTime $endDate
+     */
+    public function getEndDate()
+    {
+        return $this->endDate;
+    }
+    
+    /**
+     * Sets the endDate
+     *
+     * @param \DateTime $endDate
+     * @return void
+     */
+    public function setEndDate(\DateTime $endDate)
+    {
+        $this->endDate = $endDate;
     }
 
 }
