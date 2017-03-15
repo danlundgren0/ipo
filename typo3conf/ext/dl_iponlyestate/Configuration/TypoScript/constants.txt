@@ -49,9 +49,11 @@ plugin.tx_dliponlyestate_ajaxrequest {
 plugin.tx_dliponlyestate {
 	settings {
 		ids {
-			# cat=plugin.tx_dliponlyestate/ids/aa; type=int; label=Id of the Estate object this site belongs to
+			# cat=plugin.tx_dliponlyestate/ids/aa; type=string; label=Default storage PID
+			storagePid =
+			# cat=plugin.tx_dliponlyestate/ids/ab; type=int; label=Id of the Estate object this site belongs to
 			EstateId =
-			# cat=plugin.tx_dliponlyestate/ids/ab; type=int; label=Page id where reports are saved
+			# cat=plugin.tx_dliponlyestate/ids/ac; type=int; label=Page id where reports are saved
 			reportPid =
 		}
 	}

@@ -14,14 +14,14 @@ $GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['estate']['c
 $GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['estate']['config']['size'] = 1;
 
 
-$GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['technician']['config']['type'] = 'select';
-$GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['technician']['config']['foreign_table'] = 'fe_users';
-$GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['technician']['config']['foreign_table_where'] = 'AND fe_users.disable = 0 AND fe_users.deleted = 0 ORDER BY fe_users.username';
-$GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['technician']['config']['items'] = array();
-$GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['technician']['config']['wizards'] = array();
-$GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['technician']['config']['minitems'] = 1;
-$GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['technician']['config']['maxitems'] = 1;
-$GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['technician']['config']['size'] = 1;
+//$GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['technician']['config']['type'] = 'select';
+//$GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['technician']['config']['foreign_table'] = 'fe_users';
+//$GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['technician']['config']['foreign_table_where'] = 'AND fe_users.disable = 0 AND fe_users.deleted = 0 ORDER BY fe_users.username';
+//$GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['technician']['config']['items'] = array();
+//$GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['technician']['config']['wizards'] = array();
+//$GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['technician']['config']['minitems'] = 1;
+//$GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['technician']['config']['maxitems'] = 1;
+//$GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['technician']['config']['size'] = 1;
 
 $GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['node_type']['config']['type'] = 'select';
 $GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['node_type']['config']['foreign_table'] = 'tx_dliponlyestate_domain_model_nodetype';

@@ -85,13 +85,6 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
      */
     public function showAction()
     {
-        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
-            array(
-                'class' => __CLASS__,
-                'function' => __FUNCTION__,
-                'TSFE' => $GLOBALS['TSFE']->fe_user->user
-            )
-        );
         if ((int) $this->settings['ControlPoint'] > 0) {
             $errorMess = '';
             $controlPoint = $this->controlPointRepository->findByUid((int) $this->settings['ControlPoint']);
@@ -100,7 +93,8 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                 array(
                     'class' => __CLASS__,
                     'function' => __FUNCTION__,
-                    'estate' => $estate
+                    'ControlPoint' => $this->settings['ControlPoint'],
+                    'estate' => $estate,
                 )
             );
             //TODO: Om rapportens getIsCompleted = FALSE: returnera samma versionsnr, Om TRUE: Returnera versionnr+1
@@ -143,6 +137,13 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
     }
     private function getLatestOrNewReport() {
         $allReports = $this->reportRepository->findAll();
+\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
+ array(
+  'class' => __CLASS__,
+  'function' => __FUNCTION__,
+  'allReports' => $allReports,
+ )
+);
         $highestVersion = -1;
         $latestReport = NULL;
         foreach($allReports as $report) {
@@ -152,7 +153,7 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
             }
         }        
         $highestVersion=($highestVersion==-1)?1:$highestVersion+=1;
-        if(!$latestReport->getIsComplete()) {
+        if($latestReport && !$latestReport->getIsComplete()) {
             return $latestReport;
         }
         $newReport = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DanLundgren\DlIponlyestate\Domain\Model\Report');

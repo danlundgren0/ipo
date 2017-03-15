@@ -69,7 +69,19 @@ plugin.tx_dliponlyestate._CSS_DEFAULT_STYLE (
 ## EXTENSION BUILDER DEFAULTS END TOKEN - Everything BEFORE this line is overwritten with the defaults of the extension builder
 plugin.tx_dliponlyestate_cp {
 	persistence {
-		storagePid = {$plugin.tx_dliponlyestate_cp.persistence.storagePid}
+		storagePid = {$plugin.tx_dliponlyestate.persistence.storagePid}
+		recursive = 99
+	}	
+}
+plugin.tx_dliponlyestate_estate {
+	persistence {
+		storagePid = {$plugin.tx_dliponlyestate.persistence.storagePid}
+		recursive = 99
+	}	
+}
+plugin.tx_dliponlyestate_ajaxrequest {
+	persistence {
+		storagePid = {$plugin.tx_dliponlyestate.persistence.storagePid}
 		recursive = 99
 	}	
 }
