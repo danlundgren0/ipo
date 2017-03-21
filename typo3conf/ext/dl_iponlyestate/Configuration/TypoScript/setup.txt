@@ -86,15 +86,15 @@ plugin.tx_dliponlyestate_ajaxrequest {
 	}	
 }
 plugin.tx_dliponlyestate {
-	settings {
-		Ids {
-			EstateId = {$plugin.tx_dliponlyestate.settings.ids.EstateId}
-			reportPid = {$plugin.tx_dliponlyestate.settings.ids.reportPid}
-		}
+	persistence {
+		storagePid = {$plugin.tx_dliponlyestate.persistence.storagePid}
+		estateId = {$plugin.tx_dliponlyestate.persistence.estateId}
+		reportPid = {$plugin.tx_dliponlyestate.persistence.reportPid}
+		recursive = 99
 	}
 }
-plugin.tx_dliponlyestate_ajaxrequest.persistence.storagePid = {$plugin.tx_dliponlyestate_cp.persistence.storagePid}
-plugin.tx_dliponlyestate_ajaxrequest.persistence.recursive = 99
+#plugin.tx_dliponlyestate_ajaxrequest.persistence.storagePid = {$plugin.tx_dliponlyestate_cp.persistence.storagePid}
+#plugin.tx_dliponlyestate_ajaxrequest.persistence.recursive = 99
 page.includeJSFooter.vajer = EXT:dl_iponlyestate/Resources/Public/Js/vajer.js
 page.includeCSS.vajer2 = EXT:dl_iponlyestate/Resources/Public/Css/vajer.css
 

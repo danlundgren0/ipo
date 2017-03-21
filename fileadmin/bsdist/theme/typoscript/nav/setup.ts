@@ -32,12 +32,15 @@ lib.navbar {
 
             NO = 1
             NO.allWrap >
-            NO.wrapItemAndSub = <li>|</li>
+            NO.wrapItemAndSub = <li class="no">|</li>
+            #NO.doNotLinkIt = 1
             ACT = 1
             ACT < .NO
+            ACT.doNotLinkIt = 0
             ACT.wrapItemAndSub = <li class="active">|</li>
             CUR = 1
             CUR < .NO
+            CUR.doNotLinkIt = 0
             #CUR.ATagParams =  id="current"
             CUR.wrapItemAndSub = <li class="active current">|</li>
 

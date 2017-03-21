@@ -13,11 +13,13 @@ in /Configuration/ExtensionBuilder/settings.yaml:
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
 
 <f:section name="main">
-<h1>Listing of control points for estate {estate.name}</h1>
+<h1>Du är nu på fastighet {estate.name}</h1>
 
 <f:flashMessages />
+<f:comment>
 	<f:for each="{controlPoints}" as="controlPoint">
 		<div>Name - Responsible Technician Group</div>
 		<div>{controlPoint.name} - {controlPoint.responsibleTechnician}</div>
 	</f:for>
+</f:comment>
 </f:section>

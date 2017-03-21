@@ -1,7 +1,7 @@
 <?php
 return [
     'BE' => [
-        'debug' => true,
+        'debug' => '1',
         'explicitADmode' => 'explicitAllow',
         'installToolPassword' => '$P$CVw.zyPN.aHREOuuSpvl9pK6oJqDPO/',
         'loginSecurityLevel' => 'rsa',
@@ -27,7 +27,7 @@ return [
     ],
     'FE' => [
         'cHashIncludePageId' => true,
-        'debug' => true,
+        'debug' => '1',
         'loginSecurityLevel' => 'rsa',
     ],
     'GFX' => [
@@ -80,17 +80,17 @@ return [
                 ],
             ],
         ],
-        'clearCacheSystem' => true,
+        'clearCacheSystem' => '1',
         'devIPmask' => '*',
-        'displayErrors' => 1,
-        'enableDeprecationLog' => 'file',
+        'displayErrors' => '1',
+        'enableDeprecationLog' => '',
         'encryptionKey' => 'abbd72cf16ead6bc99ce5903d5c466adb3d704ee34f4acc8e950618f014e15c5eee86c78ddb63d03253a0198071e97e9',
         'exceptionalErrors' => 28674,
         'isInitialDatabaseImportDone' => true,
         'isInitialInstallationInProgress' => false,
         'sitename' => 'IP-Only',
-        'sqlDebug' => 1,
-        'systemLogLevel' => 0,
+        'sqlDebug' => '1',
+        'systemLogLevel' => '0',
         't3lib_cs_convMethod' => 'mbstring',
         't3lib_cs_utils' => 'mbstring',
     ],

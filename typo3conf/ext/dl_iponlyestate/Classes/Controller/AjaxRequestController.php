@@ -184,21 +184,36 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 		$noteState = $this->arguments['noteState'];
 		$reportUid = $this->arguments['reportUid'];
 		$nodeTypeUid = $this->arguments['nodeTypeUid'];
-
+		$reportIsNew = NULL;
 		//$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
 		//$controlPointRepository = $this->objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ControlPointRepository');
 		//$questionRepository = $this->objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\QuestionRepository');
 		$controlPoint = $this->controlPointRepository->findByUid($this->arguments['cpUid']);
 		$question = $this->questionRepository->findByUid($this->arguments['questUid']);
 		$questions = $controlPoint->getQuestions();
+
+		$this->data['cpUid'] = $cpUid;
+		$this->data['questUid'] = $questUid;
+		$this->data['noteUid'] = $noteUid;
+		$this->data['curVer'] = $curVer;
+		$this->data['noteText'] = $noteText;
+		$this->data['noteState'] = $noteState;
+		$this->data['reportUid'] = $reportUid;
+		$this->data['nodeTypeUid'] = $nodeTypeUid;
+
 		if($reportUid>0) {
-			$report = $this->reportRepository->findByUid($reportUid);			
-		}
+			$report = $this->reportRepository->findByUid($reportUid);
+			$reportIsNew = FALSE;			
+		}		
 		if(!$report || count($report)<=0) {
 			//$reportRepository = $this->objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
 			$report = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DanLundgren\DlIponlyestate\Domain\Model\Report');
 			$report->setVersion(1);
+			$reportIsNew = TRUE;
+			//$this->data['reportUID'] = $report->getUid();
 		}
+
+
 		//TODO: Set real Version not hardcoded
 		
 		//$report->setQuestionId($questUid);
@@ -209,7 +224,7 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 		//TODO: Add Estate id to report to know which site it belongs to
 
 		
-		$estateId = (int)$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dliponlyestate.']['settings.']['Ids.']['EstateId'];		
+		$estateId = (int)$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dliponlyestate.']['persistence.']['estateId'];		
 		$estate = $this->estateRepository->findByUid($estateId);
 		$report->setEstate($estateId);
 		$report->setControlPoint($cpUid);
@@ -217,7 +232,7 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 		$report->setResponsibleTechnicians($controlPoint->getResponsibleTechnician());
 		$report->setResponsibleTechnicians($controlPoint->getResponsibleTechnician());
 		
-		$reportPid = (int)$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dliponlyestate.']['settings.']['Ids.']['reportPid'];
+		$reportPid = (int)$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dliponlyestate.']['persistence.']['reportPid'];
 		$report->setPid($reportPid);
 		//Add IsComplete also as property in note to make it easer to check
 		//$report->setIsComplete(0);
@@ -230,7 +245,7 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 			if($prevNote->getVersion()>(int)$tmpVerNo && $prevNote->getQuestion()==$questUid) {
 				$newVerNo = $prevNote->getVersion();
 			}
-		}		
+		}
 		$note->setVersion($newVerNo+=1);
 		$note->setRemarkType($noteState);
 		$note->setComment($noteText);
@@ -242,11 +257,29 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 		$note->setQuestion($questUid);
 		//TODO: Same PID as report
 		$note->setPid($reportPid);
-		$report->addNote($note);
-		$this->reportRepository->add($report);
+		if($noteUid == '-1') {
+			$report->addNote($note);
+			$note->setVersion(1);	
+			$this->data['statusMessage'] = $this->data['statusMessage'].' Ny anmärkning skapad ';
+		}
+		else {
+			$report->update($note);
+			$this->data['statusMessage'] = $this->data['statusMessage'].' Anmärkning sparad ';
+			//$note->setVersion($newVerNo+=1);	
+		}		
+		if(reportIsNew) {
+			$this->reportRepository->add($report);	
+			$this->data['statusMessage'] = $this->data['statusMessage'].' Ny rapport skapad';
+		}
+		else {
+			$this->reportRepository->update($report);	
+			$this->data['statusMessage'] = $this->data['statusMessage'].' Rapport sparad';
+		}
+		//$this->reportRepository->add($report);
 		//$this->reportRepository->update($report);
-		$this->persistenceManager->persistAll();
-		//$question->addReport($report);
+		//$this->reportRepository->update($report);
+		//$this->persistenceManager->persistAll();
+		//$question->addReport($report);		
 		$this->data['comment'] = $note->getComment();
 		$this->data['note'] = $note->getState();
 		$this->status = TRUE;

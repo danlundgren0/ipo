@@ -13,20 +13,18 @@ in /Configuration/ExtensionBuilder/settings.yaml:
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
 
 <f:section name="main">
-<h1>Listing for ControlPoint</h1>
+<h1>Här listas alla kontroll punkter för denna fastighet</h1>
 
 <f:flashMessages />
 
 <table  class="tx_dliponlyestate" >
 	<tr>
-		<th><f:translate key="tx_dliponlyestate_domain_model_controlpoint.name" /></th>
-		<th> </th>
-		<th> </th>
+		<th>Namn</th>
 	</tr>
 
 	<f:for each="{controlPoints}" as="controlPoint">
 		<tr>
-			<td>{controlPoint.name}</td>
+			<td>{controlPoint.header}</td>
 		</tr>
 	</f:for>
 </table>

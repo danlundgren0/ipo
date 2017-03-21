@@ -47,14 +47,13 @@ plugin.tx_dliponlyestate_ajaxrequest {
 ## EXTENSION BUILDER DEFAULTS END TOKEN - Everything BEFORE this line is overwritten with the defaults of the extension builder
 # customsubcategory=ids=Id settings for pages, groups etc.
 plugin.tx_dliponlyestate {
-	settings {
-		ids {
-			# cat=plugin.tx_dliponlyestate/ids/aa; type=string; label=Default storage PID
-			storagePid =
-			# cat=plugin.tx_dliponlyestate/ids/ab; type=int; label=Id of the Estate object this site belongs to
-			EstateId =
-			# cat=plugin.tx_dliponlyestate/ids/ac; type=int; label=Page id where reports are saved
-			reportPid =
-		}
+	persistence {
+		# cat=plugin.tx_dliponlyestate/ids/aa; type=string; label=Default storage PID
+		storagePid =
+		# cat=plugin.tx_dliponlyestate/ids/ab; type=int; label=Id of the Estate object this site belongs to
+		estateId =
+		# cat=plugin.tx_dliponlyestate/ids/ac; type=int; label=Page id where reports are saved
+		reportPid =
 	}
 }
+#plugin.tx_dliponlyestate.persistence.storagePid

@@ -36,13 +36,43 @@ class ReportUtility {
      * action getUnPostedReports
      *
      * @param \DanLundgren\DlIponlyestate\Domain\Model\Report $reports
+     * @return \DanLundgren\DlIponlyestate\Domain\Model\Report $reports
+     */ 
+    public static function getLatestOrNewReport() {
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+        $reportRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
+        $reportPid = (int)$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dliponlyestate.']['persistence.']['reportPid'];
+        $allReports = $reportRepository->findByPid($reportPid);
+        $highestVersion = -1;
+        $latestReport = NULL;
+        foreach($allReports as $report) {
+            if((int)$report->getVersion()>(int)$highestVersion) {
+                $highestVersion = (int)$report->getVersion();
+                $latestReport = $report;
+            }
+        }        
+        $highestVersion=($highestVersion==-1)?1:$highestVersion+=1;
+        if($latestReport && !$latestReport->getIsComplete()) {
+            return $latestReport;
+        }
+        $newReport = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DanLundgren\DlIponlyestate\Domain\Model\Report');
+        $newReport->setVersion($highestVersion);
+        return $newReport;
+    }
+
+    /**
+     * action getUnPostedReports
+     *
+     * @param \DanLundgren\DlIponlyestate\Domain\Model\Report $reports
      * @return array
      */    
     public static function getUnPostedReports($reports) {
         $unPostedReports = array();
-        foreach($reports as $report) {                
-            if(!$report->getReportIsPosted()) {
-                $unPostedReports[] = $report;
+        if($reports) {
+            foreach($reports as $report) {                
+                if(!$report->getReportIsPosted()) {
+                    $unPostedReports[] = $report;
+                }
             }
         }
         return $unPostedReports;
@@ -56,9 +86,11 @@ class ReportUtility {
      */    
     public static function getPostedReports($reports) {
         $postedReports = array();
-        foreach($reports as $report) {                
-            if($report->getReportIsPosted()) {
-                $postedReports[] = $report;
+        if($reports) {
+            foreach($reports as $report) {                
+                if($report->getReportIsPosted()) {
+                    $postedReports[] = $report;
+                }
             }
         }
         return $postedReports;
@@ -72,9 +104,11 @@ class ReportUtility {
      */
     public static function getNextVersionNumber($reports) {
         $tmpVer = 0;
-        foreach($reports as $report) {                
-            if($report->getVersion()>$tmpVer) {
-                $tmpVer = $report->getVersion();
+        if($reports) {
+            foreach($reports as $report) {                
+                if($report->getVersion()>$tmpVer) {
+                    $tmpVer = $report->getVersion();
+                }
             }
         }
         return $tmpVer += 1;

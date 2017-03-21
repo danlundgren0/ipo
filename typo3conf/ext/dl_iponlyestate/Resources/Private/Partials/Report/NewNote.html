@@ -1,8 +1,8 @@
 <f:comment>
 <div id="acc_{question.uid}" role="tablist" aria-multiselectable="true" class="noteContainer">
+<div>DEBUG: data-questionuid:{question.uid} data-cpuid:{controlPoint.uid} data-reportuid:{reportWithVersion.uid} data-noteuid:-1 notever:-1</div>
 </f:comment>
-<div>DEBUG: data-questionuid:{question.uid} data-cpuid:{controlPoint.uid} data-reportuid:{unPostedReport.uid} data-noteuid:-1 notever:-1</div>
-<div class="noteContainer" data-questionuid="{question.uid}" data-nodetypeuid="{controlPoint.nodeType.uid}" data-cpuid="{controlPoint.uid}" data-reportuid="{unPostedReport.uid}" data-noteuid="-1" data-notever="-1">
+<div class="noteContainer" data-questionuid="{question.uid}" data-nodetypeuid="{controlPoint.nodeType.uid}" data-cpuid="{controlPoint.uid}" data-reportuid="{reportWithVersion.uid}" data-noteuid="-1" data-notever="-1">
   <input type="hidden" name="note" value="1" data-version="-1" />
   <div class="card">
     <div>
@@ -22,7 +22,7 @@
     <div class="card-header" role="tab">
       <h5 class="mb-0">
         <h3>
-          <input class="input-note" id="input_{question.uid}_NEW" type="text" />
+          <textarea class="input-note" id="input_{question.uid}_NEW" type="text"></textarea>
           <f:comment>
           <a data-toggle="collapse" data-parent="#acc_{question.uid}" href="#collapse_{question.uid}" aria-expanded="true" aria-controls="collapse_{question.uid}" class="collapsed">
             <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
