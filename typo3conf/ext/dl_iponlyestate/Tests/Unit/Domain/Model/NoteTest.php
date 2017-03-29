@@ -187,4 +187,30 @@ class NoteTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 			$this->subject
 		);
 	}
+
+	/**
+	 * @test
+	 */
+	public function getControlPointReturnsInitialValueForControlPoint()
+	{
+		$this->assertEquals(
+			NULL,
+			$this->subject->getControlPoint()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setControlPointForControlPointSetsControlPoint()
+	{
+		$controlPointFixture = new \DanLundgren\DlIponlyestate\Domain\Model\ControlPoint();
+		$this->subject->setControlPoint($controlPointFixture);
+
+		$this->assertAttributeEquals(
+			$controlPointFixture,
+			'controlPoint',
+			$this->subject
+		);
+	}
 }

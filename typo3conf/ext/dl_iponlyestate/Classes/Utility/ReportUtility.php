@@ -42,7 +42,7 @@ class ReportUtility {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
         $reportRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
         $reportPid = (int)$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dliponlyestate.']['persistence.']['reportPid'];
-        $allReports = $reportRepository->findByPid($reportPid);
+        $allReports = $reportRepository->findByPid($reportPid);        
         $highestVersion = -1;
         $latestReport = NULL;
         foreach($allReports as $report) {
@@ -53,10 +53,30 @@ class ReportUtility {
         }        
         $highestVersion=($highestVersion==-1)?1:$highestVersion+=1;
         if($latestReport && !$latestReport->getIsComplete()) {
+/*
+\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
+ array(
+  'class' => __CLASS__,
+  'function' => __FUNCTION__,
+  'latestReport' => $latestReport,
+ )
+);
+*/
             return $latestReport;
         }
         $newReport = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DanLundgren\DlIponlyestate\Domain\Model\Report');
         $newReport->setVersion($highestVersion);
+/*        
+\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
+ array(
+  'class' => __CLASS__,
+  'function' => __FUNCTION__,
+  'newReport' => $newReport,
+  'allReports' => $allReports,
+  'reportPid' => $reportPid,
+ )
+);
+*/ 
         return $newReport;
     }
 

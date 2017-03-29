@@ -37,10 +37,10 @@ Otherwise your changes will be overwritten the next time you save the extension 
       <f:for each="{controlPoint.questions}" as="question" iteration="tIt">        
         <f:if condition="{tIt.isFirst}">
           <f:then>
-            <li role="presentation" class="active"><a href="#uid_{question.uid}" aria-controls="uid_{question.uid}" role="tab" data-toggle="tab">{question.header}</a></li>
+            <li role="presentation" class="active"><a href="#uid_{question.uid}" aria-controls="uid_{question.uid}" role="tab" data-toggle="tab" data-isloaded="true"  data-trigger-cpuid="{controlPoint.uid}" data-trigger-quid="{question.uid}">{question.header}</a></li>
           </f:then>
           <f:else>
-            <li role="presentation"><a href="#uid_{question.uid}" aria-controls="uid_{question.uid}" role="tab" data-toggle="tab">{question.header}</a></li>
+            <li role="presentation"><a href="#uid_{question.uid}" aria-controls="uid_{question.uid}" role="tab" data-toggle="tab" data-isloaded="false" data-trigger-cpuid="{controlPoint.uid}" data-trigger-quid="{question.uid}">{question.header}</a></li>
           </f:else>
         </f:if>
       </f:for>  
@@ -50,10 +50,10 @@ Otherwise your changes will be overwritten the next time you save the extension 
           <f:if condition="{question.header} != ''">        
                   <f:if condition="{qIt.isFirst}">
                     <f:then>
-                      <div role="tabpanel" class="tab-pane active in fade" id="uid_{question.uid}">
+                      <div role="tabpanel" class="tab-pane active in fade" data-target-cpuid="{controlPoint.uid}" data-target-quid="{question.uid}" id="uid_{question.uid}">
                     </f:then>
                     <f:else>
-                      <div role="tabpanel" class="tab-pane fade" id="uid_{question.uid}">
+                      <div role="tabpanel" class="tab-pane fade" data-target-cpuid="{controlPoint.uid}" data-target-quid="{question.uid}" id="uid_{question.uid}">
                     </f:else>
                   </f:if>
                   <div class="row">
@@ -62,6 +62,8 @@ Otherwise your changes will be overwritten the next time you save the extension 
                       <div><f:format.html>{question.description}</f:format.html></div>
                       <input type="hidden" value="{question.uid}" class="qUid" />
                       <f:render partial="Report/NewNote" arguments="{question:question, controlPoint:controlPoint, reportWithVersion:reportWithVersion}" />
+                      <div class="unposted-notes"></div>
+                      <div class="posted-notes"></div>
                       <div class="oldNotes">
                         <f:for each="{unPostedReport.notes}" as="note">            
                           <f:if condition="{note.question} == {question.uid}">

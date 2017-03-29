@@ -23,7 +23,7 @@ lib.navbar {
     20 = HMENU
     20.wrap = <div class="collapse navbar-collapse" id="mainnavbar"><ul class="nav navbar-nav">|</ul></div>
     20 {
-        entryLevel = 0
+        entryLevel = 1
         #excludeUidList = 11,12
         1 = TMENU
         1 {

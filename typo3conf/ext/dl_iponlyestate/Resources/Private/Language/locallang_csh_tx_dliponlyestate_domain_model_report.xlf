@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2017-03-10T18:46:43Z" product-name="dl_iponlyestate">
+	<file source-language="en" datatype="plaintext" original="messages" date="2017-03-27T19:45:49Z" product-name="dl_iponlyestate">
 		<header/>
 		<body>
 			<trans-unit id="name.description">
@@ -59,6 +59,9 @@
 			</trans-unit>
 			<trans-unit id="notes.description">
 				<source>notes</source>
+			</trans-unit>
+			<trans-unit id="pid.description">
+				<source>pid</source>
 			</trans-unit>
 			<trans-unit id="technician.description">
 				<source>technician</source>
