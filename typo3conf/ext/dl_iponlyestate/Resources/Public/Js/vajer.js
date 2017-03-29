@@ -22,11 +22,14 @@ DanL.Note = {
         if($(obj).closest('.noteContainer').find('.btn-success.active').length>0
             || ($(obj).closest('.noteContainer').find('.input-note').val()!='' && $(obj).closest('.noteContainer').find('.state-buttons').find('.active').length>0)) {
             this.isReadyForSave = true;
-            $(obj).closest('.noteContainer').find($('.save-btn')).removeClass('hidden');
+            DanL.Note.isReadyForSave = true;
+            //$(obj).closest('.noteContainer').find($('.save-btn')).removeClass('disabled');
+            $(obj).closest('.noteContainer').find($('.save-btn .btn')).removeClass('disabled');
         }
         else {
             this.isReadyForSave = false;
-            $(obj).closest('.noteContainer').find($('.save-btn')).addClass('hidden');
+            DanL.Note.isReadyForSave = false;
+            $(obj).closest('.noteContainer').find($('.save-btn .btn')).addClass('disabled');
         }
 	},
 	addNewNote: function() {
@@ -61,6 +64,9 @@ DanL.Note = {
     },
     saveNote: function() {
         //TODO: Come up with good versioning handling
+        if(DanL.Note.isReadyForSave!=true) {
+            return;
+        }
         var me = $(this);
         var noteObj = $(this).closest('.noteContainer');
         var questUid = $(noteObj).attr('data-questionuid');

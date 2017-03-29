@@ -2,6 +2,12 @@
 h1 {
     color:#F0525E;
 }
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn {
+    opacity: .25;
+}
+.noteContainer .card {
+    width: 100%;
+}
 .container, .container-fluid {
     margin-bottom:20px;
 }
@@ -15,9 +21,11 @@ body footer .container .row {
 }
 .input-note {
     margin-bottom: 10px;
+    height: 200px;
+    width: 100%;
 }
-.input-note, .save-btn, .add-btn {
-    float: left;
+.save-btn, .add-btn {
+    display:inline-block;
 }
 .save-btn, .add-btn {
     margin-left: 10px;
