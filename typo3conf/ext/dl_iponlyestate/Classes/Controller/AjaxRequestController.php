@@ -227,6 +227,8 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 		$estateId = (int)$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dliponlyestate.']['persistence.']['estateId'];		
 		$estate = $this->estateRepository->findByUid($estateId);
 		$report->setEstate($estateId);
+		
+		//$report->setControlPoint($cp);
 		$report->setControlPoint($cpUid);
 		$report->setNodeType($nodeTypeUid);
 		$report->setResponsibleTechnicians($controlPoint->getResponsibleTechnician());
@@ -246,6 +248,8 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 				$newVerNo = $prevNote->getVersion();
 			}
 		}
+		$cp = $this->controlPointRepository->findByUid($cpUid);
+		$note->setControlPoint($cp);
 		$note->setVersion($newVerNo+=1);
 		$note->setRemarkType($noteState);
 		$note->setComment($noteText);

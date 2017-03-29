@@ -86,6 +86,13 @@ class Note extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $isComplete = false;
     
     /**
+     * controlPoint
+     *
+     * @var \DanLundgren\DlIponlyestate\Domain\Model\ControlPoint
+     */
+    protected $controlPoint = null;
+    
+    /**
      * Returns the comment
      *
      * @return string $comment
@@ -240,6 +247,27 @@ class Note extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function isIsComplete()
     {
         return $this->isComplete;
+    }
+    
+    /**
+     * Returns the controlPoint
+     *
+     * @return \DanLundgren\DlIponlyestate\Domain\Model\ControlPoint $controlPoint
+     */
+    public function getControlPoint()
+    {
+        return $this->controlPoint;
+    }
+    
+    /**
+     * Sets the controlPoint
+     *
+     * @param \DanLundgren\DlIponlyestate\Domain\Model\ControlPoint $controlPoint
+     * @return void
+     */
+    public function setControlPoint(\DanLundgren\DlIponlyestate\Domain\Model\ControlPoint $controlPoint)
+    {
+        $this->controlPoint = $controlPoint;
     }
 
 }

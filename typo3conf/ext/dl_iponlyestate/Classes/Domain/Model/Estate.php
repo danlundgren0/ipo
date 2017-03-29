@@ -40,13 +40,6 @@ class Estate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $name = '';
     
     /**
-     * controlPoints
-     *
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\DanLundgren\DlIponlyestate\Domain\Model\ControlPoint>
-     */
-    protected $controlPoints = null;
-    
-    /**
      * adress
      *
      * @var string
@@ -101,6 +94,13 @@ class Estate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var float
      */
     protected $longitude = 0.0;
+    
+    /**
+     * controlPoints
+     *
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\DanLundgren\DlIponlyestate\Domain\Model\ControlPoint>
+     */
+    protected $controlPoints = null;
     
     /**
      * __construct

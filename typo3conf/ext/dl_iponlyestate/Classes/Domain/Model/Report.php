@@ -140,6 +140,20 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $reportIsPosted = false;
     
     /**
+     * The date when the inspection started
+     *
+     * @var \DateTime
+     */
+    protected $startDate = null;
+    
+    /**
+     * The date when the inspection ended. All remarks has state OK.
+     *
+     * @var \DateTime
+     */
+    protected $endDate = null;
+    
+    /**
      * dynamicColumn
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\DanLundgren\DlIponlyestate\Domain\Model\DynamicColumn>
@@ -154,20 +168,6 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @cascade remove
      */
     protected $notes = null;
-    
-    /**
-     * The date when the inspection started
-     *
-     * @var \DateTime
-     */
-    protected $startDate = null;
-    
-    /**
-     * The date when the inspection ended. All remarks has state OK.
-     *
-     * @var \DateTime
-     */
-    protected $endDate = null;
     
     /**
      * __construct

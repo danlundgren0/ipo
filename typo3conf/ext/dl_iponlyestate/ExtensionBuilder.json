@@ -779,7 +779,18 @@
                     ]
                 },
                 "relationGroup": {
-                    "relations": []
+                    "relations": [
+                        {
+                            "foreignRelationClass": "",
+                            "lazyLoading": false,
+                            "propertyIsExcludeField": true,
+                            "relationDescription": "",
+                            "relationName": "controlPoint",
+                            "relationType": "manyToOne",
+                            "relationWire": "[wired]",
+                            "uid": "1048296644039"
+                        }
+                    ]
                 }
             }
         }
@@ -902,10 +913,22 @@
                 "terminal": "SOURCES",
                 "uid": "20361535465"
             }
+        },
+        {
+            "src": {
+                "moduleId": 6,
+                "terminal": "relationWire_0",
+                "uid": "1048296644039"
+            },
+            "tgt": {
+                "moduleId": 2,
+                "terminal": "SOURCES",
+                "uid": "1033383865307"
+            }
         }
     ],
     "log": {
-        "last_modified": "2017-03-10 06:46",
+        "last_modified": "2017-03-27 07:45",
         "extension_builder_version": "7.6.0",
         "be_user": " (1)"
     }

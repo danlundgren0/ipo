@@ -59,6 +59,23 @@ DanL.Note = {
     postForm: function() {
         //TODO: Notes are saved as uncomplete until the form is posted
     },
+    getRelatedNotes: function() {        
+        console.log($(this).data('trigger-cpuid'));
+        console.log($(this).data('trigger-quid'));
+        var cpUid = $(this).data('trigger-cpuid');
+        var qUid = $(this).data('trigger-quid');
+        if($(this).attr('aria-expanded')=='true') {
+            return;            
+            console.log('Already visible');
+        }
+        else if($(this).attr('data-isloaded')=='true') {
+            console.log('Data already loaded');
+        }
+        else {
+            $(this).attr('data-isloaded','true');            
+            console.log('Not visible');
+        }
+    },
     saveNote: function() {
         //TODO: Come up with good versioning handling
         var me = $(this);
@@ -135,6 +152,7 @@ $(function() {
     $('.state-buttons .btn').on('click', DanL.Note.setButtonState);
     $('.save-btn .btn').on('click', DanL.Note.saveNote);
     $('.add-btn .btn').on('click', DanL.Note.addNewNote);
+    $('[data-toggle="tab"]').on('click', DanL.Note.getRelatedNotes);
 });
 
 /*

@@ -293,6 +293,7 @@ CREATE TABLE tx_dliponlyestate_domain_model_note (
 	question int(11) DEFAULT '0' NOT NULL,
 	version int(11) DEFAULT '0' NOT NULL,
 	is_complete tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	control_point int(11) unsigned DEFAULT '0',
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,

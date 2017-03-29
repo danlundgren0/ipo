@@ -33,6 +33,13 @@ class ControlPoint extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
 
     /**
+     * pid
+     *
+     * @var int
+     */
+    protected $pid = -1;
+    
+    /**
      * name
      *
      * @var string
@@ -186,6 +193,27 @@ class ControlPoint extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setName($name)
     {
         $this->name = $name;
+    }
+    
+    /**
+     * Returns the pid
+     *
+     * @return int $pid
+     */
+    public function getPid()
+    {
+        return $this->pid;
+    }
+    
+    /**
+     * Sets the pid
+     *
+     * @param int $pid
+     * @return void
+     */
+    public function setPid($pid)
+    {
+        $this->pid = $pid;
     }
     
     /**

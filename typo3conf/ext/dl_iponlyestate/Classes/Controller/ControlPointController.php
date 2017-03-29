@@ -51,7 +51,7 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
     protected $controlPointRepository = NULL;
     
     /**
-     * controlPointRepository
+     * reportRepository
      *
      * @var \DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository
      * @inject
@@ -65,34 +65,25 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
      */
     public function listAction()
     {
-
-        $estateId = (int)$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dliponlyestate.']['persistence.']['estateId'];
-        $estate = $this->estateRepository->findByUid((int)$estateId);
+        $estateId = (int) $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dliponlyestate.']['persistence.']['estateId'];
+        $estate = $this->estateRepository->findByUid((int) $estateId);
         $controlPoints = $estate->getControlPoints();
         $this->view->assign('controlPoints', $controlPoints);
-/*
-\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
- array(
-  'class' => __CLASS__,
-  'function' => __FUNCTION__,
-  'estate' => $estate,
-  'controlPoints' => $controlPoints,
- )
-);
-*/
+        /*
+        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
+         array(
+          'class' => __CLASS__,
+          'function' => __FUNCTION__,
+          'estate' => $estate,
+          'controlPoints' => $controlPoints,
+         )
+        );
+        */
+        
         //'TSFE' => $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dliponlyestate_cp.'],
         if ($this && $this->estateRepository) {
             
         }
-        /*
-        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
-            array(
-                'class' => __CLASS__,
-                'function' => __FUNCTION__,
-                'controlPoints' => $controlPoints
-            )
-        );
-        */
     }
     
     /**
@@ -103,26 +94,26 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
      */
     public function showAction()
     {
-        if ((int) $this->settings['ControlPoint'] > 0) {
-            $errorMess = (!ErrorUtil::isReportPidSet())?' reportPid är inte satt ':'';          
-            $errorMess .= (!ErrorUtil::isStoragePidSet())?' storagePid är inte satt ':'';
-            $errorMess .= (!ErrorUtil::isEstateIdSet())?' estateId är inte satt ':'';
-                         
-            $errorMess = '';
-            $controlPoint = $this->controlPointRepository->findByUid((int) $this->settings['ControlPoint']);
-            $estateId = (int)$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dliponlyestate.']['persistence.']['estateId'];
-            $estate = $this->estateRepository->findByUid((int)$estateId);
-            //TODO: Om rapportens getIsCompleted = FALSE: returnera samma versionsnr, Om TRUE: Returnera versionnr+1
-            $curReportWithVersion = ReportUtil::getLatestOrNewReport();
 /*
 \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
  array(
   'class' => __CLASS__,
   'function' => __FUNCTION__,
-  'curReportWithVersion' => $curReportWithVersion,
+  'Page title' => $GLOBALS['TSFE']->page['title'],
+  'Page title' => $GLOBALS['TSFE']->page['title'],
  )
 );
-*/            
+*/
+        if ((int) $this->settings['ControlPoint'] > 0) {
+            $errorMess = !ErrorUtil::isReportPidSet() ? ' reportPid är inte satt ' : '';
+            $errorMess .= !ErrorUtil::isStoragePidSet() ? ' storagePid är inte satt ' : '';
+            $errorMess .= !ErrorUtil::isEstateIdSet() ? ' estateId är inte satt ' : '';
+            $errorMess = '';
+            $controlPoint = $this->controlPointRepository->findByUid((int) $this->settings['ControlPoint']);
+            $estateId = (int) $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dliponlyestate.']['persistence.']['estateId'];
+            $estate = $this->estateRepository->findByUid((int) $estateId);
+            //TODO: Om rapportens getIsCompleted = FALSE: returnera samma versionsnr, Om TRUE: Returnera versionnr+1
+            $curReportWithVersion = ReportUtil::getLatestOrNewReport();
             $unPostedReports = ReportUtil::getUnPostedReports($reports);
             $postedReports = ReportUtil::getPostedReports($reports);
             if (count($unPostedReports) > 1) {
@@ -133,12 +124,25 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                 }
             }
             $unPostedReport = $unPostedReports[count($unPostedReports) - 1];
+            /*
+            \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
+                array(
+                    'class' => __CLASS__,
+                    'function' => __FUNCTION__,
+                    'curReportWithVersion' => $curReportWithVersion,
+                    'unPostedReports' => $unPostedReports,
+                    'postedReports' => $postedReports,
+                    'unPostedReport' => $unPostedReport
+                )
+            );
+            */
             $this->view->assign('reportWithVersion', $curReportWithVersion);
             $this->view->assign('unPostedReport', $unPostedReport);
             $this->view->assign('postedReports', $postedReports);
             $this->view->assign('errorMess', $errorMess);
             $this->view->assign('controlPoint', $controlPoint);
-            /*\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
+            /*
+            \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
                 array(
                     'class' => __CLASS__,
                     'function' => __FUNCTION__,
@@ -148,7 +152,9 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                     'postedReports' => $postedReports,
                     'reports' => $reports
                 )
-            );*/
+            );
+            */
         }
     }
+
 }
