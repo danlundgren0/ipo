@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2017-03-27T19:45:49Z" product-name="dl_iponlyestate">
+	<file source-language="en" datatype="plaintext" original="messages" date="2017-03-29T19:13:17Z" product-name="dl_iponlyestate">
 		<header/>
 		<body>
 			<trans-unit id="tx_dliponlyestate_domain_model_estate">
@@ -105,9 +105,6 @@
 			<trans-unit id="tx_dliponlyestate_domain_model_report.is_complete">
 				<source>Is Complete</source>
 			</trans-unit>
-			<trans-unit id="tx_dliponlyestate_domain_model_report.estate">
-				<source>Estate</source>
-			</trans-unit>
 			<trans-unit id="tx_dliponlyestate_domain_model_report.node_type">
 				<source>Node Type</source>
 			</trans-unit>
@@ -149,6 +146,9 @@
 			</trans-unit>
 			<trans-unit id="tx_dliponlyestate_domain_model_report.notes">
 				<source>Notes</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.estate">
+				<source>Estate</source>
 			</trans-unit>
 			<trans-unit id="tx_dliponlyestate_domain_model_note">
 				<source>Note</source>

@@ -230,7 +230,6 @@ CREATE TABLE tx_dliponlyestate_domain_model_report (
 	version int(11) DEFAULT '0' NOT NULL,
 	date date DEFAULT '0000-00-00',
 	is_complete tinyint(1) unsigned DEFAULT '0' NOT NULL,
-	estate int(11) DEFAULT '0' NOT NULL,
 	node_type int(11) DEFAULT '0' NOT NULL,
 	control_point int(11) DEFAULT '0' NOT NULL,
 	executive_technician int(11) DEFAULT '0' NOT NULL,
@@ -245,6 +244,7 @@ CREATE TABLE tx_dliponlyestate_domain_model_report (
 	end_date date DEFAULT '0000-00-00',
 	dynamic_column int(11) unsigned DEFAULT '0' NOT NULL,
 	notes int(11) unsigned DEFAULT '0' NOT NULL,
+	estate int(11) unsigned DEFAULT '0',
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,

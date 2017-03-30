@@ -66,6 +66,7 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
     public function listAction()
     {
         $estateId = (int) $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dliponlyestate.']['persistence.']['estateId'];
+        $estateId = (int)$this->settings['Estate'];
         $estate = $this->estateRepository->findByUid((int) $estateId);
         $controlPoints = $estate->getControlPoints();
         $this->view->assign('controlPoints', $controlPoints);
@@ -74,6 +75,7 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
          array(
           'class' => __CLASS__,
           'function' => __FUNCTION__,
+          'estateId' => $estateId,
           'estate' => $estate,
           'controlPoints' => $controlPoints,
          )
@@ -94,24 +96,26 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
      */
     public function showAction()
     {
-/*
-\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
- array(
-  'class' => __CLASS__,
-  'function' => __FUNCTION__,
-  'Page title' => $GLOBALS['TSFE']->page['title'],
-  'Page title' => $GLOBALS['TSFE']->page['title'],
- )
-);
-*/
         if ((int) $this->settings['ControlPoint'] > 0) {
             $errorMess = !ErrorUtil::isReportPidSet() ? ' reportPid är inte satt ' : '';
             $errorMess .= !ErrorUtil::isStoragePidSet() ? ' storagePid är inte satt ' : '';
             $errorMess .= !ErrorUtil::isEstateIdSet() ? ' estateId är inte satt ' : '';
             $errorMess = '';
             $controlPoint = $this->controlPointRepository->findByUid((int) $this->settings['ControlPoint']);
-            $estateId = (int) $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dliponlyestate.']['persistence.']['estateId'];
+            //$estateId = (int) $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dliponlyestate.']['persistence.']['estateId'];
+            $estateId = (int)$this->settings['Estate'];
             $estate = $this->estateRepository->findByUid((int) $estateId);
+/*
+\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
+    array(
+    'class' => __CLASS__,
+    'function' => __FUNCTION__,
+    'estateId' => $estateId,
+    'estate' => $estate,
+    'controlPoint' => $controlPoint,
+    )
+);
+*/
             //TODO: Om rapportens getIsCompleted = FALSE: returnera samma versionsnr, Om TRUE: Returnera versionnr+1
             $curReportWithVersion = ReportUtil::getLatestOrNewReport();
             $unPostedReports = ReportUtil::getUnPostedReports($reports);

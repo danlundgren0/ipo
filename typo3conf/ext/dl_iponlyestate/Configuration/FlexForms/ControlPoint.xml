@@ -12,6 +12,20 @@
 				</TCEforms>
 				<type>array</type>
 				<el>
+                    <settings.Estate>
+                        <TCEforms>
+                            <label>Select Estate</label>
+                            <exclude>1</exclude>
+                            <config>
+                                <type>select</type>
+                                <foreign_table>tx_dliponlyestate_domain_model_estate</foreign_table>
+                                <foreign_table_where>AND (tx_dliponlyestate_domain_model_estate.sys_language_uid=CAST('###REC_FIELD_sys_language_uid###' AS UNSIGNED) OR tx_dliponlyestate_domain_model_estate.sys_language_uid = '-1') AND tx_dliponlyestate_domain_model_estate.deleted = 0 AND tx_dliponlyestate_domain_model_estate.hidden = 0 ORDER BY tx_dliponlyestate_domain_model_estate.name</foreign_table_where>
+                                <size>1</size>
+                                <maxitems>1</maxitems>
+                                <minitems>0</minitems>
+                            </config>
+                        </TCEforms>
+                    </settings.Estate>
 					<switchableControllerActions>
 						<TCEforms>
 							<label>Select single or list of control points</label>
@@ -39,13 +53,30 @@
                             <config>
                                 <type>select</type>
                                 <foreign_table>tx_dliponlyestate_domain_model_controlpoint</foreign_table>
-                                <foreign_table_where>AND (tx_dliponlyestate_domain_model_controlpoint.sys_language_uid=CAST('###REC_FIELD_sys_language_uid###' AS UNSIGNED) OR tx_dliponlyestate_domain_model_controlpoint.sys_language_uid = '-1') AND tx_dliponlyestate_domain_model_controlpoint.deleted = 0 AND tx_dliponlyestate_domain_model_controlpoint.hidden = 0</foreign_table_where>
+                                <foreign_table_where> AND (tx_dliponlyestate_domain_model_controlpoint.sys_language_uid=CAST('###REC_FIELD_sys_language_uid###' AS UNSIGNED) OR tx_dliponlyestate_domain_model_controlpoint.sys_language_uid = '-1') AND tx_dliponlyestate_domain_model_controlpoint.deleted = 0 AND tx_dliponlyestate_domain_model_controlpoint.hidden = 0 ORDER BY tx_dliponlyestate_domain_model_controlpoint.name</foreign_table_where>
                                 <size>1</size>
                                 <maxitems>1</maxitems>
                                 <minitems>0</minitems>
                             </config>
                         </TCEforms>
                     </settings.ControlPoint>
+                    <settings.ReportPid>
+                        <TCEforms>
+							<displayCond>FIELD:switchableControllerActions:=:ControlPoint->show</displayCond>
+                            <label>Select folder to save technicians reports</label>
+                            <exclude>1</exclude>
+                            <config>
+                                <type>select</type>
+                                <foreign_table>pages</foreign_table>
+								<!-- TODO: Make dynamic -->
+								<!-- <foreign_table_where> AND pages.pid = ###CURRENT_PID### AND pages.doktype = 254</foreign_table_where> -->
+                                <foreign_table_where> AND pages.pid = (SELECT pid from pages as p2 where p2.uid = ###REC_FIELD_pid###) AND pages.doktype = 254</foreign_table_where>
+                                <size>1</size>
+                                <maxitems>1</maxitems>
+                                <minitems>0</minitems>
+                            </config>
+                        </TCEforms>
+                    </settings.ReportPid>
 				</el>
 			</ROOT>
 		</sDEF>

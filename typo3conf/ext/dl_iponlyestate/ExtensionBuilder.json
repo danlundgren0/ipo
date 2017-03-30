@@ -521,16 +521,6 @@
                             "propertyDescription": "",
                             "propertyIsExcludeField": true,
                             "propertyIsRequired": false,
-                            "propertyName": "estate",
-                            "propertyType": "Select",
-                            "uid": "1232238380645"
-                        },
-                        {
-                            "allowedFileTypes": "",
-                            "maxItems": "1",
-                            "propertyDescription": "",
-                            "propertyIsExcludeField": true,
-                            "propertyIsRequired": false,
                             "propertyName": "nodeType",
                             "propertyType": "Select",
                             "uid": "1450462563138"
@@ -668,6 +658,16 @@
                             "relationType": "zeroToMany",
                             "relationWire": "[wired]",
                             "uid": "1268338550483"
+                        },
+                        {
+                            "foreignRelationClass": "",
+                            "lazyLoading": false,
+                            "propertyIsExcludeField": true,
+                            "relationDescription": "",
+                            "relationName": "estate",
+                            "relationType": "manyToOne",
+                            "relationWire": "[wired]",
+                            "uid": "1199960234713"
                         }
                     ]
                 }
@@ -925,10 +925,22 @@
                 "terminal": "SOURCES",
                 "uid": "1033383865307"
             }
+        },
+        {
+            "src": {
+                "moduleId": 5,
+                "terminal": "relationWire_2",
+                "uid": "1199960234713"
+            },
+            "tgt": {
+                "moduleId": 0,
+                "terminal": "SOURCES",
+                "uid": "334193451899"
+            }
         }
     ],
     "log": {
-        "last_modified": "2017-03-27 07:45",
+        "last_modified": "2017-03-29 07:13",
         "extension_builder_version": "7.6.0",
         "be_user": " (1)"
     }

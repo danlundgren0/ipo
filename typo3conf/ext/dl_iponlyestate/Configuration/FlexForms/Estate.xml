@@ -19,7 +19,7 @@
                             <config>
                                 <type>select</type>
                                 <foreign_table>tx_dliponlyestate_domain_model_estate</foreign_table>
-                                <foreign_table_where>AND (tx_dliponlyestate_domain_model_estate.sys_language_uid=CAST('###REC_FIELD_sys_language_uid###' AS UNSIGNED) OR tx_dliponlyestate_domain_model_estate.sys_language_uid = '-1') AND tx_dliponlyestate_domain_model_estate.deleted = 0 AND tx_dliponlyestate_domain_model_estate.hidden = 0</foreign_table_where>
+                                <foreign_table_where>AND (tx_dliponlyestate_domain_model_estate.sys_language_uid=CAST('###REC_FIELD_sys_language_uid###' AS UNSIGNED) OR tx_dliponlyestate_domain_model_estate.sys_language_uid = '-1') AND tx_dliponlyestate_domain_model_estate.deleted = 0 AND tx_dliponlyestate_domain_model_estate.hidden = 0 ORDER BY tx_dliponlyestate_domain_model_estate.name</foreign_table_where>
                                 <size>1</size>
                                 <maxitems>1</maxitems>
                                 <minitems>0</minitems>

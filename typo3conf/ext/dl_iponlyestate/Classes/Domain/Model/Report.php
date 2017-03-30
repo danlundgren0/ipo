@@ -63,13 +63,6 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $isComplete = false;
     
     /**
-     * estate
-     *
-     * @var int
-     */
-    protected $estate = 0;
-    
-    /**
      * nodeType
      *
      * @var int
@@ -168,6 +161,13 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @cascade remove
      */
     protected $notes = null;
+    
+    /**
+     * estate
+     *
+     * @var \DanLundgren\DlIponlyestate\Domain\Model\Estate
+     */
+    protected $estate = null;
     
     /**
      * __construct
@@ -410,27 +410,6 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setName($name)
     {
         $this->name = $name;
-    }
-    
-    /**
-     * Returns the estate
-     *
-     * @return int $estate
-     */
-    public function getEstate()
-    {
-        return $this->estate;
-    }
-    
-    /**
-     * Sets the estate
-     *
-     * @param int $estate
-     * @return void
-     */
-    public function setEstate($estate)
-    {
-        $this->estate = $estate;
     }
     
     /**
@@ -703,6 +682,27 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setEndDate(\DateTime $endDate)
     {
         $this->endDate = $endDate;
+    }
+    
+    /**
+     * Returns the estate
+     *
+     * @return \DanLundgren\DlIponlyestate\Domain\Model\Estate $estate
+     */
+    public function getEstate()
+    {
+        return $this->estate;
+    }
+    
+    /**
+     * Sets the estate
+     *
+     * @param \DanLundgren\DlIponlyestate\Domain\Model\Estate $estate
+     * @return void
+     */
+    public function setEstate(\DanLundgren\DlIponlyestate\Domain\Model\Estate $estate)
+    {
+        $this->estate = $estate;
     }
 
 }

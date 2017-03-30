@@ -142,18 +142,6 @@ class ReportTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 	/**
 	 * @test
 	 */
-	public function getEstateReturnsInitialValueForInt()
-	{	}
-
-	/**
-	 * @test
-	 */
-	public function setEstateForIntSetsEstate()
-	{	}
-
-	/**
-	 * @test
-	 */
 	public function getNodeTypeReturnsInitialValueForInt()
 	{	}
 
@@ -446,5 +434,31 @@ class ReportTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 
 		$this->subject->removeNote($note);
 
+	}
+
+	/**
+	 * @test
+	 */
+	public function getEstateReturnsInitialValueForEstate()
+	{
+		$this->assertEquals(
+			NULL,
+			$this->subject->getEstate()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setEstateForEstateSetsEstate()
+	{
+		$estateFixture = new \DanLundgren\DlIponlyestate\Domain\Model\Estate();
+		$this->subject->setEstate($estateFixture);
+
+		$this->assertAttributeEquals(
+			$estateFixture,
+			'estate',
+			$this->subject
+		);
 	}
 }
