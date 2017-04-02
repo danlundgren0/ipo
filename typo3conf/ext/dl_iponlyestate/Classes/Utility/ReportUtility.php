@@ -36,12 +36,13 @@ class ReportUtility {
      * action getUnPostedReports
      *
      * @param \DanLundgren\DlIponlyestate\Domain\Model\Report $reports
+     * @param \DanLundgren\DlIponlyestate\Domain\Model\Report $estate
      * @return \DanLundgren\DlIponlyestate\Domain\Model\Report $reports
      */ 
-    public static function getLatestOrNewReport() {
+    public static function getLatestOrNewReport($reportPid, $estate) {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
         $reportRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
-        $reportPid = (int)$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dliponlyestate.']['persistence.']['reportPid'];
+        $reportPid = (int)$reportPid;
         $allReports = $reportRepository->findByPid($reportPid);        
         $highestVersion = -1;
         $latestReport = NULL;
@@ -53,19 +54,13 @@ class ReportUtility {
         }        
         $highestVersion=($highestVersion==-1)?1:$highestVersion+=1;
         if($latestReport && !$latestReport->getIsComplete()) {
-/*
-\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
- array(
-  'class' => __CLASS__,
-  'function' => __FUNCTION__,
-  'latestReport' => $latestReport,
- )
-);
-*/
             return $latestReport;
         }
-        $newReport = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DanLundgren\DlIponlyestate\Domain\Model\Report');
-        $newReport->setVersion($highestVersion);
+        $newReport = self::createNewReport($highestVersion, $estate, $reportPid);
+        return $newReport;
+        //$newReport = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DanLundgren\DlIponlyestate\Domain\Model\Report');
+        //$newReport->setVersion($highestVersion);
+
 /*        
 \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
  array(
@@ -79,7 +74,87 @@ class ReportUtility {
 */ 
         return $newReport;
     }
-
+    public static function createNewReport($highestVersion, $estate, $reportPid) {
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+        $persistenceManager = $objectManager->get('TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface');
+        $reportRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
+        $report = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DanLundgren\DlIponlyestate\Domain\Model\Report');
+        $report->setVersion($highestVersion);
+		$datetime = new \DateTime();
+		$datetime->format('Y-m-d H:i:s');
+		$report->setDate($datetime);
+		$report->setName($datetime->format('Y-m-d H:i').' Nr: '.$report->getVersion());
+        $report->setIsComplete(false);
+        $report->setPid($reportPid);
+        $report->setExecutiveTechnician($GLOBALS['TSFE']->fe_user->user['uid']);
+        $report->setStartDate($datetime);
+        $report->setReportIsPosted(false);
+        $report->setEstate($estate);
+        $reportRepository->add($report);
+        $persistenceManager->persistAll();	
+        //$this->data['statusMessage'] = $this->data['statusMessage'].' Ny rapport skapad';
+        return $report;
+    }
+    public static function updateReportWithMessages($reportUid, $message='', $purchase='') {
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+        $persistenceManager = $objectManager->get('TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface');
+        $reportRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
+        $purchaseRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\PurchaseRepository');
+        $messageRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\MessageRepository');
+        $purchaseObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DanLundgren\DlIponlyestate\Domain\Model\Purchase');
+        $messageObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DanLundgren\DlIponlyestate\Domain\Model\Message');
+        $report = $reportRepository->findByUid($reportUid);
+        if($purchase != '') {
+            $purchaseObj->setPurchase($purchase);            
+            $report->addPurchase($purchaseObj);
+            $reportRepository->update($report);
+        }
+        if($message != '') {
+            $messageObj->setMessage($message);
+            //$messageRepository->add($messageObj
+            $report->addMessage($messageObj);
+            $reportRepository->update($report);
+        }        
+        $persistenceManager->persistAll();	
+        return $report;
+    }
+    public static function setReportProperties($estateUid, $datetime, $reportUid, $cpUid, $nodeTypeUid, $responsibleTechnician) {
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+        $reportRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
+        $estateRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\EstateRepository');
+        $estate = $estateRepository->findByUid((int) $estateUid);
+        $report = $reportRepository->findByUid((int) $reportUid);
+		$report->setDate($datetime);
+		$report->setName($datetime->format('Y-m-d H:i').' Nr: '.$report->getVersion());
+		$report->setEstate($estate);
+		$report->setControlPoint($cpUid);
+		$report->setNodeType($nodeTypeUid);
+		$report->setResponsibleTechnicians($responsibleTechnician);
+        $report->setExecutiveTechnician($GLOBALS['TSFE']->fe_user->user['uid']);
+        return $report;
+    }
+    public static function updateReport($highestVersion, $estate, $reportPid) {
+        //TODO: MAKE WORK
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+        $persistenceManager = $objectManager->get('TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface');
+        $reportRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
+        $report = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DanLundgren\DlIponlyestate\Domain\Model\Report');
+        $report->setVersion($highestVersion);
+		$datetime = new \DateTime();
+		$datetime->format('Y-m-d H:i:s');
+		$report->setDate($datetime);
+		$report->setName($datetime->format('Y-m-d H:i').' Nr: '.$report->getVersion());
+        $report->setIsComplete(false);
+        $report->setPid($reportPid);
+        $report->setExecutiveTechnician($GLOBALS['TSFE']->fe_user->user['uid']);
+        $report->setStartDate($datetime);
+        $report->setReportIsPosted(false);
+        $report->setEstate($estate);
+        $reportRepository->add($report);
+        $persistenceManager->persistAll();	
+        //$this->data['statusMessage'] = $this->data['statusMessage'].' Ny rapport skapad';
+        return $report;
+    }
     /**
      * action getUnPostedReports
      *

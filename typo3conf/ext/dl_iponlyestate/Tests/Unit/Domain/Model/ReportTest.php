@@ -190,66 +190,6 @@ class ReportTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 	/**
 	 * @test
 	 */
-	public function getNoOfCriticalRemarksReturnsInitialValueForInt()
-	{	}
-
-	/**
-	 * @test
-	 */
-	public function setNoOfCriticalRemarksForIntSetsNoOfCriticalRemarks()
-	{	}
-
-	/**
-	 * @test
-	 */
-	public function getNoOfRemarksReturnsInitialValueForInt()
-	{	}
-
-	/**
-	 * @test
-	 */
-	public function setNoOfRemarksForIntSetsNoOfRemarks()
-	{	}
-
-	/**
-	 * @test
-	 */
-	public function getNoOfOldRemarksReturnsInitialValueForInt()
-	{	}
-
-	/**
-	 * @test
-	 */
-	public function setNoOfOldRemarksForIntSetsNoOfOldRemarks()
-	{	}
-
-	/**
-	 * @test
-	 */
-	public function getNoOfNotesReturnsInitialValueForInt()
-	{	}
-
-	/**
-	 * @test
-	 */
-	public function setNoOfNotesForIntSetsNoOfNotes()
-	{	}
-
-	/**
-	 * @test
-	 */
-	public function getNoOfPurchasesReturnsInitialValueForInt()
-	{	}
-
-	/**
-	 * @test
-	 */
-	public function setNoOfPurchasesForIntSetsNoOfPurchases()
-	{	}
-
-	/**
-	 * @test
-	 */
 	public function getReportIsPostedReturnsInitialValueForBool()
 	{
 		$this->assertSame(
@@ -323,6 +263,66 @@ class ReportTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 			$this->subject
 		);
 	}
+
+	/**
+	 * @test
+	 */
+	public function getNoOfCriticalRemarksReturnsInitialValueForInt()
+	{	}
+
+	/**
+	 * @test
+	 */
+	public function setNoOfCriticalRemarksForIntSetsNoOfCriticalRemarks()
+	{	}
+
+	/**
+	 * @test
+	 */
+	public function getNoOfRemarksReturnsInitialValueForInt()
+	{	}
+
+	/**
+	 * @test
+	 */
+	public function setNoOfRemarksForIntSetsNoOfRemarks()
+	{	}
+
+	/**
+	 * @test
+	 */
+	public function getNoOfOldRemarksReturnsInitialValueForInt()
+	{	}
+
+	/**
+	 * @test
+	 */
+	public function setNoOfOldRemarksForIntSetsNoOfOldRemarks()
+	{	}
+
+	/**
+	 * @test
+	 */
+	public function getNoOfNotesReturnsInitialValueForInt()
+	{	}
+
+	/**
+	 * @test
+	 */
+	public function setNoOfNotesForIntSetsNoOfNotes()
+	{	}
+
+	/**
+	 * @test
+	 */
+	public function getNoOfPurchasesReturnsInitialValueForInt()
+	{	}
+
+	/**
+	 * @test
+	 */
+	public function setNoOfPurchasesForIntSetsNoOfPurchases()
+	{	}
 
 	/**
 	 * @test
@@ -460,5 +460,117 @@ class ReportTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 			'estate',
 			$this->subject
 		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getMessageReturnsInitialValueForMessage()
+	{
+		$newObjectStorage = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+		$this->assertEquals(
+			$newObjectStorage,
+			$this->subject->getMessage()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setMessageForObjectStorageContainingMessageSetsMessage()
+	{
+		$message = new \DanLundgren\DlIponlyestate\Domain\Model\Message();
+		$objectStorageHoldingExactlyOneMessage = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+		$objectStorageHoldingExactlyOneMessage->attach($message);
+		$this->subject->setMessage($objectStorageHoldingExactlyOneMessage);
+
+		$this->assertAttributeEquals(
+			$objectStorageHoldingExactlyOneMessage,
+			'message',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function addMessageToObjectStorageHoldingMessage()
+	{
+		$message = new \DanLundgren\DlIponlyestate\Domain\Model\Message();
+		$messageObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', array('attach'), array(), '', FALSE);
+		$messageObjectStorageMock->expects($this->once())->method('attach')->with($this->equalTo($message));
+		$this->inject($this->subject, 'message', $messageObjectStorageMock);
+
+		$this->subject->addMessage($message);
+	}
+
+	/**
+	 * @test
+	 */
+	public function removeMessageFromObjectStorageHoldingMessage()
+	{
+		$message = new \DanLundgren\DlIponlyestate\Domain\Model\Message();
+		$messageObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', array('detach'), array(), '', FALSE);
+		$messageObjectStorageMock->expects($this->once())->method('detach')->with($this->equalTo($message));
+		$this->inject($this->subject, 'message', $messageObjectStorageMock);
+
+		$this->subject->removeMessage($message);
+
+	}
+
+	/**
+	 * @test
+	 */
+	public function getPurchaseReturnsInitialValueForPurchase()
+	{
+		$newObjectStorage = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+		$this->assertEquals(
+			$newObjectStorage,
+			$this->subject->getPurchase()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setPurchaseForObjectStorageContainingPurchaseSetsPurchase()
+	{
+		$purchase = new \DanLundgren\DlIponlyestate\Domain\Model\Purchase();
+		$objectStorageHoldingExactlyOnePurchase = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+		$objectStorageHoldingExactlyOnePurchase->attach($purchase);
+		$this->subject->setPurchase($objectStorageHoldingExactlyOnePurchase);
+
+		$this->assertAttributeEquals(
+			$objectStorageHoldingExactlyOnePurchase,
+			'purchase',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function addPurchaseToObjectStorageHoldingPurchase()
+	{
+		$purchase = new \DanLundgren\DlIponlyestate\Domain\Model\Purchase();
+		$purchaseObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', array('attach'), array(), '', FALSE);
+		$purchaseObjectStorageMock->expects($this->once())->method('attach')->with($this->equalTo($purchase));
+		$this->inject($this->subject, 'purchase', $purchaseObjectStorageMock);
+
+		$this->subject->addPurchase($purchase);
+	}
+
+	/**
+	 * @test
+	 */
+	public function removePurchaseFromObjectStorageHoldingPurchase()
+	{
+		$purchase = new \DanLundgren\DlIponlyestate\Domain\Model\Purchase();
+		$purchaseObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', array('detach'), array(), '', FALSE);
+		$purchaseObjectStorageMock->expects($this->once())->method('detach')->with($this->equalTo($purchase));
+		$this->inject($this->subject, 'purchase', $purchaseObjectStorageMock);
+
+		$this->subject->removePurchase($purchase);
+
 	}
 }

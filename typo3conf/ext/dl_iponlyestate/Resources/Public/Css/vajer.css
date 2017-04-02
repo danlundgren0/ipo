@@ -4,3 +4,11 @@
 .more-btns {
     
 }
+.input-note  {
+    width:100%;
+    height:100px;
+}
+.input-disabled-note {
+    width:auto;
+    height:auto;
+}

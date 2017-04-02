@@ -1,7 +1,5 @@
-<div>DEBUG: data-questionuid:{question.uid} data-cpuid:{controlPoint.uid} data-reportuid:{reportWithVersion.uid} data-noteuid:{note.uid} notever:{note.version}</div>
-<div class="noteContainer" data-questionuid="{question.uid}" data-nodetypeuid="{controlPoint.nodeType.uid}" data-cpuid="{controlPoint.uid}" data-reportuid="{reportWithVersion.uid}" data-noteuid="{note.uid}" data-notever="{note.version}">
-  <h1>OLD NOTES</h1>
-  
+<div>DEBUG: data-estateuid:{reportWithVersion.estate.uid} data-questionuid:{question.uid}  data-nodetypeuid="{controlPoint.nodeType.uid}" data-cpuid:{controlPoint.uid} data-reportuid:{reportWithVersion.uid} data-noteuid:{note.uid} notever:{note.version}</div>
+<div class="noteContainer" reportuid data-estateuid="{reportWithVersion.estate.uid}" data-questionuid="{question.uid}" data-nodetypeuid="{controlPoint.nodeType.uid}" data-cpuid="{controlPoint.uid}" data-reportuid="{reportWithVersion.uid}" data-noteuid="{note.uid}" data-notever="{note.version}">
     <input type="hidden" name="note" value="1" data-version="-1" />
     <div class="card">
       <div>
@@ -18,7 +16,7 @@
       <div class="card-header" role="tab">
         <h5 class="mb-0">
           <h3>
-            <textarea class="input-note" id="input_{question.uid}_NEW" type="text" value="{note.comment}"></textarea>
+            <textarea class="input-disabled-note" id="input_{question.uid}" type="text" value="{note.comment}" disabled>{note.comment}</textarea>
             <span class="save-btn hidden">
               <button type="button" class="btn btn-success">Spara</button>
             </span>

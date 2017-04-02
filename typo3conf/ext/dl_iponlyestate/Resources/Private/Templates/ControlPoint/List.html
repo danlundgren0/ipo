@@ -16,16 +16,111 @@ Otherwise your changes will be overwritten the next time you save the extension 
 <h1>Här listas alla kontroll punkter för denna fastighet</h1>
 
 <f:flashMessages />
-
-<table  class="tx_dliponlyestate" >
-	<tr>
-		<th>Namn</th>
-	</tr>
-
-	<f:for each="{controlPoints}" as="controlPoint">
-		<tr>
-			<td>{controlPoint.header}</td>
-		</tr>
-	</f:for>
-</table>
+	<input type="hidden" class="hdnReportPid" value="{reportPid}">
+	<f:if condition="{errorCode}!=''">
+		<div class="alert alert-danger" role="alert">
+			<f:translate key="label.errorMess.{errorCode}"></f:translate>
+		</div>
+	</f:if>
+  <div class="col-md-12">
+    <div class="row">
+      <f:comment>
+        <div class="alert alert-danger" role="alert">Här ska visa saved state meddelanden</div>
+      </f:comment>
+      <div class="col-md-12">
+				<f:for each="{reportWithVersion.estate.controlPoints}" as="controlPoint">
+						<h3>{controlPoint.header}</h3>
+						<f:for each="{reportWithVersion.notes}" as="note">
+								<f:if condition="{note.controlPoint.uid}=={controlPoint.uid}">
+									<f:if condition="{note.remarkType}==1">
+										<f:for each="{note.controlPoint.questions}" as="question">
+											<f:if condition="{question.uid}=={note.question}">
+												<div class="label-bold">
+													{question.header}
+													<span class="label-ok">OK
+														<f:if condition="{note.comment}!=''">
+															<span> - {note.comment}</span>
+														</f:if>
+													</span>
+												</div>
+											</f:if>
+										</f:for>
+									</f:if>
+									<f:if condition="{note.remarkType}==2">
+										<f:for each="{note.controlPoint.questions}" as="question">
+											<f:if condition="{question.uid}=={note.question}">
+												<div class="label-bold">
+													{question.header}
+													<span class="label-critical"> - Kritisk
+														<f:if condition="{note.comment}!=''">
+															<span> - {note.comment}</span>
+														</f:if>
+													</span>
+												</div>
+											</f:if>
+										</f:for>
+									</f:if>
+									<f:if condition="{note.remarkType}==3">
+										<f:for each="{note.controlPoint.questions}" as="question">
+											<f:if condition="{question.uid}=={note.question}">
+												<div class="label-bold">
+													{question.header}
+													<span class="label-remark"> - Anmärkning
+														<f:if condition="{note.comment}!=''">
+															<span> - {note.comment}</span>
+														</f:if>
+													</span>
+												</div>
+											</f:if>
+										</f:for>
+									</f:if>
+									<f:if condition="{note.remarkType}==4">
+										<f:for each="{note.controlPoint.questions}" as="question">
+											<f:if condition="{question.uid}=={note.question}">
+												<div class="label-bold">
+													{question.header}
+													<span class="label-ok"> - Inköp
+														<f:if condition="{note.comment}!=''">
+															<span> - {note.comment}</span>
+														</f:if>
+													</span>
+												</div>
+											</f:if>
+										</f:for>
+									</f:if>									
+								</f:if>
+						</f:for>
+				</f:for>
+			</div>
+			<f:comment>
+      <div class="col-md-6">
+				<f:if condition="{reportWithVersion.uid}!=''">
+					<h3>Att köpa in</h3>
+					<div class="saved-purchases">
+						<f:for each="{reportWithVersion.purchase}" as="purchase">
+							<f:render partial="Messages/Purchases" arguments="{data:purchase}" />
+						</f:for>
+					</div>
+					<div class="container-messages">
+						<div class="container-message">
+							<textarea class="input-purchase" id="purchase_{reportWithVersion.uid}" type="text"></textarea>
+						</div>
+						<h3>Att komma ihåg</h3>
+						<div class="saved-messages">
+							<f:for each="{reportWithVersion.message}" as="message">
+								<f:render partial="Messages/Messages" arguments="{data:message}" />
+							</f:for>
+						</div>
+						<div class="container-message">
+							<textarea class="input-message" id="message_{reportWithVersion.uid}" type="text"></textarea>
+						</div>
+						<span class="btn-message hidden">
+							<button type="button" class="btn btn-success" data-remember="message" data-reportUid="{reportWithVersion.uid}">Spara</button>
+						</span>					
+					</div>
+				</f:if>				
+			</div>
+			</f:comment>
+		</div>
+	</div>		
 </f:section>

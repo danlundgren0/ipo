@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2017-03-29T19:13:17Z" product-name="dl_iponlyestate">
+	<file source-language="en" datatype="plaintext" original="messages" date="2017-04-01T10:22:07Z" product-name="dl_iponlyestate">
 		<header/>
 		<body>
 			<trans-unit id="tx_dliponlyestate_domain_model_estate">
@@ -8,6 +8,9 @@
 			</trans-unit>
 			<trans-unit id="tx_dliponlyestate_domain_model_estate.name">
 				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_estate.image">
+				<source>Image</source>
 			</trans-unit>
 			<trans-unit id="tx_dliponlyestate_domain_model_estate.adress">
 				<source>Adress</source>
@@ -117,6 +120,15 @@
 			<trans-unit id="tx_dliponlyestate_domain_model_report.responsible_technicians">
 				<source>Responsible Technicians</source>
 			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.report_is_posted">
+				<source>Report Is Posted</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.start_date">
+				<source>Start Date</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.end_date">
+				<source>End Date</source>
+			</trans-unit>
 			<trans-unit id="tx_dliponlyestate_domain_model_report.no_of_critical_remarks">
 				<source>No Of Critical Remarks</source>
 			</trans-unit>
@@ -132,15 +144,6 @@
 			<trans-unit id="tx_dliponlyestate_domain_model_report.no_of_purchases">
 				<source>No Of Purchases</source>
 			</trans-unit>
-			<trans-unit id="tx_dliponlyestate_domain_model_report.report_is_posted">
-				<source>Report Is Posted</source>
-			</trans-unit>
-			<trans-unit id="tx_dliponlyestate_domain_model_report.start_date">
-				<source>Start Date</source>
-			</trans-unit>
-			<trans-unit id="tx_dliponlyestate_domain_model_report.end_date">
-				<source>End Date</source>
-			</trans-unit>
 			<trans-unit id="tx_dliponlyestate_domain_model_report.dynamic_column">
 				<source>Dynamic Column</source>
 			</trans-unit>
@@ -149,6 +152,12 @@
 			</trans-unit>
 			<trans-unit id="tx_dliponlyestate_domain_model_report.estate">
 				<source>Estate</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.message">
+				<source>Message</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.purchase">
+				<source>Purchase</source>
 			</trans-unit>
 			<trans-unit id="tx_dliponlyestate_domain_model_note">
 				<source>Note</source>
@@ -177,6 +186,21 @@
 			<trans-unit id="tx_dliponlyestate_domain_model_note.control_point">
 				<source>Control Point</source>
 			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_message">
+				<source>Message</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_message.message">
+				<source>Message</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_purchase">
+				<source>Purchase</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_purchase.purchase">
+				<source>Purchase</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.posted_date">
+				<source>Posted Date</source>
+			</trans-unit>
 			<trans-unit id="tx_dliponlyestate_domain_model_report.pid">
 				<source>Pid</source>
 			</trans-unit>
@@ -200,9 +224,6 @@
 			</trans-unit>
 			<trans-unit id="tx_dliponlyestate_domain_model_report.remarks">
 				<source>Remarks</source>
-			</trans-unit>
-			<trans-unit id="tx_dliponlyestate_domain_model_report.purchase">
-				<source>Purchase</source>
 			</trans-unit>
 			<trans-unit id="tx_dliponlyestate_domain_model_report.photos">
 				<source>Photos</source>
@@ -281,6 +302,15 @@
 			</trans-unit>
 			<trans-unit id="tx_dliponlyestate_domain_model_controlpoint.question">
 				<source>Question</source>
+			</trans-unit>
+			<trans-unit id="label.errorMess.noEstate">
+				<source>Fastighet är inte vald. Öppna Control Point och välj fastighet. Om detta är en ny site måste en Estate först skapas i mappen Estate under Storage Folder</source>
+			</trans-unit>
+			<trans-unit id="label.errorMess.noControlPoint">
+				<source>Ingen kontrollpunkt är kopplad till denna fastighet.</source>
+			</trans-unit>
+			<trans-unit id="label.errorMess.noReportPid">
+				<source>Kontroll punkten har inge rapport kopplad.</source>
 			</trans-unit>
 		</body>
 	</file>

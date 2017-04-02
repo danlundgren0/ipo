@@ -91,6 +91,27 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $responsibleTechnicians = 0;
     
     /**
+     * reportIsPosted
+     *
+     * @var bool
+     */
+    protected $reportIsPosted = false;
+    
+    /**
+     * The date when the inspection started
+     *
+     * @var \DateTime
+     */
+    protected $startDate = null;
+    
+    /**
+     * The date when the inspection ended. All remarks has state OK.
+     *
+     * @var \DateTime
+     */
+    protected $endDate = null;
+    
+    /**
      * noOfCriticalRemarks
      *
      * @var int
@@ -126,27 +147,6 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $noOfPurchases = false;
     
     /**
-     * reportIsPosted
-     *
-     * @var bool
-     */
-    protected $reportIsPosted = false;
-    
-    /**
-     * The date when the inspection started
-     *
-     * @var \DateTime
-     */
-    protected $startDate = null;
-    
-    /**
-     * The date when the inspection ended. All remarks has state OK.
-     *
-     * @var \DateTime
-     */
-    protected $endDate = null;
-    
-    /**
      * dynamicColumn
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\DanLundgren\DlIponlyestate\Domain\Model\DynamicColumn>
@@ -170,6 +170,22 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $estate = null;
     
     /**
+     * message
+     *
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\DanLundgren\DlIponlyestate\Domain\Model\Message>
+     * @cascade remove
+     */
+    protected $message = null;
+    
+    /**
+     * purchase
+     *
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\DanLundgren\DlIponlyestate\Domain\Model\Purchase>
+     * @cascade remove
+     */
+    protected $purchase = null;
+    
+    /**
      * __construct
      */
     public function __construct()
@@ -190,6 +206,8 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->dynamicColumn = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
         $this->notes = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        $this->message = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        $this->purchase = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
     }
     
     /**
@@ -703,6 +721,92 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setEstate(\DanLundgren\DlIponlyestate\Domain\Model\Estate $estate)
     {
         $this->estate = $estate;
+    }
+    
+    /**
+     * Adds a Message
+     *
+     * @param \DanLundgren\DlIponlyestate\Domain\Model\Message $message
+     * @return void
+     */
+    public function addMessage(\DanLundgren\DlIponlyestate\Domain\Model\Message $message)
+    {
+        $this->message->attach($message);
+    }
+    
+    /**
+     * Removes a Message
+     *
+     * @param \DanLundgren\DlIponlyestate\Domain\Model\Message $messageToRemove The Message to be removed
+     * @return void
+     */
+    public function removeMessage(\DanLundgren\DlIponlyestate\Domain\Model\Message $messageToRemove)
+    {
+        $this->message->detach($messageToRemove);
+    }
+    
+    /**
+     * Returns the message
+     *
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\DanLundgren\DlIponlyestate\Domain\Model\Message> $message
+     */
+    public function getMessage()
+    {
+        return $this->message;
+    }
+    
+    /**
+     * Sets the message
+     *
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\DanLundgren\DlIponlyestate\Domain\Model\Message> $message
+     * @return void
+     */
+    public function setMessage(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $message)
+    {
+        $this->message = $message;
+    }
+    
+    /**
+     * Adds a Purchase
+     *
+     * @param \DanLundgren\DlIponlyestate\Domain\Model\Purchase $purchase
+     * @return void
+     */
+    public function addPurchase(\DanLundgren\DlIponlyestate\Domain\Model\Purchase $purchase)
+    {
+        $this->purchase->attach($purchase);
+    }
+    
+    /**
+     * Removes a Purchase
+     *
+     * @param \DanLundgren\DlIponlyestate\Domain\Model\Purchase $purchaseToRemove The Purchase to be removed
+     * @return void
+     */
+    public function removePurchase(\DanLundgren\DlIponlyestate\Domain\Model\Purchase $purchaseToRemove)
+    {
+        $this->purchase->detach($purchaseToRemove);
+    }
+    
+    /**
+     * Returns the purchase
+     *
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\DanLundgren\DlIponlyestate\Domain\Model\Purchase> $purchase
+     */
+    public function getPurchase()
+    {
+        return $this->purchase;
+    }
+    
+    /**
+     * Sets the purchase
+     *
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\DanLundgren\DlIponlyestate\Domain\Model\Purchase> $purchase
+     * @return void
+     */
+    public function setPurchase(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $purchase)
+    {
+        $this->purchase = $purchase;
     }
 
 }

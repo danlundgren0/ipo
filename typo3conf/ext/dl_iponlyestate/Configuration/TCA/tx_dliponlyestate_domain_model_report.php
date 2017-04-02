@@ -20,14 +20,14 @@ return array(
 			'starttime' => 'starttime',
 			'endtime' => 'endtime',
 		),
-		'searchFields' => 'name,version,date,is_complete,node_type,control_point,executive_technician,responsible_technicians,no_of_critical_remarks,no_of_remarks,no_of_old_remarks,no_of_notes,no_of_purchases,report_is_posted,start_date,end_date,dynamic_column,notes,estate,',
+		'searchFields' => 'name,version,date,is_complete,node_type,control_point,executive_technician,responsible_technicians,report_is_posted,start_date,end_date,no_of_critical_remarks,no_of_remarks,no_of_old_remarks,no_of_notes,no_of_purchases,dynamic_column,notes,estate,message,purchase,',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('dl_iponlyestate') . 'Resources/Public/Icons/tx_dliponlyestate_domain_model_report.gif'
 	),
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, version, date, is_complete, node_type, control_point, executive_technician, responsible_technicians, no_of_critical_remarks, no_of_remarks, no_of_old_remarks, no_of_notes, no_of_purchases, report_is_posted, start_date, end_date, dynamic_column, notes, estate',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, version, date, is_complete, node_type, control_point, executive_technician, responsible_technicians, report_is_posted, start_date, end_date, no_of_critical_remarks, no_of_remarks, no_of_old_remarks, no_of_notes, no_of_purchases, dynamic_column, notes, estate, message, purchase',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, version, date, is_complete, node_type, control_point, executive_technician, responsible_technicians, no_of_critical_remarks, no_of_remarks, no_of_old_remarks, no_of_notes, no_of_purchases, report_is_posted, start_date, end_date, dynamic_column, notes, estate, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, version, date, is_complete, node_type, control_point, executive_technician, responsible_technicians, report_is_posted, start_date, end_date, no_of_critical_remarks, no_of_remarks, no_of_old_remarks, no_of_notes, no_of_purchases, dynamic_column, notes, estate, message, purchase, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -211,6 +211,38 @@ return array(
 				'eval' => ''
 			),
 		),
+		'report_is_posted' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_report.report_is_posted',
+			'config' => array(
+				'type' => 'check',
+				'default' => 0
+			)
+		),
+		'start_date' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_report.start_date',
+			'config' => array(
+				'dbType' => 'date',
+				'type' => 'input',
+				'size' => 7,
+				'eval' => 'date',
+				'checkbox' => 0,
+				'default' => '0000-00-00'
+			),
+		),
+		'end_date' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_report.end_date',
+			'config' => array(
+				'dbType' => 'date',
+				'type' => 'input',
+				'size' => 7,
+				'eval' => 'date',
+				'checkbox' => 0,
+				'default' => '0000-00-00'
+			),
+		),
 		'no_of_critical_remarks' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_report.no_of_critical_remarks',
@@ -255,38 +287,6 @@ return array(
 				'size' => 4,
 				'eval' => 'int'
 			)
-		),
-		'report_is_posted' => array(
-			'exclude' => 1,
-			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_report.report_is_posted',
-			'config' => array(
-				'type' => 'check',
-				'default' => 0
-			)
-		),
-		'start_date' => array(
-			'exclude' => 1,
-			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_report.start_date',
-			'config' => array(
-				'dbType' => 'date',
-				'type' => 'input',
-				'size' => 7,
-				'eval' => 'date',
-				'checkbox' => 0,
-				'default' => '0000-00-00'
-			),
-		),
-		'end_date' => array(
-			'exclude' => 1,
-			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_report.end_date',
-			'config' => array(
-				'dbType' => 'date',
-				'type' => 'input',
-				'size' => 7,
-				'eval' => 'date',
-				'checkbox' => 0,
-				'default' => '0000-00-00'
-			),
 		),
 		'dynamic_column' => array(
 			'exclude' => 1,
@@ -334,6 +334,42 @@ return array(
 				'minitems' => 0,
 				'maxitems' => 1,
 			),
+		),
+		'message' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_report.message',
+			'config' => array(
+				'type' => 'inline',
+				'foreign_table' => 'tx_dliponlyestate_domain_model_message',
+				'foreign_field' => 'report',
+				'maxitems' => 9999,
+				'appearance' => array(
+					'collapseAll' => 0,
+					'levelLinksPosition' => 'top',
+					'showSynchronizationLink' => 1,
+					'showPossibleLocalizationRecords' => 1,
+					'showAllLocalizationLink' => 1
+				),
+			),
+
+		),
+		'purchase' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_report.purchase',
+			'config' => array(
+				'type' => 'inline',
+				'foreign_table' => 'tx_dliponlyestate_domain_model_purchase',
+				'foreign_field' => 'report',
+				'maxitems' => 9999,
+				'appearance' => array(
+					'collapseAll' => 0,
+					'levelLinksPosition' => 'top',
+					'showSynchronizationLink' => 1,
+					'showPossibleLocalizationRecords' => 1,
+					'showAllLocalizationLink' => 1
+				),
+			),
+
 		),
 		
 	),

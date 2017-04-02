@@ -78,8 +78,9 @@ DanL.Note = {
     },
     saveNote: function() {
         //TODO: Come up with good versioning handling
-        var me = $(this);
+        var me = $(this);        
         var noteObj = $(this).closest('.noteContainer');
+        var estateUid = $(noteObj).attr('data-estateuid'); 
         var questUid = $(noteObj).attr('data-questionuid');
         var noteUid = $(noteObj).attr('data-noteuid');
         var ver = $(noteObj).attr('data-notever');
@@ -88,11 +89,33 @@ DanL.Note = {
         var nodeTypeUid = $(noteObj).attr('data-nodetypeuid');
         var noteText = $(this).closest('.noteContainer').find('.input-note').val();
         var noteState = $(this).closest('.noteContainer').find('.btn-ipaction.active').data('type');
-        
+        console.log('reportUid');
+        console.log(reportUid);
+        console.log('estateUid');
+        console.log(estateUid);
+        console.log('cpUid');
+        console.log(cpUid);
+        console.log('questUid');
+        console.log(questUid);
+        console.log('noteUid');
+        console.log(noteUid);
+        console.log('ver');
+        console.log(ver);
+        console.log('noteText');
+        console.log(noteText);
+        console.log('noteState');
+        console.log(noteState);
+        console.log('reportUid');
+        console.log(reportUid);
+        console.log('nodeTypeUid');
+        console.log(nodeTypeUid);
+        console.log('cpUid');
+        console.log(cpUid);                                                
         
 		DanL.ajax.fetch({
 			command: 'saveNote',
 			arguments: {
+                estateUid: estateUid,
 				cpUid: cpUid,
                 questUid: questUid,
                 noteUid: noteUid,
@@ -146,13 +169,49 @@ DanL.Note = {
         }
         DanL.Note.setReadyForSave(this);
     },
+    saveMessages: function() {
+        var reportUid = $(this).attr('data-reportUid');
+        var purchase = $(this).closest('.container-messages').find('.input-purchase').val();
+        var message = $(this).closest('.container-messages').find('.input-message').val();
+		DanL.ajax.fetch({
+			command: 'saveMessages',
+			arguments: {
+				purchase: purchase,
+                message: message,
+                reportUid: reportUid
+			}
+		}).done(function(data, textStatus, jqXHR) {            
+            $('.saved-messages').html('');
+            $('.saved-purchases').purchases('');
+            $('.input-purchase').val('');
+            $('.input-message').val('');
+            $.each(data.data.message, function(index, value) {                
+                $('.saved-messages').append(value);
+            });
+            $.each(data.data.purchase, function(index, value) {
+                $('.saved-purchases').append(value);
+            });
+		}).fail(function( jqXHR, textStatus, errorThrown ) {
+			console.log('getNewNoteTmpl failed: ' + textStatus);
+		}); 
+    },
+    setMsgButtonState: function() {
+        if($(this).closest('.container-messages').find('.input-purchase').val()=='' && $(this).closest('.container-messages').find('.input-message').val()=='') {
+            $(this).closest('.container-messages').find('.btn-message').addClass('hidden');
+        }
+        else {
+            $(this).closest('.container-messages').find('.btn-message').removeClass('hidden');
+        }        
+    },
 }
 $(function() {    
     $('.input-note').on('change', DanL.Note.setNoteState);
+    $('.input-message,.input-purchase').on('keyup', DanL.Note.setMsgButtonState);
     $('.state-buttons .btn').on('click', DanL.Note.setButtonState);
     $('.save-btn .btn').on('click', DanL.Note.saveNote);
     $('.add-btn .btn').on('click', DanL.Note.addNewNote);
     $('[data-toggle="tab"]').on('click', DanL.Note.getRelatedNotes);
+    $('[data-remember="message"]').on('click', DanL.Note.saveMessages);
 });
 
 /*

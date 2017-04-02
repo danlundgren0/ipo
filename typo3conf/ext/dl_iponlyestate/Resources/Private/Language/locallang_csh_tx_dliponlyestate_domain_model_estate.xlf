@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2017-03-29T19:13:17Z" product-name="dl_iponlyestate">
+	<file source-language="en" datatype="plaintext" original="messages" date="2017-04-01T10:22:07Z" product-name="dl_iponlyestate">
 		<header/>
 		<body>
 			<trans-unit id="name.description">
 				<source>name</source>
+			</trans-unit>
+			<trans-unit id="image.description">
+				<source>image</source>
 			</trans-unit>
 			<trans-unit id="adress.description">
 				<source>adress</source>

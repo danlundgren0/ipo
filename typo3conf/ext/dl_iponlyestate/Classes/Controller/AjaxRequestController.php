@@ -174,8 +174,43 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 		$this->status = TRUE;
 		$this->message = '';
 	}
+	public function saveMessages() {
+		$purchase = $this->arguments['purchase'];
+		$message = $this->arguments['message'];
+		$reportUid = (int)$this->arguments['reportUid'];
+		$report = \DanLundgren\DlIponlyestate\Utility\ReportUtility::updateReportWithMessages($reportUid, $message, $purchase);
+		foreach($report->getPurchase() as $purchase) {
+			$this->data['purchase'][] = self::getHtmlView('EXT:dl_iponlyestate/Resources/Private/Partials/Messages/Purchases.html', $purchase);
+		}
+		foreach($report->getMessage() as $message) {
+			$this->data['message'][] = self::getHtmlView('EXT:dl_iponlyestate/Resources/Private/Partials/Messages/Messages.html', $message);
+		}
+		$this->data['reportUid'] = $reportUid;
+
+	}
+
+	public function getHtmlView($partialPath, $data) {
+		//$ver = (int)$this->arguments['ver']+1;
+		$layoutRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dl_iponlyestate/Resources/Private/Layouts');
+		$partialRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dl_iponlyestate/Resources/Private/Partials');
+		$templatePathAndFilename = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($partialPath);
+		$extensionName = $this->request->getControllerExtensionName();
+		$ajaxRenderHtmlView = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager')->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
+		$ajaxRenderHtmlView->setLayoutRootPath($layoutRootPath);
+		$ajaxRenderHtmlView->setPartialRootPath($partialRootPath);
+		$ajaxRenderHtmlView->setTemplatePathAndFilename($templatePathAndFilename);
+		$ajaxRenderHtmlView->getRequest()->setControllerExtensionName($extensionName);
+		$ajaxRenderHtmlView->assign('data', $data);
+		return $ajaxRenderHtmlView->render();
+		/*
+		$this->data['response'] = $ajaxRenderHtmlView->render();
+		$this->status = TRUE;
+		$this->message = '';
+		*/
+	}
 	public function saveNote() {
 		//TODO: Come up with good versioning handling
+		$estateUid = (int)$this->arguments['estateUid'];
 		$cpUid = (int)$this->arguments['cpUid'];
 		$questUid = (int)$this->arguments['questUid'];
 		$noteUid = (int)$this->arguments['noteUid'];
@@ -184,14 +219,13 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 		$noteState = $this->arguments['noteState'];
 		$reportUid = $this->arguments['reportUid'];
 		$nodeTypeUid = $this->arguments['nodeTypeUid'];
+
 		$reportIsNew = NULL;
-		//$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-		//$controlPointRepository = $this->objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ControlPointRepository');
-		//$questionRepository = $this->objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\QuestionRepository');
-		$controlPoint = $this->controlPointRepository->findByUid($this->arguments['cpUid']);
-		$question = $this->questionRepository->findByUid($this->arguments['questUid']);
+		$controlPoint = $this->controlPointRepository->findByUid($cpUid);
+		$question = $this->questionRepository->findByUid($questUid);
 		$questions = $controlPoint->getQuestions();
 
+		$this->data['estateUid'] = $estateUid;
 		$this->data['cpUid'] = $cpUid;
 		$this->data['questUid'] = $questUid;
 		$this->data['noteUid'] = $noteUid;
@@ -201,6 +235,7 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 		$this->data['reportUid'] = $reportUid;
 		$this->data['nodeTypeUid'] = $nodeTypeUid;
 
+		/*
 		if($reportUid>0) {
 			$report = $this->reportRepository->findByUid($reportUid);
 			$reportIsNew = FALSE;			
@@ -212,6 +247,7 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 			$reportIsNew = TRUE;
 			//$this->data['reportUID'] = $report->getUid();
 		}
+		*/
 
 
 		//TODO: Set real Version not hardcoded
@@ -219,28 +255,18 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 		//$report->setQuestionId($questUid);
 		$datetime = new \DateTime();
 		$datetime->format('Y-m-d H:i:s');
+		/*
 		$report->setDate($datetime);
 		$report->setName($datetime->format('Y-m-d H:i').' Nr: '.$report->getVersion());
 		//TODO: Add Estate id to report to know which site it belongs to
-
-		
-		$estateId = (int)$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dliponlyestate.']['persistence.']['estateId'];		
-		$estate = $this->estateRepository->findByUid($estateId);
-		$report->setEstate($estateId);
-		
-		//$report->setControlPoint($cp);
+		$estate = $this->estateRepository->findByUid($estateUid);
+		$report->setEstate($estateUid);
 		$report->setControlPoint($cpUid);
 		$report->setNodeType($nodeTypeUid);
-		$report->setResponsibleTechnicians($controlPoint->getResponsibleTechnician());
-		$report->setResponsibleTechnicians($controlPoint->getResponsibleTechnician());
-		
-		$reportPid = (int)$GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dliponlyestate.']['persistence.']['reportPid'];
-		$report->setPid($reportPid);
-		//Add IsComplete also as property in note to make it easer to check
-		//$report->setIsComplete(0);
-		//$report->setTechnician($GLOBALS['TSFE']->fe_user->user['first_name'].' '.$GLOBALS['TSFE']->fe_user->user['last_name']);
 		$report->setExecutiveTechnician($GLOBALS['TSFE']->fe_user->user['uid']);
-		
+		*/
+		$responsibleTechnician = $controlPoint->getResponsibleTechnician();
+		$report = \DanLundgren\DlIponlyestate\Utility\ReportUtility::setReportProperties($estateUid, $datetime, $reportUid, $cpUid, $nodeTypeUid, $responsibleTechnician);		
 		$note = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DanLundgren\DlIponlyestate\Domain\Model\Note');
 		$newVerNo = -2;
 		foreach($report->getNotes() as $prevNote) {
@@ -283,7 +309,16 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 		//$this->reportRepository->update($report);
 		//$this->reportRepository->update($report);
 		//$this->persistenceManager->persistAll();
-		//$question->addReport($report);		
+		//$question->addReport($report);
+
+\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
+ array(
+  'class' => __CLASS__,
+  'function' => __FUNCTION__,
+  'report' => $report,
+ )
+);		
+
 		$this->data['comment'] = $note->getComment();
 		$this->data['note'] = $note->getState();
 		$this->status = TRUE;

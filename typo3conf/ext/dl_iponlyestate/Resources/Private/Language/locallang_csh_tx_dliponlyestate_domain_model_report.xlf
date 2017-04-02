@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2017-03-29T19:13:17Z" product-name="dl_iponlyestate">
+	<file source-language="en" datatype="plaintext" original="messages" date="2017-04-01T10:22:07Z" product-name="dl_iponlyestate">
 		<header/>
 		<body>
 			<trans-unit id="name.description">
@@ -27,6 +27,15 @@
 			<trans-unit id="responsible_technicians.description">
 				<source>responsibleTechnicians</source>
 			</trans-unit>
+			<trans-unit id="report_is_posted.description">
+				<source>reportIsPosted</source>
+			</trans-unit>
+			<trans-unit id="start_date.description">
+				<source>The date when the inspection started</source>
+			</trans-unit>
+			<trans-unit id="end_date.description">
+				<source>The date when the inspection ended. All remarks has state OK.</source>
+			</trans-unit>
 			<trans-unit id="no_of_critical_remarks.description">
 				<source>noOfCriticalRemarks</source>
 			</trans-unit>
@@ -42,15 +51,6 @@
 			<trans-unit id="no_of_purchases.description">
 				<source>noOfPurchases</source>
 			</trans-unit>
-			<trans-unit id="report_is_posted.description">
-				<source>reportIsPosted</source>
-			</trans-unit>
-			<trans-unit id="start_date.description">
-				<source>The date when the inspection started</source>
-			</trans-unit>
-			<trans-unit id="end_date.description">
-				<source>The date when the inspection ended. All remarks has state OK.</source>
-			</trans-unit>
 			<trans-unit id="dynamic_column.description">
 				<source>dynamicColumn</source>
 			</trans-unit>
@@ -59,6 +59,15 @@
 			</trans-unit>
 			<trans-unit id="estate.description">
 				<source>estate</source>
+			</trans-unit>
+			<trans-unit id="message.description">
+				<source>message</source>
+			</trans-unit>
+			<trans-unit id="purchase.description">
+				<source>purchase</source>
+			</trans-unit>
+			<trans-unit id="posted_date.description">
+				<source>postedDate</source>
 			</trans-unit>
 			<trans-unit id="pid.description">
 				<source>pid</source>
@@ -80,9 +89,6 @@
 			</trans-unit>
 			<trans-unit id="remarks.description">
 				<source>remarks</source>
-			</trans-unit>
-			<trans-unit id="purchase.description">
-				<source>purchase</source>
 			</trans-unit>
 			<trans-unit id="photos.description">
 				<source>photos</source>
