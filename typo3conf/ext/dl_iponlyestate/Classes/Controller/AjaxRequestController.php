@@ -310,7 +310,7 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 		//$this->reportRepository->update($report);
 		//$this->persistenceManager->persistAll();
 		//$question->addReport($report);
-
+/*
 \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
  array(
   'class' => __CLASS__,
@@ -318,7 +318,7 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
   'report' => $report,
  )
 );		
-
+*/
 		$this->data['comment'] = $note->getComment();
 		$this->data['note'] = $note->getState();
 		$this->status = TRUE;
