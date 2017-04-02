@@ -4,6 +4,13 @@
 //);
 //$GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['estate']['config']['foreign_table']
 
+$GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['types'] = array(
+	'1' => array('showitem' => '
+        sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, version, estate, date, start_date, end_date, is_complete, control_point, node_type, control_point, executive_technician, responsible_technicians, report_is_posted, no_of_critical_remarks, no_of_remarks, no_of_old_remarks, no_of_notes, no_of_purchases, dynamic_column, message, purchase,
+		--div--;Notes, notes,
+		--div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime
+	'),
+);
 $GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['estate']['config']['type'] = 'select';
 $GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['estate']['config']['foreign_table'] = 'tx_dliponlyestate_domain_model_estate';
 $GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['estate']['config']['foreign_table_where'] = 'AND tx_dliponlyestate_domain_model_estate.hidden = 0 AND tx_dliponlyestate_domain_model_estate.deleted = 0 ORDER BY tx_dliponlyestate_domain_model_estate.name';
@@ -59,3 +66,5 @@ $GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['executive_t
 $GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['executive_technician']['config']['minitems'] = 1;
 $GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['executive_technician']['config']['maxitems'] = 1;
 $GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['executive_technician']['config']['size'] = 1;
+
+$GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['notes']['config']['appearance']['collapseAll'] = 1;
