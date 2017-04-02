@@ -87,7 +87,9 @@ Otherwise your changes will be overwritten the next time you save the extension 
     <div class="unpostedNotes">
       <f:for each="{reportWithVersion.notes}" as="note">
         <f:if condition="{note.controlPoint.uid} == {controlPoint.uid}">
+            <f:comment>
             <div>note.question: {note.question} question.uid: {question.uid}</div>
+            </f:comment>
             <f:render partial="Report/ReportedNote" arguments="{nextVersion:nextVersion, question:question, controlPoint:controlPoint, reportWithVersion:reportWithVersion, note:note}" />
         </f:if>
       </f:for>

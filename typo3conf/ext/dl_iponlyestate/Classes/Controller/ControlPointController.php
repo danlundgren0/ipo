@@ -94,6 +94,7 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
         $curReportWithVersion = ReportUtil::getLatestOrNewReport($reportPid, $estate);
         $this->view->assign('reportWithVersion', $curReportWithVersion);
         $this->view->assign('reportPid', $reportPid);
+        /*
         \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
             array(
                 'class' => __CLASS__,
@@ -101,6 +102,7 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                 'curReportWithVersion' => $curReportWithVersion
             )
         );
+        */
     }
     
     /**
@@ -138,6 +140,7 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
         $curReportWithVersion = ReportUtil::getLatestOrNewReport($reportPid, $estate);
         $unPostedReports = ReportUtil::getUnPostedReports($reports);
         $postedReports = ReportUtil::getPostedReports($reports);
+        /*
         \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
             array(
                 'class' => __CLASS__,
@@ -147,6 +150,7 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                 'unPostedReports' => $unPostedReports,
             )
         );
+        */
         if (count($unPostedReports) > 1) {
             $errorMess = 'You have ' . $noOfUnPostedReports . ' unposted reports. Only one is valid.';
         } else {

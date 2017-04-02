@@ -1,3 +1,4 @@
+<f:comment>
 <div>DEBUG: data-estateuid:{reportWithVersion.estate.uid} data-questionuid:{question.uid}  data-nodetypeuid="{controlPoint.nodeType.uid}" data-cpuid:{controlPoint.uid} data-reportuid:{reportWithVersion.uid} data-noteuid:{note.uid} notever:{note.version}</div>
 <div class="noteContainer" reportuid data-estateuid="{reportWithVersion.estate.uid}" data-questionuid="{question.uid}" data-nodetypeuid="{controlPoint.nodeType.uid}" data-cpuid="{controlPoint.uid}" data-reportuid="{reportWithVersion.uid}" data-noteuid="{note.uid}" data-notever="{note.version}">
     <input type="hidden" name="note" value="1" data-version="-1" />
@@ -29,3 +30,5 @@
   </div>
   
 </div>
+</f:comment>
+<textarea class="input-disabled-note" id="input_{question.uid}" type="text" value="{note.comment}" disabled>{note.comment}</textarea>
