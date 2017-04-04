@@ -202,11 +202,13 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 		$ajaxRenderHtmlView->getRequest()->setControllerExtensionName($extensionName);
 		$ajaxRenderHtmlView->assign('data', $data);
 		return $ajaxRenderHtmlView->render();
-		/*
-		$this->data['response'] = $ajaxRenderHtmlView->render();
-		$this->status = TRUE;
-		$this->message = '';
-		*/
+	}
+	public function saveReport() {
+		$reportUid = $this->arguments['reportUid'];
+		$report = \DanLundgren\DlIponlyestate\Utility\ReportUtility::saveReport($reportUid);
+		$this->data['message'] = ($report->getReportIsPosted())?'Rapporten är inskickad':'Ett fel uppstod. Rapporten sparades ej.'; 
+		$this->data['isPosted'] =  $report->getReportIsPosted();
+		$this->data['datetime'] =  $report->getDate($datetime);
 	}
 	public function saveNote() {
 		//TODO: Come up with good versioning handling
@@ -219,6 +221,7 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 		$noteState = $this->arguments['noteState'];
 		$reportUid = $this->arguments['reportUid'];
 		$nodeTypeUid = $this->arguments['nodeTypeUid'];
+		$reportPid = $this->arguments['reportPid'];
 
 		$reportIsNew = NULL;
 		$controlPoint = $this->controlPointRepository->findByUid($cpUid);
@@ -234,69 +237,27 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 		$this->data['noteState'] = $noteState;
 		$this->data['reportUid'] = $reportUid;
 		$this->data['nodeTypeUid'] = $nodeTypeUid;
-
-		/*
-		if($reportUid>0) {
-			$report = $this->reportRepository->findByUid($reportUid);
-			$reportIsNew = FALSE;			
-		}		
-		if(!$report || count($report)<=0) {
-			//$reportRepository = $this->objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
-			$report = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DanLundgren\DlIponlyestate\Domain\Model\Report');
-			$report->setVersion(1);
-			$reportIsNew = TRUE;
-			//$this->data['reportUID'] = $report->getUid();
-		}
-		*/
-
-
-		//TODO: Set real Version not hardcoded
-		
-		//$report->setQuestionId($questUid);
+		$this->data['reportPid'] = $reportPid;
 		$datetime = new \DateTime();
 		$datetime->format('Y-m-d H:i:s');
-		/*
-		$report->setDate($datetime);
-		$report->setName($datetime->format('Y-m-d H:i').' Nr: '.$report->getVersion());
-		//TODO: Add Estate id to report to know which site it belongs to
-		$estate = $this->estateRepository->findByUid($estateUid);
-		$report->setEstate($estateUid);
-		$report->setControlPoint($cpUid);
-		$report->setNodeType($nodeTypeUid);
-		$report->setExecutiveTechnician($GLOBALS['TSFE']->fe_user->user['uid']);
-		*/
-		$responsibleTechnician = $controlPoint->getResponsibleTechnician();
-		$report = \DanLundgren\DlIponlyestate\Utility\ReportUtility::setReportProperties($estateUid, $datetime, $reportUid, $cpUid, $nodeTypeUid, $responsibleTechnician);		
-		$note = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DanLundgren\DlIponlyestate\Domain\Model\Note');
-		$newVerNo = -2;
-		foreach($report->getNotes() as $prevNote) {
-			if($prevNote->getVersion()>(int)$tmpVerNo && $prevNote->getQuestion()==$questUid) {
-				$newVerNo = $prevNote->getVersion();
-			}
-		}
-		$cp = $this->controlPointRepository->findByUid($cpUid);
-		$note->setControlPoint($cp);
-		$note->setVersion($newVerNo+=1);
-		$note->setRemarkType($noteState);
-		$note->setComment($noteText);
-		$note->setState($noteState);
-		if($note->getState()=='ok') {
-			$note->setIsComplete(1);
-		}
 
-		$note->setQuestion($questUid);
-		//TODO: Same PID as report
-		$note->setPid($reportPid);
-		if($noteUid == '-1') {
-			$report->addNote($note);
-			$note->setVersion(1);	
-			$this->data['statusMessage'] = $this->data['statusMessage'].' Ny anmärkning skapad ';
+		$estate = $this->estateRepository->findByUid($estateUid);
+		$responsibleTechnician = $controlPoint->getResponsibleTechnician();
+		if(!$reportUid) {
+			$report = \DanLundgren\DlIponlyestate\Utility\ReportUtility::getLatestOrNewReport($reportPid, $estate, true);
+			$reportUid = $report->getUid();
+		}
+		if((int)$reportUid>0) {
+			$report = \DanLundgren\DlIponlyestate\Utility\ReportUtility::setReportProperties($estateUid, $datetime, $reportUid, $cpUid, $nodeTypeUid, $responsibleTechnician);	
+			$note = \DanLundgren\DlIponlyestate\Utility\ReportUtility::saveNote($report, $cpUid, $questUid, $noteUid, $noteText, $noteState);	
+			$this->data['comment'] = $note->getComment();
+			$this->data['note'] = $note->getState();	
 		}
 		else {
-			$report->update($note);
-			$this->data['statusMessage'] = $this->data['statusMessage'].' Anmärkning sparad ';
-			//$note->setVersion($newVerNo+=1);	
+			$this->data['error'] = 'No reportuid';	
 		}		
+		
+		/*		
 		if(reportIsNew) {
 			$this->reportRepository->add($report);	
 			$this->data['statusMessage'] = $this->data['statusMessage'].' Ny rapport skapad';
@@ -305,22 +266,13 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 			$this->reportRepository->update($report);	
 			$this->data['statusMessage'] = $this->data['statusMessage'].' Rapport sparad';
 		}
+		*/
 		//$this->reportRepository->add($report);
 		//$this->reportRepository->update($report);
 		//$this->reportRepository->update($report);
 		//$this->persistenceManager->persistAll();
 		//$question->addReport($report);
-/*
-\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
- array(
-  'class' => __CLASS__,
-  'function' => __FUNCTION__,
-  'report' => $report,
- )
-);		
-*/
-		$this->data['comment'] = $note->getComment();
-		$this->data['note'] = $note->getState();
+
 		$this->status = TRUE;
 		$this->message = '';
 		

@@ -76,6 +76,34 @@ DanL.Note = {
             console.log('Not visible');
         }
     },
+    saveReport: function() {
+        var reportUid = $(this).attr('data-reportuid'); 
+		DanL.ajax.fetch({
+			command: 'saveReport',
+			arguments: {
+                reportUid: reportUid
+			}
+		}).done(function(data, textStatus, jqXHR) {
+            //var me = $(this);
+            //$(me).closest('.col-md-8').append(data.data.response);
+            //$('me').closest('.noteContainer').find('.input-note').on('change', DanL.Note.setNoteState);
+            //$('me').closest('.noteContainer').find('.state-buttons .btn').on('click', DanL.Note.setButtonState);
+            //$('me').closest('.noteContainer').find('.save-btn .btn').on('click', DanL.Note.saveNote);
+            //$('me').closest('.noteContainer').find('.add-btn .btn').on('click', DanL.Note.addNewNote);
+            //$(me).addClass('disabled');
+            console.log(data);
+            $('.btn-ip-post-report').addClass('hidden');
+		}).fail(function( jqXHR, textStatus, errorThrown ) {
+			console.log('getNewNoteTmpl failed: ' + textStatus);
+		});
+        if($(this).hasClass('disabled')) {
+            return;
+        }
+        //$(this).closest('.noteContainer').find('.btn-ipaction').removeClass('active').addClass('disabled');
+        //$(this).addClass('disabled');
+        //$(this).closest('.noteContainer').find('.input-note').attr('disabled','disabled');
+        //$(this).closest('.noteContainer').find('.add-btn').removeClass('hidden');
+    },
     saveNote: function() {
         //TODO: Come up with good versioning handling
         var me = $(this);        
@@ -89,29 +117,7 @@ DanL.Note = {
         var nodeTypeUid = $(noteObj).attr('data-nodetypeuid');
         var noteText = $(this).closest('.noteContainer').find('.input-note').val();
         var noteState = $(this).closest('.noteContainer').find('.btn-ipaction.active').data('type');
-        console.log('reportUid');
-        console.log(reportUid);
-        console.log('estateUid');
-        console.log(estateUid);
-        console.log('cpUid');
-        console.log(cpUid);
-        console.log('questUid');
-        console.log(questUid);
-        console.log('noteUid');
-        console.log(noteUid);
-        console.log('ver');
-        console.log(ver);
-        console.log('noteText');
-        console.log(noteText);
-        console.log('noteState');
-        console.log(noteState);
-        console.log('reportUid');
-        console.log(reportUid);
-        console.log('nodeTypeUid');
-        console.log(nodeTypeUid);
-        console.log('cpUid');
-        console.log(cpUid);                                                
-        
+        var reportPid  = $('#reportPid').val();
 		DanL.ajax.fetch({
 			command: 'saveNote',
 			arguments: {
@@ -123,7 +129,8 @@ DanL.Note = {
                 noteText: noteText,
                 noteState: noteState,
                 reportUid: reportUid,
-                nodeTypeUid: nodeTypeUid
+                nodeTypeUid: nodeTypeUid,
+                reportPid: reportPid
 			}
 		}).done(function(data, textStatus, jqXHR) {
             var me = $(this);
@@ -133,6 +140,7 @@ DanL.Note = {
             $('me').closest('.noteContainer').find('.save-btn .btn').on('click', DanL.Note.saveNote);
             $('me').closest('.noteContainer').find('.add-btn .btn').on('click', DanL.Note.addNewNote);
             $(me).addClass('disabled');
+            $('.btn-ip-post-report').removeClass('hidden');
             console.log(data);
 		}).fail(function( jqXHR, textStatus, errorThrown ) {
 			console.log('getNewNoteTmpl failed: ' + textStatus);
@@ -212,6 +220,8 @@ $(function() {
     $('.add-btn .btn').on('click', DanL.Note.addNewNote);
     $('[data-toggle="tab"]').on('click', DanL.Note.getRelatedNotes);
     $('[data-remember="message"]').on('click', DanL.Note.saveMessages);
+    $('.btn-ip-post-report').on('click', DanL.Note.saveReport);
+    
 });
 
 /*

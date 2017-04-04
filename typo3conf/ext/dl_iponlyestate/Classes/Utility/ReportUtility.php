@@ -33,13 +33,28 @@ namespace DanLundgren\DlIponlyestate\Utility;
 class ReportUtility {
 
     /**
-     * action getUnPostedReports
+     * action getLatestOrNewReport
      *
      * @param \DanLundgren\DlIponlyestate\Domain\Model\Report $reports
      * @param \DanLundgren\DlIponlyestate\Domain\Model\Report $estate
      * @return \DanLundgren\DlIponlyestate\Domain\Model\Report $reports
      */ 
-    public static function getLatestOrNewReport($reportPid, $estate) {
+    public static function getLatestOrNewReport($reportPid, $estate, $persistIt=false) {
+        $storagePids = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dliponlyestate.']['persistence.']['storagePid'];
+        $storagePidArr = array();
+        if(strlen($storagePids)>0) {
+            $storagePidArr = explode(',', $storagePids);
+        }
+        if(!in_array($reportPid, $storagePidArr)) {
+\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
+ array(
+  'class' => __CLASS__,
+  'function' => __FUNCTION__,
+  'ERROR' => 'Storage Id saknas',
+ )
+);
+            return NULL;
+        }
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
         $reportRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
         $reportPid = (int)$reportPid;
@@ -49,15 +64,20 @@ class ReportUtility {
         foreach($allReports as $report) {
             if((int)$report->getVersion()>(int)$highestVersion) {
                 $highestVersion = (int)$report->getVersion();
-                $latestReport = $report;
+                if($report->getReportIsPosted() && !$report->getIsComplete()) {
+                    $startDate = $report->getStartDate();
+                }
+                $latestReport = $report;                
             }
         }        
         $highestVersion=($highestVersion==-1)?1:$highestVersion+=1;
-        if($latestReport && !$latestReport->getIsComplete()) {
+        if($latestReport && !$latestReport->getIsComplete() && !$latestReport->getReportIsPosted()) {
             return $latestReport;
         }
-        $newReport = self::createNewReport($highestVersion, $estate, $reportPid);
+        //TODO: Check so reportPid constant is set
+        $newReport = self::createNewReport($highestVersion, $estate, $reportPid, $startDate, $persistIt);
         return $newReport;
+        
         //$newReport = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DanLundgren\DlIponlyestate\Domain\Model\Report');
         //$newReport->setVersion($highestVersion);
 
@@ -74,7 +94,7 @@ class ReportUtility {
 */ 
         return $newReport;
     }
-    public static function createNewReport($highestVersion, $estate, $reportPid) {
+    public static function createNewReport($highestVersion, $estate, $reportPid, $startDate=null, $persistIt=false) {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
         $persistenceManager = $objectManager->get('TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface');
         $reportRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
@@ -87,11 +107,19 @@ class ReportUtility {
         $report->setIsComplete(false);
         $report->setPid($reportPid);
         $report->setExecutiveTechnician($GLOBALS['TSFE']->fe_user->user['uid']);
-        $report->setStartDate($datetime);
+        if($startDate) {
+            $report->setStartDate($startDate);    
+        }
+        else {
+            $report->setStartDate($datetime);
+        }        
         $report->setReportIsPosted(false);
         $report->setEstate($estate);
-        $reportRepository->add($report);
-        $persistenceManager->persistAll();	
+        if($persistIt) {
+            $reportRepository->add($report);
+            $persistenceManager->persistAll();	
+        }
+
         //$this->data['statusMessage'] = $this->data['statusMessage'].' Ny rapport skapad';
         return $report;
     }
@@ -133,27 +161,73 @@ class ReportUtility {
         $report->setExecutiveTechnician($GLOBALS['TSFE']->fe_user->user['uid']);
         return $report;
     }
-    public static function updateReport($highestVersion, $estate, $reportPid) {
-        //TODO: MAKE WORK
+    public static function saveReport($reportUid) {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
         $persistenceManager = $objectManager->get('TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface');
         $reportRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
-        $report = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DanLundgren\DlIponlyestate\Domain\Model\Report');
-        $report->setVersion($highestVersion);
-		$datetime = new \DateTime();
+        $report = $reportRepository->findByUid((int) $reportUid);
+        $datetime = new \DateTime();
 		$datetime->format('Y-m-d H:i:s');
-		$report->setDate($datetime);
-		$report->setName($datetime->format('Y-m-d H:i').' Nr: '.$report->getVersion());
-        $report->setIsComplete(false);
-        $report->setPid($reportPid);
-        $report->setExecutiveTechnician($GLOBALS['TSFE']->fe_user->user['uid']);
-        $report->setStartDate($datetime);
-        $report->setReportIsPosted(false);
-        $report->setEstate($estate);
-        $reportRepository->add($report);
-        $persistenceManager->persistAll();	
-        //$this->data['statusMessage'] = $this->data['statusMessage'].' Ny rapport skapad';
+        $report->setDate($datetime);
+        $report->setReportIsPosted(true);
+        $reportRepository->update($report);
+        $persistenceManager->persistAll();
         return $report;
+    }
+    public static function saveNote($report, $cpUid, $questUid, $noteUid, $noteText, $noteState) {
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+        $persistenceManager = $objectManager->get('TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface');
+        $reportRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
+        $controlPointRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ControlPointRepository');
+        $note = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DanLundgren\DlIponlyestate\Domain\Model\Note');
+		$newVerNo = -2;
+		foreach($report->getNotes() as $prevNote) {
+			if($prevNote->getVersion()>$newVerNo && $prevNote->getQuestion()==$questUid) {
+				$newVerNo = $prevNote->getVersion();
+			}
+		}
+		$cp = $controlPointRepository->findByUid($cpUid);
+		$note->setControlPoint($cp);
+        $newVerNo+=1;       
+        if($newVerNo<0) {
+            $note->setVersion(1);    
+        }
+        else {
+            $note->setVersion($newVerNo);    
+        }
+		//$note->setVersion($newVerNo+=1);
+		$note->setRemarkType($noteState);
+		$note->setComment($noteText);
+		$note->setState($noteState);
+		if($note->getState()=='ok') {
+			$note->setIsComplete(1);
+		}
+
+		$note->setQuestion($questUid);
+		$note->setPid($report->getPid());
+        $report->addNote($note);
+        if($report->getUid()==NULL) {
+            $reportRepository->add($report);
+        }
+        else {
+            $reportRepository->update($report);
+        }
+        $persistenceManager->persistAll();
+        return $note;
+        /*
+		if($noteUid == '-1') {
+			$report->addNote($note);
+			$note->setVersion(1);	
+			$this->data['statusMessage'] = $this->data['statusMessage'].' Ny anmärkning skapad ';
+		}
+		else {
+			//$report->update($note);
+			$this->data['statusMessage'] = $this->data['statusMessage'].' Anmärkning sparad ';
+			//$note->setVersion($newVerNo+=1);	
+		}
+        */
+        //$reportRepository->add($report);
+        //$persistenceManager->persistAll();
     }
     /**
      * action getUnPostedReports
@@ -161,31 +235,26 @@ class ReportUtility {
      * @param \DanLundgren\DlIponlyestate\Domain\Model\Report $reports
      * @return array
      */    
-    public static function getUnPostedReports($reports) {
-        $unPostedReports = array();
-        if($reports) {
-            foreach($reports as $report) {                
-                if(!$report->getReportIsPosted()) {
-                    $unPostedReports[] = $report;
-                }
-            }
-        }
-        return $unPostedReports;
+    public static function getUnPostedReports($reportPid, $estate, $startDate) {
+
     }
 
     /**
-     * action getUnPostedReports
+     * action getPostedReports
      *
      * @param \DanLundgren\DlIponlyestate\Domain\Model\Report $reports
      * @return array
      */    
-    public static function getPostedReports($reports) {
+    public static function getPostedReports($reportPid, $estate, $startDate) {
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+        $reportRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
+        $allReports = $reportRepository->findByPid($reportPid); 
+
+
         $postedReports = array();
-        if($reports) {
-            foreach($reports as $report) {                
-                if($report->getReportIsPosted()) {
-                    $postedReports[] = $report;
-                }
+        foreach($allReports as $report) {
+            if($report->getStartDate() == $startDate) {
+                $postedReports[] = $report;
             }
         }
         return $postedReports;

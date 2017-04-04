@@ -136,21 +136,11 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
         $controlPoint = $this->controlPointRepository->findByUid((int) $this->settings['ControlPoint']);
         $estate = $this->estateRepository->findByUid((int) $estateId);
         //TODO: Om rapportens getIsCompleted = FALSE: returnera samma versionsnr, Om TRUE: Returnera versionnr+1
-        //$curReportWithVersion = ReportUtil::getLatestOrNewReport($reportPid);
         $curReportWithVersion = ReportUtil::getLatestOrNewReport($reportPid, $estate);
-        $unPostedReports = ReportUtil::getUnPostedReports($reports);
-        $postedReports = ReportUtil::getPostedReports($reports);
+        if($curReportWithVersion && $curReportWithVersion->getStartDate() !== null) {
+            $postedReports = ReportUtil::getPostedReports($reportPid, $estate, $curReportWithVersion->getStartDate());
+        }
         /*
-        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
-            array(
-                'class' => __CLASS__,
-                'function' => __FUNCTION__,
-                'controlPoint' => $controlPoint,
-                'curReportWithVersion' => $curReportWithVersion,
-                'unPostedReports' => $unPostedReports,
-            )
-        );
-        */
         if (count($unPostedReports) > 1) {
             $errorMess = 'You have ' . $noOfUnPostedReports . ' unposted reports. Only one is valid.';
         } else {
@@ -158,13 +148,15 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                 $report = ReportUtil::getNextVersionNumber($reports);
             }
         }
-        $unPostedReport = $unPostedReports[count($unPostedReports) - 1];
+        */
+        //$unPostedReport = $unPostedReports[count($unPostedReports) - 1];
         
         $this->view->assign('reportWithVersion', $curReportWithVersion);
         $this->view->assign('unPostedReport', $unPostedReport);
         $this->view->assign('postedReports', $postedReports);
         $this->view->assign('errorMess', $errorMess);
         $this->view->assign('controlPoint', $controlPoint);
+        $this->view->assign('reportPid', $reportPid);
     }
 
 }
