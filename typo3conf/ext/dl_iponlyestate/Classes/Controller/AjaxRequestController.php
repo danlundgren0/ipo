@@ -210,6 +210,11 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 		$this->data['isPosted'] =  $report->getReportIsPosted();
 		$this->data['datetime'] =  $report->getDate($datetime);
 	}
+	public function saveNoteFixed() {
+		$noteUids = json_decode($this->arguments['noteUids']);
+		$success = \DanLundgren\DlIponlyestate\Utility\ReportUtility::saveNoteFixed($noteUids);
+		$this->data['noteUids'] = $noteUids;
+	}
 	public function saveNote() {
 		//TODO: Come up with good versioning handling
 		$estateUid = (int)$this->arguments['estateUid'];
@@ -227,17 +232,6 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 		$controlPoint = $this->controlPointRepository->findByUid($cpUid);
 		$question = $this->questionRepository->findByUid($questUid);
 		$questions = $controlPoint->getQuestions();
-
-		$this->data['estateUid'] = $estateUid;
-		$this->data['cpUid'] = $cpUid;
-		$this->data['questUid'] = $questUid;
-		$this->data['noteUid'] = $noteUid;
-		$this->data['curVer'] = $curVer;
-		$this->data['noteText'] = $noteText;
-		$this->data['noteState'] = $noteState;
-		$this->data['reportUid'] = $reportUid;
-		$this->data['nodeTypeUid'] = $nodeTypeUid;
-		$this->data['reportPid'] = $reportPid;
 		$datetime = new \DateTime();
 		$datetime->format('Y-m-d H:i:s');
 
@@ -255,31 +249,18 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 		}
 		else {
 			$this->data['error'] = 'No reportuid';	
-		}		
-		
-		/*		
-		if(reportIsNew) {
-			$this->reportRepository->add($report);	
-			$this->data['statusMessage'] = $this->data['statusMessage'].' Ny rapport skapad';
 		}
-		else {
-			$this->reportRepository->update($report);	
-			$this->data['statusMessage'] = $this->data['statusMessage'].' Rapport sparad';
-		}
-		*/
-		//$this->reportRepository->add($report);
-		//$this->reportRepository->update($report);
-		//$this->reportRepository->update($report);
-		//$this->persistenceManager->persistAll();
-		//$question->addReport($report);
-
+		$this->data['estateUid'] = $estateUid;
+		$this->data['cpUid'] = $cpUid;
+		$this->data['questUid'] = $questUid;
+		$this->data['noteUid'] = $noteUid;
+		$this->data['curVer'] = $curVer;
+		$this->data['noteText'] = $noteText;
+		$this->data['noteState'] = $noteState;
+		$this->data['reportUid'] = $reportUid;
+		$this->data['nodeTypeUid'] = $nodeTypeUid;
+		$this->data['reportPid'] = $reportPid;
 		$this->status = TRUE;
 		$this->message = '';
-		
-
-		//$booking->addPayment($payment);
-		//$this->bookingRepository->update($booking);
-		//$this->persistenceManager->persistAll();
-
 	}
 }

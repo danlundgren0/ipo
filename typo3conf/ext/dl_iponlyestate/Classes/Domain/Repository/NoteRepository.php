@@ -31,6 +31,17 @@ namespace DanLundgren\DlIponlyestate\Domain\Repository;
  */
 class NoteRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
-
+    public function findByUidInList($listOfUids)
+    {
+        if (is_array($listOfUids) && count($listOfUids) > 0) {
+            $query = $this->createQuery();
+            $query->matching($query->in('uid', $listOfUids));
+            /*$query->setOrderings(array(
+                'priority' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING,
+                'name' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
+            ));*/
+            return $query->execute();
+        }
+    }
     
 }

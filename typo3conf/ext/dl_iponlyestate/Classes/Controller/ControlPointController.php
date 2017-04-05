@@ -92,7 +92,11 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
             
         }
         $curReportWithVersion = ReportUtil::getLatestOrNewReport($reportPid, $estate);
+        if($curReportWithVersion && $curReportWithVersion->getStartDate() !== null) {
+            $postedReports = ReportUtil::getPostedReports($reportPid, $estate, $curReportWithVersion->getStartDate());
+        }
         $this->view->assign('reportWithVersion', $curReportWithVersion);
+        $this->view->assign('postedReports', $postedReports);
         $this->view->assign('reportPid', $reportPid);
         /*
         \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(

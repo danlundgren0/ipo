@@ -12,3 +12,34 @@
     width:auto;
     height:auto;
 }
+.posted-note-container {
+    clear:both;
+}
+.postedNotes .checkbox {
+    float: left;
+    width: 130px;
+    height: 35px;   
+}
+body .postedNotes .checkbox input {
+    width: 35px;
+    height: 35px;
+    margin-top: 0px;
+    margin-left: 20px;
+    position: static;
+    margin-left: -10px; 
+    margin-right: 9px;   
+}
+.postedNotes .checkbox label {    
+    display: flex;
+    align-items:center;
+    font-size: 19px;
+}
+.postedNotes .alert {
+    float: left;
+    min-width: 300px;
+    float: left;
+}
+.save-fixed-btn {
+    height:38px;
+    margin-bottom: 5px;    
+}

@@ -174,6 +174,17 @@ class ReportUtility {
         $persistenceManager->persistAll();
         return $report;
     }
+    public static function saveNoteFixed($noteUids) {
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+        $persistenceManager = $objectManager->get('TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface');
+        $noteRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\NoteRepository');
+        $notes = $noteRepository->findByUidInList($noteUids);
+        foreach($notes as $note) {
+            $note->setIsComplete(true);
+            $noteRepository->update($note);
+        }
+        $persistenceManager->persistAll();
+    }
     public static function saveNote($report, $cpUid, $questUid, $noteUid, $noteText, $noteState) {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
         $persistenceManager = $objectManager->get('TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface');

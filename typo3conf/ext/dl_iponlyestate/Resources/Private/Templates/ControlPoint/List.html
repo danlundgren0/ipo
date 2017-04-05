@@ -28,9 +28,12 @@ Otherwise your changes will be overwritten the next time you save the extension 
         <div class="alert alert-danger" role="alert">Här ska visa saved state meddelanden</div>
       </f:comment>
       <div class="col-md-12">
-				<f:for each="{reportWithVersion.estate.controlPoints}" as="controlPoint">
-						<h3>{controlPoint.header}</h3>
-						<f:for each="{reportWithVersion.notes}" as="note">
+			<f:for each="{reportWithVersion.estate.controlPoints}" as="controlPoint">
+				<h3>{controlPoint.header}</h3>
+				<h4>Status</h4>
+				<f:for each="{postedReports}" as="report">					
+						<f:for each="{report.notes}" as="note">
+							<f:if condition="{note.isComplete}==''">
 								<f:if condition="{note.controlPoint.uid}=={controlPoint.uid}">
 									<f:if condition="{note.remarkType}==1">
 										<f:for each="{note.controlPoint.questions}" as="question">
@@ -89,7 +92,9 @@ Otherwise your changes will be overwritten the next time you save the extension 
 										</f:for>
 									</f:if>									
 								</f:if>
+							</f:if>
 						</f:for>
+					</f:for>
 				</f:for>
 			</div>
 			<f:comment>

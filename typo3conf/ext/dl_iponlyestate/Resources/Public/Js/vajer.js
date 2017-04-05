@@ -153,6 +153,47 @@ DanL.Note = {
         $(this).closest('.noteContainer').find('.input-note').attr('disabled','disabled');
         $(this).closest('.noteContainer').find('.add-btn').removeClass('hidden');
     },
+    saveNoteFixed: function() {
+        var isFixed = false;
+        var noteUids = [];
+        $('.note-fixed').each(function(index) {
+            if($(this).is(':checked')) {
+                isFixed = true;
+                $(this).closest('.posted-note-container').remove();
+                noteUids.push($(this).attr('data-noteuid'));
+            }
+        });
+        if(isFixed == false) {
+            $('.save-fixed-btn button').addClass('hidden');
+            return;
+        }
+        str = JSON.stringify(noteUids);
+		DanL.ajax.fetch({
+			command: 'saveNoteFixed',
+			arguments: {
+                noteUids: JSON.stringify(noteUids)
+			}
+		}).done(function(data, textStatus, jqXHR) {
+            $('.save-fixed-btn button').addClass('hidden');
+            console.log(data);
+		}).fail(function( jqXHR, textStatus, errorThrown ) {
+			console.log('getNewNoteTmpl failed: ' + textStatus);
+		});
+    },
+    setNoteFixed: function() {
+        var isFixed = false;
+        $('.note-fixed').each(function(index) {
+            if($(this).is(':checked')) {
+                isFixed = true;                
+            }
+        });
+        if(isFixed == true) {
+            $('.save-fixed-btn button').removeClass('hidden');
+        }
+        else {
+            $('.save-fixed-btn button').addClass('hidden');
+        }
+    },
     setNoteState: function() {
         if($(this).val()!='') {
             DanL.Note.isInputSet = true;
@@ -221,7 +262,8 @@ $(function() {
     $('[data-toggle="tab"]').on('click', DanL.Note.getRelatedNotes);
     $('[data-remember="message"]').on('click', DanL.Note.saveMessages);
     $('.btn-ip-post-report').on('click', DanL.Note.saveReport);
-    
+    $('.note-fixed').on('change', DanL.Note.setNoteFixed);
+    $('.save-fixed-btn button').on('click', DanL.Note.saveNoteFixed)
 });
 
 /*

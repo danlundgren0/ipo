@@ -1,4 +1,46 @@
+<f:comment>
 <div class="alert alert-danger input-disabled-note" role="alert">{note.comment}</div>
+</f:comment>
+  <f:if condition="{note.remarkType}==1">
+    <f:if condition="{note.comment}!=''">
+      <div class="posted-note-container">
+        <div class="alert alert-success input-disabled-note" role="alert">{note.comment}</div>
+        <div class="checkbox">
+          <label><input type="checkbox" class="note-fixed" data-noteuid="{note.uid}" value="">Åtgärdad</label>
+        </div>
+      </div>
+    </f:if>
+  </f:if>
+  <f:if condition="{note.remarkType}==2">
+    <f:if condition="{note.comment}!=''">
+      <div class="posted-note-container">
+        <div class="alert alert-danger input-disabled-note" role="alert">{note.comment}</div>
+          <div class="checkbox">
+            <label><input type="checkbox" class="note-fixed" data-noteuid="{note.uid}" value="">Åtgärdad</label>
+          </div>
+      </div>
+    </f:if>
+  </f:if>
+  <f:if condition="{note.remarkType}==3">
+    <f:if condition="{note.comment}!=''">
+      <div class="posted-note-container">
+        <div class="alert alert-warning input-disabled-note" role="alert">{note.comment}</div>
+          <div class="checkbox">
+            <label><input type="checkbox" class="note-fixed" data-noteuid="{note.uid}" value="">Åtgärdad</label>
+          </div>
+      </div>
+    </f:if>
+  </f:if>
+  <f:if condition="{note.remarkType}==4">
+    <f:if condition="{note.comment}!=''">
+      <div class="posted-note-container">
+        <div class="alert alert-info input-disabled-note" role="alert">{note.comment}</div>
+        <div class="checkbox">
+          <label><input type="checkbox" class="note-fixed" data-noteuid="{note.uid}" value="">Åtgärdad</label>
+        </div>
+      </div>
+    </f:if>
+  </f:if>									
 <f:comment>
 <div>DEBUG: data-estateuid:{reportWithVersion.estate.uid} data-questionuid:{question.uid}  data-nodetypeuid="{controlPoint.nodeType.uid}" data-cpuid:{controlPoint.uid} data-reportuid:{reportWithVersion.uid} data-noteuid:{note.uid} notever:{note.version}</div>
 
