@@ -11,7 +11,12 @@
       <div class="state-buttons">
         <button type="button" class="btn btn-success btn-ipaction" data-type="1" aria-pressed="false">OK</button>
         <button type="button" class="btn btn-danger btn-ipaction" data-type="2" aria-pressed="false">Krit.</button>
-        <button type="button" class="btn btn-warning btn-ipaction" data-type="3" aria-pressed="false">Anm.</button>
+        <f:if condition="{controlPoint.classifiedAsCritical}=='TRUE'">
+          <f:then></f:then>
+          <f:else>
+            <button type="button" class="btn btn-warning btn-ipaction" data-type="3" aria-pressed="false">Anm.</button>            
+          </f:else>  
+        </f:if>
         <button type="button" class="btn btn-secondary btn-ipaction" data-type="4" aria-pressed="false">Inköp</button>
         <button type="button" class="btn btn-info btn-ipaction" data-type="foto" aria-pressed="false">
           <span class="glyphicon glyphicon-camera" aria-hidden="true"></span>

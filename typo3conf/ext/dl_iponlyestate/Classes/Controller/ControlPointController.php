@@ -67,7 +67,8 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
     {
         $cpId = (int) $this->settings['ControlPoint'];
         $estateId = (int) $this->settings['Estate'];
-        $reportPid = (int) $this->settings['ReportPidListView'];
+        //$reportPid = (int) $this->settings['ReportPidListView'];
+        $reportPid = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dliponlyestate.']['persistence.']['reportPid'];
         $errorCode = '';
         if ($estateId <= 0) {
             $errorCode = 'noEstate';
@@ -92,21 +93,12 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
             
         }
         $curReportWithVersion = ReportUtil::getLatestOrNewReport($reportPid, $estate);
-        if($curReportWithVersion && $curReportWithVersion->getStartDate() !== null) {
+        if ($curReportWithVersion && $curReportWithVersion->getStartDate() !== null) {
             $postedReports = ReportUtil::getPostedReports($reportPid, $estate, $curReportWithVersion->getStartDate());
         }
         $this->view->assign('reportWithVersion', $curReportWithVersion);
         $this->view->assign('postedReports', $postedReports);
         $this->view->assign('reportPid', $reportPid);
-        /*
-        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
-            array(
-                'class' => __CLASS__,
-                'function' => __FUNCTION__,
-                'curReportWithVersion' => $curReportWithVersion
-            )
-        );
-        */
     }
     
     /**
@@ -119,7 +111,8 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
     {
         $cpId = (int) $this->settings['ControlPoint'];
         $estateId = (int) $this->settings['Estate'];
-        $reportPid = (int) $this->settings['ReportPid'];
+        //$reportPid = (int) $this->settings['ReportPid'];
+        $reportPid = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dliponlyestate.']['persistence.']['reportPid'];
         $errorCode = '';
         if ($estateId <= 0) {
             $errorCode = 'noEstate';
@@ -141,7 +134,7 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
         $estate = $this->estateRepository->findByUid((int) $estateId);
         //TODO: Om rapportens getIsCompleted = FALSE: returnera samma versionsnr, Om TRUE: Returnera versionnr+1
         $curReportWithVersion = ReportUtil::getLatestOrNewReport($reportPid, $estate);
-        if($curReportWithVersion && $curReportWithVersion->getStartDate() !== null) {
+        if ($curReportWithVersion && $curReportWithVersion->getStartDate() !== null) {
             $postedReports = ReportUtil::getPostedReports($reportPid, $estate, $curReportWithVersion->getStartDate());
         }
         /*
@@ -153,8 +146,8 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
             }
         }
         */
-        //$unPostedReport = $unPostedReports[count($unPostedReports) - 1];
         
+        //$unPostedReport = $unPostedReports[count($unPostedReports) - 1];
         $this->view->assign('reportWithVersion', $curReportWithVersion);
         $this->view->assign('unPostedReport', $unPostedReport);
         $this->view->assign('postedReports', $postedReports);

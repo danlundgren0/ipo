@@ -28,6 +28,9 @@ Otherwise your changes will be overwritten the next time you save the extension 
         <div class="alert alert-danger" role="alert">Här ska visa saved state meddelanden</div>
       </f:comment>
       <div class="col-md-12">
+			<div class="save-fixed-btn">
+				<button type="button" class="btn btn-success hidden">Spara</button>
+			</div>		  
 			<f:for each="{reportWithVersion.estate.controlPoints}" as="controlPoint">
 				<h3>{controlPoint.header}</h3>
 				<h4>Status</h4>
@@ -37,56 +40,88 @@ Otherwise your changes will be overwritten the next time you save the extension 
 								<f:if condition="{note.controlPoint.uid}=={controlPoint.uid}">
 									<f:if condition="{note.remarkType}==1">
 										<f:for each="{note.controlPoint.questions}" as="question">
-											<f:if condition="{question.uid}=={note.question}">
-												<div class="label-bold">
-													{question.header}
-													<span class="label-ok">OK
-														<f:if condition="{note.comment}!=''">
-															<span> - {note.comment}</span>
-														</f:if>
-													</span>
+											<f:if condition="{question.uid}=={note.question.uid}">
+												<div class="posted-note-container">
+													<div class="alert alert-success input-disabled-note" role="alert">
+														<div class="label-bold">
+															{question.header}
+															<span class="label-ok">OK
+																<f:if condition="{note.comment}!=''">
+																	<span> - {note.comment}</span>
+																</f:if>
+															</span>
+														</div>
+													</div>
+													<div class="checkbox">
+													<label><input type="checkbox" class="note-fixed" data-noteuid="{note.uid}" value="">Åtgärda</label>
+													</div>
 												</div>
+												<div class="clear-both"></div>
 											</f:if>
 										</f:for>
 									</f:if>
 									<f:if condition="{note.remarkType}==2">
 										<f:for each="{note.controlPoint.questions}" as="question">
-											<f:if condition="{question.uid}=={note.question}">
-												<div class="label-bold">
-													{question.header}
-													<span class="label-critical"> - Kritisk
-														<f:if condition="{note.comment}!=''">
-															<span> - {note.comment}</span>
-														</f:if>
-													</span>
+											<f:if condition="{question.uid}=={note.question.uid}">
+												<div class="posted-note-container">
+													<div class="alert alert-danger input-disabled-note" role="alert">
+														<div class="label-bold">
+															{question.header}
+															<span class="label-critical"> - Kritisk
+																<f:if condition="{note.comment}!=''">
+																	<span> - {note.comment}</span>
+																</f:if>
+															</span>
+														</div>
+													</div>
+													<div class="checkbox">
+													<label><input type="checkbox" class="note-fixed" data-noteuid="{note.uid}" value="">Åtgärda</label>
+													</div>
 												</div>
+												<div class="clear-both"></div>
 											</f:if>
 										</f:for>
 									</f:if>
 									<f:if condition="{note.remarkType}==3">
 										<f:for each="{note.controlPoint.questions}" as="question">
-											<f:if condition="{question.uid}=={note.question}">
-												<div class="label-bold">
-													{question.header}
-													<span class="label-remark"> - Anmärkning
-														<f:if condition="{note.comment}!=''">
-															<span> - {note.comment}</span>
-														</f:if>
-													</span>
+											<f:if condition="{question.uid}=={note.question.uid}">
+												<div class="posted-note-container">
+													<div class="alert alert-warning input-disabled-note" role="alert">
+														<div class="label-bold">
+															{question.header}
+															<span class="label-remark"> - Anmärkning
+																<f:if condition="{note.comment}!=''">
+																	<span> - {note.comment}</span>
+																</f:if>
+															</span>
+														</div>
+													</div>
+													<div class="checkbox">
+													<label><input type="checkbox" class="note-fixed" data-noteuid="{note.uid}" value="">Åtgärda</label>
+													</div>
 												</div>
+												<div class="clear-both"></div>
 											</f:if>
 										</f:for>
 									</f:if>
 									<f:if condition="{note.remarkType}==4">
 										<f:for each="{note.controlPoint.questions}" as="question">
-											<f:if condition="{question.uid}=={note.question}">
-												<div class="label-bold">
-													{question.header}
-													<span class="label-ok"> - Inköp
-														<f:if condition="{note.comment}!=''">
-															<span> - {note.comment}</span>
-														</f:if>
-													</span>
+											<f:if condition="{question.uid}=={note.question.uid}">
+												<div class="posted-note-container">
+													<div class="alert alert-info input-disabled-note" role="alert">
+														<div class="label-bold">
+															{question.header}
+															<span class="label-ok"> - Inköp
+																<f:if condition="{note.comment}!=''">
+																	<span> - {note.comment}</span>
+																</f:if>
+															</span>
+														</div>
+													</div>
+													<div class="checkbox">
+													<label><input type="checkbox" class="note-fixed" data-noteuid="{note.uid}" value="">Åtgärda</label>
+													</div>
+													<div class="clear-both"></div>
 												</div>
 											</f:if>
 										</f:for>

@@ -167,6 +167,31 @@ class ControlPointTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 	/**
 	 * @test
 	 */
+	public function getClassifiedAsCriticalReturnsInitialValueForBool()
+	{
+		$this->assertSame(
+			FALSE,
+			$this->subject->getClassifiedAsCritical()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setClassifiedAsCriticalForBoolSetsClassifiedAsCritical()
+	{
+		$this->subject->setClassifiedAsCritical(TRUE);
+
+		$this->assertAttributeEquals(
+			TRUE,
+			'classifiedAsCritical',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
 	public function getNodeTypeReturnsInitialValueForNodeType()
 	{
 		$this->assertEquals(

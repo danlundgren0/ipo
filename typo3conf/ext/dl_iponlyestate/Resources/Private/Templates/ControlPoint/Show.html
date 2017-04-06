@@ -34,6 +34,25 @@ Otherwise your changes will be overwritten the next time you save the extension 
       <div class="col-md-6">
         <img src="{controlPoint.image.originalResource.publicUrl}" class="img-responsive" />
       </div>
+      <div class="postedNotes col-md-8">
+        <div class="save-fixed-btn">
+          <button type="button" class="btn btn-success hidden">Spara</button>
+        </div>
+        <f:for each="{postedReports}" as="report">
+          <f:for each="{report.notes}" as="note">
+            <f:if condition="{note.controlPoint.uid} == {controlPoint.uid}">
+                <f:if condition="{note.isComplete}==''">
+                  <f:render partial="Report/ReportedNote" arguments="{nextVersion:nextVersion, question:question, controlPoint:controlPoint, reportWithVersion:reportWithVersion, note:note}" />
+                </f:if>
+            </f:if>
+          </f:for>
+        </f:for>
+      </div>
+      <div class="post-report-container col-md-4">
+        <div class="btn-ip-post-report">
+          <button type="button" class="btn btn-success" data-reportuid="{reportWithVersion.uid}">Skicka in rapport</button>
+        </div>      
+      </div>
     </div>
     <div class="tab-container">
       <ul class="nav nav-tabs" role="tablist">
@@ -48,7 +67,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
           </f:if>
         </f:for>  
       </ul>
-      <div class="tab-content question">      
+      <div class="tab-content question"> 
           <f:for each="{controlPoint.questions}" as="question" iteration="qIt">
             <f:if condition="{question.header} != ''">        
                     <f:if condition="{qIt.isFirst}">
@@ -67,15 +86,6 @@ Otherwise your changes will be overwritten the next time you save the extension 
                         <f:render partial="Report/NewNote" arguments="{question:question, controlPoint:controlPoint, reportWithVersion:reportWithVersion}" />
                         <div class="unposted-notes"></div>
                         <div class="posted-notes"></div>
-                        <div class="oldNotes">
-                          <f:for each="{unPostedReport.notes}" as="note">            
-                            <f:if condition="{note.question} == {question.uid}">
-                                <f:debug>{note}</f:debug>
-                                <div>note.question: {note.question} question.uid: {question.uid}</div>
-                                <f:render partial="Report/ReportedNote" arguments="{nextVersion:nextVersion, question:question, controlPoint:controlPoint, reportWithVersion:reportWithVersion, note:note}" />
-                            </f:if>
-                          </f:for>
-                        </div> 
                       </div>
                     <div class="col-md-4">
                       <img src="{question.image.originalResource.publicUrl}" width="554" height="332" class="img-responsive" />
@@ -84,23 +94,6 @@ Otherwise your changes will be overwritten the next time you save the extension 
             </f:if>     
           </f:for>
         </div>
-    </div>
-    <div class="postedNotes col-md-8">
-      <div class="save-fixed-btn">
-        <button type="button" class="btn btn-success hidden">Spara</button>
-      </div>
-      <f:for each="{postedReports}" as="report">
-        <f:for each="{report.notes}" as="note">
-          <f:if condition="{note.controlPoint.uid} == {controlPoint.uid}">
-              <f:if condition="{note.isComplete}==''">
-                <f:render partial="Report/ReportedNote" arguments="{nextVersion:nextVersion, question:question, controlPoint:controlPoint, reportWithVersion:reportWithVersion, note:note}" />
-              </f:if>
-          </f:if>
-        </f:for>
-      </f:for>
-    </div>
-    <div class="unpostedNotes col-md-4">
-      <button type="button" class="btn btn-info btn-ip-post-report hidden" data-type="post" data-reportuid="{reportWithVersion.uid}" aria-pressed="false">Skicka in rapport</button>
     </div>
   </div>
 </div>

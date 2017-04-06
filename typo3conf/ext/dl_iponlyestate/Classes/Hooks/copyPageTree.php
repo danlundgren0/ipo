@@ -11,17 +11,23 @@
         *  $pObj        ?
          */
         public function processDatamap_postProcessFieldArray($status, $table, $id, &$fieldArray, &$pObj) {
+            //Separate reportPids not in use anymore
+            /*
             if($table == 'tx_dliponlyestate_domain_model_report') {
                 $GLOBALS['DanLundgren']['reportPid'] = $fieldArray['pid'];
                 $GLOBALS['DanLundgren']['hasEcexuted'] = FALSE;
             }
+            */
         }
         public function processDatamap_afterAllOperations(&$pObj) {
+            //Separate reportPids not in use anymore
+            /*
             if($GLOBALS['DanLundgren'] && is_array($GLOBALS['DanLundgren']) && !$GLOBALS['DanLundgren']['hasEcexuted'] && isset($GLOBALS['DanLundgren']['reportPid'])) {
                 $GLOBALS['TYPO3_DB']->exec_DELETEquery('tx_dliponlyestate_domain_model_note', 'pid='.intval($GLOBALS['DanLundgren']['reportPid']));
                 $GLOBALS['TYPO3_DB']->exec_DELETEquery('tx_dliponlyestate_domain_model_report', 'pid='.intval($GLOBALS['DanLundgren']['reportPid']));                
                 $GLOBALS['DanLundgren']['hasEcexuted'] = TRUE;
             }
+            */
             if(isset($GLOBALS['DanLundgren']['mainPid']) && (int)$GLOBALS['DanLundgren']['mainPid']>1) {
                 $this->setTxRealurlPathsegment();
             } 
@@ -33,11 +39,15 @@
         }
         private function setTxRealurlPathsegment() {
             $pageId = (int)$GLOBALS['DanLundgren']['mainPid'];
+
+            //No md5 on mainPid, because technincion should find this page easily
+            /*
             $mainPageRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery('title', 'pages', 'uid='.$pageId);
             while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($mainPageRes)) {
                 $md5 = md5($row['title'].''.$pageId);
                 $GLOBALS['TYPO3_DB']->exec_UPDATEquery('pages', 'uid='.$pageId, array('tx_realurl_pathsegment' => $md5));
             }
+            */
             $subPageRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid,title', 'pages', 'pid='.$pageId);
             while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($subPageRes)) {
                 $md5 = md5($row['title'].''.$row['uid']);

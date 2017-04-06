@@ -89,6 +89,13 @@ class ControlPoint extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $questions = null;
     
     /**
+     * classifiedAsCritical
+     *
+     * @var bool
+     */
+    protected $classifiedAsCritical = false;
+    
+    /**
      * __construct
      */
     public function __construct()
@@ -298,6 +305,37 @@ class ControlPoint extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setImage(\TYPO3\CMS\Extbase\Domain\Model\FileReference $image)
     {
         $this->image = $image;
+    }
+    
+    /**
+     * Returns the classifiedAsCritical
+     *
+     * @return bool $classifiedAsCritical
+     */
+    public function getClassifiedAsCritical()
+    {
+        return $this->classifiedAsCritical;
+    }
+    
+    /**
+     * Sets the classifiedAsCritical
+     *
+     * @param bool $classifiedAsCritical
+     * @return void
+     */
+    public function setClassifiedAsCritical($classifiedAsCritical)
+    {
+        $this->classifiedAsCritical = $classifiedAsCritical;
+    }
+    
+    /**
+     * Returns the boolean state of classifiedAsCritical
+     *
+     * @return bool
+     */
+    public function isClassifiedAsCritical()
+    {
+        return $this->classifiedAsCritical;
     }
 
 }

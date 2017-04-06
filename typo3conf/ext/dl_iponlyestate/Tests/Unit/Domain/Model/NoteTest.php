@@ -142,18 +142,6 @@ class NoteTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 	/**
 	 * @test
 	 */
-	public function getQuestionReturnsInitialValueForInt()
-	{	}
-
-	/**
-	 * @test
-	 */
-	public function setQuestionForIntSetsQuestion()
-	{	}
-
-	/**
-	 * @test
-	 */
 	public function getVersionReturnsInitialValueForInt()
 	{	}
 
@@ -210,6 +198,32 @@ class NoteTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 		$this->assertAttributeEquals(
 			$controlPointFixture,
 			'controlPoint',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getQuestionReturnsInitialValueForQuestion()
+	{
+		$this->assertEquals(
+			NULL,
+			$this->subject->getQuestion()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setQuestionForQuestionSetsQuestion()
+	{
+		$questionFixture = new \DanLundgren\DlIponlyestate\Domain\Model\Question();
+		$this->subject->setQuestion($questionFixture);
+
+		$this->assertAttributeEquals(
+			$questionFixture,
+			'question',
 			$this->subject
 		);
 	}

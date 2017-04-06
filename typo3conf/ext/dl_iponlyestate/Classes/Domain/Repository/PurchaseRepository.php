@@ -1,7 +1,6 @@
 <?php
 namespace DanLundgren\DlIponlyestate\Domain\Repository;
 
-
 /***************************************************************
  *
  *  Copyright notice

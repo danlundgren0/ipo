@@ -808,24 +808,11 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->purchase = $purchase;
     }
+    
     //TODO: Check if report is valid to post (or save)
-    public function reportIsValid() {
-        /*
-        $isValid = true;
-        if($report->getVersion()>0) {
-            
-        }
-        $report->setVersion($highestVersion);
-		$datetime = new \DateTime();
-		$datetime->format('Y-m-d H:i:s');
-		$report->setDate($datetime);
-		$report->setName($datetime->format('Y-m-d H:i').' Nr: '.$report->getVersion());
-        $report->setIsComplete(false);
-        $report->setPid($reportPid);
-        $report->setExecutiveTechnician($GLOBALS['TSFE']->fe_user->user['uid']);
-        $report->setStartDate($datetime);
-        $report->setReportIsPosted(false);
-        $report->setEstate($estate);   
-        */
+    public function reportIsValid()
+    {
+        
     }
+
 }

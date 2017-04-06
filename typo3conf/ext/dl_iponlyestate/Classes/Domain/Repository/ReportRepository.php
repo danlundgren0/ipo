@@ -38,5 +38,22 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     protected $defaultOrderings = array(
         'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
     );
+    
+    /**
+     * @param $estate
+     */
+    public function findByEstate($estate)
+    {
+        if (is_array($listOfUids) && count($listOfUids) > 0) {
+            $query = $this->createQuery();
+            $query->matching($query->in('uid', $listOfUids));
+            /*$query->setOrderings(array(
+              'priority' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING,
+              'name' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
+              ));*/
+            
+            return $query->execute();
+        }
+    }
 
 }

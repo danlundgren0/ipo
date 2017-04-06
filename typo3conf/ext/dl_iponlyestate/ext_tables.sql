@@ -101,6 +101,7 @@ CREATE TABLE tx_dliponlyestate_domain_model_controlpoint (
 	description text NOT NULL,
 	image int(11) unsigned NOT NULL default '0',
 	responsible_technician int(11) DEFAULT '0' NOT NULL,
+	classified_as_critical tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	node_type int(11) unsigned DEFAULT '0',
 	questions int(11) unsigned DEFAULT '0' NOT NULL,
 
@@ -293,10 +294,10 @@ CREATE TABLE tx_dliponlyestate_domain_model_note (
 	state varchar(255) DEFAULT '' NOT NULL,
 	images int(11) unsigned NOT NULL default '0',
 	remark_type int(11) DEFAULT '0' NOT NULL,
-	question int(11) DEFAULT '0' NOT NULL,
 	version int(11) DEFAULT '0' NOT NULL,
 	is_complete tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	control_point int(11) unsigned DEFAULT '0',
+	question int(11) unsigned DEFAULT '0',
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,

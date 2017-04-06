@@ -283,6 +283,16 @@
                             "propertyName": "responsibleTechnician",
                             "propertyType": "Select",
                             "uid": "741696913920"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "classifiedAsCritical",
+                            "propertyType": "Boolean",
+                            "uid": "442489009404"
                         }
                     ]
                 },
@@ -782,16 +792,6 @@
                             "propertyDescription": "",
                             "propertyIsExcludeField": true,
                             "propertyIsRequired": true,
-                            "propertyName": "question",
-                            "propertyType": "Select",
-                            "uid": "1402965631184"
-                        },
-                        {
-                            "allowedFileTypes": "",
-                            "maxItems": "1",
-                            "propertyDescription": "",
-                            "propertyIsExcludeField": true,
-                            "propertyIsRequired": true,
                             "propertyName": "version",
                             "propertyType": "Integer",
                             "uid": "112349026407"
@@ -819,6 +819,16 @@
                             "relationType": "manyToOne",
                             "relationWire": "[wired]",
                             "uid": "1048296644039"
+                        },
+                        {
+                            "foreignRelationClass": "",
+                            "lazyLoading": false,
+                            "propertyIsExcludeField": true,
+                            "relationDescription": "",
+                            "relationName": "question",
+                            "relationType": "zeroToOne",
+                            "relationWire": "[wired]",
+                            "uid": "1292527126643"
                         }
                     ]
                 }
@@ -1091,10 +1101,22 @@
                 "terminal": "SOURCES",
                 "uid": "1346280725737"
             }
+        },
+        {
+            "src": {
+                "moduleId": 6,
+                "terminal": "relationWire_1",
+                "uid": "1292527126643"
+            },
+            "tgt": {
+                "moduleId": 3,
+                "terminal": "SOURCES",
+                "uid": "201117816553"
+            }
         }
     ],
     "log": {
-        "last_modified": "2017-04-01 10:22",
+        "last_modified": "2017-04-05 08:15",
         "extension_builder_version": "7.6.0",
         "be_user": " (1)"
     }

@@ -261,7 +261,7 @@ $(function() {
     $('.add-btn .btn').on('click', DanL.Note.addNewNote);
     $('[data-toggle="tab"]').on('click', DanL.Note.getRelatedNotes);
     $('[data-remember="message"]').on('click', DanL.Note.saveMessages);
-    $('.btn-ip-post-report').on('click', DanL.Note.saveReport);
+    $('.btn-ip-post-report button').on('click', DanL.Note.saveReport);
     $('.note-fixed').on('change', DanL.Note.setNoteFixed);
     $('.save-fixed-btn button').on('click', DanL.Note.saveNoteFixed)
 });

@@ -62,14 +62,6 @@ class Note extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $remarkType = 0;
     
     /**
-     * question
-     *
-     * @var int
-     * @validate NotEmpty
-     */
-    protected $question = 0;
-    
-    /**
      * version
      *
      * @var int
@@ -91,6 +83,13 @@ class Note extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var \DanLundgren\DlIponlyestate\Domain\Model\ControlPoint
      */
     protected $controlPoint = null;
+    
+    /**
+     * question
+     *
+     * @var \DanLundgren\DlIponlyestate\Domain\Model\Question
+     */
+    protected $question = null;
     
     /**
      * Returns the comment
@@ -177,27 +176,6 @@ class Note extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
     
     /**
-     * Returns the question
-     *
-     * @return int $question
-     */
-    public function getQuestion()
-    {
-        return $this->question;
-    }
-    
-    /**
-     * Sets the question
-     *
-     * @param int $question
-     * @return void
-     */
-    public function setQuestion($question)
-    {
-        $this->question = $question;
-    }
-    
-    /**
      * Returns the version
      *
      * @return int $version
@@ -268,6 +246,27 @@ class Note extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setControlPoint(\DanLundgren\DlIponlyestate\Domain\Model\ControlPoint $controlPoint)
     {
         $this->controlPoint = $controlPoint;
+    }
+    
+    /**
+     * Returns the question
+     *
+     * @return \DanLundgren\DlIponlyestate\Domain\Model\Question $question
+     */
+    public function getQuestion()
+    {
+        return $this->question;
+    }
+    
+    /**
+     * Sets the question
+     *
+     * @param \DanLundgren\DlIponlyestate\Domain\Model\Question $question
+     * @return void
+     */
+    public function setQuestion(\DanLundgren\DlIponlyestate\Domain\Model\Question $question)
+    {
+        $this->question = $question;
     }
 
 }

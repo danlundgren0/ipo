@@ -40,17 +40,13 @@ class ReportUtility {
      * @return \DanLundgren\DlIponlyestate\Domain\Model\Report $reports
      */ 
     public static function getLatestOrNewReport($reportPid, $estate, $persistIt=false) {
-        $storagePids = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dliponlyestate.']['persistence.']['storagePid'];
-        $storagePidArr = array();
-        if(strlen($storagePids)>0) {
-            $storagePidArr = explode(',', $storagePids);
-        }
-        if(!in_array($reportPid, $storagePidArr)) {
+        $reportPid = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dliponlyestate.']['persistence.']['reportPid'];
+        if(!(int)$reportPid>0) {
 \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
  array(
   'class' => __CLASS__,
   'function' => __FUNCTION__,
-  'ERROR' => 'Storage Id saknas',
+  'ERROR' => 'Report Id saknas',
  )
 );
             return NULL;
@@ -58,18 +54,21 @@ class ReportUtility {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
         $reportRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
         $reportPid = (int)$reportPid;
-        $allReports = $reportRepository->findByPid($reportPid);        
+        //$allReports = $reportRepository->findByPid($reportPid);
+        $allReports = $reportRepository->findAll();
         $highestVersion = -1;
         $latestReport = NULL;
         foreach($allReports as $report) {
-            if((int)$report->getVersion()>(int)$highestVersion) {
-                $highestVersion = (int)$report->getVersion();
-                if($report->getReportIsPosted() && !$report->getIsComplete()) {
-                    $startDate = $report->getStartDate();
+            if($report->getEstate()==$estate) {
+                if((int)$report->getVersion()>(int)$highestVersion) {
+                    $highestVersion = (int)$report->getVersion();
+                    if($report->getReportIsPosted() && !$report->getIsComplete()) {
+                        $startDate = $report->getStartDate();
+                    }
+                    $latestReport = $report;                
                 }
-                $latestReport = $report;                
             }
-        }        
+        }
         $highestVersion=($highestVersion==-1)?1:$highestVersion+=1;
         if($latestReport && !$latestReport->getIsComplete() && !$latestReport->getReportIsPosted()) {
             return $latestReport;
@@ -189,6 +188,7 @@ class ReportUtility {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
         $persistenceManager = $objectManager->get('TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface');
         $reportRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
+        $questionRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\QuestionRepository');
         $controlPointRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ControlPointRepository');
         $note = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DanLundgren\DlIponlyestate\Domain\Model\Note');
 		$newVerNo = -2;
@@ -213,8 +213,8 @@ class ReportUtility {
 		if($note->getState()=='ok') {
 			$note->setIsComplete(1);
 		}
-
-		$note->setQuestion($questUid);
+        $question = $questionRepository->findByUid($questUid);
+		$note->setQuestion($question);
 		$note->setPid($report->getPid());
         $report->addNote($note);
         if($report->getUid()==NULL) {
@@ -259,12 +259,12 @@ class ReportUtility {
     public static function getPostedReports($reportPid, $estate, $startDate) {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
         $reportRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
-        $allReports = $reportRepository->findByPid($reportPid); 
-
-
+        //$allReports = $reportRepository->findByPid($reportPid); 
+        //$allReports = $reportRepository->findByEstate($estate);
+        $allReports = $reportRepository->findAll();
         $postedReports = array();
         foreach($allReports as $report) {
-            if($report->getStartDate() == $startDate) {
+            if($report->getStartDate() == $startDate && $report->getEstate()==$estate) {
                 $postedReports[] = $report;
             }
         }
