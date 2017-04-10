@@ -125,3 +125,22 @@ DanLAjaxPrototype {
 		}
 	}
 }
+config.tx_extbase {
+	persistence {
+		# Enable this if you need the reference index to be updated
+		# updateReferenceIndex = 1
+		classes {
+			DanLundgren\DlIponlyestate\Domain\Model\FileReference {
+				mapping {
+					tableName = sys_file_reference
+					columns {
+						uid_local.mapOnProperty = originalFileIdentifier
+					}
+				}
+			}
+		}
+	}
+	objects {
+		TYPO3\CMS\Extbase\Domain\Model\FileReference.className = DanLundgren\DlIponlyestate\Domain\Model\FileReference
+	}
+}

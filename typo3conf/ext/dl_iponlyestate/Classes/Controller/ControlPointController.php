@@ -35,6 +35,14 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 {
 
     /**
+     * noteRepository
+     *
+     * @var \DanLundgren\DlIponlyestate\Domain\Repository\NoteRepository
+     * @inject
+     */
+    protected $noteRepository = NULL;
+    
+    /**
      * estateRepository
      *
      * @var \DanLundgren\DlIponlyestate\Domain\Repository\EstateRepository
@@ -96,6 +104,11 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
         if ($curReportWithVersion && $curReportWithVersion->getStartDate() !== null) {
             $postedReports = ReportUtil::getPostedReports($reportPid, $estate, $curReportWithVersion->getStartDate());
         }
+        if (!$GLOBALS['TSFE']->fe_user->user['first_name'] || $GLOBALS['TSFE']->fe_user->user['last_name']) {
+            $this->view->assign('technician', $GLOBALS['TSFE']->fe_user->user['name']);
+        } else {
+            $this->view->assign('technician', $GLOBALS['TSFE']->fe_user->user['first_name'] . ' ' . $GLOBALS['TSFE']->fe_user->user['last_name']);
+        }
         $this->view->assign('reportWithVersion', $curReportWithVersion);
         $this->view->assign('postedReports', $postedReports);
         $this->view->assign('reportPid', $reportPid);
@@ -107,8 +120,22 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
      * @param \DanLundgren\DlIponlyestate\Domain\Model\ControlPoint $controlPoint
      * @return void
      */
-    public function showAction()
+    public function showAction(\DanLundgren\DlIponlyestate\Domain\Model\Note $note = NULL)
     {
+        $arguments = $this->request->getArguments();
+
+        if ($note !== NULL) {
+            $this->noteRepository->update($note);
+            \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
+                array(
+                    'class' => __CLASS__,
+                    'function' => __FUNCTION__,
+                    'note' => $note
+                )
+            );
+            $this->addFlashMessage('Your new Example was created.');
+        }
+        $rootLine1Uid = $GLOBALS['TSFE']->rootLine['1'][uid];
         $cpId = (int) $this->settings['ControlPoint'];
         $estateId = (int) $this->settings['Estate'];
         //$reportPid = (int) $this->settings['ReportPid'];
@@ -146,14 +173,53 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
             }
         }
         */
-        
+      
+
         //$unPostedReport = $unPostedReports[count($unPostedReports) - 1];
+        $tmpNote = new \DanLundgren\DlIponlyestate\Domain\Model\Note();
+        $this->view->assign('tmpNote', $tmpNote);
+        $this->view->assign('rootLine1Uid', $rootLine1Uid);
         $this->view->assign('reportWithVersion', $curReportWithVersion);
         $this->view->assign('unPostedReport', $unPostedReport);
         $this->view->assign('postedReports', $postedReports);
         $this->view->assign('errorMess', $errorMess);
         $this->view->assign('controlPoint', $controlPoint);
         $this->view->assign('reportPid', $reportPid);
+    }
+    
+    /**
+     * @param $argumentName
+     */
+    protected function setTypeConverterConfigurationForImageUpload($argumentName)
+    {
+        $uploadConfiguration = array(
+            UploadedFileReferenceConverter::CONFIGURATION_ALLOWED_FILE_EXTENSIONS => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
+            UploadedFileReferenceConverter::CONFIGURATION_UPLOAD_FOLDER => '1:/content/'
+        );
+        /** @var PropertyMappingConfiguration $newExampleConfiguration */
+        $newExampleConfiguration = $this->arguments[$argumentName]->getPropertyMappingConfiguration();
+        $newExampleConfiguration->forProperty('images')->setTypeConverterOptions('DanLundgren\\DlIponlyestate\\Property\\TypeConverter\\UploadedFileReferenceConverter', $uploadConfiguration);
+    }
+    
+    /**
+     * Set TypeConverter option for image upload
+     */
+    public function initializeUploadAction()
+    {
+        $this->setTypeConverterConfigurationForImageUpload('note');
+    }
+    
+    /**
+     * action upload
+     *
+     * @param \DanLundgren\DlIponlyestate\Domain\Model\Note $note
+     * @return void
+     */
+    public function uploadAction(\DanLundgren\DlIponlyestate\Domain\Model\Note $note)
+    {
+        $this->noteRepository->update($note);
+        $this->addFlashMessage('Your new Example was created.');
+        $this->redirect('show');
     }
 
 }

@@ -1,45 +1,101 @@
 <f:comment>
 <div>DEBUG: data-estateuid:{reportWithVersion.estate.uid} data-questionuid:{question.uid}  data-nodetypeuid="{controlPoint.nodeType.uid}" data-cpuid:{controlPoint.uid} data-reportuid:{reportWithVersion.uid} data-noteuid:-1 notever:-1</div>
 </f:comment>
-<div class="noteContainer" reportuid data-estateuid="{reportWithVersion.estate.uid}" data-questionuid="{question.uid}" data-nodetypeuid="{controlPoint.nodeType.uid}" data-cpuid="{controlPoint.uid}" data-reportuid="{reportWithVersion.uid}" data-noteuid="-1" data-notever="-1">
-  <input type="hidden" name="note" value="1" data-version="-1" />
-  <div class="card">
-    <div>
-      <f:comment>
-      <div id="collapse_{question.uid}" class="collapse state-buttons">
-      </f:comment>
-      <div class="state-buttons">
-        <button type="button" class="btn btn-success btn-ipaction" data-type="1" aria-pressed="false">OK</button>
-        <button type="button" class="btn btn-danger btn-ipaction" data-type="2" aria-pressed="false">Krit.</button>
-        <f:if condition="{controlPoint.classifiedAsCritical}=='TRUE'">
-          <f:then></f:then>
-          <f:else>
-            <button type="button" class="btn btn-warning btn-ipaction" data-type="3" aria-pressed="false">Anm.</button>            
-          </f:else>  
-        </f:if>
-        <button type="button" class="btn btn-secondary btn-ipaction" data-type="4" aria-pressed="false">Inköp</button>
-        <button type="button" class="btn btn-info btn-ipaction" data-type="foto" aria-pressed="false">
-          <span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
-        </button>
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+
+<v:variable.set name="noteuid" value="{reportWithVersion.notes.0.uid}" />
+
+<v:variable.set name="noteUidIsSet" value="0" />
+<v:variable.set name="measureUidIsSet" value="0" />
+<f:for each="{reportWithVersion.reportedMeasurement}" as="reportedMeasurement">
+  <f:if condition="{question.uid}=={reportedMeasurement.question.uid}">
+    <v:variable.set name="measureUidIsSet" value="1" />
+    <div class="posted-note-container">
+        <div class="alert alert-success input-disabled-note" role="alert">
+            <div class="label-bold">
+                <span class="label-ok">Mätvärde: 
+                    <div class="comment">{reportedMeasurement.value} {reportedMeasurement.name} ({reportedMeasurement.unit})</div>
+                </span>
+                <div class="date"><f:format.date format="Y-m-d - H:i:s">{reportedMeasurement.date}</f:format.date></div>
+                <div>Kontroll utförd av  {reportedMeasurement.executiveTechnician}</div>
+                <div>ID: {reportedMeasurement.uid}</div>
+            </div>
+        </div>
+    </div>
+    <div class="clear-both"></div>
+  </f:if>
+</f:for>
+<f:for each="{reportWithVersion.notes}" as="note">
+  <f:if condition="{question.uid}=={note.question.uid}">
+    <v:variable.set name="noteUidIsSet" value="1" />
+    <f:if condition="{v:variable.get(name: 'noteUidIsSet')}=='1'">
+      <f:render partial="Report/ReportedNote" arguments="{note:note}" />
+    </f:if>
+  </f:if>
+</f:for>
+<f:if condition="{v:variable.get(name: 'measureUidIsSet')}=='0'">
+  <f:if condition="{v:variable.get(name: 'noteUidIsSet')}=='0'">
+    <div class="noteContainer" data-estateuid="{reportWithVersion.estate.uid}" data-questionuid="{question.uid}" data-nodetypeuid="{controlPoint.nodeType.uid}" data-cpuid="{controlPoint.uid}" data-reportuid="{reportWithVersion.uid}" data-measureuid="-1" data-noteuid="-1" data-notever="-1">
+      <input type="hidden" name="note" value="1" data-version="-1" />
+      <div class="card">
+        <div>
+          <f:if condition="{question.measurementValues}">
+            <f:then>
+              <div class="state-buttons">
+                <button type="button" class="btn btn-success btn-ipaction btn-measure btn-text-slide" data-type="5" aria-pressed="false">{question.measurementValues.name} ({question.measurementValues.unit})</button>
+              </div>
+            </f:then>
+            <f:else>
+              <div class="state-buttons">
+                <button type="button" class="btn btn-success btn-ipaction" data-type="1" aria-pressed="false">OK</button>
+                <button type="button" class="btn btn-danger btn-ipaction btn-text-slide" data-type="2" aria-pressed="false">Krit.</button>
+                <f:if condition="{controlPoint.classifiedAsCritical}=='TRUE'">
+                  <f:then></f:then>
+                  <f:else>
+                    <button type="button" class="btn btn-warning btn-ipaction btn-text-slide" data-type="3" aria-pressed="false">Anm.</button>            
+                  </f:else>  
+                </f:if>
+                <button type="button" class="btn btn-secondary btn-ipaction btn-text-slide" data-type="4" aria-pressed="false">Inköp</button>
+                <f:comment>
+                <f:form action="show"  enctype="multipart/form-data"  name="image" object="{tmpNote}">
+                  <f:render partial="Report/ImageUpload" />
+                  <f:form.submit value="Create new" />
+                </f:form>
+                </f:comment>
+                <button type="button" class="btn btn-info btn-ipaction" data-type="foto" aria-pressed="false">
+                  <span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
+                </button>
+              </div>
+            </f:else>
+          </f:if>
+        </div>
+        <div class="card-header" role="tab">
+          <h5 class="mb-0">
+            <h3>          
+              <f:if condition="{question.measurementValues}">
+                <f:then>
+                  <textarea class="input-note" data-measurement-unit="{question.measurementValues.unit}" data-measurement-name="{question.measurementValues.name}" id="input_{question.uid}_NEW" type="text" style="display:none;"></textarea>
+                  <span class="save-btn hidden">
+                    <button type="button" class="btn btn-success save-measure-value">Spara</button>
+                  </span>
+                </f:then>            
+                <f:else>
+                  <textarea class="input-note" id="input_{question.uid}_NEW" type="text" style="display:none;"></textarea>
+                  <span class="save-btn hidden">
+                    <button type="button" class="btn btn-success save-note">Spara</button>
+                  </span>
+                </f:else>
+              </f:if>
+
+              <f:comment>
+              <span class="add-btn hidden">
+                <button type="button" class="btn btn-secondary">Lägg till notering</button>
+              </span>
+              </f:comment>
+            </h3>
+          </h5>
+        </div>
       </div>
     </div>
-    <div class="card-header" role="tab">
-      <h5 class="mb-0">
-        <h3>
-          <textarea class="input-note" id="input_{question.uid}_NEW" type="text"></textarea>
-          <f:comment>
-          <a data-toggle="collapse" data-parent="#acc_{question.uid}" href="#collapse_{question.uid}" aria-expanded="true" aria-controls="collapse_{question.uid}" class="collapsed">
-            <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
-          </a>
-          </f:comment>
-          <span class="save-btn hidden">
-            <button type="button" class="btn btn-success">Spara</button>
-          </span>
-          <span class="add-btn hidden">
-            <button type="button" class="btn btn-secondary">Lägg till notering</button>
-          </span>                            
-        </h3>
-      </h5>
-    </div>
-  </div>
-</div>
+  </f:if>
+</f:if>

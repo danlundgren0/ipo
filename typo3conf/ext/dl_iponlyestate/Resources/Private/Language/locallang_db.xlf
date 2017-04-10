@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2017-04-05T20:15:04Z" product-name="dl_iponlyestate">
+	<file source-language="en" datatype="plaintext" original="messages" date="2017-04-10T17:18:46Z" product-name="dl_iponlyestate">
 		<header/>
 		<body>
 			<trans-unit id="tx_dliponlyestate_domain_model_estate">
@@ -9,11 +9,14 @@
 			<trans-unit id="tx_dliponlyestate_domain_model_estate.name">
 				<source>Name</source>
 			</trans-unit>
-			<trans-unit id="tx_dliponlyestate_domain_model_estate.image">
-				<source>Image</source>
+			<trans-unit id="tx_dliponlyestate_domain_model_estate.estate_description">
+				<source>Estate Description</source>
 			</trans-unit>
 			<trans-unit id="tx_dliponlyestate_domain_model_estate.adress">
 				<source>Adress</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_estate.image">
+				<source>Image</source>
 			</trans-unit>
 			<trans-unit id="tx_dliponlyestate_domain_model_estate.postal_code">
 				<source>Postal Code</source>
@@ -35,6 +38,9 @@
 			</trans-unit>
 			<trans-unit id="tx_dliponlyestate_domain_model_estate.longitude">
 				<source>Longitude</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_estate.responsible_technician">
+				<source>Responsible Technician</source>
 			</trans-unit>
 			<trans-unit id="tx_dliponlyestate_domain_model_estate.control_points">
 				<source>Control Points</source>
@@ -60,9 +66,6 @@
 			<trans-unit id="tx_dliponlyestate_domain_model_controlpoint.image">
 				<source>Image</source>
 			</trans-unit>
-			<trans-unit id="tx_dliponlyestate_domain_model_controlpoint.responsible_technician">
-				<source>Responsible Technician</source>
-			</trans-unit>
 			<trans-unit id="tx_dliponlyestate_domain_model_controlpoint.classified_as_critical">
 				<source>Classified As Critical</source>
 			</trans-unit>
@@ -86,6 +89,9 @@
 			</trans-unit>
 			<trans-unit id="tx_dliponlyestate_domain_model_question.image">
 				<source>Image</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_question.measurement_values">
+				<source>Measurement Values</source>
 			</trans-unit>
 			<trans-unit id="tx_dliponlyestate_domain_model_dynamiccolumn">
 				<source>Dynamic Column</source>
@@ -156,11 +162,8 @@
 			<trans-unit id="tx_dliponlyestate_domain_model_report.estate">
 				<source>Estate</source>
 			</trans-unit>
-			<trans-unit id="tx_dliponlyestate_domain_model_report.message">
-				<source>Message</source>
-			</trans-unit>
-			<trans-unit id="tx_dliponlyestate_domain_model_report.purchase">
-				<source>Purchase</source>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.reported_measurement">
+				<source>Reported Measurement</source>
 			</trans-unit>
 			<trans-unit id="tx_dliponlyestate_domain_model_note">
 				<source>Note</source>
@@ -183,11 +186,68 @@
 			<trans-unit id="tx_dliponlyestate_domain_model_note.is_complete">
 				<source>Is Complete</source>
 			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_note.date">
+				<source>Date</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_note.executive_technician">
+				<source>Executive Technician</source>
+			</trans-unit>
 			<trans-unit id="tx_dliponlyestate_domain_model_note.control_point">
 				<source>Control Point</source>
 			</trans-unit>
 			<trans-unit id="tx_dliponlyestate_domain_model_note.question">
 				<source>Question</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_reportedmeasurement">
+				<source>Reported Measurement</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_reportedmeasurement.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_reportedmeasurement.unit">
+				<source>Unit</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_reportedmeasurement.value">
+				<source>Value</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_reportedmeasurement.version">
+				<source>Version</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_reportedmeasurement.date">
+				<source>Date</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_reportedmeasurement.executive_technician">
+				<source>Executive Technician</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_reportedmeasurement.control_point">
+				<source>Control Point</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_reportedmeasurement.question">
+				<source>Question</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_measurementvalues">
+				<source>Measurement Values</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_measurementvalues.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_measurementvalues.unit">
+				<source>Unit</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_controlpoint.responsible_technician">
+				<source>Responsible Technician</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_note.image">
+				<source>Image</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.message">
+				<source>Message</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.purchase">
+				<source>Purchase</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.measurement_values">
+				<source>Measurement Values</source>
 			</trans-unit>
 			<trans-unit id="tx_dliponlyestate_domain_model_message">
 				<source>Message</source>
@@ -200,6 +260,18 @@
 			</trans-unit>
 			<trans-unit id="tx_dliponlyestate_domain_model_purchase.purchase">
 				<source>Purchase</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_controlpoint.measurement_values">
+				<source>Measurement Values</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_measurementvalues.measurement_units">
+				<source>Measurement Units</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_measurementunits">
+				<source>Measurement Units</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_measurementunits.name">
+				<source>Name</source>
 			</trans-unit>
 			<trans-unit id="tx_dliponlyestate_domain_model_report.posted_date">
 				<source>Posted Date</source>
@@ -277,9 +349,6 @@
 				<source>Node Type</source>
 			</trans-unit>
 			<trans-unit id="tx_dliponlyestate_domain_model_report.responsible_technician">
-				<source>Responsible Technician</source>
-			</trans-unit>
-			<trans-unit id="tx_dliponlyestate_domain_model_estate.responsible_technician">
 				<source>Responsible Technician</source>
 			</trans-unit>
 			<trans-unit id="tx_dliponlyestate_domain_model_estate.technician">

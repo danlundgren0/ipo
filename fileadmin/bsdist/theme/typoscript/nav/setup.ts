@@ -12,6 +12,7 @@ lib.mobileNavBtn {
     #value = <span class="fa fa-bars"></span>
 }
 
+[usergroup = 17]
 # navbar
 lib.navbar = COA
 lib.navbar.wrap = <nav class="navbar navbar-default" role="navigation">|</nav>
@@ -23,7 +24,7 @@ lib.navbar {
     20 = HMENU
     20.wrap = <div class="collapse navbar-collapse" id="mainnavbar"><ul class="nav navbar-nav">|</ul></div>
     20 {
-        entryLevel = 1
+        entryLevel = 0
         #excludeUidList = 11,12
         1 = TMENU
         1 {
@@ -95,7 +96,7 @@ lib.navbar {
         3.ACTIFSUB >
     }
 }
-
+[global]
 
 /* ---------------------------------------------------------------
  * Breadcrump

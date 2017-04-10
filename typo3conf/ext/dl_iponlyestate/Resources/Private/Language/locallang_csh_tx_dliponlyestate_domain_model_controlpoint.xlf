@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2017-04-05T20:15:04Z" product-name="dl_iponlyestate">
+	<file source-language="en" datatype="plaintext" original="messages" date="2017-04-10T17:18:46Z" product-name="dl_iponlyestate">
 		<header/>
 		<body>
 			<trans-unit id="name.description">
@@ -15,9 +15,6 @@
 			<trans-unit id="image.description">
 				<source>image</source>
 			</trans-unit>
-			<trans-unit id="responsible_technician.description">
-				<source>responsibleTechnician</source>
-			</trans-unit>
 			<trans-unit id="classified_as_critical.description">
 				<source>classifiedAsCritical</source>
 			</trans-unit>
@@ -25,6 +22,12 @@
 				<source>nodeType</source>
 			</trans-unit>
 			<trans-unit id="questions.description">
+				<source>Control Pints and Questions have many-to-many relation.</source>
+			</trans-unit>
+			<trans-unit id="responsible_technician.description">
+				<source>responsibleTechnician</source>
+			</trans-unit>
+			<trans-unit id="measurement_values.description">
 				<source>Control Pints and Questions have many-to-many relation.</source>
 			</trans-unit>
 			<trans-unit id="report.description">

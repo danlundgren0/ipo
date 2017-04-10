@@ -465,28 +465,28 @@ class ReportTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 	/**
 	 * @test
 	 */
-	public function getMessageReturnsInitialValueForMessage()
+	public function getReportedMeasurementReturnsInitialValueForReportedMeasurement()
 	{
 		$newObjectStorage = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
 		$this->assertEquals(
 			$newObjectStorage,
-			$this->subject->getMessage()
+			$this->subject->getReportedMeasurement()
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function setMessageForObjectStorageContainingMessageSetsMessage()
+	public function setReportedMeasurementForObjectStorageContainingReportedMeasurementSetsReportedMeasurement()
 	{
-		$message = new \DanLundgren\DlIponlyestate\Domain\Model\Message();
-		$objectStorageHoldingExactlyOneMessage = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-		$objectStorageHoldingExactlyOneMessage->attach($message);
-		$this->subject->setMessage($objectStorageHoldingExactlyOneMessage);
+		$reportedMeasurement = new \DanLundgren\DlIponlyestate\Domain\Model\ReportedMeasurement();
+		$objectStorageHoldingExactlyOneReportedMeasurement = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+		$objectStorageHoldingExactlyOneReportedMeasurement->attach($reportedMeasurement);
+		$this->subject->setReportedMeasurement($objectStorageHoldingExactlyOneReportedMeasurement);
 
 		$this->assertAttributeEquals(
-			$objectStorageHoldingExactlyOneMessage,
-			'message',
+			$objectStorageHoldingExactlyOneReportedMeasurement,
+			'reportedMeasurement',
 			$this->subject
 		);
 	}
@@ -494,83 +494,27 @@ class ReportTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 	/**
 	 * @test
 	 */
-	public function addMessageToObjectStorageHoldingMessage()
+	public function addReportedMeasurementToObjectStorageHoldingReportedMeasurement()
 	{
-		$message = new \DanLundgren\DlIponlyestate\Domain\Model\Message();
-		$messageObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', array('attach'), array(), '', FALSE);
-		$messageObjectStorageMock->expects($this->once())->method('attach')->with($this->equalTo($message));
-		$this->inject($this->subject, 'message', $messageObjectStorageMock);
+		$reportedMeasurement = new \DanLundgren\DlIponlyestate\Domain\Model\ReportedMeasurement();
+		$reportedMeasurementObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', array('attach'), array(), '', FALSE);
+		$reportedMeasurementObjectStorageMock->expects($this->once())->method('attach')->with($this->equalTo($reportedMeasurement));
+		$this->inject($this->subject, 'reportedMeasurement', $reportedMeasurementObjectStorageMock);
 
-		$this->subject->addMessage($message);
+		$this->subject->addReportedMeasurement($reportedMeasurement);
 	}
 
 	/**
 	 * @test
 	 */
-	public function removeMessageFromObjectStorageHoldingMessage()
+	public function removeReportedMeasurementFromObjectStorageHoldingReportedMeasurement()
 	{
-		$message = new \DanLundgren\DlIponlyestate\Domain\Model\Message();
-		$messageObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', array('detach'), array(), '', FALSE);
-		$messageObjectStorageMock->expects($this->once())->method('detach')->with($this->equalTo($message));
-		$this->inject($this->subject, 'message', $messageObjectStorageMock);
+		$reportedMeasurement = new \DanLundgren\DlIponlyestate\Domain\Model\ReportedMeasurement();
+		$reportedMeasurementObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', array('detach'), array(), '', FALSE);
+		$reportedMeasurementObjectStorageMock->expects($this->once())->method('detach')->with($this->equalTo($reportedMeasurement));
+		$this->inject($this->subject, 'reportedMeasurement', $reportedMeasurementObjectStorageMock);
 
-		$this->subject->removeMessage($message);
-
-	}
-
-	/**
-	 * @test
-	 */
-	public function getPurchaseReturnsInitialValueForPurchase()
-	{
-		$newObjectStorage = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-		$this->assertEquals(
-			$newObjectStorage,
-			$this->subject->getPurchase()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setPurchaseForObjectStorageContainingPurchaseSetsPurchase()
-	{
-		$purchase = new \DanLundgren\DlIponlyestate\Domain\Model\Purchase();
-		$objectStorageHoldingExactlyOnePurchase = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-		$objectStorageHoldingExactlyOnePurchase->attach($purchase);
-		$this->subject->setPurchase($objectStorageHoldingExactlyOnePurchase);
-
-		$this->assertAttributeEquals(
-			$objectStorageHoldingExactlyOnePurchase,
-			'purchase',
-			$this->subject
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function addPurchaseToObjectStorageHoldingPurchase()
-	{
-		$purchase = new \DanLundgren\DlIponlyestate\Domain\Model\Purchase();
-		$purchaseObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', array('attach'), array(), '', FALSE);
-		$purchaseObjectStorageMock->expects($this->once())->method('attach')->with($this->equalTo($purchase));
-		$this->inject($this->subject, 'purchase', $purchaseObjectStorageMock);
-
-		$this->subject->addPurchase($purchase);
-	}
-
-	/**
-	 * @test
-	 */
-	public function removePurchaseFromObjectStorageHoldingPurchase()
-	{
-		$purchase = new \DanLundgren\DlIponlyestate\Domain\Model\Purchase();
-		$purchaseObjectStorageMock = $this->getMock('TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage', array('detach'), array(), '', FALSE);
-		$purchaseObjectStorageMock->expects($this->once())->method('detach')->with($this->equalTo($purchase));
-		$this->inject($this->subject, 'purchase', $purchaseObjectStorageMock);
-
-		$this->subject->removePurchase($purchase);
+		$this->subject->removeReportedMeasurement($reportedMeasurement);
 
 	}
 }

@@ -7,8 +7,9 @@ CREATE TABLE tx_dliponlyestate_domain_model_estate (
 	pid int(11) DEFAULT '0' NOT NULL,
 
 	name varchar(255) DEFAULT '' NOT NULL,
-	image int(11) unsigned NOT NULL default '0',
+	estate_description text NOT NULL,
 	adress varchar(255) DEFAULT '' NOT NULL,
+	image int(11) unsigned NOT NULL default '0',
 	postal_code varchar(255) DEFAULT '' NOT NULL,
 	city varchar(255) DEFAULT '' NOT NULL,
 	width int(11) DEFAULT '0' NOT NULL,
@@ -16,6 +17,7 @@ CREATE TABLE tx_dliponlyestate_domain_model_estate (
 	door_position varchar(255) DEFAULT '' NOT NULL,
 	latitude double(11,2) DEFAULT '0.00' NOT NULL,
 	longitude double(11,2) DEFAULT '0.00' NOT NULL,
+	responsible_technician int(11) DEFAULT '0' NOT NULL,
 	control_points int(11) unsigned DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
@@ -100,7 +102,6 @@ CREATE TABLE tx_dliponlyestate_domain_model_controlpoint (
 	header varchar(255) DEFAULT '' NOT NULL,
 	description text NOT NULL,
 	image int(11) unsigned NOT NULL default '0',
-	responsible_technician int(11) DEFAULT '0' NOT NULL,
 	classified_as_critical tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	node_type int(11) unsigned DEFAULT '0',
 	questions int(11) unsigned DEFAULT '0' NOT NULL,
@@ -147,6 +148,7 @@ CREATE TABLE tx_dliponlyestate_domain_model_question (
 	header varchar(255) DEFAULT '' NOT NULL,
 	description text NOT NULL,
 	image int(11) unsigned NOT NULL default '0',
+	measurement_values int(11) unsigned DEFAULT '0',
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -247,8 +249,7 @@ CREATE TABLE tx_dliponlyestate_domain_model_report (
 	dynamic_column int(11) unsigned DEFAULT '0' NOT NULL,
 	notes int(11) unsigned DEFAULT '0' NOT NULL,
 	estate int(11) unsigned DEFAULT '0',
-	message int(11) unsigned DEFAULT '0' NOT NULL,
-	purchase int(11) unsigned DEFAULT '0' NOT NULL,
+	reported_measurement int(11) unsigned DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -296,6 +297,8 @@ CREATE TABLE tx_dliponlyestate_domain_model_note (
 	remark_type int(11) DEFAULT '0' NOT NULL,
 	version int(11) DEFAULT '0' NOT NULL,
 	is_complete tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	date datetime DEFAULT '0000-00-00 00:00:00',
+	executive_technician varchar(255) DEFAULT '' NOT NULL,
 	control_point int(11) unsigned DEFAULT '0',
 	question int(11) unsigned DEFAULT '0',
 
@@ -329,16 +332,23 @@ CREATE TABLE tx_dliponlyestate_domain_model_note (
 );
 
 #
-# Table structure for table 'tx_dliponlyestate_domain_model_message'
+# Table structure for table 'tx_dliponlyestate_domain_model_reportedmeasurement'
 #
-CREATE TABLE tx_dliponlyestate_domain_model_message (
+CREATE TABLE tx_dliponlyestate_domain_model_reportedmeasurement (
 
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 
 	report int(11) unsigned DEFAULT '0' NOT NULL,
 
-	message text NOT NULL,
+	name varchar(255) DEFAULT '' NOT NULL,
+	unit varchar(255) DEFAULT '' NOT NULL,
+	value varchar(255) DEFAULT '' NOT NULL,
+	version int(11) DEFAULT '0' NOT NULL,
+	date datetime DEFAULT '0000-00-00 00:00:00',
+	executive_technician varchar(255) DEFAULT '' NOT NULL,
+	control_point int(11) unsigned DEFAULT '0',
+	question int(11) unsigned DEFAULT '0',
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -370,16 +380,15 @@ CREATE TABLE tx_dliponlyestate_domain_model_message (
 );
 
 #
-# Table structure for table 'tx_dliponlyestate_domain_model_purchase'
+# Table structure for table 'tx_dliponlyestate_domain_model_measurementvalues'
 #
-CREATE TABLE tx_dliponlyestate_domain_model_purchase (
+CREATE TABLE tx_dliponlyestate_domain_model_measurementvalues (
 
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 
-	report int(11) unsigned DEFAULT '0' NOT NULL,
-
-	purchase text NOT NULL,
+	name varchar(255) DEFAULT '' NOT NULL,
+	unit varchar(255) DEFAULT '' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -455,18 +464,9 @@ CREATE TABLE tx_dliponlyestate_domain_model_note (
 );
 
 #
-# Table structure for table 'tx_dliponlyestate_domain_model_message'
+# Table structure for table 'tx_dliponlyestate_domain_model_reportedmeasurement'
 #
-CREATE TABLE tx_dliponlyestate_domain_model_message (
-
-	report  int(11) unsigned DEFAULT '0' NOT NULL,
-
-);
-
-#
-# Table structure for table 'tx_dliponlyestate_domain_model_purchase'
-#
-CREATE TABLE tx_dliponlyestate_domain_model_purchase (
+CREATE TABLE tx_dliponlyestate_domain_model_reportedmeasurement (
 
 	report  int(11) unsigned DEFAULT '0' NOT NULL,
 

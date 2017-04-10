@@ -179,6 +179,57 @@ class NoteTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 	/**
 	 * @test
 	 */
+	public function getDateReturnsInitialValueForDateTime()
+	{
+		$this->assertEquals(
+			NULL,
+			$this->subject->getDate()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setDateForDateTimeSetsDate()
+	{
+		$dateTimeFixture = new \DateTime();
+		$this->subject->setDate($dateTimeFixture);
+
+		$this->assertAttributeEquals(
+			$dateTimeFixture,
+			'date',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getExecutiveTechnicianReturnsInitialValueForString()
+	{
+		$this->assertSame(
+			'',
+			$this->subject->getExecutiveTechnician()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setExecutiveTechnicianForStringSetsExecutiveTechnician()
+	{
+		$this->subject->setExecutiveTechnician('Conceived at T3CON10');
+
+		$this->assertAttributeEquals(
+			'Conceived at T3CON10',
+			'executiveTechnician',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
 	public function getControlPointReturnsInitialValueForControlPoint()
 	{
 		$this->assertEquals(

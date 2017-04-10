@@ -61,6 +61,13 @@ class Question extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $image = null;
     
     /**
+     * measurementValues
+     *
+     * @var \DanLundgren\DlIponlyestate\Domain\Model\MeasurementValues
+     */
+    protected $measurementValues = null;
+    
+    /**
      * Returns the name
      *
      * @return string $name
@@ -164,6 +171,27 @@ class Question extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setImage(\TYPO3\CMS\Extbase\Domain\Model\FileReference $image)
     {
         $this->image = $image;
+    }
+    
+    /**
+     * Returns the measurementValues
+     *
+     * @return \DanLundgren\DlIponlyestate\Domain\Model\MeasurementValues $measurementValues
+     */
+    public function getMeasurementValues()
+    {
+        return $this->measurementValues;
+    }
+    
+    /**
+     * Sets the measurementValues
+     *
+     * @param \DanLundgren\DlIponlyestate\Domain\Model\MeasurementValues $measurementValues
+     * @return void
+     */
+    public function setMeasurementValues(\DanLundgren\DlIponlyestate\Domain\Model\MeasurementValues $measurementValues)
+    {
+        $this->measurementValues = $measurementValues;
     }
 
 }

@@ -20,14 +20,14 @@ return array(
 			'starttime' => 'starttime',
 			'endtime' => 'endtime',
 		),
-		'searchFields' => 'name,image,adress,postal_code,city,width,length,door_position,latitude,longitude,control_points,',
+		'searchFields' => 'name,estate_description,adress,image,postal_code,city,width,length,door_position,latitude,longitude,responsible_technician,control_points,',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('dl_iponlyestate') . 'Resources/Public/Icons/tx_dliponlyestate_domain_model_estate.gif'
 	),
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, image, adress, postal_code, city, width, length, door_position, latitude, longitude, control_points',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, estate_description, adress, image, postal_code, city, width, length, door_position, latitude, longitude, responsible_technician, control_points',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, image, adress, postal_code, city, width, length, door_position, latitude, longitude, control_points, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, estate_description;;;richtext:rte_transform[mode=ts_links], adress, image, postal_code, city, width, length, door_position, latitude, longitude, responsible_technician, control_points, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -126,6 +126,41 @@ return array(
 				'eval' => 'trim'
 			),
 		),
+		'estate_description' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_estate.estate_description',
+			'config' => array(
+				'type' => 'text',
+				'cols' => 40,
+				'rows' => 15,
+				'eval' => 'trim',
+				'wizards' => array(
+					'RTE' => array(
+						'icon' => 'wizard_rte2.gif',
+						'notNewRecords'=> 1,
+						'RTEonly' => 1,
+						'module' => array(
+							'name' => 'wizard_rich_text_editor',
+							'urlParameters' => array(
+								'mode' => 'wizard',
+								'act' => 'wizard_rte.php'
+							)
+						),
+						'title' => 'LLL:EXT:cms/locallang_ttc.xlf:bodytext.W.RTE',
+						'type' => 'script'
+					)
+				)
+			),
+		),
+		'adress' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_estate.adress',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
+			),
+		),
 		'image' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_estate.image',
@@ -170,15 +205,6 @@ return array(
 					'maxitems' => 1
 				),
 				$GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
-			),
-		),
-		'adress' => array(
-			'exclude' => 1,
-			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_estate.adress',
-			'config' => array(
-				'type' => 'input',
-				'size' => 30,
-				'eval' => 'trim'
 			),
 		),
 		'postal_code' => array(
@@ -243,6 +269,20 @@ return array(
 				'size' => 30,
 				'eval' => 'double2'
 			)
+		),
+		'responsible_technician' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_estate.responsible_technician',
+			'config' => array(
+				'type' => 'select',
+				'renderType' => 'selectSingle',
+				'items' => array(
+					array('-- Label --', 0),
+				),
+				'size' => 1,
+				'maxitems' => 1,
+				'eval' => ''
+			),
 		),
 		'control_points' => array(
 			'exclude' => 1,

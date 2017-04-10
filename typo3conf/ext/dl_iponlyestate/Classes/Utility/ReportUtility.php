@@ -62,9 +62,9 @@ class ReportUtility {
             if($report->getEstate()==$estate) {
                 if((int)$report->getVersion()>(int)$highestVersion) {
                     $highestVersion = (int)$report->getVersion();
-                    if($report->getReportIsPosted() && !$report->getIsComplete()) {
-                        $startDate = $report->getStartDate();
-                    }
+                    //if($report->getReportIsPosted() && !$report->getIsComplete()) {
+                    //    $startDate = $report->getStartDate();
+                    //}
                     $latestReport = $report;                
                 }
             }
@@ -74,7 +74,8 @@ class ReportUtility {
             return $latestReport;
         }
         //TODO: Check so reportPid constant is set
-        $newReport = self::createNewReport($highestVersion, $estate, $reportPid, $startDate, $persistIt);
+        $newReport = self::createNewReport($highestVersion, $estate, $reportPid, $startDate, true);
+        //$newReport = self::createNewReport($highestVersion, $estate, $reportPid, $startDate, $persistIt);
         return $newReport;
         
         //$newReport = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DanLundgren\DlIponlyestate\Domain\Model\Report');
@@ -102,7 +103,7 @@ class ReportUtility {
 		$datetime = new \DateTime();
 		$datetime->format('Y-m-d H:i:s');
 		$report->setDate($datetime);
-		$report->setName($datetime->format('Y-m-d H:i').' Nr: '.$report->getVersion());
+		$report->setName($estate->getName.' '. $datetime->format('Y-m-d H:i').' Nr: '.$report->getVersion());
         $report->setIsComplete(false);
         $report->setPid($reportPid);
         $report->setExecutiveTechnician($GLOBALS['TSFE']->fe_user->user['uid']);
@@ -184,6 +185,89 @@ class ReportUtility {
         }
         $persistenceManager->persistAll();
     }
+    public static function getNextMeasureVersion($estate) {
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+        $reportRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
+        $allReports = $reportRepository->findAll();
+        $newVerNo = 0;
+        foreach($allReports as $report) {
+            if($report->getEstate()==$estate) {
+                foreach($report->getReportedMeasurement() as $prevMeasurement) {
+                    //if($prevMeasurement->getVersion()>$newVerNo && $prevMeasurement->getQuestion()==$questUid) {
+                    if($prevMeasurement->getVersion()>$newVerNo) {
+                        $newVerNo = $prevMeasurement->getVersion();
+                    }
+                }
+            }
+        }
+        return $newVerNo+=1;  
+    }
+    public static function getNextNoteVersion($estate) {
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+        $reportRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
+        $allReports = $reportRepository->findAll();
+        $newVerNo = 0;
+        foreach($allReports as $report) {
+            if($report->getEstate()==$estate) {
+                foreach($report->getNotes() as $prevNote) {
+                    //if($prevMeasurement->getVersion()>$newVerNo && $prevMeasurement->getQuestion()==$questUid) {
+                    if($prevNote->getVersion()>$newVerNo) {
+                        $newVerNo = $prevNote->getVersion();
+                    }
+                }
+            }
+        }
+        return $newVerNo+=1;  
+    }
+    public static function saveMeasurement($report, $cpUid, $questUid, $measureUid, $measureValue, $measureName, $measureUnit) {
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+        $persistenceManager = $objectManager->get('TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface');
+        $reportRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
+        $questionRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\QuestionRepository');
+        $controlPointRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ControlPointRepository');
+        $reportedMeasurement = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DanLundgren\DlIponlyestate\Domain\Model\ReportedMeasurement');
+		$newVerNo = 0;
+        /*
+		foreach($report->getReportedMeasurement() as $prevMeasurement) {
+			//if($prevMeasurement->getVersion()>$newVerNo && $prevMeasurement->getQuestion()==$questUid) {
+            if($prevMeasurement->getVersion()>$newVerNo) {
+				$newVerNo = $prevMeasurement->getVersion();
+			}
+		}
+        */
+		$cp = $controlPointRepository->findByUid($cpUid);
+		$reportedMeasurement->setControlPoint($cp);
+        //$newVerNo+=1;       
+        $reportedMeasurement->setVersion(self::getNextMeasureVersion($report->getEstate()));
+        /*
+        if($newVerNo<0) {
+            $reportedMeasurement->setVersion(1);    
+        }
+        else {
+            $reportedMeasurement->setVersion($newVerNo);    
+        }
+        */
+		//$note->setVersion($newVerNo+=1);
+		$reportedMeasurement->setName($measureName);
+		$reportedMeasurement->setUnit($measureUnit);
+		$reportedMeasurement->setValue($measureValue);
+        $reportedMeasurement->setExecutiveTechnician($GLOBALS['TSFE']->fe_user->user['name']);
+        $datetime = new \DateTime();
+		$datetime->format('Y-m-d H:i:s');
+        $reportedMeasurement->setDate($datetime);
+        $question = $questionRepository->findByUid($questUid);
+		$reportedMeasurement->setQuestion($question);
+		$reportedMeasurement->setPid($report->getPid());
+        $report->addReportedMeasurement($reportedMeasurement);
+        if($report->getUid()==NULL) {
+            $reportRepository->add($report);
+        }
+        else {
+            $reportRepository->update($report);
+        }
+        $persistenceManager->persistAll();
+        return $reportedMeasurement;
+    }
     public static function saveNote($report, $cpUid, $questUid, $noteUid, $noteText, $noteState) {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
         $persistenceManager = $objectManager->get('TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface');
@@ -191,25 +275,34 @@ class ReportUtility {
         $questionRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\QuestionRepository');
         $controlPointRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ControlPointRepository');
         $note = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DanLundgren\DlIponlyestate\Domain\Model\Note');
-		$newVerNo = -2;
+		$newVerNo = 0;
 		foreach($report->getNotes() as $prevNote) {
-			if($prevNote->getVersion()>$newVerNo && $prevNote->getQuestion()==$questUid) {
+			//if($prevNote->getVersion()>$newVerNo && $prevNote->getQuestion()==$questUid) {
+            if($prevNote->getVersion()>$newVerNo) {
 				$newVerNo = $prevNote->getVersion();
 			}
 		}
 		$cp = $controlPointRepository->findByUid($cpUid);
 		$note->setControlPoint($cp);
-        $newVerNo+=1;       
-        if($newVerNo<0) {
+        //$newVerNo+=1;       
+        $note->setVersion(self::getNextNoteVersion($report->getEstate()));
+        //$note->setVersion($newVerNo);
+        /*
+        if($newVerNo) {
             $note->setVersion(1);    
         }
         else {
             $note->setVersion($newVerNo);    
         }
+        */
 		//$note->setVersion($newVerNo+=1);
 		$note->setRemarkType($noteState);
 		$note->setComment($noteText);
 		$note->setState($noteState);
+        $note->setExecutiveTechnician($GLOBALS['TSFE']->fe_user->user['name']);
+        $datetime = new \DateTime();
+		$datetime->format('Y-m-d H:i:s');
+        $note->setDate($datetime);
 		if($note->getState()=='ok') {
 			$note->setIsComplete(1);
 		}
@@ -264,7 +357,7 @@ class ReportUtility {
         $allReports = $reportRepository->findAll();
         $postedReports = array();
         foreach($allReports as $report) {
-            if($report->getStartDate() == $startDate && $report->getEstate()==$estate) {
+            if($report->getStartDate() == $startDate && $report->getEstate()==$estate && $report->getReportIsPosted()) {
                 $postedReports[] = $report;
             }
         }

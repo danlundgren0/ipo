@@ -68,11 +68,11 @@ class ControlPoint extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $image = null;
     
     /**
-     * responsibleTechnician
+     * classifiedAsCritical
      *
-     * @var int
+     * @var bool
      */
-    protected $responsibleTechnician = 0;
+    protected $classifiedAsCritical = false;
     
     /**
      * nodeType
@@ -87,13 +87,6 @@ class ControlPoint extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\DanLundgren\DlIponlyestate\Domain\Model\Question>
      */
     protected $questions = null;
-    
-    /**
-     * classifiedAsCritical
-     *
-     * @var bool
-     */
-    protected $classifiedAsCritical = false;
     
     /**
      * __construct
@@ -221,27 +214,6 @@ class ControlPoint extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setPid($pid)
     {
         $this->pid = $pid;
-    }
-    
-    /**
-     * Returns the responsibleTechnician
-     *
-     * @return int $responsibleTechnician
-     */
-    public function getResponsibleTechnician()
-    {
-        return $this->responsibleTechnician;
-    }
-    
-    /**
-     * Sets the responsibleTechnician
-     *
-     * @param int $responsibleTechnician
-     * @return void
-     */
-    public function setResponsibleTechnician($responsibleTechnician)
-    {
-        $this->responsibleTechnician = $responsibleTechnician;
     }
     
     /**

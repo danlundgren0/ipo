@@ -155,18 +155,6 @@ class ControlPointTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 	/**
 	 * @test
 	 */
-	public function getResponsibleTechnicianReturnsInitialValueForInt()
-	{	}
-
-	/**
-	 * @test
-	 */
-	public function setResponsibleTechnicianForIntSetsResponsibleTechnician()
-	{	}
-
-	/**
-	 * @test
-	 */
 	public function getClassifiedAsCriticalReturnsInitialValueForBool()
 	{
 		$this->assertSame(

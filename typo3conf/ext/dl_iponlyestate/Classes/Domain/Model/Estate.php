@@ -103,11 +103,25 @@ class Estate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $longitude = 0.0;
     
     /**
+     * responsibleTechnician
+     *
+     * @var int
+     */
+    protected $responsibleTechnician = 0;
+    
+    /**
      * controlPoints
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\DanLundgren\DlIponlyestate\Domain\Model\ControlPoint>
      */
     protected $controlPoints = null;
+    
+    /**
+     * estateDescription
+     *
+     * @var string
+     */
+    protected $estateDescription = '';
     
     /**
      * __construct
@@ -382,6 +396,48 @@ class Estate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setImage(\TYPO3\CMS\Extbase\Domain\Model\FileReference $image)
     {
         $this->image = $image;
+    }
+    
+    /**
+     * Returns the responsibleTechnician
+     *
+     * @return int $responsibleTechnician
+     */
+    public function getResponsibleTechnician()
+    {
+        return $this->responsibleTechnician;
+    }
+    
+    /**
+     * Sets the responsibleTechnician
+     *
+     * @param int $responsibleTechnician
+     * @return void
+     */
+    public function setResponsibleTechnician($responsibleTechnician)
+    {
+        $this->responsibleTechnician = $responsibleTechnician;
+    }
+    
+    /**
+     * Returns the estateDescription
+     *
+     * @return string $estateDescription
+     */
+    public function getEstateDescription()
+    {
+        return $this->estateDescription;
+    }
+    
+    /**
+     * Sets the estateDescription
+     *
+     * @param string $estateDescription
+     * @return void
+     */
+    public function setEstateDescription($estateDescription)
+    {
+        $this->estateDescription = $estateDescription;
     }
 
 }

@@ -51,10 +51,12 @@
                             <label>Select ControlPoint</label>
                             <exclude>1</exclude>
                             <config>
-                                <type>select</type>
-                                <mm>tx_dliponlyestate_estate_controlpoint_mm</mm>
+                                <type>select</type>                                
+                                <itemsProcFunc>DanLundgren\DlIponlyestate\Hooks\FFControlPointSelector->getControlPoints</itemsProcFunc>
+                                <items type="array"></items>
+                                <!-- mm>tx_dliponlyestate_estate_controlpoint_mm</mm>
                                 <foreign_table>tx_dliponlyestate_domain_model_controlpoint</foreign_table>                                
-                                <foreign_table_where> AND tx_dliponlyestate_domain_model_controlpoint.deleted = 0 AND tx_dliponlyestate_domain_model_controlpoint.hidden = 0 ORDER BY tx_dliponlyestate_domain_model_controlpoint.name</foreign_table_where>
+                                <foreign_table_where> AND tx_dliponlyestate_domain_model_controlpoint.deleted = 0 AND tx_dliponlyestate_domain_model_controlpoint.hidden = 0 ORDER BY tx_dliponlyestate_domain_model_controlpoint.name</foreign_table_where -->
                                 
                                 <size>1</size>
                                 <maxitems>1</maxitems>

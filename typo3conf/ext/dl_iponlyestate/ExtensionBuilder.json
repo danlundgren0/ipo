@@ -49,9 +49,9 @@
                             "propertyDescription": "",
                             "propertyIsExcludeField": true,
                             "propertyIsRequired": false,
-                            "propertyName": "image",
-                            "propertyType": "Image",
-                            "uid": "1217527478034"
+                            "propertyName": "estateDescription",
+                            "propertyType": "RichText",
+                            "uid": "1352066892056"
                         },
                         {
                             "allowedFileTypes": "",
@@ -62,6 +62,16 @@
                             "propertyName": "adress",
                             "propertyType": "String",
                             "uid": "104107388653"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "image",
+                            "propertyType": "Image",
+                            "uid": "1217527478034"
                         },
                         {
                             "allowedFileTypes": "",
@@ -132,6 +142,16 @@
                             "propertyName": "longitude",
                             "propertyType": "Float",
                             "uid": "1208164345754"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "responsibleTechnician",
+                            "propertyType": "Select",
+                            "uid": "860894292465"
                         }
                     ]
                 },
@@ -154,8 +174,8 @@
         {
             "config": {
                 "position": [
-                    12,
-                    373
+                    255,
+                    608
                 ]
             },
             "name": "New Model Object",
@@ -204,8 +224,8 @@
         {
             "config": {
                 "position": [
-                    244,
-                    83
+                    250,
+                    48
                 ]
             },
             "name": "New Model Object",
@@ -216,7 +236,9 @@
                     "_default2_new_create": false,
                     "_default3_edit_update": false,
                     "_default4_delete": false,
-                    "customActions": []
+                    "customActions": [
+                        "upload"
+                    ]
                 },
                 "name": "ControlPoint",
                 "objectsettings": {
@@ -273,16 +295,6 @@
                             "propertyName": "image",
                             "propertyType": "Image",
                             "uid": "655811949121"
-                        },
-                        {
-                            "allowedFileTypes": "",
-                            "maxItems": "1",
-                            "propertyDescription": "",
-                            "propertyIsExcludeField": true,
-                            "propertyIsRequired": false,
-                            "propertyName": "responsibleTechnician",
-                            "propertyType": "Select",
-                            "uid": "741696913920"
                         },
                         {
                             "allowedFileTypes": "",
@@ -398,7 +410,18 @@
                     ]
                 },
                 "relationGroup": {
-                    "relations": []
+                    "relations": [
+                        {
+                            "foreignRelationClass": "",
+                            "lazyLoading": false,
+                            "propertyIsExcludeField": true,
+                            "relationDescription": "",
+                            "relationName": "measurementValues",
+                            "relationType": "manyToOne",
+                            "relationWire": "[wired]",
+                            "uid": "63749767997"
+                        }
+                    ]
                 }
             }
         },
@@ -694,20 +717,10 @@
                             "lazyLoading": false,
                             "propertyIsExcludeField": true,
                             "relationDescription": "",
-                            "relationName": "message",
+                            "relationName": "reportedMeasurement",
                             "relationType": "zeroToMany",
                             "relationWire": "[wired]",
-                            "uid": "184843970043"
-                        },
-                        {
-                            "foreignRelationClass": "",
-                            "lazyLoading": false,
-                            "propertyIsExcludeField": true,
-                            "relationDescription": "",
-                            "relationName": "purchase",
-                            "relationType": "zeroToMany",
-                            "relationWire": "[wired]",
-                            "uid": "269200465"
+                            "uid": "1368533823144"
                         }
                     ]
                 }
@@ -805,6 +818,26 @@
                             "propertyName": "isComplete",
                             "propertyType": "Boolean",
                             "uid": "726745174611"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": true,
+                            "propertyName": "date",
+                            "propertyType": "NativeDateTime",
+                            "uid": "1145134925136"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": true,
+                            "propertyName": "executiveTechnician",
+                            "propertyType": "String",
+                            "uid": "806149621927"
                         }
                     ]
                 },
@@ -837,8 +870,8 @@
         {
             "config": {
                 "position": [
-                    431,
-                    393
+                    790,
+                    438
                 ]
             },
             "name": "New Model Object",
@@ -851,7 +884,7 @@
                     "_default4_delete": false,
                     "customActions": []
                 },
-                "name": "Message",
+                "name": "ReportedMeasurement",
                 "objectsettings": {
                     "addDeletedField": true,
                     "addHiddenField": true,
@@ -873,22 +906,93 @@
                             "propertyDescription": "",
                             "propertyIsExcludeField": true,
                             "propertyIsRequired": false,
-                            "propertyName": "message",
-                            "propertyType": "Text",
+                            "propertyName": "name",
+                            "propertyType": "String",
                             "uid": "943299420932"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "unit",
+                            "propertyType": "String",
+                            "uid": "1316533506355"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "value",
+                            "propertyType": "String",
+                            "uid": "542486398939"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "version",
+                            "propertyType": "Integer",
+                            "uid": "1477934968192"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "date",
+                            "propertyType": "NativeDateTime",
+                            "uid": "763480188670"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "executiveTechnician",
+                            "propertyType": "String",
+                            "uid": "437734013516"
                         }
                     ]
                 },
                 "relationGroup": {
-                    "relations": []
+                    "relations": [
+                        {
+                            "foreignRelationClass": "",
+                            "lazyLoading": false,
+                            "propertyIsExcludeField": true,
+                            "relationDescription": "",
+                            "relationName": "controlPoint",
+                            "relationType": "manyToOne",
+                            "relationWire": "[wired]",
+                            "uid": "1072959445332"
+                        },
+                        {
+                            "foreignRelationClass": "",
+                            "lazyLoading": false,
+                            "propertyIsExcludeField": true,
+                            "relationDescription": "",
+                            "relationName": "question",
+                            "relationType": "zeroToOne",
+                            "relationWire": "[wired]",
+                            "uid": "590443057524"
+                        }
+                    ]
                 }
             }
         },
         {
             "config": {
                 "position": [
-                    726,
-                    437
+                    382,
+                    407
                 ]
             },
             "name": "New Model Object",
@@ -901,7 +1005,7 @@
                     "_default4_delete": false,
                     "customActions": []
                 },
-                "name": "Purchase",
+                "name": "MeasurementValues",
                 "objectsettings": {
                     "addDeletedField": true,
                     "addHiddenField": true,
@@ -913,7 +1017,7 @@
                     "parentClass": "",
                     "sorting": false,
                     "type": "Entity",
-                    "uid": "1346280725737"
+                    "uid": "1416409502802"
                 },
                 "propertyGroup": {
                     "properties": [
@@ -923,9 +1027,19 @@
                             "propertyDescription": "",
                             "propertyIsExcludeField": true,
                             "propertyIsRequired": false,
-                            "propertyName": "purchase",
-                            "propertyType": "Text",
-                            "uid": "896245846260"
+                            "propertyName": "name",
+                            "propertyType": "String",
+                            "uid": "226724674758"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "unit",
+                            "propertyType": "String",
+                            "uid": "1370553251370"
                         }
                     ]
                 },
@@ -965,8 +1079,8 @@
         "plugins": [
             {
                 "actions": {
-                    "controllerActionCombinations": "ControlPoint=>list,show",
-                    "noncacheableActions": "",
+                    "controllerActionCombinations": "ControlPoint=>list,show,upload",
+                    "noncacheableActions": "ControlPoint=>list,show,upload",
                     "switchableActions": "Show controlpoint\nControlPoint->show;\nList controlpoints\nControlPoint->list;"
                 },
                 "key": "cp",
@@ -975,7 +1089,7 @@
             {
                 "actions": {
                     "controllerActionCombinations": "Estate=>list,show",
-                    "noncacheableActions": "",
+                    "noncacheableActions": "Estate=>list,show",
                     "switchableActions": ""
                 },
                 "key": "estate",
@@ -1080,30 +1194,6 @@
         },
         {
             "src": {
-                "moduleId": 5,
-                "terminal": "relationWire_3",
-                "uid": "184843970043"
-            },
-            "tgt": {
-                "moduleId": 7,
-                "terminal": "SOURCES",
-                "uid": "1163917751121"
-            }
-        },
-        {
-            "src": {
-                "moduleId": 5,
-                "terminal": "relationWire_4",
-                "uid": "269200465"
-            },
-            "tgt": {
-                "moduleId": 8,
-                "terminal": "SOURCES",
-                "uid": "1346280725737"
-            }
-        },
-        {
-            "src": {
                 "moduleId": 6,
                 "terminal": "relationWire_1",
                 "uid": "1292527126643"
@@ -1113,10 +1203,58 @@
                 "terminal": "SOURCES",
                 "uid": "201117816553"
             }
+        },
+        {
+            "src": {
+                "moduleId": 3,
+                "terminal": "relationWire_0",
+                "uid": "63749767997"
+            },
+            "tgt": {
+                "moduleId": 8,
+                "terminal": "SOURCES",
+                "uid": "1416409502802"
+            }
+        },
+        {
+            "src": {
+                "moduleId": 5,
+                "terminal": "relationWire_3",
+                "uid": "1368533823144"
+            },
+            "tgt": {
+                "moduleId": 7,
+                "terminal": "SOURCES",
+                "uid": "1163917751121"
+            }
+        },
+        {
+            "src": {
+                "moduleId": 7,
+                "terminal": "relationWire_0",
+                "uid": "1072959445332"
+            },
+            "tgt": {
+                "moduleId": 2,
+                "terminal": "SOURCES",
+                "uid": "1033383865307"
+            }
+        },
+        {
+            "src": {
+                "moduleId": 7,
+                "terminal": "relationWire_1",
+                "uid": "590443057524"
+            },
+            "tgt": {
+                "moduleId": 3,
+                "terminal": "SOURCES",
+                "uid": "201117816553"
+            }
         }
     ],
     "log": {
-        "last_modified": "2017-04-05 08:15",
+        "last_modified": "2017-04-10 05:18",
         "extension_builder_version": "7.6.0",
         "be_user": " (1)"
     }

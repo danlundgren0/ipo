@@ -1,5 +1,68 @@
+body .navbar-nav>li, body .navbar-nav>li>a {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+body .navbar {
+    margin-bottom: 0;
+}
+.top .row {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+#mainnavbar {
+    margin-top: 37px;
+}
+body .dropdown-menu>li>a:hover {
+    background-color:#ED5661 !important;
+    color:#ffffff;
+}
+body .dropdown-menu>.active>a, body .dropdown-menu>.active>a:focus {
+    color:#777;
+}
+.estate-container {
+    border-bottom: 1px solid #E3E3E3;
+}
+.cp-container {
+    border-bottom: 1px solid #E3E3E3;
+}
+body .container p {
+    font-size: 15px;
+}
+body .contaier .tab-container a {
+    color:#555;
+}
+.color_1 {
+    background-color: #5CB85C !important;
+}
+.color_2 {
+    background-color: #ED7A85 !important;
+}
+.color_3 {
+    background-color: #F0AD4E !important;
+}
+.color_4 {
+    background-color: #DDDDDD !important;
+}
+.active a {
+    background-color: #FFFFFF !important;
+}
+.tab-container a {
+    background-color: #DCDCDC; 
+}
+body .container a.btn {
+    color:#ffffff;
+}
+.comment {
+    font-weight:bold;
+}
+.btn-default, .btn-primary, .btn-success, .btn-info, .btn-warning, .btn-danger, .btn-link, .btn-secondary {
+    border-radius: 4px !important;
+}
 .tx-dl-iponlyestate .question .collapsed .glyphicon-chevron-down:before {
      content: "\e080";
+}
+body .save-btn {
+    margin-left:0;
 }
 .more-btns {
     
@@ -17,7 +80,7 @@
 }
 .posted-note-container .checkbox {
     float: left;
-    width: 130px;
+    width: 250px;
     height: 35px;   
 }
 body .posted-note-container .checkbox input {

@@ -41,13 +41,11 @@
             $pageId = (int)$GLOBALS['DanLundgren']['mainPid'];
 
             //No md5 on mainPid, because technincion should find this page easily
-            /*
             $mainPageRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery('title', 'pages', 'uid='.$pageId);
             while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($mainPageRes)) {
                 $md5 = md5($row['title'].''.$pageId);
                 $GLOBALS['TYPO3_DB']->exec_UPDATEquery('pages', 'uid='.$pageId, array('tx_realurl_pathsegment' => $md5));
             }
-            */
             $subPageRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid,title', 'pages', 'pid='.$pageId);
             while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($subPageRes)) {
                 $md5 = md5($row['title'].''.$row['uid']);

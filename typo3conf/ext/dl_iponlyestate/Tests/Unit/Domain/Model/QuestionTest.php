@@ -151,4 +151,30 @@ class QuestionTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 			$this->subject
 		);
 	}
+
+	/**
+	 * @test
+	 */
+	public function getMeasurementValuesReturnsInitialValueForMeasurementValues()
+	{
+		$this->assertEquals(
+			NULL,
+			$this->subject->getMeasurementValues()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setMeasurementValuesForMeasurementValuesSetsMeasurementValues()
+	{
+		$measurementValuesFixture = new \DanLundgren\DlIponlyestate\Domain\Model\MeasurementValues();
+		$this->subject->setMeasurementValues($measurementValuesFixture);
+
+		$this->assertAttributeEquals(
+			$measurementValuesFixture,
+			'measurementValues',
+			$this->subject
+		);
+	}
 }

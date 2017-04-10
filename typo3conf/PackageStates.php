@@ -289,9 +289,15 @@ return [
             'suggestions' => [],
         ],
         'realurl' => [
-            'composerName' => 'realurl',
+            'composerName' => 'dmitryd/typo3-realurl',
             'state' => 'active',
             'packagePath' => 'typo3conf/ext/realurl/',
+            'suggestions' => [],
+        ],
+        'vhs' => [
+            'composerName' => 'fluidtypo3/vhs',
+            'state' => 'active',
+            'packagePath' => 'typo3conf/ext/vhs/',
             'suggestions' => [],
         ],
         'adodb' => [

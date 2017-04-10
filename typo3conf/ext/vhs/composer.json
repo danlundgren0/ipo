@@ -1,0 +1,34 @@
+{
+    "name": "fluidtypo3/vhs",
+    "description": "The vhs package from FluidTYPO3",
+    "type": "typo3-cms-extension",
+    "support": {
+        "irc": "irc://irc.freenode.org/fedext",
+        "issues": "https://github.com/FluidTYPO3/vhs/issues"
+    },
+    "keywords": [
+        "TYPO3 CMS",
+        "templating",
+        "Utility",
+        "ViewHelper",
+        "fedext",
+        "fluid"
+    ],
+    "preferred-install": "dist",
+    "homepage": "https://fluidtypo3.org",
+    "license": "GPL-2.0+",
+    "autoload": {
+        "psr-4": {
+            "FluidTYPO3\\Vhs\\": "Classes/"
+        }
+    },
+    "require": {
+        "php": ">=5.5.0"
+    },
+    "require-dev": {
+        "fluidtypo3/development": "*"
+    },
+    "suggest": {
+        "ext-tidy": "Allows to make use of the tidy ViewHelper"
+    }
+}

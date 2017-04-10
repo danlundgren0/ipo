@@ -1,115 +1,114 @@
-<f:comment>
-<div class="alert alert-danger input-disabled-note" role="alert">{note.comment}</div>
-</f:comment>
-  <f:if condition="{note.remarkType}==1">
-    <f:if condition="{note.comment}!=''">
-      <div class="posted-note-container">
+
+    <f:if condition="{note.isComplete}==''">
+            <f:if condition="{note.remarkType}==1">
+                <f:for each="{note.controlPoint.questions}" as="question1">
+                    <f:if condition="{question1.uid}=={note.question.uid}">
+                        <div class="posted-note-container">
+                            <div class="alert alert-success input-disabled-note" role="alert">
+                                <div class="label-bold">
+                                    {question1.header}
+                                    <span class="label-ok">OK
+                                        <f:if condition="{note.comment}!=''">
+                                            <div class="comment">{note.comment}</div>
+                                        </f:if>
+                                    </span>
+                                    <div class="prio">Prio: Ok</div>
+                                    <div class="date"><f:format.date format="Y-m-d - H:i:s">{note.date}</f:format.date></div>
+                                    <div>Kontroll utförd av  {note.executiveTechnician}</div>
+                                    <div>ID: {note.uid}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clear-both"></div>
+                    </f:if>
+                </f:for>
+            </f:if>
+            <f:if condition="{note.remarkType}==2">                
+                <f:for each="{note.controlPoint.questions}" as="question2">
+                    <f:if condition="{question2.uid}=={note.question.uid}">
+                        <div class="posted-note-container">
+                            <div class="alert alert-danger input-disabled-note" role="alert">
+                                <div class="label-bold">
+                                    {question2.header}
+                                    <span class="label-critical"> - Kritisk
+                                        <f:if condition="{note.comment}!=''">
+                                            <div class="comment">{note.comment}</div>
+                                        </f:if>
+                                    </span>
+                                </div>
+                                <div class="prio">Prio: Kritisk</div>
+                                <div class="date"><f:format.date format="Y-m-d - H:i:s">{note.date}</f:format.date></div>
+                                <div>Kontroll utförd av  {note.executiveTechnician}</div>
+                                <div>ID: {note.uid}</div>
+                            </div>
+                        </div>
+                        <div class="clear-both"></div>
+                    </f:if>
+                </f:for>
+            </f:if>
+            <f:if condition="{note.remarkType}==3">
+                <f:for each="{note.controlPoint.questions}" as="question3">
+                    <f:if condition="{question3.uid}=={note.question.uid}">
+                        <div class="posted-note-container">
+                            <div class="alert alert-warning input-disabled-note" role="alert">
+                                <div class="label-bold">
+                                    {question3.header}
+                                    <span class="label-remark"> - Anmärkning
+                                        <f:if condition="{note.comment}!=''">
+                                            <div class="comment">{note.comment}</div>
+                                        </f:if>
+                                    </span>
+                                </div>
+                                <div class="prio">Prio: Normal</div>
+                                <div class="date"><f:format.date format="Y-m-d - H:i:s">{note.date}</f:format.date></div>
+                                <div>Kontroll utförd av  {note.executiveTechnician}</div>
+                                <div>ID: {note.uid}</div>
+                            </div>
+                        </div>
+                        <div class="clear-both"></div>
+                    </f:if>
+                </f:for>
+            </f:if>
+            <f:if condition="{note.remarkType}==4">
+                <f:for each="{note.controlPoint.questions}" as="question4">
+                    <f:if condition="{question4.uid}=={note.question.uid}">
+                        <div class="posted-note-container">
+                            <div class="alert alert-info input-disabled-note" role="alert">
+                                <div class="label-bold">
+                                    {question4.header}
+                                    <span class="label-ok"> - Inköp
+                                        <f:if condition="{note.comment}!=''">
+                                            <div class="comment">{note.comment}</div>
+                                        </f:if>
+                                    </span>
+                                </div>
+                                <div class="prio">Prio: Inköp</div>
+                                <div class="date"><f:format.date format="Y-m-d - H:i:s">{note.date}</f:format.date></div>
+                                <div>Kontroll utförd av  {note.executiveTechnician}</div>
+                                <div>ID: {note.uid}</div>
+                            </div>
+                            <div class="clear-both"></div>
+                        </div>
+                    </f:if>
+                </f:for>
+            </f:if>									
+    </f:if>
+
+<f:for each="{report.reportedMeasurement}" as="reportedMeasurement">
+    <div class="posted-note-container">
         <div class="alert alert-success input-disabled-note" role="alert">
             <div class="label-bold">
-              {note.question.header}
-              <span class="label-ok">OK
-                <f:if condition="{note.comment}!=''">
-                  <span> - {note.comment}</span>
-                </f:if>
-              </span>
+                {reportedMeasurement.question.header}
+                <span class="label-ok">Mätvärde: 
+                    <div class="comment">{reportedMeasurement.value} {reportedMeasurement.name} ({reportedMeasurement.unit})</div>
+                </span>
+                <div class="date"><f:format.date format="Y-m-d - H:i:s">{reportedMeasurement.date}</f:format.date></div>
+                <div>Kontroll utförd av  {reportedMeasurement.executiveTechnician}</div>
+                <div>ID: {reportedMeasurement.uid}</div>
             </div>
         </div>
-        <div class="checkbox">
-          <label><input type="checkbox" class="note-fixed" data-noteuid="{note.uid}" value="">Åtgärda</label>
-        </div>
-      </div>
-    </f:if>
-  </f:if>
-  <f:if condition="{note.remarkType}==2">
-    <f:if condition="{note.comment}!=''">
-      <div class="posted-note-container">
-        <div class="alert alert-danger input-disabled-note" role="alert">
-          <div class="label-bold">
-            {note.question.header}
-            <span class="label-critical"> - Kritisk
-              <f:if condition="{note.comment}!=''">
-                <span> - {note.comment}</span>
-              </f:if>
-            </span>
-          </div>
-        </div>
-        <div class="checkbox">
-          <label><input type="checkbox" class="note-fixed" data-noteuid="{note.uid}" value="">Åtgärda</label>
-        </div>
-      </div>
-    </f:if>
-  </f:if>
-  <f:if condition="{note.remarkType}==3">
-    <f:if condition="{note.comment}!=''">
-      <div class="posted-note-container">
-        <div class="alert alert-warning input-disabled-note" role="alert">
-          <div class="label-bold">
-            {note.question.header}
-            <span class="label-remark"> - Anmärkning
-              <f:if condition="{note.comment}!=''">
-                <span> - {note.comment}</span>
-              </f:if>
-            </span>
-          </div>
-        </div>
-        <div class="checkbox">
-          <label><input type="checkbox" class="note-fixed" data-noteuid="{note.uid}" value="">Åtgärda</label>
-        </div>
-      </div>
-    </f:if>
-  </f:if>
-  <f:if condition="{note.remarkType}==4">
-    <f:if condition="{note.comment}!=''">
-      <div class="posted-note-container">
-        <div class="alert alert-info input-disabled-note" role="alert">
-          <div class="label-bold">
-            {note.question.header}
-            <span class="label-ok"> - Inköp
-              <f:if condition="{note.comment}!=''">
-                <span> - {note.comment}</span>
-              </f:if>
-            </span>
-          </div>
-        </div>
-        <div class="checkbox">
-          <label><input type="checkbox" class="note-fixed" data-noteuid="{note.uid}" value="">Åtgärda</label>
-        </div>
-      </div>
-    </f:if>
-  </f:if>									
-<f:comment>
-<div>DEBUG: data-estateuid:{reportWithVersion.estate.uid} data-questionuid:{question.uid}  data-nodetypeuid="{controlPoint.nodeType.uid}" data-cpuid:{controlPoint.uid} data-reportuid:{reportWithVersion.uid} data-noteuid:{note.uid} notever:{note.version}</div>
+    </div>
+    <div class="clear-both"></div>
+</f:for>					
 
-<div class="noteContainer" reportuid data-estateuid="{reportWithVersion.estate.uid}" data-questionuid="{question.uid}" data-nodetypeuid="{controlPoint.nodeType.uid}" data-cpuid="{controlPoint.uid}" data-reportuid="{reportWithVersion.uid}" data-noteuid="{note.uid}" data-notever="{note.version}">
-    <input type="hidden" name="note" value="1" data-version="-1" />
-    <div class="card">
-      <div>
-        <div class="state-buttons">
-          <button type="button" class="btn btn-success btn-ipaction disabled {f:if(condition: '{note.remarkType} == 1', then: ' active', else: '')}" data-type="1" aria-pressed="false">OK</button>
-          <button type="button" class="btn btn-danger btn-ipaction disabled {f:if(condition: '{note.remarkType} == 2', then: ' active', else: '')}" data-type="2" aria-pressed="false">Krit.</button>
-          <button type="button" class="btn btn-warning btn-ipaction disabled {f:if(condition: '{note.remarkType} == 3', then: ' active', else: '')}" data-type="3" aria-pressed="false">Anm.</button>
-          <button type="button" class="btn btn-secondary btn-ipaction disabled {f:if(condition: '{note.remarkType} == 4', then: ' active', else: '')}" data-type="4" aria-pressed="false">Inköp</button>
-          <button type="button" class="btn btn-info btn-ipaction disabled" data-type="foto" aria-pressed="false">
-            <span class="glyphicon glyphicon-camera disabled" aria-hidden="true"></span>
-          </button>
-        </div>
-      </div>
-      <div class="card-header" role="tab">
-        <h5 class="mb-0">
-          <h3>
-            <textarea class="input-disabled-note" id="input_{question.uid}" type="text" value="{note.comment}" disabled>{note.comment}</textarea>
-            <span class="save-btn hidden">
-              <button type="button" class="btn btn-success">Spara</button>
-            </span>
-            <span class="add-btn hidden">
-              <button type="button" class="btn btn-secondary">Lägg till notering</button>
-            </span>                            
-          </h3>
-        </h5>
-      </div>
-  </div>
-  
-</div>
-<textarea class="input-disabled-note" id="input_{question.uid}" type="text" value="{note.comment}" disabled>{note.comment}</textarea>
-</f:comment>
 

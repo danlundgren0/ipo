@@ -78,6 +78,22 @@ class Note extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $isComplete = false;
     
     /**
+     * date
+     *
+     * @var \DateTime
+     * @validate NotEmpty
+     */
+    protected $date = null;
+    
+    /**
+     * executiveTechnician
+     *
+     * @var string
+     * @validate NotEmpty
+     */
+    protected $executiveTechnician = 0;
+    
+    /**
      * controlPoint
      *
      * @var \DanLundgren\DlIponlyestate\Domain\Model\ControlPoint
@@ -267,6 +283,48 @@ class Note extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setQuestion(\DanLundgren\DlIponlyestate\Domain\Model\Question $question)
     {
         $this->question = $question;
+    }
+    
+    /**
+     * Returns the date
+     *
+     * @return \DateTime $date
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+    
+    /**
+     * Sets the date
+     *
+     * @param \DateTime $date
+     * @return void
+     */
+    public function setDate(\DateTime $date)
+    {
+        $this->date = $date;
+    }
+    
+    /**
+     * Returns the executiveTechnician
+     *
+     * @return string executiveTechnician
+     */
+    public function getExecutiveTechnician()
+    {
+        return $this->executiveTechnician;
+    }
+    
+    /**
+     * Sets the executiveTechnician
+     *
+     * @param int $executiveTechnician
+     * @return void
+     */
+    public function setExecutiveTechnician($executiveTechnician)
+    {
+        $this->executiveTechnician = $executiveTechnician;
     }
 
 }

@@ -1,4 +1,4 @@
-
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
 <f:layout name="Default" />
 
 This Template is responsible for displaying a single view for a domain object
@@ -22,9 +22,6 @@ Otherwise your changes will be overwritten the next time you save the extension 
   </f:if>
   <div class="col-md-12">
     <div class="row">
-      <f:comment>
-        <div class="alert alert-danger" role="alert">Här ska visa saved state meddelanden</div>
-      </f:comment>
       <div class="col-md-6">        
         <span>{errorMess}</span>
         <h1>{controlPoint.header}</h1>
@@ -49,20 +46,51 @@ Otherwise your changes will be overwritten the next time you save the extension 
         </f:for>
       </div>
       <div class="post-report-container col-md-4">
-        <div class="btn-ip-post-report">
-          <button type="button" class="btn btn-success" data-reportuid="{reportWithVersion.uid}">Skicka in rapport</button>
-        </div>      
+     
       </div>
     </div>
     <div class="tab-container">
       <ul class="nav nav-tabs" role="tablist">
-        <f:for each="{controlPoint.questions}" as="question" iteration="tIt">        
+        <f:for each="{controlPoint.questions}" as="question" iteration="tIt">
+          <v:variable.set name="noteColor" value="" />
           <f:if condition="{tIt.isFirst}">
             <f:then>
-              <li role="presentation" class="active"><a href="#uid_{question.uid}" aria-controls="uid_{question.uid}" role="tab" data-toggle="tab" data-isloaded="true"  data-trigger-cpuid="{controlPoint.uid}" data-trigger-quid="{question.uid}">{question.header}</a></li>
+                <f:for each="{reportWithVersion.notes}" as="note">
+                  <f:if condition="{note.controlPoint.uid} == {controlPoint.uid}">
+                      <f:if  condition="{note.question.uid} == {question.uid}">
+                        <f:if condition="{note.isComplete}==''">
+                          <v:variable.set name="noteColor" value="color_{note.remarkType}" />
+                        </f:if>
+                      </f:if>
+                  </f:if>
+                </f:for>
+                <f:for each="{reportWithVersion.reportedMeasurement}" as="reportedMeasurement">
+                  <f:if condition="{reportedMeasurement.controlPoint.uid} == {controlPoint.uid}">
+                      <f:if  condition="{reportedMeasurement.question.uid} == {question.uid}">
+                          <v:variable.set name="noteColor" value="color_1" />
+                        </f:if>
+                  </f:if>
+                </f:for>
+              <li role="presentation" class="active"><a class="{v:variable.get(name: 'noteColor')}" href="#uid_{question.uid}" aria-controls="uid_{question.uid}" role="tab" data-toggle="tab" data-isloaded="true"  data-trigger-cpuid="{controlPoint.uid}" data-trigger-quid="{question.uid}">{question.header}</a></li>
             </f:then>
             <f:else>
-              <li role="presentation"><a href="#uid_{question.uid}" aria-controls="uid_{question.uid}" role="tab" data-toggle="tab" data-isloaded="false" data-trigger-cpuid="{controlPoint.uid}" data-trigger-quid="{question.uid}">{question.header}</a></li>
+                <f:for each="{reportWithVersion.notes}" as="note">
+                  <f:if condition="{note.controlPoint.uid} == {controlPoint.uid}">
+                      <f:if  condition="{note.question.uid} == {question.uid}">
+                        <f:if condition="{note.isComplete}==''">
+                          <v:variable.set name="noteColor" value="color_{note.remarkType}" />
+                        </f:if>
+                      </f:if>
+                  </f:if>
+                </f:for>
+                <f:for each="{reportWithVersion.reportedMeasurement}" as="reportedMeasurement">
+                  <f:if condition="{reportedMeasurement.controlPoint.uid} == {controlPoint.uid}">
+                      <f:if  condition="{reportedMeasurement.question.uid} == {question.uid}">
+                          <v:variable.set name="noteColor" value="color_1" />
+                        </f:if>
+                  </f:if>
+                </f:for>
+              <li role="presentation"><a class="{v:variable.get(name: 'noteColor')}" href="#uid_{question.uid}" aria-controls="uid_{question.uid}" role="tab" data-toggle="tab" data-isloaded="false" data-trigger-cpuid="{controlPoint.uid}" data-trigger-quid="{question.uid}">{question.header}</a></li>
             </f:else>
           </f:if>
         </f:for>  
@@ -83,9 +111,10 @@ Otherwise your changes will be overwritten the next time you save the extension 
                         <h1>{question.header}</h1>
                         <div><f:format.html>{question.description}</f:format.html></div>
                         <input type="hidden" value="{question.uid}" class="qUid" />
-                        <f:render partial="Report/NewNote" arguments="{question:question, controlPoint:controlPoint, reportWithVersion:reportWithVersion}" />
+                        <f:render partial="Report/NewNote" arguments="{question:question, controlPoint:controlPoint, reportWithVersion:reportWithVersion, tmpNote:tmpNote}" />
                         <div class="unposted-notes"></div>
                         <div class="posted-notes"></div>
+                        <div style="clear:both;"></div>
                       </div>
                     <div class="col-md-4">
                       <img src="{question.image.originalResource.publicUrl}" width="554" height="332" class="img-responsive" />
@@ -95,6 +124,21 @@ Otherwise your changes will be overwritten the next time you save the extension 
           </f:for>
         </div>
     </div>
+    <f:if condition="{reportWithVersion.notes -> f:count()}>0">
+      <f:then>
+        <f:link.page pageUid="{rootLine1Uid}" class="btn btn-danger link-to-list-button">Se översikt och/eller slutför rapporteringen >></f:link.page>        
+      </f:then>
+      <f:else>
+        <f:if condition="{reportWithVersion.reportedMeasurement -> f:count()}>0">
+          <f:then>
+            <f:link.page pageUid="{rootLine1Uid}" class="btn btn-danger link-to-list-button">Se översikt och/eller slutför rapporteringen >></f:link.page>
+          </f:then>
+          <f:else>
+            <f:link.page pageUid="{rootLine1Uid}" class="btn btn-danger link-to-list-button hidden">Se översikt och/eller slutför rapporteringen >></f:link.page>      
+        </f:else>
+        </f:if>
+      </f:else>      
+    </f:if>    
   </div>
 </div>
 <f:flashMessages />

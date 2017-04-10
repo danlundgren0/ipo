@@ -79,25 +79,24 @@ class EstateTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 	/**
 	 * @test
 	 */
-	public function getImageReturnsInitialValueForFileReference()
+	public function getEstateDescriptionReturnsInitialValueForString()
 	{
-		$this->assertEquals(
-			NULL,
-			$this->subject->getImage()
+		$this->assertSame(
+			'',
+			$this->subject->getEstateDescription()
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function setImageForFileReferenceSetsImage()
+	public function setEstateDescriptionForStringSetsEstateDescription()
 	{
-		$fileReferenceFixture = new \TYPO3\CMS\Extbase\Domain\Model\FileReference();
-		$this->subject->setImage($fileReferenceFixture);
+		$this->subject->setEstateDescription('Conceived at T3CON10');
 
 		$this->assertAttributeEquals(
-			$fileReferenceFixture,
-			'image',
+			'Conceived at T3CON10',
+			'estateDescription',
 			$this->subject
 		);
 	}
@@ -123,6 +122,32 @@ class EstateTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 		$this->assertAttributeEquals(
 			'Conceived at T3CON10',
 			'adress',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getImageReturnsInitialValueForFileReference()
+	{
+		$this->assertEquals(
+			NULL,
+			$this->subject->getImage()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setImageForFileReferenceSetsImage()
+	{
+		$fileReferenceFixture = new \TYPO3\CMS\Extbase\Domain\Model\FileReference();
+		$this->subject->setImage($fileReferenceFixture);
+
+		$this->assertAttributeEquals(
+			$fileReferenceFixture,
+			'image',
 			$this->subject
 		);
 	}
@@ -279,6 +304,18 @@ class EstateTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 			0.000000001
 		);
 	}
+
+	/**
+	 * @test
+	 */
+	public function getResponsibleTechnicianReturnsInitialValueForInt()
+	{	}
+
+	/**
+	 * @test
+	 */
+	public function setResponsibleTechnicianForIntSetsResponsibleTechnician()
+	{	}
 
 	/**
 	 * @test
