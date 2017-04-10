@@ -2,6 +2,10 @@ body .navbar-nav>li, body .navbar-nav>li>a {
     padding-top: 0;
     padding-bottom: 0;
 }
+body .navbar.navbar-default .navbar-nav>.active>a, body .navbar.navbar-default .navbar-nav>.active>a:focus, body .navbar.navbar-default .navbar-nav>.active>a:hover {
+    padding-top: 0;
+    padding-bottom: 0;
+}
 body .navbar {
     margin-bottom: 0;
 }
