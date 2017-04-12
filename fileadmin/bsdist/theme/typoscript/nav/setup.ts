@@ -12,7 +12,7 @@ lib.mobileNavBtn {
     #value = <span class="fa fa-bars"></span>
 }
 
-[usergroup = 17]
+[usergroup = 15]
 # navbar
 lib.navbar = COA
 lib.navbar.wrap = <nav class="navbar navbar-default" role="navigation">|</nav>
