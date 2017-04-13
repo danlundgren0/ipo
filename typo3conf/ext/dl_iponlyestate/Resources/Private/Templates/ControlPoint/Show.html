@@ -93,21 +93,28 @@ Otherwise your changes will be overwritten the next time you save the extension 
                       <div class="col-md-8">
                         <h1>{question.header}</h1>
                         <div><f:format.html>{question.description}</f:format.html></div>
-                        <input type="hidden" value="{question.uid}" class="qUid" />                        
-                        <f:for each="{reportWithVersion.notes}" as="note">
-                          <v:variable.set name="noteUidIsSet" value="0" />
-                          <f:if condition="{question.uid}=={note.question.uid}">
-                            <v:variable.set name="noteUidIsSet" value="1" />
-                          </f:if>
-                          <f:if condition="{v:variable.get(name: 'noteUidIsSet')}=='0'">
-                            <f:then>
-                              <f:render partial="Report/NewNote" arguments="{note:note, question:question, controlPoint:controlPoint, reportWithVersion:reportWithVersion, tmpNote:tmpNote}" />                              
-                            </f:then>
-                            <f:else>
-                              <f:render partial="Report/ReportedNote" arguments="{note:note, question:question, controlPoint:controlPoint, reportWithVersion:reportWithVersion, tmpNote:tmpNote}" />
-                            </f:else>
-                          </f:if>
-                        </f:for>
+                        <input type="hidden" value="{question.uid}" class="qUid" /> 
+                        <f:if condition="{reportWithVersion.notes -> f:count()}>0">
+                          <f:then>                                                 
+                            <f:for each="{reportWithVersion.notes}" as="note">
+                              <v:variable.set name="noteUidIsSet" value="0" />
+                              <f:if condition="{question.uid}=={note.question.uid}">
+                                <v:variable.set name="noteUidIsSet" value="1" />
+                              </f:if>
+                              <f:if condition="{v:variable.get(name: 'noteUidIsSet')}=='0'">
+                                <f:then>
+                                  <f:render partial="Report/NewNote" arguments="{note:note, question:question, controlPoint:controlPoint, reportWithVersion:reportWithVersion, tmpNote:tmpNote}" />                              
+                                </f:then>
+                                <f:else>
+                                  <f:render partial="Report/ReportedNote" arguments="{note:note, question:question, controlPoint:controlPoint, reportWithVersion:reportWithVersion, tmpNote:tmpNote}" />
+                                </f:else>
+                              </f:if>
+                            </f:for>
+                          </f:then>
+                          <f:else>
+                            <f:render partial="Report/ReportedNote" arguments="{note:note, question:question, controlPoint:controlPoint, reportWithVersion:reportWithVersion, tmpNote:tmpNote}" />
+                          </f:else>
+                        </f:if>
                         <div class="unposted-notes"></div>
                         <div class="posted-notes"></div>
                         <div style="clear:both;"></div>
