@@ -298,7 +298,7 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 		}
 		if((int)$reportUid>0) {
 			$report = \DanLundgren\DlIponlyestate\Utility\ReportUtility::setReportProperties($estateUid, $datetime, $reportUid, $cpUid, $nodeTypeUid, $responsibleTechnician);	
-			$note = \DanLundgren\DlIponlyestate\Utility\ReportUtility::saveNote($report, $cpUid, $questUid, $noteUid, $noteText, $noteState);	
+			$note = \DanLundgren\DlIponlyestate\Utility\ReportUtility::saveNote($report, $cpUid, $questUid, $noteUid, $noteText, $noteState, $curVer);	
 			$this->data['comment'] = $note->getComment();
 			$this->data['note'] = $note->getState();	
 		}
@@ -309,7 +309,7 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 		$this->data['cpUid'] = $cpUid;
 		$this->data['questUid'] = $questUid;
 		$this->data['noteUid'] = $note->getUid();
-		$this->data['curVer'] = $curVer;
+		$this->data['curVer'] = $note->getVersion();
 		$this->data['noteText'] = $noteText;
 		$this->data['noteState'] = $noteState;
 		$this->data['reportUid'] = $reportUid;

@@ -173,11 +173,54 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
             }
         }
         */
-      
 
+
+        $questionUidsWithNotes = array();
+        $questionUidsWithMeasurements = array();        
+        foreach($controlPoint->getQuestions() as $question) {
+            foreach($curReportWithVersion->getNotes() as $note) {
+                if(!in_array($note->getQuestion()->getUid(), $questionUidsWithNotes)) {
+                    $questionUidsWithNotes[] = $note->getQuestion()->getUid();
+                }
+                if($note->getControlPoint()->getUid() == $controlPoint->getUid() && $note->getQuestion()->getUid() == $question->getUid()) {
+
+                }
+            }
+            foreach($curReportWithVersion->getReportedMeasurement() as $reportedMeasurement) {
+                if(!in_array($reportedMeasurement->getQuestion()->getUid(), $questionUidsWithMeasurements)) {
+                    $questionUidsWithMeasurements[] = $reportedMeasurement->getQuestion()->getUid();
+                }
+                if($note->getControlPoint()->getUid() == $controlPoint->getUid() && $note->getQuestion()->getUid() == $question->getUid()) {
+
+                }
+            }
+        }
+        $reportArr = array();
+        $loopNo = 0;
+        foreach($controlPoint->getQuestions() as $question) {
+            if(!in_array($question->getUid(), $questionUidsWithNotes) && !in_array($question->getUid(), $questionUidsWithMeasurements)) {
+                $reportArr[$question->getUid()] = '';
+            }
+            elseif(in_array($question->getUid(), $questionUidsWithNotes)) {
+                foreach($curReportWithVersion->getNotes() as $note) {
+                    if($note->getControlPoint()->getUid() == $controlPoint->getUid() && $note->getQuestion()->getUid() == $question->getUid()) {
+                        $reportArr[$question->getUid()] = $note;
+                    }
+                }
+            }
+            elseif(in_array($question->getUid(), $questionUidsWithMeasurements)) {
+                foreach($curReportWithVersion->getReportedMeasurement() as $reportedMeasurement) {
+                    if($reportedMeasurement->getControlPoint()->getUid() == $controlPoint->getUid() && $reportedMeasurement->getQuestion()->getUid() == $question->getUid()) {
+                        $reportArr[$question->getUid()] = $reportedMeasurement;
+                    }
+                }
+            }
+            $loopNo+=1;
+        }
         //$unPostedReport = $unPostedReports[count($unPostedReports) - 1];
         $tmpNote = new \DanLundgren\DlIponlyestate\Domain\Model\Note();
         $this->view->assign('tmpNote', $tmpNote);
+        $this->view->assign('reportArr', $reportArr);
         $this->view->assign('rootLine1Uid', $rootLine1Uid);
         $this->view->assign('reportWithVersion', $curReportWithVersion);
         $this->view->assign('unPostedReport', $unPostedReport);

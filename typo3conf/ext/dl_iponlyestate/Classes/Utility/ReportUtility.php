@@ -268,13 +268,19 @@ class ReportUtility {
         $persistenceManager->persistAll();
         return $reportedMeasurement;
     }
-    public static function saveNote($report, $cpUid, $questUid, $noteUid, $noteText, $noteState) {
+    public static function saveNote($report, $cpUid, $questUid, $noteUid, $noteText, $noteState, $curVer) {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
         $persistenceManager = $objectManager->get('TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface');
         $reportRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
         $questionRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\QuestionRepository');
         $controlPointRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ControlPointRepository');
-        $note = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DanLundgren\DlIponlyestate\Domain\Model\Note');
+        $noteRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\noteRepository');
+        if((int)$noteUid>0) {
+            $note = $noteRepository->findByUid((int)$noteUid);
+        }
+        if(!$note) {
+            $note = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DanLundgren\DlIponlyestate\Domain\Model\Note');
+        }        
 		$newVerNo = 0;
 		foreach($report->getNotes() as $prevNote) {
 			//if($prevNote->getVersion()>$newVerNo && $prevNote->getQuestion()==$questUid) {
@@ -284,8 +290,12 @@ class ReportUtility {
 		}
 		$cp = $controlPointRepository->findByUid($cpUid);
 		$note->setControlPoint($cp);
-        //$newVerNo+=1;       
-        $note->setVersion(self::getNextNoteVersion($report->getEstate()));
+        if((int)$noteUid>0) {
+            //$note->setVersion(self::getNextNoteVersion($report->getEstate()));
+        }
+        else {
+            $note->setVersion(self::getNextNoteVersion($report->getEstate()));
+        }        
         //$note->setVersion($newVerNo);
         /*
         if($newVerNo) {
@@ -309,7 +319,12 @@ class ReportUtility {
         $question = $questionRepository->findByUid($questUid);
 		$note->setQuestion($question);
 		$note->setPid($report->getPid());
-        $report->addNote($note);
+        if((int)$noteUid>0) {
+            $noteRepository->update($note);
+        }
+        else {
+            $report->addNote($note);
+        }        
         if($report->getUid()==NULL) {
             $reportRepository->add($report);
         }

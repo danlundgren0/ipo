@@ -23,39 +23,14 @@ DanL.Note = {
             || ($(obj).closest('.noteContainer').find('.input-note').val()!='' && $(obj).closest('.noteContainer').find('.state-buttons').find('.active').length>0)) {
             this.isReadyForSave = true;
             $(obj).closest('.noteContainer').find($('.save-btn')).removeClass('hidden');
+            $('me').closest('.noteContainer').find('.enable-buttons').removeClass('hidden');
         }
         else {
             this.isReadyForSave = false;
             $(obj).closest('.noteContainer').find($('.save-btn')).addClass('hidden');
+            $('me').closest('.noteContainer').find('.enable-buttons').addClass('hidden');
         }
-	},
-	addNewNote: function() {
-        if($(this).hasClass('disabled')) {
-            return;
-        }
-        var me = $(this);
-        ver = $(this).closest('.noteContainer').find('[name="note"]').val();
-
-        if(!parseInt(ver)>0) {
-            return;
-        }
-		DanL.ajax.fetch({
-			command: 'getNewNoteTmpl',
-			arguments: {
-				latestVersion: ver
-			}
-		}).done(function(data, textStatus, jqXHR) {
-            $(me).closest('.col-md-8').append(data.data.response);
-            $('me').closest('.noteContainer').find('.input-note').on('change', DanL.Note.setNoteState);
-            $('me').closest('.noteContainer').find('.state-buttons .btn').on('click', DanL.Note.setButtonState);
-            $('me').closest('.noteContainer').find('.save-note').on('click', DanL.Note.saveNote);
-            $('me').closest('.noteContainer').find('.add-btn .btn').on('click', DanL.Note.addNewNote);
-            $(me).addClass('disabled');
-            console.log(data);
-		}).fail(function( jqXHR, textStatus, errorThrown ) {
-			console.log('getNewNoteTmpl failed: ' + textStatus);
-		});
-	},
+    },
     postForm: function() {
         //TODO: Notes are saved as uncomplete until the form is posted
     },
@@ -90,7 +65,6 @@ DanL.Note = {
             //$('me').closest('.noteContainer').find('.input-note').on('change', DanL.Note.setNoteState);
             //$('me').closest('.noteContainer').find('.state-buttons .btn').on('click', DanL.Note.setButtonState);
             //$('me').closest('.noteContainer').find('.save-note').on('click', DanL.Note.saveNote);
-            //$('me').closest('.noteContainer').find('.add-btn .btn').on('click', DanL.Note.addNewNote);
             //$(me).addClass('disabled');
             console.log(data);
             $('.btn-save-report').addClass('hidden');
@@ -144,12 +118,12 @@ DanL.Note = {
 
 			}
 		}).done(function(data, textStatus, jqXHR) {
-            var me = $(this);
+            $(me).closest('.noteContainer').attr('data-noteuid',data.data['noteUid']);
+            $(me).closest('.noteContainer').attr('data-notever',data.data['curVer']);
             //$(me).closest('.col-md-8').append(data.data.response);
-            $('me').closest('.noteContainer').find('.input-note').on('change', DanL.Note.setNoteState);
-            $('me').closest('.noteContainer').find('.state-buttons .btn').on('click', DanL.Note.setButtonState);
-            $('me').closest('.noteContainer').find('.save-note').on('click', DanL.Note.saveNote);
-            $('me').closest('.noteContainer').find('.add-btn .btn').on('click', DanL.Note.addNewNote);
+            //$('me').closest('.noteContainer').find('.input-note').on('change', DanL.Note.setNoteState);
+            //$('me').closest('.noteContainer').find('.state-buttons .btn').on('click', DanL.Note.setButtonState);
+            //$('me').closest('.noteContainer').find('.save-note').on('click', DanL.Note.saveNote);
             $(me).addClass('disabled');
             $('[aria-controls="uid_'+questUid+'"]').addClass('color_1');
             $('.link-to-list-button').removeClass('hidden');
@@ -160,12 +134,18 @@ DanL.Note = {
         if($(this).hasClass('disabled')) {
             return;
         }
-        $(this).closest('.noteContainer').find('.btn-ipaction').removeClass('active').addClass('disabled');
-        $(this).addClass('disabled');
-        $(this).closest('.noteContainer').find('.input-note').attr('disabled','disabled');
-        $(this).closest('.noteContainer').find('.add-btn').removeClass('hidden');
+        $(me).closest('.noteContainer').find('.btn-ipaction').addClass('disabled');
+        $(me).closest('.noteContainer').find('.active').removeClass('active').addClass('disabled').addClass('pre-active');
+        $(me).addClass('disabled');
+        $(me).closest('.noteContainer').find('.input-note').attr('disabled','disabled');
+        $(me).closest('.noteContainer').find('.add-btn').removeClass('hidden');
+        $(me).closest('.noteContainer').find('.enable-buttons').removeClass('hidden');
+        $(me).closest('.noteContainer').find('.enable-buttons').removeClass('disabled');
     },
     saveNote: function() {
+        if($(this).hasClass('disabled')) {
+            return;
+        }
         var me = $(this);        
         var noteObj = $(this).closest('.noteContainer');
         var estateUid = $(noteObj).attr('data-estateuid'); 
@@ -193,12 +173,12 @@ DanL.Note = {
                 reportPid: reportPid
 			}
 		}).done(function(data, textStatus, jqXHR) {
-            var me = $(this);
+            $(me).closest('.noteContainer').attr('data-noteuid',data.data['noteUid']);
+            $(me).closest('.noteContainer').attr('data-notever',data.data['curVer']);
             //$(me).closest('.col-md-8').append(data.data.response);
-            $('me').closest('.noteContainer').find('.input-note').on('change', DanL.Note.setNoteState);
-            $('me').closest('.noteContainer').find('.state-buttons .btn').on('click', DanL.Note.setButtonState);
-            $('me').closest('.noteContainer').find('.save-note').on('click', DanL.Note.saveNote);
-            $('me').closest('.noteContainer').find('.add-btn .btn').on('click', DanL.Note.addNewNote);
+            //$(me).closest('.noteContainer').find('.input-note').on('change', DanL.Note.setNoteState);
+            //$(me).closest('.noteContainer').find('.state-buttons .btn').on('click', DanL.Note.setButtonState);
+            //$(me).closest('.noteContainer').find('.save-note').on('click', DanL.Note.saveNote);
             $('[aria-controls="uid_'+questUid+'"]').addClass('color_'+noteState);
             $(me).addClass('disabled');
             $('.link-to-list-button').removeClass('hidden');
@@ -209,10 +189,23 @@ DanL.Note = {
         if($(this).hasClass('disabled')) {
             return;
         }
-        $(this).closest('.noteContainer').find('.btn-ipaction').removeClass('active').addClass('disabled');
-        $(this).addClass('disabled');
-        $(this).closest('.noteContainer').find('.input-note').attr('disabled','disabled');
-        $(this).closest('.noteContainer').find('.add-btn').removeClass('hidden');
+        $(me).closest('.noteContainer').find('.btn-ipaction').addClass('disabled');
+        $(me).closest('.noteContainer').find('.active').removeClass('active').addClass('disabled').addClass('pre-active');
+        $(me).addClass('disabled');
+        $(me).closest('.noteContainer').find('.input-note').attr('disabled','disabled');
+        $(me).closest('.noteContainer').find('.add-btn').removeClass('hidden');
+        $(me).closest('.noteContainer').find('.enable-buttons').removeClass('hidden');
+        $(me).closest('.noteContainer').find('.enable-buttons').removeClass('disabled');
+    },
+    enableButtons: function() {
+        $(this).closest('.noteContainer').find('.btn-ipaction').removeClass('disabled');
+        $(this).closest('.noteContainer').find('.input-note').removeAttr('disabled');
+        $(this).closest('.noteContainer').find('.pre-active').removeClass('pre-active').addClass('active');
+        $('.input-note').on('keyup', DanL.Note.setNoteState);
+        $(this).closest('.noteContainer').find('.save-btn').removeClass('hidden');
+        $(this).closest('.noteContainer').find('.save-btn .btn').removeClass('disabled');
+        //$(this).closest('.noteContainer').find('.state-buttons .btn').on('click', DanL.Note.setButtonState);        
+        $(this).addClass('hidden');
     },
     saveNoteFixed: function() {
         var isFixed = false;
@@ -319,18 +312,19 @@ DanL.Note = {
     },
 }
 $(function() {    
-    $('.input-note').on('change', DanL.Note.setNoteState);
+    $('.input-note').on('keyup', DanL.Note.setNoteState);
     $('.input-message,.input-purchase').on('keyup', DanL.Note.setMsgButtonState);
     $('.state-buttons .btn').on('click', DanL.Note.setButtonState);
     $('.save-note').on('click', DanL.Note.saveNote);
-    $('.add-btn .btn').on('click', DanL.Note.addNewNote);
+    $('.save-note-ok').on('click', DanL.Note.saveNote);
     $('[data-toggle="tab"]').on('click', DanL.Note.getRelatedNotes);
     $('[data-remember="message"]').on('click', DanL.Note.saveMessages);
     //$('.btn-ip-post-report button').on('click', DanL.Note.saveReport);
     $('.btn-save-report').on('click', DanL.Note.saveReport);
     $('.note-fixed').on('change', DanL.Note.setNoteFixed);
     $('.save-fixed-btn button').on('click', DanL.Note.saveNoteFixed);
-    $('.save-measure-value').on('click', DanL.Note.saveMeasureValue);    
+    $('.save-measure-value').on('click', DanL.Note.saveMeasureValue);  
+    $('.enable-buttons').on('click', DanL.Note.enableButtons);
 });
 
 /*

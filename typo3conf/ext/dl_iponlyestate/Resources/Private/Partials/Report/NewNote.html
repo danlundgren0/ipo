@@ -7,10 +7,11 @@
 
 <v:variable.set name="noteUidIsSet" value="0" />
 <v:variable.set name="measureUidIsSet" value="0" />
+<f:comment>
 <f:for each="{reportWithVersion.reportedMeasurement}" as="reportedMeasurement">
   <f:if condition="{question.uid}=={reportedMeasurement.question.uid}">
     <v:variable.set name="measureUidIsSet" value="1" />
-    <div class="posted-note-container">
+    <div class="posted-note-container NewNote">
         <div class="alert alert-success input-disabled-note" role="alert">
             <div class="label-bold">
                 <span class="label-ok">Mätvärde: 
@@ -33,9 +34,10 @@
     </f:if>
   </f:if>
 </f:for>
+</f:comment>
 <f:if condition="{v:variable.get(name: 'measureUidIsSet')}=='0'">
   <f:if condition="{v:variable.get(name: 'noteUidIsSet')}=='0'">
-    <div class="noteContainer" data-estateuid="{reportWithVersion.estate.uid}" data-questionuid="{question.uid}" data-nodetypeuid="{controlPoint.nodeType.uid}" data-cpuid="{controlPoint.uid}" data-reportuid="{reportWithVersion.uid}" data-measureuid="-1" data-noteuid="-1" data-notever="-1">
+    <div class="noteContainer" data-notestate="-1" data-estateuid="{reportWithVersion.estate.uid}" data-questionuid="{question.uid}" data-nodetypeuid="{controlPoint.nodeType.uid}" data-cpuid="{controlPoint.uid}" data-reportuid="{reportWithVersion.uid}" data-measureuid="-1" data-noteuid="-1" data-notever="-1">
       <input type="hidden" name="note" value="1" data-version="-1" />
       <div class="card">
         <div>
@@ -47,7 +49,7 @@
             </f:then>
             <f:else>
               <div class="state-buttons">
-                <button type="button" class="btn btn-success btn-ipaction" data-type="1" aria-pressed="false">OK</button>
+                <button type="button" class="btn btn-success btn-ipaction save-note-ok" data-type="1" aria-pressed="false">OK</button>
                 <button type="button" class="btn btn-danger btn-ipaction btn-text-slide" data-type="2" aria-pressed="false">Krit.</button>
                 <f:if condition="{controlPoint.classifiedAsCritical}=='TRUE'">
                   <f:then></f:then>
@@ -65,6 +67,7 @@
                 <button type="button" class="btn btn-info btn-ipaction" data-type="foto" aria-pressed="false">
                   <span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
                 </button>
+                <button type="button" class="btn btn-success btn-ipaction enable-buttons hidden" data-type="1" aria-pressed="false">Ändra</button>
               </div>
             </f:else>
           </f:if>

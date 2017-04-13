@@ -38,7 +38,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
 				<h2>Pågående rapport</h2>
 				<div class="outer-posted-notes-container">
 					<f:for each="{reportWithVersion.notes}" as="note">
-						<f:render partial="Report/ReportedNote" arguments="{note:note}" />
+						<f:render partial="Report/ReportedNoteList" arguments="{note:note}" />
 					</f:for>
 				</div>
 			</div>
