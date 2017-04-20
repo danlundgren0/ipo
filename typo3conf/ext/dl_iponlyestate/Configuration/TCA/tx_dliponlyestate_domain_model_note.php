@@ -19,14 +19,14 @@ return array(
 			'starttime' => 'starttime',
 			'endtime' => 'endtime',
 		),
-		'searchFields' => 'comment,state,images,remark_type,version,is_complete,date,executive_technician,control_point,question,',
+		'searchFields' => 'comment,state,images,remark_type,version,is_complete,date,executive_technician,page_id,control_point,question,',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('dl_iponlyestate') . 'Resources/Public/Icons/tx_dliponlyestate_domain_model_note.gif'
 	),
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, comment, state, images, remark_type, version, is_complete, date, executive_technician, control_point, question',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, comment, state, images, remark_type, version, is_complete, date, executive_technician, page_id, control_point, question',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, comment, state, images, remark_type, version, is_complete, date, executive_technician, control_point, question, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, comment, state, images, remark_type, version, is_complete, date, executive_technician, page_id, control_point, question, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -232,6 +232,15 @@ return array(
 				'size' => 30,
 				'eval' => 'trim,required'
 			),
+		),
+		'page_id' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_note.page_id',
+			'config' => array(
+				'type' => 'input',
+				'size' => 4,
+				'eval' => 'int,required'
+			)
 		),
 		'control_point' => array(
 			'exclude' => 1,

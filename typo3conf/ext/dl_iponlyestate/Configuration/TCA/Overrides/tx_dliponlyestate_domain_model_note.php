@@ -22,4 +22,6 @@ $GLOBALS['TCA']['tx_dliponlyestate_domain_model_note']['columns']['remark_type']
                     array('critical', 2),
                     array('remark', 3),
                     array('purchase', 4),
+                    array('photo', 5),
 				);
+$GLOBALS['TCA']['tx_dliponlyestate_domain_model_note']['columns']['images']['config']['maxitems'] = 999;

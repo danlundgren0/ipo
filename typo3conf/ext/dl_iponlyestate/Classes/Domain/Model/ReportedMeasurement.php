@@ -89,6 +89,13 @@ class ReportedMeasurement extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $question = null;
     
     /**
+     * pageId
+     *
+     * @var int
+     */
+    protected $pageId = 0;
+    
+    /**
      * Returns the name
      *
      * @return string name
@@ -254,6 +261,27 @@ class ReportedMeasurement extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setQuestion(\DanLundgren\DlIponlyestate\Domain\Model\Question $question)
     {
         $this->question = $question;
+    }
+    
+    /**
+     * Returns the pageId
+     *
+     * @return int $pageId
+     */
+    public function getPageId()
+    {
+        return $this->pageId;
+    }
+    
+    /**
+     * Sets the pageId
+     *
+     * @param int $pageId
+     * @return void
+     */
+    public function setPageId($pageId)
+    {
+        $this->pageId = $pageId;
     }
 
 }

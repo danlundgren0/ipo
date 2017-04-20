@@ -68,11 +68,25 @@ class ControlPoint extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $image = null;
     
     /**
-     * classifiedAsCritical
+     * showCriticalButton
      *
      * @var bool
      */
-    protected $classifiedAsCritical = false;
+    protected $showCriticalButton = false;
+    
+    /**
+     * showRemarkButton
+     *
+     * @var bool
+     */
+    protected $showRemarkButton = false;
+    
+    /**
+     * showPurchaseInfoButton
+     *
+     * @var bool
+     */
+    protected $showPurchaseInfoButton = false;
     
     /**
      * nodeType
@@ -280,27 +294,6 @@ class ControlPoint extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
     
     /**
-     * Returns the classifiedAsCritical
-     *
-     * @return bool $classifiedAsCritical
-     */
-    public function getClassifiedAsCritical()
-    {
-        return $this->classifiedAsCritical;
-    }
-    
-    /**
-     * Sets the classifiedAsCritical
-     *
-     * @param bool $classifiedAsCritical
-     * @return void
-     */
-    public function setClassifiedAsCritical($classifiedAsCritical)
-    {
-        $this->classifiedAsCritical = $classifiedAsCritical;
-    }
-    
-    /**
      * Returns the boolean state of classifiedAsCritical
      *
      * @return bool
@@ -308,6 +301,89 @@ class ControlPoint extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function isClassifiedAsCritical()
     {
         return $this->classifiedAsCritical;
+    }
+    
+    /**
+     * Returns the showCriticalButton
+     *
+     * @return bool showCriticalButton
+     */
+    public function getShowCriticalButton()
+    {
+        return $this->showCriticalButton;
+    }
+    
+    /**
+     * Sets the showCriticalButton
+     *
+     * @param bool $showCriticalButton
+     * @return void
+     */
+    public function setShowCriticalButton($showCriticalButton)
+    {
+        $this->showCriticalButton = $showCriticalButton;
+    }
+    
+    /**
+     * Returns the showRemarkButton
+     *
+     * @return bool $showRemarkButton
+     */
+    public function getShowRemarkButton()
+    {
+        return $this->showRemarkButton;
+    }
+    
+    /**
+     * Sets the showRemarkButton
+     *
+     * @param bool $showRemarkButton
+     * @return void
+     */
+    public function setShowRemarkButton($showRemarkButton)
+    {
+        $this->showRemarkButton = $showRemarkButton;
+    }
+    
+    /**
+     * Returns the boolean state of showRemarkButton
+     *
+     * @return bool
+     */
+    public function isShowRemarkButton()
+    {
+        return $this->showRemarkButton;
+    }
+    
+    /**
+     * Returns the showPurchaseInfoButton
+     *
+     * @return bool $showPurchaseInfoButton
+     */
+    public function getShowPurchaseInfoButton()
+    {
+        return $this->showPurchaseInfoButton;
+    }
+    
+    /**
+     * Sets the showPurchaseInfoButton
+     *
+     * @param bool $showPurchaseInfoButton
+     * @return void
+     */
+    public function setShowPurchaseInfoButton($showPurchaseInfoButton)
+    {
+        $this->showPurchaseInfoButton = $showPurchaseInfoButton;
+    }
+    
+    /**
+     * Returns the boolean state of showPurchaseInfoButton
+     *
+     * @return bool
+     */
+    public function isShowPurchaseInfoButton()
+    {
+        return $this->showPurchaseInfoButton;
     }
 
 }

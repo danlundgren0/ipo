@@ -38,5 +38,18 @@ class ControlPointRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     protected $defaultOrderings = array(
         'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
     );
+    
+    /**
+     * @param $estate
+     */
+    public function findSubPagesByParentPid($pid)
+    {
+        $pagesRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid,title,doktype', 'pages', 'pid=' . $pid);
+        $subPages = array();
+        while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($pagesRes)) {
+            $subPages[] = $row;
+        }
+        return $subPages;
+    }
 
 }

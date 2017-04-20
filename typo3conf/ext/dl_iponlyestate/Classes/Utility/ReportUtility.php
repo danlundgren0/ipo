@@ -219,7 +219,7 @@ class ReportUtility {
         }
         return $newVerNo+=1;  
     }
-    public static function saveMeasurement($report, $cpUid, $questUid, $measureUid, $measureValue, $measureName, $measureUnit) {
+    public static function saveMeasurement($report, $cpUid, $questUid, $measureUid, $measureValue, $measureName, $measureUnit, $pid) {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
         $persistenceManager = $objectManager->get('TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface');
         $reportRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
@@ -248,6 +248,7 @@ class ReportUtility {
         }
         */
 		//$note->setVersion($newVerNo+=1);
+        $reportedMeasurement->setPageId($pid);
 		$reportedMeasurement->setName($measureName);
 		$reportedMeasurement->setUnit($measureUnit);
 		$reportedMeasurement->setValue($measureValue);
@@ -268,7 +269,7 @@ class ReportUtility {
         $persistenceManager->persistAll();
         return $reportedMeasurement;
     }
-    public static function saveNote($report, $cpUid, $questUid, $noteUid, $noteText, $noteState, $curVer) {
+    public static function saveNote($report, $cpUid, $questUid, $noteUid, $noteText, $noteState, $curVer, $pid) {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
         $persistenceManager = $objectManager->get('TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface');
         $reportRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
@@ -306,6 +307,7 @@ class ReportUtility {
         }
         */
 		//$note->setVersion($newVerNo+=1);
+        $note->setPageId($pid);
 		$note->setRemarkType($noteState);
 		$note->setComment($noteText);
 		$note->setState($noteState);
@@ -372,7 +374,12 @@ class ReportUtility {
         $allReports = $reportRepository->findAll();
         $postedReports = array();
         foreach($allReports as $report) {
+            /*
             if($report->getStartDate() == $startDate && $report->getEstate()==$estate && $report->getReportIsPosted()) {
+                $postedReports[] = $report;
+            }
+            */
+            if($report->getEstate()==$estate && $report->getReportIsPosted()) {
                 $postedReports[] = $report;
             }
         }

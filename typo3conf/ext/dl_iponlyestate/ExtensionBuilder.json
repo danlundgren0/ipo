@@ -302,9 +302,29 @@
                             "propertyDescription": "",
                             "propertyIsExcludeField": true,
                             "propertyIsRequired": false,
-                            "propertyName": "classifiedAsCritical",
+                            "propertyName": "showCriticalButton",
                             "propertyType": "Boolean",
                             "uid": "442489009404"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "showRemarkButton",
+                            "propertyType": "Boolean",
+                            "uid": "897705047505"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "showPurchaseInfoButton",
+                            "propertyType": "Boolean",
+                            "uid": "925705782392"
                         }
                     ]
                 },
@@ -838,6 +858,16 @@
                             "propertyName": "executiveTechnician",
                             "propertyType": "String",
                             "uid": "806149621927"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": true,
+                            "propertyName": "pageId",
+                            "propertyType": "Integer",
+                            "uid": "1243382864158"
                         }
                     ]
                 },
@@ -959,6 +989,16 @@
                             "propertyName": "executiveTechnician",
                             "propertyType": "String",
                             "uid": "437734013516"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "pageId",
+                            "propertyType": "Integer",
+                            "uid": "708926943404"
                         }
                     ]
                 },
@@ -1254,7 +1294,7 @@
         }
     ],
     "log": {
-        "last_modified": "2017-04-10 05:18",
+        "last_modified": "2017-04-16 03:56",
         "extension_builder_version": "7.6.0",
         "be_user": " (1)"
     }

@@ -1,0 +1,52 @@
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Fastighet: {reportWithVersion.estate.name} - {reportWithVersion.notes.0.controlPoint.nodeType.name}</h4>
+      </div>
+      <div class="modal-body">
+        <f:for each="{reportWithVersion.notes}" as="note">
+            <f:if condition="{note.images}">
+                <div class="item">
+                    <h2>{note.controlPoint.name} - {note.question.name}</h2>
+                    <div style="font-weight:bold;">{note.comment}</div>
+                    <div class="item-img">
+                        <f:image
+                            src="{note.images.uid}"
+                            class="img-responsive"
+                            alt=""
+                            title=""
+                            width=""
+                            height=""
+                            treatIdAsReference="1"
+                        />
+                    </div>
+                </div>
+            </f:if>
+        </f:for>
+        <f:for each="{postedReports}" as="report">
+            <f:for each="{report.notes}" as="note">
+                <f:if condition="{note.images}">
+                    <div class="item">
+                        <h2>{note.controlPoint.name} - {note.question.name}</h2>
+                        <div style="font-weight:bold;">{note.comment}</div>
+                        <div class="item-img">
+                            <f:image
+                            src="{note.images.uid}"
+                            class="img-responsive"
+                            alt=""
+                            title=""
+                            width=""
+                            height=""
+                            treatIdAsReference="1"
+                            />
+                        </div>
+                    </div>
+                </f:if>
+            </f:for>
+        </f:for>
+      </div>
+    </div>
+  </div>
+</div>

@@ -34,6 +34,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
     </div>
     <div class="tab-container">
       <ul class="nav nav-tabs" role="tablist">
+        <!-- Loop tabs and set color based on remark type -->
         <f:for each="{controlPoint.questions}" as="question" iteration="tIt">
           <v:variable.set name="noteColor" value="" />
           <f:if condition="{tIt.isFirst}">
@@ -78,7 +79,8 @@ Otherwise your changes will be overwritten the next time you save the extension 
           </f:if>
         </f:for>  
       </ul>
-      <div class="tab-content question"> 
+      <div class="tab-content question">
+          <!-- Loop tabs and set color based on remark type -->
           <f:for each="{controlPoint.questions}" as="question" iteration="qIt">
             <f:if condition="{question.header} != ''">        
                     <f:if condition="{qIt.isFirst}">
@@ -95,26 +97,125 @@ Otherwise your changes will be overwritten the next time you save the extension 
                         <div><f:format.html>{question.description}</f:format.html></div>
                         <input type="hidden" value="{question.uid}" class="qUid" /> 
                         <f:if condition="{reportWithVersion.notes -> f:count()}>0">
-                          <f:then>                                                 
+                          <f:then>
+                            <v:variable.set name="noteUidIsSet" value="0" />
                             <f:for each="{reportWithVersion.notes}" as="note">
-                              <v:variable.set name="noteUidIsSet" value="0" />
-                              <f:if condition="{question.uid}=={note.question.uid}">
-                                <v:variable.set name="noteUidIsSet" value="1" />
-                              </f:if>
-                              <f:if condition="{v:variable.get(name: 'noteUidIsSet')}=='0'">
-                                <f:then>
-                                  <f:render partial="Report/NewNote" arguments="{note:note, question:question, controlPoint:controlPoint, reportWithVersion:reportWithVersion, tmpNote:tmpNote}" />                              
-                                </f:then>
-                                <f:else>
-                                  <f:render partial="Report/ReportedNote" arguments="{note:note, question:question, controlPoint:controlPoint, reportWithVersion:reportWithVersion, tmpNote:tmpNote}" />
-                                </f:else>
+                              <f:if condition="{note.controlPoint.uid} == {controlPoint.uid}">
+                                <f:if condition="{question.uid}=={note.question.uid}">
+                                  <f:then>
+                                    <f:if condition="{note.uid}>0">
+                                      <f:then>
+                                        <!-- ReportedNote: {note.uid} -->
+                                        <v:variable.set name="noteUidIsSet" value="1" />
+                                        <f:render partial="Report/ReportedNote" arguments="{pid:pid, note:note, question:question, controlPoint:controlPoint, reportWithVersion:reportWithVersion, tmpNote:tmpNote}" />
+                                      </f:then>
+                                    </f:if>
+                                  </f:then>
+                                  <f:else>
+
+                                  </f:else>                                
+                                </f:if>
                               </f:if>
                             </f:for>
+                              <f:if condition="{v:variable.get(name: 'noteUidIsSet')}=='0'">
+                                <f:then>
+                                  <f:if condition="{question.measurementValues}">
+                                    <f:then>
+                                    </f:then>
+                                    <f:else>
+                                      <!-- Count notes > 0 but this is NewNote -->
+                                      <!-- question.uid: {question.uid} -->
+                                      <f:render partial="Report/NewNote" arguments="{pid:pid, note:note, question:question, controlPoint:controlPoint, reportWithVersion:reportWithVersion, tmpNote:tmpNote}" />                                                                
+                                    </f:else>
+                                  </f:if>
+                                </f:then>                                      
+                              </f:if>
                           </f:then>
                           <f:else>
-                            <f:render partial="Report/ReportedNote" arguments="{note:note, question:question, controlPoint:controlPoint, reportWithVersion:reportWithVersion, tmpNote:tmpNote}" />
                           </f:else>
                         </f:if>
+                        <f:if condition="{reportWithVersion.reportedMeasurement -> f:count()}>0">
+                          <f:then>
+                            <v:variable.set name="measureUidIsSet" value="0" />
+                            <f:for each="{reportWithVersion.reportedMeasurement}" as="reportedMeasurement">
+                              <f:if condition="{reportedMeasurement.controlPoint.uid} == {controlPoint.uid}">
+                                <f:if condition="{question.uid}=={reportedMeasurement.question.uid}">
+                                  <f:then>
+                                    <f:if condition="{reportedMeasurement.uid}>0">
+                                      <f:then>
+                                        <!--ReportedMeasurement: {reportedMeasurement.uid} -->
+                                        <v:variable.set name="measureUidIsSet" value="1" />
+                                        <f:render partial="Report/ReportedNote" arguments="{reportedMeasurement:reportedMeasurement, pid:pid, note:note, question:question, controlPoint:controlPoint, reportWithVersion:reportWithVersion, tmpNote:tmpNote}" />
+                                      </f:then>
+                                      <f:else>
+                                        
+                                      </f:else>
+                                    </f:if>
+                                  </f:then>
+                                  <f:else>                                  
+                                  </f:else>                                
+                                </f:if>
+                              </f:if>
+                            </f:for>
+                              <f:if condition="{v:variable.get(name: 'measureUidIsSet')}=='0'">
+                                <f:then>
+                                  <f:if condition="{question.measurementValues}">
+                                    <f:then>
+                                      <!-- Newmeasurement: {question.measurementValues.uid} -->
+                                      <!-- question.uid: {question.uid} -->
+                                      <f:render partial="Report/NewNote" arguments="{pid:pid, note:note, question:question, controlPoint:controlPoint, reportWithVersion:reportWithVersion, tmpNote:tmpNote}" />                                                                
+                                    </f:then>
+                                    <f:else>
+                                    </f:else>
+                                  </f:if>
+                                </f:then>                                      
+                              </f:if>
+                            <f:comment>
+                            <f:if condition="{v:variable.get(name: 'measureUidIsSet')}=='0'">
+                                  <!-- NewMeasurement: {reportedMeasurement.uid} -->
+                                  <f:render partial="Report/NewNote" arguments="{pid:pid, note:note, question:question, controlPoint:controlPoint, reportWithVersion:reportWithVersion, tmpNote:tmpNote}" />                                                                
+                            </f:if>
+                            </f:comment>
+                          </f:then>
+                          <f:else>
+                            <f:if condition="{question.measurementValues}">
+                              <f:then>
+                                  <!-- CP HAS measurementValues but not any saved: {reportedMeasurement.uid} -->
+                                  <f:render partial="Report/NewNote" arguments="{reportedMeasurement:reportedMeasurement, pid:pid, note:note, question:question, controlPoint:controlPoint, reportWithVersion:reportWithVersion, tmpNote:tmpNote}" />                                                                
+                              </f:then>
+                              <f:else>
+
+                                <!-- No notes exist at all so this is NewNote: {note.uid} -->
+                                <!-- question.uid: {question.uid} -->
+                                <f:render partial="Report/NewNote" arguments="{pid:pid, note:note, question:question, controlPoint:controlPoint, reportWithVersion:reportWithVersion, tmpNote:tmpNote}" />                                                                
+
+
+                              </f:else>
+                              <f:comment>
+                              <v:variable.set name="measureUidIsSet" value="0" />                              
+                                <f:for each="{reportWithVersion.reportedMeasurement}" as="reportedMeasurement">
+                                  <f:if condition="{reportedMeasurement.controlPoint.uid} == {controlPoint.uid}">
+                                    <f:if condition="{question.uid}=={reportedMeasurement.question.uid}">
+                                      <v:variable.set name="measureUidIsSet" value="1" />
+                                    </f:if>
+                                  </f:if>
+                                </f:for>
+                              </f:comment>
+                            </f:if>
+                            
+                              <!--
+                                TODO: Loop ControlPoint.questions and reportWithVersion.reportedMeasurement.question
+                                If reportWithVersion.reportedMeasurement is EMPTY or 
+                                reportWithVersion.reportedMeasurement.question.uid does not exist compared to ControlPoint.question.uid
+                                Implement new reportedmeasurement
+                                Check if controlpoint has measurementValues
+                              -->
+                              <f:comment>
+                              <f:render partial="Report/NewNote" arguments="{pid:pid, note:note, question:question, controlPoint:controlPoint, reportWithVersion:reportWithVersion, tmpNote:tmpNote}" />
+                              </f:comment>
+                          </f:else>
+                        </f:if>                                                        
+
                         <div class="unposted-notes"></div>
                         <div class="posted-notes"></div>
                         <div style="clear:both;"></div>

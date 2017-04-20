@@ -1,4 +1,5 @@
 
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
 <f:layout name="Default" />
 
 This Template is responsible for creating a table of domain objects.
@@ -23,10 +24,41 @@ Otherwise your changes will be overwritten the next time you save the extension 
 		</div>
 	</f:if>
 <div class="col-md-12">
-    <div class="row">
+    <div class="row">		
 		<div class="col-md-12">
 			<div class="cp-container">
-			<h2>Tidigare anmärkningar på denna fastighet</h2>			
+				<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+				Visa bilder
+				</button>				
+			</div>
+			<div class="cp-container">
+				<h2>Följande kontroll-punkter kan du hitta på denna fastighet</h2>
+				<f:for each="{subPages}" as="pid">
+					<v:variable.set name="cpIsScanned" value="0" />
+					<f:for each="{postedReports}" as="report">
+						<f:for each="{report.notes}" as="note">
+							<f:if condition="{note.isComplete}==''">
+								<f:if  condition="{note.pageId}=={pid.uid}">
+									<v:variable.set name="cpIsScanned" value="1" />
+								</f:if>
+							</f:if>
+						</f:for>
+						<h4>{cp.name}</h4>
+					</f:for>
+					<f:if condition="{pid.doktype}=='1'">
+						<f:if condition="{v:variable.get(name: 'cpIsScanned')}=='1'">
+							<f:then>
+								<f:link.page pageUid="{pid.uid}" class="cp-link">{pid.title} >></f:link.page>
+							</f:then>
+							<f:else>
+								<div class="cp-info">{pid.title}</div>
+							</f:else>						
+						</f:if>
+					</f:if>
+				</f:for>
+			</div>
+			<div class="cp-container">
+				<h2>Tidigare anmärkningar på denna fastighet</h2>			
 				<f:for each="{postedReports}" as="report">
 					<f:render partial="Report/PostedNote" arguments="{report:report}" />
 				</f:for>
@@ -59,5 +91,6 @@ Otherwise your changes will be overwritten the next time you save the extension 
 			</f:if> 
 		</div>
 	</div>
-</div>		
+</div>
+<f:render partial="Note/ImageModal" arguments="{reportWithVersion:reportWithVersion, postedReports:postedReports}" />
 </f:section>

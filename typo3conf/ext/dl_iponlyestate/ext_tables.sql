@@ -102,7 +102,9 @@ CREATE TABLE tx_dliponlyestate_domain_model_controlpoint (
 	header varchar(255) DEFAULT '' NOT NULL,
 	description text NOT NULL,
 	image int(11) unsigned NOT NULL default '0',
-	classified_as_critical tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	show_critical_button tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	show_remark_button tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	show_purchase_info_button tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	node_type int(11) unsigned DEFAULT '0',
 	questions int(11) unsigned DEFAULT '0' NOT NULL,
 
@@ -299,6 +301,7 @@ CREATE TABLE tx_dliponlyestate_domain_model_note (
 	is_complete tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	date datetime DEFAULT '0000-00-00 00:00:00',
 	executive_technician varchar(255) DEFAULT '' NOT NULL,
+	page_id int(11) DEFAULT '0' NOT NULL,
 	control_point int(11) unsigned DEFAULT '0',
 	question int(11) unsigned DEFAULT '0',
 
@@ -347,6 +350,7 @@ CREATE TABLE tx_dliponlyestate_domain_model_reportedmeasurement (
 	version int(11) DEFAULT '0' NOT NULL,
 	date datetime DEFAULT '0000-00-00 00:00:00',
 	executive_technician varchar(255) DEFAULT '' NOT NULL,
+	page_id int(11) DEFAULT '0' NOT NULL,
 	control_point int(11) unsigned DEFAULT '0',
 	question int(11) unsigned DEFAULT '0',
 

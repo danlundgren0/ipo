@@ -216,7 +216,7 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 		$this->data['noteUids'] = $noteUids;
 	}
 	public function saveMeasureValue() {
-		//TODO: Come up with good versioning handling
+		$pid = (int)$this->arguments['pid'];
 		$estateUid = (int)$this->arguments['estateUid'];
 		$cpUid = (int)$this->arguments['cpUid'];
 		$questUid = (int)$this->arguments['questUid'];
@@ -245,7 +245,7 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 		}
 		if((int)$reportUid>0) {
 			$report = \DanLundgren\DlIponlyestate\Utility\ReportUtility::setReportProperties($estateUid, $datetime, $reportUid, $cpUid, $nodeTypeUid, $responsibleTechnician);	
-			$measure = \DanLundgren\DlIponlyestate\Utility\ReportUtility::saveMeasurement($report, $cpUid, $questUid, $measureUid, $measureValue, $measureName, $measureUnit);	
+			$measure = \DanLundgren\DlIponlyestate\Utility\ReportUtility::saveMeasurement($report, $cpUid, $questUid, $measureUid, $measureValue, $measureName, $measureUnit, $pid);	
 			//$this->data['comment'] = $measure->getComment();
 			//$this->data['note'] = $note->getState();	
 		}
@@ -272,20 +272,21 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 	}
 	public function saveNote() {
 		//TODO: Come up with good versioning handling
+		$pid = (int)$this->arguments['pid'];
 		$estateUid = (int)$this->arguments['estateUid'];
 		$cpUid = (int)$this->arguments['cpUid'];
 		$questUid = (int)$this->arguments['questUid'];
 		$noteUid = (int)$this->arguments['noteUid'];
-		$curVer = (int)$this->arguments['ver'];
+		$curVer = (int)$this->arguments['ver'];		
 		$noteText = $this->arguments['noteText'];
-		$noteState = $this->arguments['noteState'];
+		$noteState = (int)$this->arguments['noteState'];
 		$reportUid = $this->arguments['reportUid'];
 		$nodeTypeUid = $this->arguments['nodeTypeUid'];
-		$reportPid = $this->arguments['reportPid'];
-
+		$reportPid = $this->arguments['reportPid'];		
 		$reportIsNew = NULL;
 		$controlPoint = $this->controlPointRepository->findByUid($cpUid);
 		$question = $this->questionRepository->findByUid($questUid);
+		$noteText = ($noteState==1)?$question->getHeader().' - OK':$noteText;
 		$questions = $controlPoint->getQuestions();
 		$datetime = new \DateTime();
 		$datetime->format('Y-m-d H:i:s');
@@ -298,7 +299,7 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 		}
 		if((int)$reportUid>0) {
 			$report = \DanLundgren\DlIponlyestate\Utility\ReportUtility::setReportProperties($estateUid, $datetime, $reportUid, $cpUid, $nodeTypeUid, $responsibleTechnician);	
-			$note = \DanLundgren\DlIponlyestate\Utility\ReportUtility::saveNote($report, $cpUid, $questUid, $noteUid, $noteText, $noteState, $curVer);	
+			$note = \DanLundgren\DlIponlyestate\Utility\ReportUtility::saveNote($report, $cpUid, $questUid, $noteUid, $noteText, $noteState, $curVer, $pid);	
 			$this->data['comment'] = $note->getComment();
 			$this->data['note'] = $note->getState();	
 		}
@@ -310,6 +311,7 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 		$this->data['questUid'] = $questUid;
 		$this->data['noteUid'] = $note->getUid();
 		$this->data['curVer'] = $note->getVersion();
+		$this->data['noteText'] = $noteText;
 		$this->data['noteText'] = $noteText;
 		$this->data['noteState'] = $noteState;
 		$this->data['reportUid'] = $reportUid;

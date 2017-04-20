@@ -1,3 +1,70 @@
+/*.dropdown-menu li:hover .dropdown-menu {
+    display:block;
+    top: 0;
+    left: 100%;
+}*/
+/*
+.dropdown-menu li .dropdown-menu {
+    display:block;
+
+}
+*/
+.sub2.open {
+     display:block;
+    top: 0;
+    left: 100%;   
+}
+.modal-body h2 {
+    font-size: 20px;
+}
+.cp-link {
+    font-size: 20px;
+}
+.cp-info {
+    font-size: 20px;
+}
+/* Makes cursor pointer work on input-file elements */
+::-webkit-file-upload-button {
+    cursor:pointer;
+}
+::-webkit-file-upload-button.disabled {
+    cursor: not-allowed;
+    cursor:pointer;
+}
+.add-photo-btn .glyphicon-camera {
+    font-size: 20px;
+}
+.add-photo-btn input[type="file"] {
+    width: 100%;
+    top: -1px;
+    z-index: 999;
+    line-height: 0;
+    font-size: 28px;
+    position: absolute;
+    opacity: 0;
+    filter: alpha(opacity = 0);-ms-filter: "alpha(opacity=0)";
+    cursor: pointer;
+    _cursor: hand;
+    margin: 0;
+    padding:0;
+    left:0;
+}
+ .add-photo-btn {
+    position:relative;
+    overflow:hidden;
+    cursor:pointer;
+    text-align:center;
+    background-color:#83b81a;
+    color:#fff;
+    /*display:block;*/
+    /*width:60px;*/
+    height:38px;    
+    /*line-height:30px;
+    float:left;*/
+ }
+ input[type="text"]{
+   float:left;
+ }
 body .navbar-nav>li, body .navbar-nav>li>a {
     padding-top: 0;
     padding-bottom: 0;
@@ -46,6 +113,9 @@ body .contaier .tab-container a {
 }
 .color_4 {
     background-color: #DDDDDD !important;
+}
+.color_5 {
+    background-color: #5BC0DE !important;
 }
 .active a {
     background-color: #FFFFFF !important;

@@ -87,6 +87,7 @@ DanL.Note = {
         }
         var me = $(this);        
         var noteObj = $(this).closest('.noteContainer');
+        var pid = $(noteObj).attr('data-pid');
         var estateUid = $(noteObj).attr('data-estateuid'); 
         var questUid = $(noteObj).attr('data-questionuid');
         var measureUid = $(noteObj).attr('data-noteuid');
@@ -103,6 +104,7 @@ DanL.Note = {
 		DanL.ajax.fetch({
 			command: 'saveMeasureValue',
 			arguments: {
+                pid: pid,
                 estateUid: estateUid,
 				cpUid: cpUid,
                 questUid: questUid,
@@ -143,11 +145,12 @@ DanL.Note = {
         $(me).closest('.noteContainer').find('.enable-buttons').removeClass('disabled');
     },
     saveNote: function() {
-        if($(this).hasClass('disabled')) {
+        if($(this).hasClass('disabled') || $(this).attr('type') == 'submit') {
             return;
         }
         var me = $(this);        
         var noteObj = $(this).closest('.noteContainer');
+        var pid = $(noteObj).attr('data-pid');
         var estateUid = $(noteObj).attr('data-estateuid'); 
         var questUid = $(noteObj).attr('data-questionuid');
         var noteUid = $(noteObj).attr('data-noteuid');
@@ -161,6 +164,7 @@ DanL.Note = {
 		DanL.ajax.fetch({
 			command: 'saveNote',
 			arguments: {
+                pid: pid,
                 estateUid: estateUid,
 				cpUid: cpUid,
                 questUid: questUid,
@@ -204,6 +208,7 @@ DanL.Note = {
         $('.input-note').on('keyup', DanL.Note.setNoteState);
         $(this).closest('.noteContainer').find('.save-btn').removeClass('hidden');
         $(this).closest('.noteContainer').find('.save-btn .btn').removeClass('disabled');
+        $(this).closest('.noteContainer').find('.upload-btn').removeClass('disabled');
         //$(this).closest('.noteContainer').find('.state-buttons .btn').on('click', DanL.Note.setButtonState);        
         $(this).addClass('hidden');
     },
@@ -257,13 +262,20 @@ DanL.Note = {
         }
         DanL.Note.setReadyForSave(this);
     },
-    setButtonState: function() {
+    setButtonState: function(event) {
+        event.stopPropagation();        
         if($(this).hasClass('disabled')) {
+            event.preventDefault();
             return;
         }
         if($(this).hasClass('active')) {
             $(this).removeClass('active');
-            $(this).closest('.noteContainer').find('.input-note').slideUp();
+            if($(this).hasClass('upload-btn')) {
+                event.preventDefault();
+            }
+            else {
+                $(this).closest('.noteContainer').find('.input-note').slideUp();
+            }            
             DanL.Note.isButtonSet = false;            
         }
         else {
@@ -271,7 +283,15 @@ DanL.Note = {
             $(this).addClass('active');
             if($(this).hasClass('btn-text-slide')) {
                 $(this).closest('.noteContainer').find('.input-note').slideDown();
-            }            
+            }
+            if($(this).hasClass('upload-btn')) {
+                console.log('hasClass');
+                $(this).closest('.noteContainer').find('.save-note-btn').attr('type','submit');
+            }
+            else {
+                console.log('hasNOTClass');
+                $(this).closest('.noteContainer').find('.save-note-btn').attr('type','button');
+            }
             DanL.Note.isButtonSet = true;
         }
         DanL.Note.setReadyForSave(this);
@@ -325,6 +345,14 @@ $(function() {
     $('.save-fixed-btn button').on('click', DanL.Note.saveNoteFixed);
     $('.save-measure-value').on('click', DanL.Note.saveMeasureValue);  
     $('.enable-buttons').on('click', DanL.Note.enableButtons);
+    //DropDown Nav
+    //$('.nav .dropdown.active.open .dropdown-menu>li>a').on('click', function(event) {
+    /*
+    $('.nav .sub1>li>a').on('click', function(event) {
+        event.preventDefault();
+        $('.nav .sub1 .sub2').addClass('open');
+    });
+    */
 });
 
 /*

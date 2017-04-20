@@ -20,14 +20,14 @@ return array(
 			'starttime' => 'starttime',
 			'endtime' => 'endtime',
 		),
-		'searchFields' => 'name,header,description,image,classified_as_critical,node_type,questions,',
+		'searchFields' => 'name,header,description,image,show_critical_button,show_remark_button,show_purchase_info_button,node_type,questions,',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('dl_iponlyestate') . 'Resources/Public/Icons/tx_dliponlyestate_domain_model_controlpoint.gif'
 	),
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, header, description, image, classified_as_critical, node_type, questions',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, header, description, image, show_critical_button, show_remark_button, show_purchase_info_button, node_type, questions',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, header, description;;;richtext:rte_transform[mode=ts_links], image, classified_as_critical, node_type, questions, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, header, description;;;richtext:rte_transform[mode=ts_links], image, show_critical_button, show_remark_button, show_purchase_info_button, node_type, questions, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -207,9 +207,25 @@ return array(
 				$GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
 			),
 		),
-		'classified_as_critical' => array(
+		'show_critical_button' => array(
 			'exclude' => 1,
-			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_controlpoint.classified_as_critical',
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_controlpoint.show_critical_button',
+			'config' => array(
+				'type' => 'check',
+				'default' => 0
+			)
+		),
+		'show_remark_button' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_controlpoint.show_remark_button',
+			'config' => array(
+				'type' => 'check',
+				'default' => 0
+			)
+		),
+		'show_purchase_info_button' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_controlpoint.show_purchase_info_button',
 			'config' => array(
 				'type' => 'check',
 				'default' => 0

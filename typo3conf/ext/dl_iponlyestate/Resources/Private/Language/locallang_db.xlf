@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2017-04-10T17:18:46Z" product-name="dl_iponlyestate">
+	<file source-language="en" datatype="plaintext" original="messages" date="2017-04-16T15:56:35Z" product-name="dl_iponlyestate">
 		<header/>
 		<body>
 			<trans-unit id="tx_dliponlyestate_domain_model_estate">
@@ -66,8 +66,14 @@
 			<trans-unit id="tx_dliponlyestate_domain_model_controlpoint.image">
 				<source>Image</source>
 			</trans-unit>
-			<trans-unit id="tx_dliponlyestate_domain_model_controlpoint.classified_as_critical">
-				<source>Classified As Critical</source>
+			<trans-unit id="tx_dliponlyestate_domain_model_controlpoint.show_critical_button">
+				<source>Show Critical Button</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_controlpoint.show_remark_button">
+				<source>Show Remark Button</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_controlpoint.show_purchase_info_button">
+				<source>Show Purchase Info Button</source>
 			</trans-unit>
 			<trans-unit id="tx_dliponlyestate_domain_model_controlpoint.node_type">
 				<source>Node Type</source>
@@ -192,6 +198,9 @@
 			<trans-unit id="tx_dliponlyestate_domain_model_note.executive_technician">
 				<source>Executive Technician</source>
 			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_note.page_id">
+				<source>Page Id</source>
+			</trans-unit>
 			<trans-unit id="tx_dliponlyestate_domain_model_note.control_point">
 				<source>Control Point</source>
 			</trans-unit>
@@ -219,6 +228,9 @@
 			<trans-unit id="tx_dliponlyestate_domain_model_reportedmeasurement.executive_technician">
 				<source>Executive Technician</source>
 			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_reportedmeasurement.page_id">
+				<source>Page Id</source>
+			</trans-unit>
 			<trans-unit id="tx_dliponlyestate_domain_model_reportedmeasurement.control_point">
 				<source>Control Point</source>
 			</trans-unit>
@@ -233,6 +245,9 @@
 			</trans-unit>
 			<trans-unit id="tx_dliponlyestate_domain_model_measurementvalues.unit">
 				<source>Unit</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_controlpoint.classified_as_critical">
+				<source>Classified As Critical</source>
 			</trans-unit>
 			<trans-unit id="tx_dliponlyestate_domain_model_controlpoint.responsible_technician">
 				<source>Responsible Technician</source>

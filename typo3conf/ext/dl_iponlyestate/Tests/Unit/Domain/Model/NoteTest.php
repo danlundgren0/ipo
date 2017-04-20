@@ -230,6 +230,18 @@ class NoteTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 	/**
 	 * @test
 	 */
+	public function getPageIdReturnsInitialValueForInt()
+	{	}
+
+	/**
+	 * @test
+	 */
+	public function setPageIdForIntSetsPageId()
+	{	}
+
+	/**
+	 * @test
+	 */
 	public function getControlPointReturnsInitialValueForControlPoint()
 	{
 		$this->assertEquals(

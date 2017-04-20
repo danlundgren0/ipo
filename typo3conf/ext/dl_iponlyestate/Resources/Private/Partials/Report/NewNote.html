@@ -37,68 +37,79 @@
 </f:comment>
 <f:if condition="{v:variable.get(name: 'measureUidIsSet')}=='0'">
   <f:if condition="{v:variable.get(name: 'noteUidIsSet')}=='0'">
-    <div class="noteContainer" data-notestate="-1" data-estateuid="{reportWithVersion.estate.uid}" data-questionuid="{question.uid}" data-nodetypeuid="{controlPoint.nodeType.uid}" data-cpuid="{controlPoint.uid}" data-reportuid="{reportWithVersion.uid}" data-measureuid="-1" data-noteuid="-1" data-notever="-1">
-      <input type="hidden" name="note" value="1" data-version="-1" />
-      <div class="card">
-        <div>
-          <f:if condition="{question.measurementValues}">
-            <f:then>
-              <div class="state-buttons">
-                <button type="button" class="btn btn-success btn-ipaction btn-measure btn-text-slide" data-type="5" aria-pressed="false">{question.measurementValues.name} ({question.measurementValues.unit})</button>
-              </div>
-            </f:then>
-            <f:else>
-              <div class="state-buttons">
-                <button type="button" class="btn btn-success btn-ipaction save-note-ok" data-type="1" aria-pressed="false">OK</button>
-                <button type="button" class="btn btn-danger btn-ipaction btn-text-slide" data-type="2" aria-pressed="false">Krit.</button>
-                <f:if condition="{controlPoint.classifiedAsCritical}=='TRUE'">
-                  <f:then></f:then>
+    <f:form action="show" enctype="multipart/form-data">
+      <div class="noteContainer" data-pid="{pid}" data-notestate="-1" data-estateuid="{reportWithVersion.estate.uid}" data-questionuid="{question.uid}" data-nodetypeuid="{controlPoint.nodeType.uid}" data-cpuid="{controlPoint.uid}" data-reportuid="{reportWithVersion.uid}" data-measureuid="-1" data-noteuid="-1" data-notever="-1">
+        <input type="hidden" name="note" value="1" data-version="-1" />
+        <div class="card">
+          <div>
+            <f:if condition="{question.measurementValues}">
+              <f:then>
+                <div class="state-buttons">
+                  <button type="button" class="btn btn-success btn-ipaction btn-measure btn-text-slide" data-type="5" aria-pressed="false">{question.measurementValues.name} ({question.measurementValues.unit})</button>
+                </div>
+              </f:then>
+              <f:else>
+                <div class="state-buttons">
+                  <button type="button" class="btn btn-success btn-ipaction save-note-ok" data-type="1" aria-pressed="false">OK</button>
+                  <f:if condition="{controlPoint.showCriticalButton}=='FALSE'">
+                    <button type="button" class="btn btn-danger btn-ipaction btn-text-slide" data-type="2" aria-pressed="false">Krit.</button>
+                  </f:if>
+                  <f:if condition="{controlPoint.showRemarkButton}=='FALSE'">
+                      <button type="button" class="btn btn-warning btn-ipaction btn-text-slide" data-type="3" aria-pressed="false">Anm.</button>            
+                  </f:if>
+                  <f:if condition="{controlPoint.showPurchaseInfoButton}=='FALSE'">
+                    <button type="button" class="btn btn-secondary btn-ipaction btn-text-slide" data-type="4" aria-pressed="false">Ink/Med</button>
+                  </f:if>
+                  <div class="add-photo-btn btn btn-info btn-ipaction">
+                    <span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
+                    <input type="file" class="upload-btn btn btn-text-slide" name="tx_dliponlyestate_cp[image]" />
+                  </div>
+                  <f:form.hidden name="pid" value="{pid}" />
+                  <f:form.hidden name="notestate" value="5" />
+                  <f:form.hidden name="estateuid" value="{reportWithVersion.estate.uid}" />
+                  <f:form.hidden name="questionuid" value="{question.uid}" />
+                  <f:form.hidden name="nodetypeuid" value="{controlPoint.nodeType.uid}" />
+                  <f:form.hidden name="cpuid" value="{controlPoint.uid}" />
+                  <f:form.hidden name="reportuid" value="{reportWithVersion.uid}" />
+                  <f:form.hidden name="measureuid" value="-1" />
+                  <f:form.hidden name="noteuid" value="-1" />
+                  <f:form.hidden name="notever" value="-1" />
+                  <button type="button" class="btn btn-success btn-ipaction enable-buttons hidden" data-type="1" aria-pressed="false">Ändra</button>
+                </div>
+              </f:else>
+            </f:if>
+          </div>
+          <div class="card-header" role="tab">
+            <h5 class="mb-0">
+              <h3>          
+                <f:if condition="{question.measurementValues}">
+                  <f:then>
+                    <textarea class="input-note" data-measurement-unit="{question.measurementValues.unit}" data-measurement-name="{question.measurementValues.name}" id="input_{question.uid}_NEW" type="text" style="display:none;"></textarea>
+                    <span class="save-btn hidden">
+                      <button type="button" class="btn btn-success save-measure-value">Spara</button>
+                    </span>
+                  </f:then>            
                   <f:else>
-                    <button type="button" class="btn btn-warning btn-ipaction btn-text-slide" data-type="3" aria-pressed="false">Anm.</button>            
-                  </f:else>  
+                    <f:form.textarea name="input-note" class="input-note" id="input_{question.uid}_NEW" style="display:none;" />
+                    <f:comment>
+                    <textarea class="input-note" id="input_{question.uid}_NEW" type="text" style="display:none;"></textarea>
+                    </f:comment>
+                    <span class="save-btn hidden">
+                      <button type="button" class="btn btn-success save-note save-note-btn">Spara</button>
+                    </span>
+                  </f:else>
                 </f:if>
-                <button type="button" class="btn btn-secondary btn-ipaction btn-text-slide" data-type="4" aria-pressed="false">Inköp</button>
-                <f:comment>
-                <f:form action="show"  enctype="multipart/form-data"  name="image" object="{tmpNote}">
-                  <f:render partial="Report/ImageUpload" />
-                  <f:form.submit value="Create new" />
-                </f:form>
-                </f:comment>
-                <button type="button" class="btn btn-info btn-ipaction" data-type="foto" aria-pressed="false">
-                  <span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
-                </button>
-                <button type="button" class="btn btn-success btn-ipaction enable-buttons hidden" data-type="1" aria-pressed="false">Ändra</button>
-              </div>
-            </f:else>
-          </f:if>
-        </div>
-        <div class="card-header" role="tab">
-          <h5 class="mb-0">
-            <h3>          
-              <f:if condition="{question.measurementValues}">
-                <f:then>
-                  <textarea class="input-note" data-measurement-unit="{question.measurementValues.unit}" data-measurement-name="{question.measurementValues.name}" id="input_{question.uid}_NEW" type="text" style="display:none;"></textarea>
-                  <span class="save-btn hidden">
-                    <button type="button" class="btn btn-success save-measure-value">Spara</button>
-                  </span>
-                </f:then>            
-                <f:else>
-                  <textarea class="input-note" id="input_{question.uid}_NEW" type="text" style="display:none;"></textarea>
-                  <span class="save-btn hidden">
-                    <button type="button" class="btn btn-success save-note">Spara</button>
-                  </span>
-                </f:else>
-              </f:if>
 
-              <f:comment>
-              <span class="add-btn hidden">
-                <button type="button" class="btn btn-secondary">Lägg till notering</button>
-              </span>
-              </f:comment>
-            </h3>
-          </h5>
+                <f:comment>
+                <span class="add-btn hidden">
+                  <button type="button" class="btn btn-secondary">Lägg till notering</button>
+                </span>
+                </f:comment>
+              </h3>
+            </h5>
+          </div>
         </div>
       </div>
-    </div>
+    </f:form>
   </f:if>
 </f:if>

@@ -12,7 +12,7 @@ lib.mobileNavBtn {
     #value = <span class="fa fa-bars"></span>
 }
 
-[usergroup = 15]
+[treeLevel = 0] && [usergroup = 17] || [treeLevel = 1] && [usergroup = 17]
 # navbar
 lib.navbar = COA
 lib.navbar.wrap = <nav class="navbar navbar-default" role="navigation">|</nav>
@@ -97,7 +97,176 @@ lib.navbar {
     }
 }
 [global]
+[treeLevel = 2] && [usergroup = 17]
+# navbar
+lib.navbar = COA
+lib.navbar.wrap = <nav class="navbar navbar-default" role="navigation">|</nav>
+lib.navbar {
+    # mobile trigger
+    10 < lib.mobileNavBtn
 
+    # navigation
+    20 = HMENU
+    20.wrap = <div class="collapse navbar-collapse" id="mainnavbar"><ul class="nav navbar-nav">|</ul></div>
+    20 {
+        entryLevel = 1
+        #excludeUidList = 11,12
+        1 = TMENU
+        1 {
+            wrap = |
+            expAll = 1
+
+            NO = 1
+            NO.allWrap >
+            NO.wrapItemAndSub = <li class="no">|</li>
+            #NO.doNotLinkIt = 1
+            ACT = 1
+            ACT < .NO
+            ACT.doNotLinkIt = 0
+            ACT.wrapItemAndSub = <li class="active">|</li>
+            CUR = 1
+            CUR < .NO
+            CUR.doNotLinkIt = 0
+            #CUR.ATagParams =  id="current"
+            CUR.wrapItemAndSub = <li class="active current">|</li>
+
+            # Dropdown menu
+            IFSUB = 1
+            IFSUB < .NO
+            IFSUB.wrapItemAndSub = <li class="dropdown">|</li>
+            IFSUB.ATagParams = class="dropdown-toggle" role="button" data-toggle="dropdown" data-target="#"
+            #IFSUB.ATagParams = class="dropdown-toggle disabled" role="button" data-toggle="dropdown" data-target="#"
+            IFSUB.ATagBeforeWrap = 1
+            IFSUB.stdWrap.wrap = |<b class="caret"></b>
+
+            ACTIFSUB = 1
+            ACTIFSUB < .IFSUB
+            ACTIFSUB.wrapItemAndSub = <li class="dropdown active">|</li>
+
+            CURIFSUB = 1
+            CURIFSUB < .ACTIFSUB
+            CURIFSUB.wrapItemAndSub = <li class="dropdown active current">|</li>
+        }
+
+
+        2 = TMENU
+        2 {
+            wrap = <ul class="dropdown-menu" role="menu">|</ul>
+            expAll = 1
+
+            NO = 1
+            NO.allWrap >
+            NO.wrapItemAndSub = <li>|</li>
+            CUR = 1
+            CUR < .NO
+            CUR.wrapItemAndSub = <li class="active current">|</li>
+            ACT = 1
+            ACT < .NO
+            ACT.wrapItemAndSub = <li class="active">|</li>
+
+            IFUSB < .1.IFSUB
+            CURIFSUB < .1.CURIFSUB
+            ACTIFSUB < .1.ACTIFSUB
+
+            SPC = 1
+            SPC.doNotLinkIt = 1
+            SPC.doNotShowLink = 1
+            SPC.allWrap = <li class="divider"></li>
+        }
+
+        3 < .2
+        # no submenus anymore
+        3.IFSUB >
+        3.CURIFSUB >
+        3.ACTIFSUB >
+    }
+}
+[global]
+[treeLevel = 3] && [usergroup = 17] || [treeLevel = 4] && [usergroup = 17]
+# navbar
+lib.navbar = COA
+lib.navbar.wrap = <nav class="navbar navbar-default" role="navigation">|</nav>
+lib.navbar {
+    # mobile trigger
+    10 < lib.mobileNavBtn
+
+    # navigation
+    20 = HMENU
+    20.wrap = <div class="collapse navbar-collapse" id="mainnavbar"><ul class="nav navbar-nav">|</ul></div>
+    20 {
+        entryLevel = 2
+        #excludeUidList = 11,12
+        1 = TMENU
+        1 {
+            wrap = |
+            expAll = 1
+
+            NO = 1
+            NO.allWrap >
+            NO.wrapItemAndSub = <li class="no">|</li>
+            #NO.doNotLinkIt = 1
+            ACT = 1
+            ACT < .NO
+            ACT.doNotLinkIt = 0
+            ACT.wrapItemAndSub = <li class="active">|</li>
+            CUR = 1
+            CUR < .NO
+            CUR.doNotLinkIt = 0
+            #CUR.ATagParams =  id="current"
+            CUR.wrapItemAndSub = <li class="active current">|</li>
+
+            # Dropdown menu
+            IFSUB = 1
+            IFSUB < .NO
+            IFSUB.wrapItemAndSub = <li class="dropdown">|</li>
+            IFSUB.ATagParams = class="dropdown-toggle" role="button" data-toggle="dropdown" data-target="#"
+            #IFSUB.ATagParams = class="dropdown-toggle disabled" role="button" data-toggle="dropdown" data-target="#"
+            IFSUB.ATagBeforeWrap = 1
+            IFSUB.stdWrap.wrap = |<b class="caret"></b>
+
+            ACTIFSUB = 1
+            ACTIFSUB < .IFSUB
+            ACTIFSUB.wrapItemAndSub = <li class="dropdown active">|</li>
+
+            CURIFSUB = 1
+            CURIFSUB < .ACTIFSUB
+            CURIFSUB.wrapItemAndSub = <li class="dropdown active current">|</li>
+        }
+
+
+        2 = TMENU
+        2 {
+            wrap = <ul class="dropdown-menu" role="menu">|</ul>
+            expAll = 1
+
+            NO = 1
+            NO.allWrap >
+            NO.wrapItemAndSub = <li>|</li>
+            CUR = 1
+            CUR < .NO
+            CUR.wrapItemAndSub = <li class="active current">|</li>
+            ACT = 1
+            ACT < .NO
+            ACT.wrapItemAndSub = <li class="active">|</li>
+
+            IFUSB < .1.IFSUB
+            CURIFSUB < .1.CURIFSUB
+            ACTIFSUB < .1.ACTIFSUB
+
+            SPC = 1
+            SPC.doNotLinkIt = 1
+            SPC.doNotShowLink = 1
+            SPC.allWrap = <li class="divider"></li>
+        }
+
+        3 < .2
+        # no submenus anymore
+        3.IFSUB >
+        3.CURIFSUB >
+        3.ACTIFSUB >
+    }
+}
+[global]
 /* ---------------------------------------------------------------
  * Breadcrump
  */

@@ -33,6 +33,13 @@ use DanLundgren\DlIponlyestate\Utility\ErrorUtility as ErrorUtil;
  */
 class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
+    /**
+     * questionRepository
+     *
+     * @var \DanLundgren\DlIponlyestate\Domain\Repository\QuestionRepository
+     * @inject
+     */
+    protected $questionRepository = NULL;
 
     /**
      * noteRepository
@@ -73,6 +80,7 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
      */
     public function listAction()
     {
+        $scannedCPs = json_decode($_COOKIE['scanned_cps'], true);
         $cpId = (int) $this->settings['ControlPoint'];
         $estateId = (int) $this->settings['Estate'];
         //$reportPid = (int) $this->settings['ReportPidListView'];
@@ -93,6 +101,7 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
             $this->view->assign('errorCode', $errorCode);
             return;
         }
+        $subPages = $this->controlPointRepository->findSubPagesByParentPid($GLOBALS['TSFE']->id);
         $estate = $this->estateRepository->findByUid((int) $estateId);
         $controlPoints = $estate->getControlPoints();
         $this->view->assign('estate', $estate);
@@ -112,8 +121,10 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
         $this->view->assign('reportWithVersion', $curReportWithVersion);
         $this->view->assign('postedReports', $postedReports);
         $this->view->assign('reportPid', $reportPid);
+        $this->view->assign('subPages', $subPages);
+        //$this->view->assign('pid', $GLOBALS['TSFE']->id);
     }
-    
+
     /**
      * action show
      *
@@ -123,19 +134,26 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
     public function showAction(\DanLundgren\DlIponlyestate\Domain\Model\Note $note = NULL)
     {
         $arguments = $this->request->getArguments();
-
+        if(count($arguments)>0) {
+            //Action,Controller,ExtensionName, arguments
+            $note = $this->saveNote($arguments, $estate);
+            $this->uploadAction($arguments, $note, $estate);
+        }
+        $fromCookieCPs = json_decode($_COOKIE['scanned_cps'], true);
+        if (!isset($_COOKIE['scanned_cps'])) {
+            $scannedCP[] = $GLOBALS['TSFE']->id;
+            $toCookieCPs = json_encode($scannedCP);
+            setcookie('scanned_cps', $toCookieCPs, time() + 3600 * 12, '/');
+        } elseif (!in_array($GLOBALS['TSFE']->id, $fromCookieCPs)) {
+            $scannedCP[] = $GLOBALS['TSFE']->id;
+            $allCps = array_merge($fromCookieCPs, $scannedCP);
+            $toCookieCPs = json_encode($allCps);
+            setcookie('scanned_cps', $toCookieCPs, time() + 3600 * 12, '/');
+        }        
         if ($note !== NULL) {
             $this->noteRepository->update($note);
-            \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
-                array(
-                    'class' => __CLASS__,
-                    'function' => __FUNCTION__,
-                    'note' => $note
-                )
-            );
-            $this->addFlashMessage('Your new Example was created.');
         }
-        $rootLine1Uid = $GLOBALS['TSFE']->rootLine['1'][uid];
+        $rootLine1Uid = $GLOBALS['TSFE']->rootLine['3'][uid];
         $cpId = (int) $this->settings['ControlPoint'];
         $estateId = (int) $this->settings['Estate'];
         //$reportPid = (int) $this->settings['ReportPid'];
@@ -173,50 +191,45 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
             }
         }
         */
-
-
+        
         $questionUidsWithNotes = array();
-        $questionUidsWithMeasurements = array();        
-        foreach($controlPoint->getQuestions() as $question) {
-            foreach($curReportWithVersion->getNotes() as $note) {
-                if(!in_array($note->getQuestion()->getUid(), $questionUidsWithNotes)) {
+        $questionUidsWithMeasurements = array();
+        foreach ($controlPoint->getQuestions() as $question) {
+            foreach ($curReportWithVersion->getNotes() as $note) {
+                if (!in_array($note->getQuestion()->getUid(), $questionUidsWithNotes)) {
                     $questionUidsWithNotes[] = $note->getQuestion()->getUid();
                 }
-                if($note->getControlPoint()->getUid() == $controlPoint->getUid() && $note->getQuestion()->getUid() == $question->getUid()) {
-
+                if ($note->getControlPoint()->getUid() == $controlPoint->getUid() && $note->getQuestion()->getUid() == $question->getUid()) {
+                    
                 }
             }
-            foreach($curReportWithVersion->getReportedMeasurement() as $reportedMeasurement) {
-                if(!in_array($reportedMeasurement->getQuestion()->getUid(), $questionUidsWithMeasurements)) {
+            foreach ($curReportWithVersion->getReportedMeasurement() as $reportedMeasurement) {
+                if (!in_array($reportedMeasurement->getQuestion()->getUid(), $questionUidsWithMeasurements)) {
                     $questionUidsWithMeasurements[] = $reportedMeasurement->getQuestion()->getUid();
-                }
-                if($note->getControlPoint()->getUid() == $controlPoint->getUid() && $note->getQuestion()->getUid() == $question->getUid()) {
-
                 }
             }
         }
         $reportArr = array();
         $loopNo = 0;
-        foreach($controlPoint->getQuestions() as $question) {
-            if(!in_array($question->getUid(), $questionUidsWithNotes) && !in_array($question->getUid(), $questionUidsWithMeasurements)) {
+        foreach ($controlPoint->getQuestions() as $question) {
+            if (!in_array($question->getUid(), $questionUidsWithNotes) && !in_array($question->getUid(), $questionUidsWithMeasurements)) {
                 $reportArr[$question->getUid()] = '';
-            }
-            elseif(in_array($question->getUid(), $questionUidsWithNotes)) {
-                foreach($curReportWithVersion->getNotes() as $note) {
-                    if($note->getControlPoint()->getUid() == $controlPoint->getUid() && $note->getQuestion()->getUid() == $question->getUid()) {
+            } elseif (in_array($question->getUid(), $questionUidsWithNotes)) {
+                foreach ($curReportWithVersion->getNotes() as $note) {
+                    if ($note->getControlPoint()->getUid() == $controlPoint->getUid() && $note->getQuestion()->getUid() == $question->getUid()) {
                         $reportArr[$question->getUid()] = $note;
                     }
                 }
-            }
-            elseif(in_array($question->getUid(), $questionUidsWithMeasurements)) {
-                foreach($curReportWithVersion->getReportedMeasurement() as $reportedMeasurement) {
-                    if($reportedMeasurement->getControlPoint()->getUid() == $controlPoint->getUid() && $reportedMeasurement->getQuestion()->getUid() == $question->getUid()) {
+            } elseif (in_array($question->getUid(), $questionUidsWithMeasurements)) {
+                foreach ($curReportWithVersion->getReportedMeasurement() as $reportedMeasurement) {
+                    if ($reportedMeasurement->getControlPoint()->getUid() == $controlPoint->getUid() && $reportedMeasurement->getQuestion()->getUid() == $question->getUid()) {
                         $reportArr[$question->getUid()] = $reportedMeasurement;
                     }
                 }
             }
-            $loopNo+=1;
+            $loopNo += 1;
         }
+
         //$unPostedReport = $unPostedReports[count($unPostedReports) - 1];
         $tmpNote = new \DanLundgren\DlIponlyestate\Domain\Model\Note();
         $this->view->assign('tmpNote', $tmpNote);
@@ -228,8 +241,50 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
         $this->view->assign('errorMess', $errorMess);
         $this->view->assign('controlPoint', $controlPoint);
         $this->view->assign('reportPid', $reportPid);
+        $this->view->assign('pid', $GLOBALS['TSFE']->id);
     }
-    
+	public function saveNote($arguments, &$estate=NULL) {
+
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+        $this->controlPointRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ControlPointRepository');
+        $this->estateRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\EstateRepository');
+        $this->questionRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\QuestionRepository');
+		//TODO: Come up with good versioning handling
+		$pid = (int)$arguments['pid'];
+		$estateUid = (int)$arguments['estateuid'];
+		$cpUid = (int)$arguments['cpuid'];
+		$questUid = (int)$arguments['questionuid'];
+		$noteUid = (int)$arguments['noteuid'];
+		$curVer = (int)$arguments['ver'];		
+		$noteText = $arguments['input-note'];
+		$noteState = (int)$arguments['notestate'];
+		$reportUid = (int)$arguments['reportuid'];
+		$nodeTypeUid = (int)$arguments['nodetypeuid'];
+		$reportPid = (int)$arguments['reportpid'];		
+		$reportIsNew = NULL;
+		$controlPoint = $this->controlPointRepository->findByUid($cpUid);
+		$question = $this->questionRepository->findByUid($questUid);
+		$noteText = ($noteState==1)?$question->getHeader().' - OK':$noteText;
+		$questions = $controlPoint->getQuestions();
+		$datetime = new \DateTime();
+		$datetime->format('Y-m-d H:i:s');
+
+		$estate = $this->estateRepository->findByUid($estateUid);
+		$responsibleTechnician = $estate->getResponsibleTechnician();
+		if(!$reportUid) {
+			$report = \DanLundgren\DlIponlyestate\Utility\ReportUtility::getLatestOrNewReport($reportPid, $estate, true);
+			$reportUid = $report->getUid();
+		}
+		if((int)$reportUid>0) {
+			$report = \DanLundgren\DlIponlyestate\Utility\ReportUtility::setReportProperties($estateUid, $datetime, $reportUid, $cpUid, $nodeTypeUid, $responsibleTechnician);	
+			$note = \DanLundgren\DlIponlyestate\Utility\ReportUtility::saveNote($report, $cpUid, $questUid, $noteUid, $noteText, $noteState, $curVer, $pid);	
+            return $note;
+			//$this->data['comment'] = $note->getComment();
+			//$this->data['note'] = $note->getState();	
+		}
+        return NULL;
+	}
+
     /**
      * @param $argumentName
      */
@@ -245,24 +300,133 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
     }
     
     /**
-     * Set TypeConverter option for image upload
-     */
-    public function initializeUploadAction()
-    {
-        $this->setTypeConverterConfigurationForImageUpload('note');
-    }
-    
-    /**
-     * action upload
-     *
-     * @param \DanLundgren\DlIponlyestate\Domain\Model\Note $note
-     * @return void
-     */
-    public function uploadAction(\DanLundgren\DlIponlyestate\Domain\Model\Note $note)
-    {
-        $this->noteRepository->update($note);
-        $this->addFlashMessage('Your new Example was created.');
-        $this->redirect('show');
-    }
+    * Upload files.
+    *
+    * @return void
+    */
+    public function uploadAction($arguments, $note, $estate) {
+        //$_FILES['tx_dliponlyestate_domain_model_note'] = $_FILES['tx_dliponlyestate_domain_model_controlpoint'];
+        //unset($_FILES['tx_dliponlyestate_domain_model_controlpoint']);
+        if($note === NULL) {
+            return $uploadError = 'Note is NULL';
+        }
+        $nodeTypeFolder = $note->getControlPoint()->getNodeType()->getName();
+        $estateFolder = ($estate->getName()!='')?$estate->getName():$estate->getHeader();
+        //$targetFalDirectory = $this->createFolders($nodeTypeFolder, $estateFolder);
+        $targetFalDirectory = '1:/user_upload/';
+        $overwriteExistingFiles = TRUE;
+        $data = array();
+        $namespace = key($_FILES);
+        /*
+        if(strlen($nodeTypePath)>0 && strlen($estatePath)>0) {
+            $targetFalDirectory = '1:/'.$nodeTypePath.'/'.$estatePath.'/';
+        }
+        else {
+            $targetFalDirectory = '1:/user_upload/';
+        }
+        */
+        // Register every upload field from the form:
+        $this->registerUploadField($data, $namespace, 'image', $targetFalDirectory);
 
+        // Initializing:
+        /** @var \TYPO3\CMS\Core\Utility\File\ExtendedFileUtility $fileProcessor */
+        $fileProcessor = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Utility\\File\\ExtendedFileUtility');
+        $fileProcessor->init(array(), $GLOBALS['TYPO3_CONF_VARS']['BE']['fileExtensions']);
+        $fileProcessor->setActionPermissions(array('addFile' => TRUE));
+        $fileProcessor->dontCheckForUnique = $overwriteExistingFiles ? 1 : 0;
+
+        // Actual upload
+        $fileProcessor->start($data);
+        $result = $fileProcessor->processData();
+
+        //$result['upload']['0']['0']->properties['uid']
+        $uploadError = 'OK';
+        if(isset($result) && isset($result['upload']) && isset($result['upload']['0']) && isset($result['upload']['0']['0']) && count($result['upload']['0']['0']->getProperties())>0 && (int)$result['upload']['0']['0']->getProperties()['uid']>0) {
+            $sysFileUid = $result['upload']['0']['0']->getProperties()['uid'];
+            $noteUid = $note->getUid();
+            $this->setFileReference($sysFileUid, $noteUid, $tableNames='tx_dliponlyestate_domain_model_note',$tableLocal='sys_file',$fieldNAme='images');
+        }
+        else {
+            $uploadError = 'Bilden gick inte att ladda upp';
+        }
+        
+
+        // Do whatever you want with $result (array of File objects)
+        foreach ($result['upload'] as $files) {
+            /** @var \TYPO3\CMS\Core\Resource\File $file */
+            $file = $files[0];	// Single element array due to the way we registered upload fields
+        }
+    }
+    public function setFileReference($sysFileUid, $noteUid, $tableNames='tx_dliponlyestate_domain_model_note',$tableLocal='sys_file',$fieldName='images') {
+        $GLOBALS['TYPO3_DB']->exec_INSERTquery('sys_file_reference', 
+            array('uid_local' => $sysFileUid, 
+                'uid_foreign' => $noteUid,
+                'tablenames' => $tableNames,
+                'fieldname' => $fieldName,
+                'table_local' => $tableLocal
+            )
+        );
+    }
+    /**
+    * Registers an uploaded file for TYPO3 native upload handling.
+    * 
+    * @param array &$data
+    * @param string $namespace
+    * @param string $fieldName
+    * @param string $targetDirectory
+    * @return void
+    */
+    protected function registerUploadField(array &$data, $namespace, $fieldName, $targetDirectory = '1:/user_upload/') {
+        if (!isset($data['upload'])) {
+            $data['upload'] = array();
+        }
+        $counter = count($data['upload']) + 1;
+
+        $keys = array_keys($_FILES[$namespace]);
+        foreach ($keys as $key) {
+            $_FILES['upload_' . $counter][$key] = $_FILES[$namespace][$key][$fieldName];
+        }
+        $data['upload'][$counter] = array(
+            'data' => $counter,
+            'target' => $targetDirectory,
+        );
+    }
+    public function createFolders($nodeTypeFolder, $estateFolder) {
+        //$fullpath =  PATH_site . 'fileadmin/user_upload/'.$this->parentCustomerFolder;
+        //PATH_site . 'fileadmin/';
+        //$targetFalDirectory = '1:/'.$nodeTypePath.'/'.$estatePath.'/';
+
+        $nodeTypePath =  PATH_site . 'fileadmin/user_upload/'.$nodeTypeFolder;
+        if (!file_exists($nodeTypePath)) {
+            \TYPO3\CMS\Core\Utility\GeneralUtility::mkdir($nodeTypePath);
+        }
+        $fullPath = $nodeTypePath.'/'.$estateFolder.'/';
+        if (!file_exists($fullPath)) {
+            \TYPO3\CMS\Core\Utility\GeneralUtility::mkdir($fullPath);
+        }
+        /*
+        if (file_exists($fullpath)) {
+            $customerFolderFullPath = $fullpath.'/'.$this->userName;
+            if(!file_exists($customerFolderFullPath)) {
+                \TYPO3\CMS\Core\Utility\GeneralUtility::mkdir($customerFolderFullPath);
+            }
+            foreach($this->customerCatNames as $catName => $subCatNames) {
+                if(!file_exists($customerFolderFullPath.'/'.$catName)) {
+                    $customerSubFolderFullPath = $customerFolderFullPath.'/'.$catName;
+                    \TYPO3\CMS\Core\Utility\GeneralUtility::mkdir($customerSubFolderFullPath);
+                }
+                foreach($subCatNames as $subCatName) {
+                    if(!file_exists($customerSubFolderFullPath.'/'.$subCatName)) {
+                        $customerSub2FolderFullPath = $customerSubFolderFullPath.'/'.$subCatName;
+                        \TYPO3\CMS\Core\Utility\GeneralUtility::mkdir($customerSub2FolderFullPath);
+                    }
+                }
+            }
+        }
+        */
+        if (!file_exists($fullpath)) {
+            return NULL;
+        }
+        return $fullPath;
+    }
 }

@@ -1,5 +1,6 @@
 
     <f:if condition="{note.isComplete}==''">
+            <f:comment>
             <f:if condition="{note.remarkType}==1">
                 <f:for each="{note.controlPoint.questions}" as="question1">
                     <f:if condition="{question1.uid}=={note.question.uid}">
@@ -23,6 +24,7 @@
                     </f:if>
                 </f:for>
             </f:if>
+            </f:comment>
             <f:if condition="{note.remarkType}==2">                
                 <f:for each="{note.controlPoint.questions}" as="question2">
                     <f:if condition="{question2.uid}=={note.question.uid}">

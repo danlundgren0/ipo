@@ -108,6 +108,37 @@ class Note extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $question = null;
     
     /**
+     * pageId
+     *
+     * @var int
+     * @validate NotEmpty
+     */
+    protected $pageId = 0;
+
+
+    /**
+     * __construct
+     */
+    public function __construct()
+    {
+        //Do not remove the next line: It would break the functionality
+        $this->initStorageObjects();
+    }
+    
+    /**
+     * Initializes all ObjectStorage properties
+     * Do not modify this method!
+     * It will be rewritten on each save in the extension builder
+     * You may modify the constructor of this class instead
+     *
+     * @return void
+     */
+    protected function initStorageObjects()
+    {
+        $this->images = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+    }
+
+    /**
      * Returns the comment
      *
      * @return string $comment
@@ -325,6 +356,27 @@ class Note extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setExecutiveTechnician($executiveTechnician)
     {
         $this->executiveTechnician = $executiveTechnician;
+    }
+    
+    /**
+     * Returns the pageId
+     *
+     * @return int $pageId
+     */
+    public function getPageId()
+    {
+        return $this->pageId;
+    }
+    
+    /**
+     * Sets the pageId
+     *
+     * @param int $pageId
+     * @return void
+     */
+    public function setPageId($pageId)
+    {
+        $this->pageId = $pageId;
     }
 
 }

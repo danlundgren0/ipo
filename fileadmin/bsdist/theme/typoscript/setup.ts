@@ -153,39 +153,39 @@ temp.backlink {
   noTrimWrap = |<p>Back to |</p>|
 }
 
-[treeLevel = 2]
-lib {
-  logo = COA
-  logo.wrap = <div class="logo">|</div>
-  logo {
-    10 = TEXT
-    #10.value = <img src="{$plugin.tx_bootstrapcore.theme.baseDir}/img/logo.png" class="logo img-responsive" />
-    10.value = <img src="http://www.ip-only.se/app/themes/iponly/assets/images//header/header_ip_only_logo.svg" class="logo img-responsive" />
-    10.typolink.parameter.data = leveluid : -2
-    #10.typolink.parameter = 1
-  }
-}
-[ELSE]
-lib {
-  logo = COA
-  logo.wrap = <div class="logo">|</div>
-  logo {
-    10 = TEXT
-    #10.value = <img src="{$plugin.tx_bootstrapcore.theme.baseDir}/img/logo.png" class="logo img-responsive" />
-    10.value = <img src="http://www.ip-only.se/app/themes/iponly/assets/images//header/header_ip_only_logo.svg" class="logo img-responsive" />
-    #10.typolink.parameter = 1
-  }
-}
-[GLOBAL]
+#[treeLevel = 2]
+#lib {
+#  logo = COA
+#  logo.wrap = <div class="logo">|</div>
+#  logo {
+#    10 = TEXT
+#    #10.value = <img src="{$plugin.tx_bootstrapcore.theme.baseDir}/img/logo.png" class="logo img-responsive" />
+#    10.value = <img src="http://www.ip-only.se/app/themes/iponly/assets/images//header/header_ip_only_logo.svg" class="logo img-responsive" />
+#    10.typolink.parameter.data = leveluid : -2
+#    #10.typolink.parameter = 1
+#  }
+#}
+#[ELSE]
+#lib {
+#  logo = COA
+#  logo.wrap = <div class="logo">|</div>
+#  logo {
+#    10 = TEXT
+#    #10.value = <img src="{$plugin.tx_bootstrapcore.theme.baseDir}/img/logo.png" class="logo img-responsive" />
+#    10.value = <img src="http://www.ip-only.se/app/themes/iponly/assets/images//header/header_ip_only_logo.svg" class="logo img-responsive" />
+#    #10.typolink.parameter = 1
+#  }
+#}
+#[GLOBAL]
 
 lib {
-  #logo = COA
-  #logo.wrap = <div class="logo">|</div>
-  #logo {
-  #  10 = TEXT
-  #  10.value = <img src="http://www.ip-only.se/app/themes/iponly/assets/images//header/header_ip_only_logo.svg" class="logo img-responsive" />
-  #  10.typolink.parameter = 1
-  #}
+  logo = COA
+  logo.wrap = <div class="logo">|</div>
+  logo {
+    10 = TEXT
+    10.value = <img src="http://www.ip-only.se/app/themes/iponly/assets/images//header/header_ip_only_logo.svg" class="logo img-responsive" />
+    10.typolink.parameter = 1
+  }
 
   footerContent = COA
   footerContent.wrap = <div class="container"><div class="row">|</div></div>

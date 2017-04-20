@@ -29,7 +29,11 @@ if($questionPidString) {
 $GLOBALS['TCA']['tx_dliponlyestate_domain_model_controlpoint']['types'] = array(
 	'1' => array('showitem' => '
 		sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, header, description;;;richtext:rte_transform[mode=ts_links], image,
-		--div--;Settings, measurement_values, classified_as_critical, node_type, questions,
+		--div--;Settings, measurement_values, show_critical_button, show_remark_button, show_purchase_info_button, node_type, questions,
 		--div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime
 	'),
 );
+
+$GLOBALS['TCA']['tx_dliponlyestate_domain_model_controlpoint']['columns']['show_critical_button']['config']['default'] = '1';
+$GLOBALS['TCA']['tx_dliponlyestate_domain_model_controlpoint']['columns']['show_remark_button']['config']['default'] = '1';
+$GLOBALS['TCA']['tx_dliponlyestate_domain_model_controlpoint']['columns']['show_purchase_info_button']['config']['default'] = '1';

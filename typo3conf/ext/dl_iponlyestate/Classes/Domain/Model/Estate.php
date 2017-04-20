@@ -40,11 +40,11 @@ class Estate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $name = '';
     
     /**
-     * image
+     * estateDescription
      *
-     * @var \TYPO3\CMS\Extbase\Domain\Model\FileReference
+     * @var string
      */
-    protected $image = null;
+    protected $estateDescription = '';
     
     /**
      * adress
@@ -52,6 +52,13 @@ class Estate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var string
      */
     protected $adress = '';
+    
+    /**
+     * image
+     *
+     * @var \TYPO3\CMS\Extbase\Domain\Model\FileReference
+     */
+    protected $image = null;
     
     /**
      * postalCode
@@ -115,13 +122,6 @@ class Estate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\DanLundgren\DlIponlyestate\Domain\Model\ControlPoint>
      */
     protected $controlPoints = null;
-    
-    /**
-     * estateDescription
-     *
-     * @var string
-     */
-    protected $estateDescription = '';
     
     /**
      * __construct

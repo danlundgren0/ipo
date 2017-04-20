@@ -155,24 +155,74 @@ class ControlPointTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 	/**
 	 * @test
 	 */
-	public function getClassifiedAsCriticalReturnsInitialValueForBool()
+	public function getShowCriticalButtonReturnsInitialValueForBool()
 	{
 		$this->assertSame(
 			FALSE,
-			$this->subject->getClassifiedAsCritical()
+			$this->subject->getShowCriticalButton()
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function setClassifiedAsCriticalForBoolSetsClassifiedAsCritical()
+	public function setShowCriticalButtonForBoolSetsShowCriticalButton()
 	{
-		$this->subject->setClassifiedAsCritical(TRUE);
+		$this->subject->setShowCriticalButton(TRUE);
 
 		$this->assertAttributeEquals(
 			TRUE,
-			'classifiedAsCritical',
+			'showCriticalButton',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getShowRemarkButtonReturnsInitialValueForBool()
+	{
+		$this->assertSame(
+			FALSE,
+			$this->subject->getShowRemarkButton()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setShowRemarkButtonForBoolSetsShowRemarkButton()
+	{
+		$this->subject->setShowRemarkButton(TRUE);
+
+		$this->assertAttributeEquals(
+			TRUE,
+			'showRemarkButton',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getShowPurchaseInfoButtonReturnsInitialValueForBool()
+	{
+		$this->assertSame(
+			FALSE,
+			$this->subject->getShowPurchaseInfoButton()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setShowPurchaseInfoButtonForBoolSetsShowPurchaseInfoButton()
+	{
+		$this->subject->setShowPurchaseInfoButton(TRUE);
+
+		$this->assertAttributeEquals(
+			TRUE,
+			'showPurchaseInfoButton',
 			$this->subject
 		);
 	}
