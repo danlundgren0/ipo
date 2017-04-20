@@ -120,7 +120,7 @@ DanL.Note = {
 
 			}
 		}).done(function(data, textStatus, jqXHR) {
-            $(me).closest('.noteContainer').attr('data-noteuid',data.data['noteUid']);
+            $(me).closest('.noteContainer').attr('data-measureuid',data.data['noteUid']);
             $(me).closest('.noteContainer').attr('data-notever',data.data['curVer']);
             //$(me).closest('.col-md-8').append(data.data.response);
             //$('me').closest('.noteContainer').find('.input-note').on('change', DanL.Note.setNoteState);

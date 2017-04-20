@@ -1,6 +1,7 @@
 <f:for each="{report.notes}" as="note">
     <f:if condition="{note.isComplete}==''">
             <f:if condition="{note.remarkType}==1">
+                <f:comment>
                 <f:for each="{note.controlPoint.questions}" as="question">
                     <f:if condition="{question.uid}=={note.question.uid}">
                         <div class="posted-note-container">
@@ -27,6 +28,7 @@
                         <div class="clear-both"></div>
                     </f:if>
                 </f:for>
+                </f:comment>
             </f:if>
             <f:if condition="{note.remarkType}==2">                
                 <f:for each="{note.controlPoint.questions}" as="question">
