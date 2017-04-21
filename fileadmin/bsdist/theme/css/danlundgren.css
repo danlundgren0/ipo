@@ -1,4 +1,9 @@
-
+.tx-felogin-pi1 input[type="text"] {
+    float:none;
+}
+.tx-felogin-pi1 input[type="submit"] {
+    margin-top: 10px;
+}
 h1 {
     color:#F0525E;
 }
