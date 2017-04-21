@@ -35,20 +35,15 @@ DanL.Note = {
         //TODO: Notes are saved as uncomplete until the form is posted
     },
     getRelatedNotes: function() {        
-        console.log($(this).data('trigger-cpuid'));
-        console.log($(this).data('trigger-quid'));
         var cpUid = $(this).data('trigger-cpuid');
         var qUid = $(this).data('trigger-quid');
         if($(this).attr('aria-expanded')=='true') {
             return;            
-            console.log('Already visible');
         }
         else if($(this).attr('data-isloaded')=='true') {
-            console.log('Data already loaded');
         }
         else {
             $(this).attr('data-isloaded','true');            
-            console.log('Not visible');
         }
     },
     saveReport: function(event) {
@@ -66,7 +61,6 @@ DanL.Note = {
             //$('me').closest('.noteContainer').find('.state-buttons .btn').on('click', DanL.Note.setButtonState);
             //$('me').closest('.noteContainer').find('.save-note').on('click', DanL.Note.saveNote);
             //$(me).addClass('disabled');
-            console.log(data);
             $('.btn-save-report').addClass('hidden');
             $('.outer-posted-notes-container').empty();
             $('.outer-posted-notes-container').html('<div class="alert alert-success input-disabled-note" role="alert">Rapport inskickad</div>');
@@ -129,7 +123,6 @@ DanL.Note = {
             $(me).addClass('disabled');
             $('[aria-controls="uid_'+questUid+'"]').addClass('color_1');
             $('.link-to-list-button').removeClass('hidden');
-            console.log(data);
 		}).fail(function( jqXHR, textStatus, errorThrown ) {
 			console.log('getNewNoteTmpl failed: ' + textStatus);
 		});
@@ -183,10 +176,10 @@ DanL.Note = {
             //$(me).closest('.noteContainer').find('.input-note').on('change', DanL.Note.setNoteState);
             //$(me).closest('.noteContainer').find('.state-buttons .btn').on('click', DanL.Note.setButtonState);
             //$(me).closest('.noteContainer').find('.save-note').on('click', DanL.Note.saveNote);
+            $('[aria-controls="uid_'+questUid+'"]').prop('class','');
             $('[aria-controls="uid_'+questUid+'"]').addClass('color_'+noteState);
             $(me).addClass('disabled');
             $('.link-to-list-button').removeClass('hidden');
-            console.log(data);
 		}).fail(function( jqXHR, textStatus, errorThrown ) {
 			console.log('getNewNoteTmpl failed: ' + textStatus);
 		});
@@ -234,7 +227,6 @@ DanL.Note = {
 			}
 		}).done(function(data, textStatus, jqXHR) {
             $('.save-fixed-btn button').addClass('hidden');
-            console.log(data);
 		}).fail(function( jqXHR, textStatus, errorThrown ) {
 			console.log('getNewNoteTmpl failed: ' + textStatus);
 		});
@@ -285,16 +277,16 @@ DanL.Note = {
                 $(this).closest('.noteContainer').find('.input-note').slideDown();
             }
             if($(this).hasClass('upload-btn')) {
-                console.log('hasClass');
                 $(this).closest('.noteContainer').find('.save-note-btn').attr('type','submit');
             }
             else {
-                console.log('hasNOTClass');
                 $(this).closest('.noteContainer').find('.save-note-btn').attr('type','button');
             }
             DanL.Note.isButtonSet = true;
         }
-        DanL.Note.setReadyForSave(this);
+        if(!$(this).hasClass('save-note-ok')) {
+            DanL.Note.setReadyForSave(this);
+        }        
     },
     saveMessages: function() {
         var reportUid = $(this).attr('data-reportUid');
