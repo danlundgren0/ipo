@@ -84,7 +84,7 @@ DanL.Note = {
         var pid = $(noteObj).attr('data-pid');
         var estateUid = $(noteObj).attr('data-estateuid'); 
         var questUid = $(noteObj).attr('data-questionuid');
-        var measureUid = $(noteObj).attr('data-noteuid');
+        var measureUid = $(noteObj).attr('data-measureuid');
         var ver = $(noteObj).attr('data-notever');
         var reportUid = $(noteObj).attr('data-reportuid');
         var cpUid = $(noteObj).attr('data-cpuid');
@@ -121,6 +121,7 @@ DanL.Note = {
             //$('me').closest('.noteContainer').find('.state-buttons .btn').on('click', DanL.Note.setButtonState);
             //$('me').closest('.noteContainer').find('.save-note').on('click', DanL.Note.saveNote);
             $(me).addClass('disabled');
+            $('[aria-controls="uid_'+questUid+'"]').prop('class','');
             $('[aria-controls="uid_'+questUid+'"]').addClass('color_1');
             $('.link-to-list-button').removeClass('hidden');
 		}).fail(function( jqXHR, textStatus, errorThrown ) {
@@ -273,8 +274,21 @@ DanL.Note = {
         else {
             $(this).closest('.state-buttons').find('.btn-ipaction').removeClass('active');
             $(this).addClass('active');
+            var questUid = $(this).closest('.noteContainer').find('[name="tx_dliponlyestate_cp[questionuid]"]').val();
+            var noteState = $(this).attr('data-type');
+            console.log('this');
+            console.log($(this));
+            console.log('questUid');
+            console.log(questUid);
+            console.log('noteState');
+            console.log(noteState);
+            $('.tab-container').find('[aria-controls="uid_'+questUid+'"]').prop('class','');
+            $('.tab-container').find('[aria-controls="uid_'+questUid+'"]').addClass('color_'+noteState);
             if($(this).hasClass('btn-text-slide')) {
                 $(this).closest('.noteContainer').find('.input-note').slideDown();
+                if($(this).hasClass('btn-measure')) {
+                    $(this).closest('.noteContainer').find('.input-note').removeAttr('disabled');
+                }
             }
             if($(this).hasClass('upload-btn')) {
                 $(this).closest('.noteContainer').find('.save-note-btn').attr('type','submit');
@@ -286,7 +300,11 @@ DanL.Note = {
         }
         if(!$(this).hasClass('save-note-ok')) {
             DanL.Note.setReadyForSave(this);
-        }        
+        }
+        else {
+            $(this).closest('.noteContainer').find('.input-note').slideUp();
+            $('.save-btn').addClass('hidden');
+        }
     },
     saveMessages: function() {
         var reportUid = $(this).attr('data-reportUid');

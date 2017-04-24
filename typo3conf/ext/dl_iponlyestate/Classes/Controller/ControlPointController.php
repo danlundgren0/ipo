@@ -83,6 +83,7 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
         $scannedCPs = json_decode($_COOKIE['scanned_cps'], true);
         $cpId = (int) $this->settings['ControlPoint'];
         $estateId = (int) $this->settings['Estate'];
+        $hasImages = 0;
         //$reportPid = (int) $this->settings['ReportPidListView'];
         $reportPid = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dliponlyestate.']['persistence.']['reportPid'];
         $errorCode = '';
@@ -110,14 +111,27 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
             
         }
         $curReportWithVersion = ReportUtil::getLatestOrNewReport($reportPid, $estate);
+        foreach($curReportWithVersion->getNotes() as $note) {
+            if($note && $note->getImages()!=NULL) {
+                $hasImages+=1;      
+            }
+        }
         if ($curReportWithVersion && $curReportWithVersion->getStartDate() !== null) {
             $postedReports = ReportUtil::getPostedReports($reportPid, $estate, $curReportWithVersion->getStartDate());
+            foreach($postedReports as $report) {
+                foreach($report->getNotes() as $note) {
+                    if($note->getImages()!=NULL) {
+                        $hasImages+=1;      
+                    }
+                }
+            }
         }
         if (!$GLOBALS['TSFE']->fe_user->user['first_name'] || $GLOBALS['TSFE']->fe_user->user['last_name']) {
             $this->view->assign('technician', $GLOBALS['TSFE']->fe_user->user['name']);
         } else {
             $this->view->assign('technician', $GLOBALS['TSFE']->fe_user->user['first_name'] . ' ' . $GLOBALS['TSFE']->fe_user->user['last_name']);
         }
+        $this->view->assign('hasImages', $hasImages);
         $this->view->assign('reportWithVersion', $curReportWithVersion);
         $this->view->assign('postedReports', $postedReports);
         $this->view->assign('reportPid', $reportPid);
@@ -134,10 +148,195 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
     public function showAction(\DanLundgren\DlIponlyestate\Domain\Model\Note $note = NULL)
     {
         $arguments = $this->request->getArguments();
+        $uploadStatus = '';
         if(count($arguments)>0) {
             //Action,Controller,ExtensionName, arguments
             $note = $this->saveNote($arguments, $estate);
-            $this->uploadAction($arguments, $note, $estate);
+            $uploadStatus = $this->uploadAction($arguments, $note, $estate);
+        }
+        if ($note !== NULL) {
+            $this->noteRepository->update($note);
+        }
+        $fromCookieCPs = json_decode($_COOKIE['scanned_cps'], true);
+        if (!isset($_COOKIE['scanned_cps'])) {
+            $scannedCP[] = $GLOBALS['TSFE']->id;
+            $toCookieCPs = json_encode($scannedCP);
+            setcookie('scanned_cps', $toCookieCPs, time() + 3600 * 12, '/');
+        } elseif (!in_array($GLOBALS['TSFE']->id, $fromCookieCPs)) {
+            $scannedCP[] = $GLOBALS['TSFE']->id;
+            $allCps = array_merge($fromCookieCPs, $scannedCP);
+            $toCookieCPs = json_encode($allCps);
+            setcookie('scanned_cps', $toCookieCPs, time() + 3600 * 12, '/');
+        }        
+        $rootLine1Uid = $GLOBALS['TSFE']->rootLine['3'][uid];
+        $cpId = (int) $this->settings['ControlPoint'];
+        $estateId = (int) $this->settings['Estate'];
+        //$reportPid = (int) $this->settings['ReportPid'];
+        $reportPid = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dliponlyestate.']['persistence.']['reportPid'];
+        $errorCode = '';
+        if ($estateId <= 0) {
+            $errorCode = 'noEstate';
+            $this->view->assign('errorCode', $errorCode);
+            return;
+        }
+        if ($cpId <= 0) {
+            $errorCode = 'noControlPoint';
+            $this->view->assign('errorCode', $errorCode);
+            return;
+        }
+        if ($reportPid <= 0) {
+            $errorCode = 'noReportPid';
+            $this->view->assign('errorCode', $errorCode);
+            return;
+        }
+        $errorMess = '';
+        $controlPoint = $this->controlPointRepository->findByUid((int) $this->settings['ControlPoint']);
+        $estate = $this->estateRepository->findByUid((int) $estateId);
+        //TODO: Om rapportens getIsCompleted = FALSE: returnera samma versionsnr, Om TRUE: Returnera versionnr+1
+        $curReportWithVersion = ReportUtil::getLatestOrNewReport($reportPid, $estate);
+
+        $preparedControlPoint = $this->setNoteAndMeasureArr($controlPoint, $curReportWithVersion);
+        if($curReportWithVersion && $curReportWithVersion->getStartDate() !== null) {
+            $postedReports = ReportUtil::getPostedReports($reportPid, $estate, $curReportWithVersion->getStartDate());
+        }
+        /*
+        if (count($unPostedReports) > 1) {
+            $errorMess = 'You have ' . $noOfUnPostedReports . ' unposted reports. Only one is valid.';
+        } else {
+            if (count($report) == 0) {
+                $report = ReportUtil::getNextVersionNumber($reports);
+            }
+        }
+        */
+        
+        $questionUidsWithNotes = array();
+        $questionUidsWithMeasurements = array();
+        foreach ($controlPoint->getQuestions() as $question) {
+            foreach ($curReportWithVersion->getNotes() as $note) {
+                if (!in_array($note->getQuestion()->getUid(), $questionUidsWithNotes)) {
+                    $questionUidsWithNotes[] = $note->getQuestion()->getUid();
+                }
+                if ($note->getControlPoint()->getUid() == $controlPoint->getUid() && $note->getQuestion()->getUid() == $question->getUid()) {
+                    
+                }
+            }
+            foreach ($curReportWithVersion->getReportedMeasurement() as $reportedMeasurement) {
+                if (!in_array($reportedMeasurement->getQuestion()->getUid(), $questionUidsWithMeasurements)) {
+                    $questionUidsWithMeasurements[] = $reportedMeasurement->getQuestion()->getUid();
+                }
+            }
+        }
+        $reportArr = array();
+        $loopNo = 0;
+        foreach ($controlPoint->getQuestions() as $question) {
+            if (!in_array($question->getUid(), $questionUidsWithNotes) && !in_array($question->getUid(), $questionUidsWithMeasurements)) {
+                $reportArr[$question->getUid()] = '';
+            } elseif (in_array($question->getUid(), $questionUidsWithNotes)) {
+                foreach ($curReportWithVersion->getNotes() as $note) {
+                    if ($note->getControlPoint()->getUid() == $controlPoint->getUid() && $note->getQuestion()->getUid() == $question->getUid()) {
+                        $reportArr[$question->getUid()] = $note;
+                    }
+                }
+            } elseif (in_array($question->getUid(), $questionUidsWithMeasurements)) {
+                foreach ($curReportWithVersion->getReportedMeasurement() as $reportedMeasurement) {
+                    if ($reportedMeasurement->getControlPoint()->getUid() == $controlPoint->getUid() && $reportedMeasurement->getQuestion()->getUid() == $question->getUid()) {
+                        $reportArr[$question->getUid()] = $reportedMeasurement;
+                    }
+                }
+            }
+            $loopNo += 1;
+        }
+        //$unPostedReport = $unPostedReports[count($unPostedReports) - 1];
+        $this->view->assign('preparedControlPoint', $preparedControlPoint);
+        $tmpNote = new \DanLundgren\DlIponlyestate\Domain\Model\Note();                
+        $this->view->assign('tmpNote', $tmpNote);
+        $this->view->assign('reportArr', $reportArr);
+        $this->view->assign('rootLine1Uid', $rootLine1Uid);
+        $this->view->assign('reportWithVersion', $curReportWithVersion);
+        $this->view->assign('unPostedReport', $unPostedReport);
+        $this->view->assign('postedReports', $postedReports);
+        $this->view->assign('errorMess', $errorMess);
+        $this->view->assign('controlPoint', $controlPoint);
+        $this->view->assign('reportPid', $reportPid);
+        $this->view->assign('pid', $GLOBALS['TSFE']->id);
+        $this->view->assign('uploadStatus', $uploadStatus);
+    }
+
+    public function setNoteAndMeasureArr($controlPoint, $report) {
+        /*
+        *  type: 
+        *   0 - newNote
+        *   1 - newMeasure
+        *   2 - savedNote
+        *   3 - savedMeasure
+        */
+        $reportArr = array();
+        foreach($controlPoint->getQuestions() as $question) {
+            if($question->getMeasurementValues()==NULL) {
+                $noteIsSaved = 0;
+                foreach($report->getNotes() as $note) {
+                    if($note->getQuestion()->getUid() == $question->getUid()) {
+                        $reportArr[$question->getUid()]['type'] = 2;
+                        $reportArr[$question->getUid()]['obj'] = $note;
+                        $noteIsSaved = 1;
+                        break;
+                    }
+                }
+                if(!$noteIsSaved) {
+                    $reportArr[$question->getUid()]['type'] = 0;
+                    $reportArr[$question->getUid()]['obj'] = NULL;
+                }
+            }
+            else {
+                $measureIsSaved = 0;
+                foreach($report->getReportedMeasurement() as $reportedMeasurement) {
+                    if($reportedMeasurement->getQuestion()->getUid() == $question->getUid()) {
+                        $reportArr[$question->getUid()]['type'] = 3;
+                        $reportArr[$question->getUid()]['obj'] = $reportedMeasurement;
+                        $measureIsSaved = 1;
+                        break;
+                    }
+                }
+                if(!$measureIsSaved) {
+                    $reportArr[$question->getUid()]['type'] = 1;
+                    $reportArr[$question->getUid()]['obj'] = NULL;
+                }
+            }
+        }
+        return $reportArr;
+        /*
+        foreach ($controlPoint->getQuestions() as $question) {
+            foreach ($curReportWithVersion->getNotes() as $note) {
+                if (!in_array($note->getQuestion()->getUid(), $questionUidsWithNotes)) {
+                    $questionUidsWithNotes[] = $note->getQuestion()->getUid();
+                }
+                if ($note->getControlPoint()->getUid() == $controlPoint->getUid() && $note->getQuestion()->getUid() == $question->getUid()) {
+                    
+                }
+            }
+            foreach ($curReportWithVersion->getReportedMeasurement() as $reportedMeasurement) {
+                if (!in_array($reportedMeasurement->getQuestion()->getUid(), $questionUidsWithMeasurements)) {
+                    $questionUidsWithMeasurements[] = $reportedMeasurement->getQuestion()->getUid();
+                }
+            }
+        }
+        */
+    }
+
+    /**
+     * action show
+     *
+     * @param \DanLundgren\DlIponlyestate\Domain\Model\ControlPoint $controlPoint
+     * @return void
+     */
+    public function showAction_old(\DanLundgren\DlIponlyestate\Domain\Model\Note $note = NULL)
+    {
+        $arguments = $this->request->getArguments();
+        $uploadStatus = '';
+        if(count($arguments)>0) {
+            //Action,Controller,ExtensionName, arguments
+            $note = $this->saveNote($arguments, $estate);
+            $uploadStatus = $this->uploadAction($arguments, $note, $estate);
         }
         $fromCookieCPs = json_decode($_COOKIE['scanned_cps'], true);
         if (!isset($_COOKIE['scanned_cps'])) {
@@ -229,9 +428,8 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
             }
             $loopNo += 1;
         }
-
         //$unPostedReport = $unPostedReports[count($unPostedReports) - 1];
-        $tmpNote = new \DanLundgren\DlIponlyestate\Domain\Model\Note();
+        $tmpNote = new \DanLundgren\DlIponlyestate\Domain\Model\Note();        
         $this->view->assign('tmpNote', $tmpNote);
         $this->view->assign('reportArr', $reportArr);
         $this->view->assign('rootLine1Uid', $rootLine1Uid);
@@ -242,6 +440,16 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
         $this->view->assign('controlPoint', $controlPoint);
         $this->view->assign('reportPid', $reportPid);
         $this->view->assign('pid', $GLOBALS['TSFE']->id);
+        $this->view->assign('uploadStatus', $uploadStatus);
+\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
+ array(
+  'class' => __CLASS__,
+  'function' => __FUNCTION__,
+  'uploadStatus' => $uploadStatus,
+  'arguments' => $arguments,
+  'note' => $note,
+ )
+);
     }
 	public function saveNote($arguments, &$estate=NULL) {
 
@@ -340,14 +548,14 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
         $result = $fileProcessor->processData();
 
         //$result['upload']['0']['0']->properties['uid']
-        $uploadError = 'OK';
+        $uploadStatus = 'Bilden är uppladdad';
         if(isset($result) && isset($result['upload']) && isset($result['upload']['0']) && isset($result['upload']['0']['0']) && count($result['upload']['0']['0']->getProperties())>0 && (int)$result['upload']['0']['0']->getProperties()['uid']>0) {
             $sysFileUid = $result['upload']['0']['0']->getProperties()['uid'];
             $noteUid = $note->getUid();
             $this->setFileReference($sysFileUid, $noteUid, $tableNames='tx_dliponlyestate_domain_model_note',$tableLocal='sys_file',$fieldNAme='images');
         }
         else {
-            $uploadError = 'Bilden gick inte att ladda upp';
+            $uploadStatus = 'Bilden gick inte att ladda upp';
         }
         
 
@@ -356,6 +564,7 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
             /** @var \TYPO3\CMS\Core\Resource\File $file */
             $file = $files[0];	// Single element array due to the way we registered upload fields
         }
+        return $uploadStatus;
     }
     public function setFileReference($sysFileUid, $noteUid, $tableNames='tx_dliponlyestate_domain_model_note',$tableLocal='sys_file',$fieldName='images') {
         $GLOBALS['TYPO3_DB']->exec_INSERTquery('sys_file_reference', 

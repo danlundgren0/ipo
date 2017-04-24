@@ -225,7 +225,15 @@ class ReportUtility {
         $reportRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
         $questionRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\QuestionRepository');
         $controlPointRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ControlPointRepository');
-        $reportedMeasurement = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DanLundgren\DlIponlyestate\Domain\Model\ReportedMeasurement');
+        $reportedMeasurementRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportedMeasurementRepository');
+
+        if((int)$measureUid>0) {
+            $reportedMeasurement = $reportedMeasurementRepository->findByUid((int)$measureUid);
+        }
+        if(!$reportedMeasurement) {
+            $reportedMeasurement = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DanLundgren\DlIponlyestate\Domain\Model\ReportedMeasurement');
+        }   
+        //reportedMeasurement = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DanLundgren\DlIponlyestate\Domain\Model\ReportedMeasurement');
 		$newVerNo = 0;
         /*
 		foreach($report->getReportedMeasurement() as $prevMeasurement) {
@@ -259,7 +267,13 @@ class ReportUtility {
         $question = $questionRepository->findByUid($questUid);
 		$reportedMeasurement->setQuestion($question);
 		$reportedMeasurement->setPid($report->getPid());
-        $report->addReportedMeasurement($reportedMeasurement);
+        //$report->addReportedMeasurement($reportedMeasurement);
+        if((int)$measureUid>0) {
+            $reportedMeasurementRepository->update($reportedMeasurement);
+        }
+        else {
+            $report->addReportedMeasurement($reportedMeasurement);
+        } 
         if($report->getUid()==NULL) {
             $reportRepository->add($report);
         }

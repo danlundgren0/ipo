@@ -7,34 +7,6 @@
 
 <v:variable.set name="noteUidIsSet" value="0" />
 <v:variable.set name="measureUidIsSet" value="0" />
-<f:comment>
-<f:for each="{reportWithVersion.reportedMeasurement}" as="reportedMeasurement">
-  <f:if condition="{question.uid}=={reportedMeasurement.question.uid}">
-    <v:variable.set name="measureUidIsSet" value="1" />
-    <div class="posted-note-container NewNote">
-        <div class="alert alert-success input-disabled-note" role="alert">
-            <div class="label-bold">
-                <span class="label-ok">Mätvärde: 
-                    <div class="comment">{reportedMeasurement.value} {reportedMeasurement.name} ({reportedMeasurement.unit})</div>
-                </span>
-                <div class="date"><f:format.date format="Y-m-d - H:i:s">{reportedMeasurement.date}</f:format.date></div>
-                <div>Kontroll utförd av  {reportedMeasurement.executiveTechnician}</div>
-                <div>ID: {reportedMeasurement.uid}</div>
-            </div>
-        </div>
-    </div>
-    <div class="clear-both"></div>
-  </f:if>
-</f:for>
-<f:for each="{reportWithVersion.notes}" as="note">
-  <f:if condition="{question.uid}=={note.question.uid}">
-    <v:variable.set name="noteUidIsSet" value="1" />
-    <f:if condition="{v:variable.get(name: 'noteUidIsSet')}=='1'">
-      <f:render partial="Report/ReportedNote" arguments="{note:note}" />
-    </f:if>
-  </f:if>
-</f:for>
-</f:comment>
 <f:if condition="{v:variable.get(name: 'measureUidIsSet')}=='0'">
   <f:if condition="{v:variable.get(name: 'noteUidIsSet')}=='0'">
     <f:form action="show" enctype="multipart/form-data">
@@ -46,6 +18,7 @@
               <f:then>
                 <div class="state-buttons">
                   <button type="button" class="btn btn-success btn-ipaction btn-measure btn-text-slide" data-type="5" aria-pressed="false">{question.measurementValues.name} ({question.measurementValues.unit})</button>
+                  <button type="button" class="btn btn-success btn-ipaction enable-buttons hidden" data-type="5" aria-pressed="false">Ändra</button>
                 </div>
               </f:then>
               <f:else>
@@ -99,13 +72,10 @@
                     </span>
                   </f:else>
                 </f:if>
-
-                <f:comment>
-                <span class="add-btn hidden">
-                  <button type="button" class="btn btn-secondary">Lägg till notering</button>
-                </span>
-                </f:comment>
               </h3>
+              <f:if condition="{uploadStatus}!=''">
+                <div class="alert alert-info" style="float: left;">{uploadStatus}</div>
+              </f:if>
             </h5>
           </div>
         </div>

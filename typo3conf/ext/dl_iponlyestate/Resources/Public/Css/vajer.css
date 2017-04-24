@@ -9,6 +9,15 @@
 
 }
 */
+.link-to-list-button {
+    float:left;
+}
+.alert-info.uploadStatus {
+    float:left;
+    height:38px;
+    padding:9px;
+    margin-left: 10px;
+}
 .sub2.open {
      display:block;
     top: 0;
@@ -119,6 +128,21 @@ body .contaier .tab-container a {
 }
 .active a {
     background-color: #FFFFFF !important;
+}
+.active a.color_1 {
+    background-color: #5CB85C !important;
+}
+.active a.color_2 {
+    background-color: #ED7A85 !important;
+}
+.active a.color_3 {
+    background-color: #F0AD4E !important;
+}
+.active a.color_4 {
+    background-color: #DDDDDD !important;
+}
+.active a.color_5 {
+    background-color: #5BC0DE !important;
 }
 .tab-container a {
     background-color: #DCDCDC; 

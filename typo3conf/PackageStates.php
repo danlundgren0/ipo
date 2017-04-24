@@ -288,6 +288,12 @@ return [
             'packagePath' => 'typo3conf/ext/extension_builder/',
             'suggestions' => [],
         ],
+        'ke_search' => [
+            'composerName' => 'teaminmedias-pluswerk/ke_search',
+            'state' => 'active',
+            'packagePath' => 'typo3conf/ext/ke_search/',
+            'suggestions' => [],
+        ],
         'realurl' => [
             'composerName' => 'dmitryd/typo3-realurl',
             'state' => 'active',
