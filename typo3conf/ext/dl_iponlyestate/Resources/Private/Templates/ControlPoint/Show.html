@@ -101,16 +101,16 @@ Otherwise your changes will be overwritten the next time you save the extension 
                             <f:for each="{preparedControlPoint}" as="note" key="questUid">
                                 <f:if condition="{question.uid}=={questUid}">
                                     <f:if condition="{note.type}==0">
-                                        <f:render partial="Report/NewNote" arguments="{pid:pid, note:note.obj, question:question, controlPoint:controlPoint, reportWithVersion:reportWithVersion, tmpNote:tmpNote}" />
+                                        <f:render partial="Report/NewNote" arguments="{uploadStatus:uploadStatus, pid:pid, note:note.obj, question:question, controlPoint:controlPoint, reportWithVersion:reportWithVersion, tmpNote:tmpNote}" />
                                     </f:if>                                
                                     <f:if condition="{note.type}==1">
-                                        <f:render partial="Report/NewNote" arguments="{pid:pid, reportedMeasurement:note.obj, question:question, controlPoint:controlPoint, reportWithVersion:reportWithVersion, tmpNote:tmpNote}" />
+                                        <f:render partial="Report/NewNote" arguments="{uploadStatus:uploadStatus, pid:pid, reportedMeasurement:note.obj, question:question, controlPoint:controlPoint, reportWithVersion:reportWithVersion, tmpNote:tmpNote}" />
                                     </f:if>
                                     <f:if condition="{note.type}==2">
-                                        <f:render partial="Report/ReportedNote" arguments="{note:note.obj, pid:pid, question:question, controlPoint:controlPoint, reportWithVersion:reportWithVersion, tmpNote:tmpNote}" />
+                                        <f:render partial="Report/ReportedNote" arguments="{uploadStatus:uploadStatus, note:note.obj, pid:pid, question:question, controlPoint:controlPoint, reportWithVersion:reportWithVersion, tmpNote:tmpNote}" />
                                     </f:if>
                                     <f:if condition="{note.type}==3">
-                                        <f:render partial="Report/ReportedNote" arguments="{reportedMeasurement:note.obj, pid:pid, note:note, question:question, controlPoint:controlPoint, reportWithVersion:reportWithVersion, tmpNote:tmpNote}" />
+                                        <f:render partial="Report/ReportedNote" arguments="{uploadStatus:uploadStatus, reportedMeasurement:note.obj, pid:pid, note:note, question:question, controlPoint:controlPoint, reportWithVersion:reportWithVersion, tmpNote:tmpNote}" />
                                     </f:if>
                                 </f:if>
                             </f:for>
@@ -136,14 +136,11 @@ Otherwise your changes will be overwritten the next time you save the extension 
             <f:link.page pageUid="{rootLine1Uid}" class="btn btn-danger link-to-list-button">Se översikt och/eller slutför rapporteringen >></f:link.page>
           </f:then>
           <f:else>
-            <f:link.page pageUid="{rootLine1Uid}" class="btn btn-danger link-to-list-button hidden">Se översikt och/eller slutför rapporteringen >></f:link.page>      
+            <f:link.page pageUid="{rootLine1Uid}" class="btn btn-danger link-to-list-button">Se översikt >></f:link.page>      
         </f:else>
         </f:if>
       </f:else>      
     </f:if> 
-    <f:if condition="{uploadStatus}!=''">
-        <div class="alert alert-info uploadStatus" style="float: left;">{uploadStatus}</div>
-    </f:if>   
   </div>
 </div>
 <f:flashMessages />

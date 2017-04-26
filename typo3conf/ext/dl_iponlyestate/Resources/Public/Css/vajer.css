@@ -9,11 +9,15 @@
 
 }
 */
+body .nav-tabs>li.active>a,body .nav-tabs>li.active>a:focus,body .nav-tabs>li.active>a:hover {
+    border: 2px solid #555;
+    border-bottom-color: transparent;
+}
 .link-to-list-button {
     float:left;
 }
 .alert-info.uploadStatus {
-    float:left;
+    float:right;
     height:38px;
     padding:9px;
     margin-left: 10px;
@@ -111,7 +115,7 @@ body .container p {
 body .contaier .tab-container a {
     color:#555;
 }
-.color_1 {
+.color_1, .color_5 {
     background-color: #5CB85C !important;
 }
 .color_2 {
@@ -123,13 +127,13 @@ body .contaier .tab-container a {
 .color_4 {
     background-color: #DDDDDD !important;
 }
-.color_5 {
+/*.color_5 {
     background-color: #5BC0DE !important;
-}
+}*/
 .active a {
     background-color: #FFFFFF !important;
 }
-.active a.color_1 {
+.active a.color_1, .active a.color_5 {
     background-color: #5CB85C !important;
 }
 .active a.color_2 {
@@ -141,9 +145,9 @@ body .contaier .tab-container a {
 .active a.color_4 {
     background-color: #DDDDDD !important;
 }
-.active a.color_5 {
+/*.active a.color_5 {
     background-color: #5BC0DE !important;
-}
+}*/
 .tab-container a {
     background-color: #DCDCDC; 
 }

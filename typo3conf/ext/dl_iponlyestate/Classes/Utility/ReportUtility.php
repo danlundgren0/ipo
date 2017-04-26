@@ -42,13 +42,6 @@ class ReportUtility {
     public static function getLatestOrNewReport($reportPid, $estate, $persistIt=false) {
         $reportPid = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dliponlyestate.']['persistence.']['reportPid'];
         if(!(int)$reportPid>0) {
-\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
- array(
-  'class' => __CLASS__,
-  'function' => __FUNCTION__,
-  'ERROR' => 'Report Id saknas',
- )
-);
             return NULL;
         }
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
@@ -80,18 +73,6 @@ class ReportUtility {
         
         //$newReport = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DanLundgren\DlIponlyestate\Domain\Model\Report');
         //$newReport->setVersion($highestVersion);
-
-/*        
-\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
- array(
-  'class' => __CLASS__,
-  'function' => __FUNCTION__,
-  'newReport' => $newReport,
-  'allReports' => $allReports,
-  'reportPid' => $reportPid,
- )
-);
-*/ 
         return $newReport;
     }
     public static function createNewReport($highestVersion, $estate, $reportPid, $startDate=null, $persistIt=false) {
@@ -283,7 +264,7 @@ class ReportUtility {
         $persistenceManager->persistAll();
         return $reportedMeasurement;
     }
-    public static function saveNote($report, $cpUid, $questUid, $noteUid, $noteText, $noteState, $curVer, $pid) {
+    public static function saveNote($report, $cpUid, $questUid, $noteUid, $noteText, $noteState, $curVer, $pid, $isPost=0) {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
         $persistenceManager = $objectManager->get('TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface');
         $reportRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
@@ -321,6 +302,9 @@ class ReportUtility {
         }
         */
 		//$note->setVersion($newVerNo+=1);
+        if($isPost>0) {
+            $note->setUploadedImage(true);
+        }
         $note->setPageId($pid);
 		$note->setRemarkType($noteState);
 		$note->setComment($noteText);

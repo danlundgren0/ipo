@@ -25,6 +25,7 @@
                 </div>
             </f:if>
         </f:for>
+        <f:comment>
         <f:for each="{postedReports}" as="report">
             <f:for each="{report.notes}" as="note">
                 <f:if condition="{note.images}">
@@ -46,6 +47,7 @@
                 </f:if>
             </f:for>
         </f:for>
+        </f:comment>
       </div>
     </div>
   </div>

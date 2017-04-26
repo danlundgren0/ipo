@@ -25,7 +25,7 @@ DanL.Note = {
             $(obj).closest('.noteContainer').find($('.save-btn')).removeClass('hidden');
             $('me').closest('.noteContainer').find('.enable-buttons').removeClass('hidden');
         }
-        else {
+        else if(!$(obj).hasClass('upload-btn')) {
             this.isReadyForSave = false;
             $(obj).closest('.noteContainer').find($('.save-btn')).addClass('hidden');
             $('me').closest('.noteContainer').find('.enable-buttons').addClass('hidden');
@@ -55,25 +55,16 @@ DanL.Note = {
                 reportUid: reportUid
 			}
 		}).done(function(data, textStatus, jqXHR) {
-            //var me = $(this);
-            //$(me).closest('.col-md-8').append(data.data.response);
-            //$('me').closest('.noteContainer').find('.input-note').on('change', DanL.Note.setNoteState);
-            //$('me').closest('.noteContainer').find('.state-buttons .btn').on('click', DanL.Note.setButtonState);
-            //$('me').closest('.noteContainer').find('.save-note').on('click', DanL.Note.saveNote);
-            //$(me).addClass('disabled');
             $('.btn-save-report').addClass('hidden');
             $('.outer-posted-notes-container').empty();
             $('.outer-posted-notes-container').html('<div class="alert alert-success input-disabled-note" role="alert">Rapport inskickad</div>');
+            $('[data-target="#myModal"]').addClass('hidden');
 		}).fail(function( jqXHR, textStatus, errorThrown ) {
 			console.log('getNewNoteTmpl failed: ' + textStatus);
 		});
         if($(this).hasClass('disabled')) {
             return;
         }
-        //$(this).closest('.noteContainer').find('.btn-ipaction').removeClass('active').addClass('disabled');
-        //$(this).addClass('disabled');
-        //$(this).closest('.noteContainer').find('.input-note').attr('disabled','disabled');
-        //$(this).closest('.noteContainer').find('.add-btn').removeClass('hidden');
     },
     saveMeasureValue: function() {
         if($(this).hasClass('disabled')) {
@@ -116,10 +107,6 @@ DanL.Note = {
 		}).done(function(data, textStatus, jqXHR) {
             $(me).closest('.noteContainer').attr('data-measureuid',data.data['noteUid']);
             $(me).closest('.noteContainer').attr('data-notever',data.data['curVer']);
-            //$(me).closest('.col-md-8').append(data.data.response);
-            //$('me').closest('.noteContainer').find('.input-note').on('change', DanL.Note.setNoteState);
-            //$('me').closest('.noteContainer').find('.state-buttons .btn').on('click', DanL.Note.setButtonState);
-            //$('me').closest('.noteContainer').find('.save-note').on('click', DanL.Note.saveNote);
             $(me).addClass('disabled');
             $('[aria-controls="uid_'+questUid+'"]').prop('class','');
             $('[aria-controls="uid_'+questUid+'"]').addClass('color_1');
@@ -155,6 +142,7 @@ DanL.Note = {
         var noteText = $(this).closest('.noteContainer').find('.input-note').val();
         var noteState = $(this).closest('.noteContainer').find('.btn-ipaction.active').data('type');
         var reportPid  = $('#reportPid').val();
+console.log(noteState);
 		DanL.ajax.fetch({
 			command: 'saveNote',
 			arguments: {
@@ -173,10 +161,9 @@ DanL.Note = {
 		}).done(function(data, textStatus, jqXHR) {
             $(me).closest('.noteContainer').attr('data-noteuid',data.data['noteUid']);
             $(me).closest('.noteContainer').attr('data-notever',data.data['curVer']);
-            //$(me).closest('.col-md-8').append(data.data.response);
-            //$(me).closest('.noteContainer').find('.input-note').on('change', DanL.Note.setNoteState);
-            //$(me).closest('.noteContainer').find('.state-buttons .btn').on('click', DanL.Note.setButtonState);
-            //$(me).closest('.noteContainer').find('.save-note').on('click', DanL.Note.saveNote);
+            $(me).closest('.noteContainer').find('[name="tx_dliponlyestate_cp[noteuid]"]').val(data.data['noteUid']);
+            $(me).closest('.noteContainer').find('[name="tx_dliponlyestate_cp[notever]"]').val(data.data['curVer']);
+            $(me).closest('.noteContainer').find('[name="tx_dliponlyestate_cp[notestate]"]').val(data.data['noteState']);
             $('[aria-controls="uid_'+questUid+'"]').prop('class','');
             $('[aria-controls="uid_'+questUid+'"]').addClass('color_'+noteState);
             $(me).addClass('disabled');
@@ -187,7 +174,7 @@ DanL.Note = {
         if($(this).hasClass('disabled')) {
             return;
         }
-        $(me).closest('.noteContainer').find('.btn-ipaction').addClass('disabled');
+        $(me).closest('.noteContainer').find('.btn-ipaction').not('.add-photo-btn').addClass('disabled');
         $(me).closest('.noteContainer').find('.active').removeClass('active').addClass('disabled').addClass('pre-active');
         $(me).addClass('disabled');
         $(me).closest('.noteContainer').find('.input-note').attr('disabled','disabled');
@@ -203,7 +190,6 @@ DanL.Note = {
         $(this).closest('.noteContainer').find('.save-btn').removeClass('hidden');
         $(this).closest('.noteContainer').find('.save-btn .btn').removeClass('disabled');
         $(this).closest('.noteContainer').find('.upload-btn').removeClass('disabled');
-        //$(this).closest('.noteContainer').find('.state-buttons .btn').on('click', DanL.Note.setButtonState);        
         $(this).addClass('hidden');
     },
     saveNoteFixed: function() {
@@ -267,6 +253,8 @@ DanL.Note = {
                 event.preventDefault();
             }
             else {
+                var questUid = $(this).closest('.noteContainer').find('[name="tx_dliponlyestate_cp[questionuid]"]').val();
+                $('.tab-container').find('[aria-controls="uid_'+questUid+'"]').prop('class','');
                 $(this).closest('.noteContainer').find('.input-note').slideUp();
             }            
             DanL.Note.isButtonSet = false;            
@@ -276,22 +264,32 @@ DanL.Note = {
             $(this).addClass('active');
             var questUid = $(this).closest('.noteContainer').find('[name="tx_dliponlyestate_cp[questionuid]"]').val();
             var noteState = $(this).attr('data-type');
-            console.log('this');
-            console.log($(this));
-            console.log('questUid');
-            console.log(questUid);
-            console.log('noteState');
-            console.log(noteState);
-            $('.tab-container').find('[aria-controls="uid_'+questUid+'"]').prop('class','');
-            $('.tab-container').find('[aria-controls="uid_'+questUid+'"]').addClass('color_'+noteState);
+            if(noteState!==undefined) {
+                $('.tab-container').find('[aria-controls="uid_'+questUid+'"]').prop('class','');
+                $('.tab-container').find('[aria-controls="uid_'+questUid+'"]').addClass('color_'+noteState);
+                $(this).closest('.noteContainer').find('[name="tx_dliponlyestate_cp[notestate]"]').val(noteState);
+            }
+            else {
+                var curColorClass = $('[aria-controls="uid_'+questUid+'"]').attr('class');                
+                if(curColorClass=='') {
+                    $('.tab-container').find('[aria-controls="uid_'+questUid+'"]').addClass('color_1');                    
+                }
+                else {
+                    $('.tab-container').find('[aria-controls="uid_'+questUid+'"]').prop('class','');
+                    $('.tab-container').find('[aria-controls="uid_'+questUid+'"]').addClass(curColorClass);                    
+                }
+            }
             if($(this).hasClass('btn-text-slide')) {
                 $(this).closest('.noteContainer').find('.input-note').slideDown();
                 if($(this).hasClass('btn-measure')) {
                     $(this).closest('.noteContainer').find('.input-note').removeAttr('disabled');
                 }
             }
-            if($(this).hasClass('upload-btn')) {
+            if($(this).hasClass('upload-btn')) {                
                 $(this).closest('.noteContainer').find('.save-note-btn').attr('type','submit');
+                $(this).closest('.noteContainer').find('.save-btn').removeClass('hidden');
+                $(this).closest('.noteContainer').find('.input-note').removeAttr('disabled');
+                $(this).closest('.noteContainer').find('.save-note-btn').removeClass('disabled');
             }
             else {
                 $(this).closest('.noteContainer').find('.save-note-btn').attr('type','button');
@@ -301,7 +299,7 @@ DanL.Note = {
         if(!$(this).hasClass('save-note-ok')) {
             DanL.Note.setReadyForSave(this);
         }
-        else {
+        else if(!$(this).hasClass('upload-btn')) {
             $(this).closest('.noteContainer').find('.input-note').slideUp();
             $('.save-btn').addClass('hidden');
         }

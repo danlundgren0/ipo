@@ -35,20 +35,21 @@ Otherwise your changes will be overwritten the next time you save the extension 
 				<h2>Följande kontroll-punkter kan du hitta på denna fastighet</h2>
 				<f:for each="{subPages}" as="pid">
 					<v:variable.set name="cpIsScanned" value="0" />
-					<f:for each="{postedReports}" as="report">
-						<f:for each="{report.notes}" as="note">
+					
+						<f:for each="{reportWithVersion.notes}" as="note">
 							<f:if condition="{note.isComplete}==''">
 								<f:if  condition="{note.pageId}=={pid.uid}">
 									<v:variable.set name="cpIsScanned" value="1" />
 								</f:if>
 							</f:if>
 						</f:for>
-						<h4>{cp.name}</h4>
-					</f:for>
+					
 					<f:if condition="{pid.doktype}=='1'">
 						<f:if condition="{v:variable.get(name: 'cpIsScanned')}=='1'">
 							<f:then>
-								<f:link.page pageUid="{pid.uid}" class="cp-link">{pid.title} >></f:link.page>
+								<div class="cp-link-container">
+									<f:link.page pageUid="{pid.uid}" class="cp-link">{pid.title} >></f:link.page>
+								</div>
 							</f:then>
 							<f:else>
 								<div class="cp-info">{pid.title}</div>

@@ -94,6 +94,14 @@ class Note extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $executiveTechnician = 0;
     
     /**
+     * pageId
+     *
+     * @var int
+     * @validate NotEmpty
+     */
+    protected $pageId = 0;
+    
+    /**
      * controlPoint
      *
      * @var \DanLundgren\DlIponlyestate\Domain\Model\ControlPoint
@@ -108,14 +116,13 @@ class Note extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $question = null;
     
     /**
-     * pageId
+     * uploadedImage
      *
-     * @var int
+     * @var bool
      * @validate NotEmpty
      */
-    protected $pageId = 0;
-
-
+    protected $uploadedImage = false;
+    
     /**
      * __construct
      */
@@ -135,9 +142,9 @@ class Note extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     protected function initStorageObjects()
     {
-        $this->images = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        
     }
-
+    
     /**
      * Returns the comment
      *
@@ -377,6 +384,37 @@ class Note extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setPageId($pageId)
     {
         $this->pageId = $pageId;
+    }
+    
+    /**
+     * Returns the uploadedImage
+     *
+     * @return bool $uploadedImage
+     */
+    public function getUploadedImage()
+    {
+        return $this->uploadedImage;
+    }
+    
+    /**
+     * Sets the uploadedImage
+     *
+     * @param bool $uploadedImage
+     * @return void
+     */
+    public function setUploadedImage($uploadedImage)
+    {
+        $this->uploadedImage = $uploadedImage;
+    }
+    
+    /**
+     * Returns the boolean state of uploadedImage
+     *
+     * @return bool
+     */
+    public function isUploadedImage()
+    {
+        return $this->uploadedImage;
     }
 
 }

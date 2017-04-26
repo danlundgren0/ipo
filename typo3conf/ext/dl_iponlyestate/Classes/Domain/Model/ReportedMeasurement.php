@@ -75,6 +75,13 @@ class ReportedMeasurement extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $executiveTechnician = '';
     
     /**
+     * pageId
+     *
+     * @var int
+     */
+    protected $pageId = 0;
+    
+    /**
      * controlPoint
      *
      * @var \DanLundgren\DlIponlyestate\Domain\Model\ControlPoint
@@ -87,13 +94,6 @@ class ReportedMeasurement extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var \DanLundgren\DlIponlyestate\Domain\Model\Question
      */
     protected $question = null;
-    
-    /**
-     * pageId
-     *
-     * @var int
-     */
-    protected $pageId = 0;
     
     /**
      * Returns the name

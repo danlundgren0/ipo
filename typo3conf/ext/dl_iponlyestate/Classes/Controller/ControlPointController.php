@@ -116,6 +116,7 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                 $hasImages+=1;      
             }
         }
+        /*
         if ($curReportWithVersion && $curReportWithVersion->getStartDate() !== null) {
             $postedReports = ReportUtil::getPostedReports($reportPid, $estate, $curReportWithVersion->getStartDate());
             foreach($postedReports as $report) {
@@ -126,6 +127,7 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                 }
             }
         }
+        */
         if (!$GLOBALS['TSFE']->fe_user->user['first_name'] || $GLOBALS['TSFE']->fe_user->user['last_name']) {
             $this->view->assign('technician', $GLOBALS['TSFE']->fe_user->user['name']);
         } else {
@@ -323,6 +325,198 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
         */
     }
 
+
+	public function saveNote($arguments, &$estate=NULL) {
+
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+        $this->controlPointRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ControlPointRepository');
+        $this->estateRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\EstateRepository');
+        $this->questionRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\QuestionRepository');
+		//TODO: Come up with good versioning handling
+		$pid = (int)$arguments['pid'];
+		$estateUid = (int)$arguments['estateuid'];
+		$cpUid = (int)$arguments['cpuid'];
+		$questUid = (int)$arguments['questionuid'];
+		$noteUid = (int)$arguments['noteuid'];
+		$curVer = (int)$arguments['ver'];		
+		$noteText = $arguments['input-note'];
+		$noteState = (int)$arguments['notestate'];
+		$reportUid = (int)$arguments['reportuid'];
+		$nodeTypeUid = (int)$arguments['nodetypeuid'];
+		$reportPid = (int)$arguments['reportpid'];		
+		$reportIsNew = NULL;
+		$controlPoint = $this->controlPointRepository->findByUid($cpUid);
+		$question = $this->questionRepository->findByUid($questUid);
+		$noteText = ($noteState==1)?$question->getHeader().' - OK':$noteText;
+		$questions = $controlPoint->getQuestions();
+		$datetime = new \DateTime();
+		$datetime->format('Y-m-d H:i:s');
+
+		$estate = $this->estateRepository->findByUid($estateUid);
+		$responsibleTechnician = $estate->getResponsibleTechnician();
+		if(!$reportUid) {
+			$report = \DanLundgren\DlIponlyestate\Utility\ReportUtility::getLatestOrNewReport($reportPid, $estate, true);
+			$reportUid = $report->getUid();
+		}
+
+
+
+		if((int)$reportUid>0) {
+            $isPost = 1;
+			$report = \DanLundgren\DlIponlyestate\Utility\ReportUtility::setReportProperties($estateUid, $datetime, $reportUid, $cpUid, $nodeTypeUid, $responsibleTechnician);
+			$note = \DanLundgren\DlIponlyestate\Utility\ReportUtility::saveNote($report, $cpUid, $questUid, $noteUid, $noteText, $noteState, $curVer, $pid, $isPost);	
+            return $note;
+			//$this->data['comment'] = $note->getComment();
+			//$this->data['note'] = $note->getState();	
+		}
+        return NULL;
+	}
+
+    /**
+     * @param $argumentName
+     */
+    protected function setTypeConverterConfigurationForImageUpload($argumentName)
+    {
+        $uploadConfiguration = array(
+            UploadedFileReferenceConverter::CONFIGURATION_ALLOWED_FILE_EXTENSIONS => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
+            UploadedFileReferenceConverter::CONFIGURATION_UPLOAD_FOLDER => '1:/content/'
+        );
+        /** @var PropertyMappingConfiguration $newExampleConfiguration */
+        $newExampleConfiguration = $this->arguments[$argumentName]->getPropertyMappingConfiguration();
+        $newExampleConfiguration->forProperty('images')->setTypeConverterOptions('DanLundgren\\DlIponlyestate\\Property\\TypeConverter\\UploadedFileReferenceConverter', $uploadConfiguration);
+    }
+    
+    /**
+    * Upload files.
+    *
+    * @return void
+    */
+    public function uploadAction($arguments, $note, $estate) {
+        //$_FILES['tx_dliponlyestate_domain_model_note'] = $_FILES['tx_dliponlyestate_domain_model_controlpoint'];
+        //unset($_FILES['tx_dliponlyestate_domain_model_controlpoint']);
+        if($note === NULL) {
+            return $uploadError = 'Note is NULL';
+        }
+        $nodeTypeFolder = $note->getControlPoint()->getNodeType()->getName();
+        $estateFolder = ($estate->getName()!='')?$estate->getName():$estate->getHeader();
+        //$targetFalDirectory = $this->createFolders($nodeTypeFolder, $estateFolder);
+        $targetFalDirectory = '1:/user_upload/';
+        $overwriteExistingFiles = TRUE;
+        $data = array();
+        $namespace = key($_FILES);
+        /*
+        if(strlen($nodeTypePath)>0 && strlen($estatePath)>0) {
+            $targetFalDirectory = '1:/'.$nodeTypePath.'/'.$estatePath.'/';
+        }
+        else {
+            $targetFalDirectory = '1:/user_upload/';
+        }
+        */
+        // Register every upload field from the form:
+        $this->registerUploadField($data, $namespace, 'image', $targetFalDirectory);
+
+        // Initializing:
+        /** @var \TYPO3\CMS\Core\Utility\File\ExtendedFileUtility $fileProcessor */
+        $fileProcessor = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Utility\\File\\ExtendedFileUtility');
+        $fileProcessor->init(array(), $GLOBALS['TYPO3_CONF_VARS']['BE']['fileExtensions']);
+        $fileProcessor->setActionPermissions(array('addFile' => TRUE));
+        $fileProcessor->dontCheckForUnique = $overwriteExistingFiles ? 1 : 0;
+
+        // Actual upload
+        $fileProcessor->start($data);
+        $result = $fileProcessor->processData();
+
+        //$result['upload']['0']['0']->properties['uid']
+        $uploadStatus = 'Bilden är uppladdad';
+        if(isset($result) && isset($result['upload']) && isset($result['upload']['0']) && isset($result['upload']['0']['0']) && count($result['upload']['0']['0']->getProperties())>0 && (int)$result['upload']['0']['0']->getProperties()['uid']>0) {
+            $sysFileUid = $result['upload']['0']['0']->getProperties()['uid'];
+            $noteUid = $note->getUid();
+            $this->setFileReference($sysFileUid, $noteUid, $tableNames='tx_dliponlyestate_domain_model_note',$tableLocal='sys_file',$fieldNAme='images');            
+        }
+        else {
+            $uploadStatus = 'Bilden gick inte att ladda upp';
+        }
+        
+
+        // Do whatever you want with $result (array of File objects)
+        foreach ($result['upload'] as $files) {
+            /** @var \TYPO3\CMS\Core\Resource\File $file */
+            $file = $files[0];	// Single element array due to the way we registered upload fields
+        }
+        return $uploadStatus;
+    }
+    public function setFileReference($sysFileUid, $noteUid, $tableNames='tx_dliponlyestate_domain_model_note',$tableLocal='sys_file',$fieldName='images') {
+        $GLOBALS['TYPO3_DB']->exec_INSERTquery('sys_file_reference', 
+            array('uid_local' => $sysFileUid, 
+                'uid_foreign' => $noteUid,
+                'tablenames' => $tableNames,
+                'fieldname' => $fieldName,
+                'table_local' => $tableLocal
+            )
+        );
+    }
+    /**
+    * Registers an uploaded file for TYPO3 native upload handling.
+    * 
+    * @param array &$data
+    * @param string $namespace
+    * @param string $fieldName
+    * @param string $targetDirectory
+    * @return void
+    */
+    protected function registerUploadField(array &$data, $namespace, $fieldName, $targetDirectory = '1:/user_upload/') {
+        if (!isset($data['upload'])) {
+            $data['upload'] = array();
+        }
+        $counter = count($data['upload']) + 1;
+
+        $keys = array_keys($_FILES[$namespace]);
+        foreach ($keys as $key) {
+            $_FILES['upload_' . $counter][$key] = $_FILES[$namespace][$key][$fieldName];
+        }
+        $data['upload'][$counter] = array(
+            'data' => $counter,
+            'target' => $targetDirectory,
+        );
+    }
+    public function createFolders($nodeTypeFolder, $estateFolder) {
+        //$fullpath =  PATH_site . 'fileadmin/user_upload/'.$this->parentCustomerFolder;
+        //PATH_site . 'fileadmin/';
+        //$targetFalDirectory = '1:/'.$nodeTypePath.'/'.$estatePath.'/';
+
+        $nodeTypePath =  PATH_site . 'fileadmin/user_upload/'.$nodeTypeFolder;
+        if (!file_exists($nodeTypePath)) {
+            \TYPO3\CMS\Core\Utility\GeneralUtility::mkdir($nodeTypePath);
+        }
+        $fullPath = $nodeTypePath.'/'.$estateFolder.'/';
+        if (!file_exists($fullPath)) {
+            \TYPO3\CMS\Core\Utility\GeneralUtility::mkdir($fullPath);
+        }
+        /*
+        if (file_exists($fullpath)) {
+            $customerFolderFullPath = $fullpath.'/'.$this->userName;
+            if(!file_exists($customerFolderFullPath)) {
+                \TYPO3\CMS\Core\Utility\GeneralUtility::mkdir($customerFolderFullPath);
+            }
+            foreach($this->customerCatNames as $catName => $subCatNames) {
+                if(!file_exists($customerFolderFullPath.'/'.$catName)) {
+                    $customerSubFolderFullPath = $customerFolderFullPath.'/'.$catName;
+                    \TYPO3\CMS\Core\Utility\GeneralUtility::mkdir($customerSubFolderFullPath);
+                }
+                foreach($subCatNames as $subCatName) {
+                    if(!file_exists($customerSubFolderFullPath.'/'.$subCatName)) {
+                        $customerSub2FolderFullPath = $customerSubFolderFullPath.'/'.$subCatName;
+                        \TYPO3\CMS\Core\Utility\GeneralUtility::mkdir($customerSub2FolderFullPath);
+                    }
+                }
+            }
+        }
+        */
+        if (!file_exists($fullpath)) {
+            return NULL;
+        }
+        return $fullPath;
+    }
     /**
      * action show
      *
@@ -441,201 +635,6 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
         $this->view->assign('reportPid', $reportPid);
         $this->view->assign('pid', $GLOBALS['TSFE']->id);
         $this->view->assign('uploadStatus', $uploadStatus);
-\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
- array(
-  'class' => __CLASS__,
-  'function' => __FUNCTION__,
-  'uploadStatus' => $uploadStatus,
-  'arguments' => $arguments,
-  'note' => $note,
- )
-);
-    }
-	public function saveNote($arguments, &$estate=NULL) {
 
-        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-        $this->controlPointRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ControlPointRepository');
-        $this->estateRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\EstateRepository');
-        $this->questionRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\QuestionRepository');
-		//TODO: Come up with good versioning handling
-		$pid = (int)$arguments['pid'];
-		$estateUid = (int)$arguments['estateuid'];
-		$cpUid = (int)$arguments['cpuid'];
-		$questUid = (int)$arguments['questionuid'];
-		$noteUid = (int)$arguments['noteuid'];
-		$curVer = (int)$arguments['ver'];		
-		$noteText = $arguments['input-note'];
-		$noteState = (int)$arguments['notestate'];
-		$reportUid = (int)$arguments['reportuid'];
-		$nodeTypeUid = (int)$arguments['nodetypeuid'];
-		$reportPid = (int)$arguments['reportpid'];		
-		$reportIsNew = NULL;
-		$controlPoint = $this->controlPointRepository->findByUid($cpUid);
-		$question = $this->questionRepository->findByUid($questUid);
-		$noteText = ($noteState==1)?$question->getHeader().' - OK':$noteText;
-		$questions = $controlPoint->getQuestions();
-		$datetime = new \DateTime();
-		$datetime->format('Y-m-d H:i:s');
-
-		$estate = $this->estateRepository->findByUid($estateUid);
-		$responsibleTechnician = $estate->getResponsibleTechnician();
-		if(!$reportUid) {
-			$report = \DanLundgren\DlIponlyestate\Utility\ReportUtility::getLatestOrNewReport($reportPid, $estate, true);
-			$reportUid = $report->getUid();
-		}
-		if((int)$reportUid>0) {
-			$report = \DanLundgren\DlIponlyestate\Utility\ReportUtility::setReportProperties($estateUid, $datetime, $reportUid, $cpUid, $nodeTypeUid, $responsibleTechnician);	
-			$note = \DanLundgren\DlIponlyestate\Utility\ReportUtility::saveNote($report, $cpUid, $questUid, $noteUid, $noteText, $noteState, $curVer, $pid);	
-            return $note;
-			//$this->data['comment'] = $note->getComment();
-			//$this->data['note'] = $note->getState();	
-		}
-        return NULL;
-	}
-
-    /**
-     * @param $argumentName
-     */
-    protected function setTypeConverterConfigurationForImageUpload($argumentName)
-    {
-        $uploadConfiguration = array(
-            UploadedFileReferenceConverter::CONFIGURATION_ALLOWED_FILE_EXTENSIONS => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
-            UploadedFileReferenceConverter::CONFIGURATION_UPLOAD_FOLDER => '1:/content/'
-        );
-        /** @var PropertyMappingConfiguration $newExampleConfiguration */
-        $newExampleConfiguration = $this->arguments[$argumentName]->getPropertyMappingConfiguration();
-        $newExampleConfiguration->forProperty('images')->setTypeConverterOptions('DanLundgren\\DlIponlyestate\\Property\\TypeConverter\\UploadedFileReferenceConverter', $uploadConfiguration);
-    }
-    
-    /**
-    * Upload files.
-    *
-    * @return void
-    */
-    public function uploadAction($arguments, $note, $estate) {
-        //$_FILES['tx_dliponlyestate_domain_model_note'] = $_FILES['tx_dliponlyestate_domain_model_controlpoint'];
-        //unset($_FILES['tx_dliponlyestate_domain_model_controlpoint']);
-        if($note === NULL) {
-            return $uploadError = 'Note is NULL';
-        }
-        $nodeTypeFolder = $note->getControlPoint()->getNodeType()->getName();
-        $estateFolder = ($estate->getName()!='')?$estate->getName():$estate->getHeader();
-        //$targetFalDirectory = $this->createFolders($nodeTypeFolder, $estateFolder);
-        $targetFalDirectory = '1:/user_upload/';
-        $overwriteExistingFiles = TRUE;
-        $data = array();
-        $namespace = key($_FILES);
-        /*
-        if(strlen($nodeTypePath)>0 && strlen($estatePath)>0) {
-            $targetFalDirectory = '1:/'.$nodeTypePath.'/'.$estatePath.'/';
-        }
-        else {
-            $targetFalDirectory = '1:/user_upload/';
-        }
-        */
-        // Register every upload field from the form:
-        $this->registerUploadField($data, $namespace, 'image', $targetFalDirectory);
-
-        // Initializing:
-        /** @var \TYPO3\CMS\Core\Utility\File\ExtendedFileUtility $fileProcessor */
-        $fileProcessor = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Utility\\File\\ExtendedFileUtility');
-        $fileProcessor->init(array(), $GLOBALS['TYPO3_CONF_VARS']['BE']['fileExtensions']);
-        $fileProcessor->setActionPermissions(array('addFile' => TRUE));
-        $fileProcessor->dontCheckForUnique = $overwriteExistingFiles ? 1 : 0;
-
-        // Actual upload
-        $fileProcessor->start($data);
-        $result = $fileProcessor->processData();
-
-        //$result['upload']['0']['0']->properties['uid']
-        $uploadStatus = 'Bilden är uppladdad';
-        if(isset($result) && isset($result['upload']) && isset($result['upload']['0']) && isset($result['upload']['0']['0']) && count($result['upload']['0']['0']->getProperties())>0 && (int)$result['upload']['0']['0']->getProperties()['uid']>0) {
-            $sysFileUid = $result['upload']['0']['0']->getProperties()['uid'];
-            $noteUid = $note->getUid();
-            $this->setFileReference($sysFileUid, $noteUid, $tableNames='tx_dliponlyestate_domain_model_note',$tableLocal='sys_file',$fieldNAme='images');
-        }
-        else {
-            $uploadStatus = 'Bilden gick inte att ladda upp';
-        }
-        
-
-        // Do whatever you want with $result (array of File objects)
-        foreach ($result['upload'] as $files) {
-            /** @var \TYPO3\CMS\Core\Resource\File $file */
-            $file = $files[0];	// Single element array due to the way we registered upload fields
-        }
-        return $uploadStatus;
-    }
-    public function setFileReference($sysFileUid, $noteUid, $tableNames='tx_dliponlyestate_domain_model_note',$tableLocal='sys_file',$fieldName='images') {
-        $GLOBALS['TYPO3_DB']->exec_INSERTquery('sys_file_reference', 
-            array('uid_local' => $sysFileUid, 
-                'uid_foreign' => $noteUid,
-                'tablenames' => $tableNames,
-                'fieldname' => $fieldName,
-                'table_local' => $tableLocal
-            )
-        );
-    }
-    /**
-    * Registers an uploaded file for TYPO3 native upload handling.
-    * 
-    * @param array &$data
-    * @param string $namespace
-    * @param string $fieldName
-    * @param string $targetDirectory
-    * @return void
-    */
-    protected function registerUploadField(array &$data, $namespace, $fieldName, $targetDirectory = '1:/user_upload/') {
-        if (!isset($data['upload'])) {
-            $data['upload'] = array();
-        }
-        $counter = count($data['upload']) + 1;
-
-        $keys = array_keys($_FILES[$namespace]);
-        foreach ($keys as $key) {
-            $_FILES['upload_' . $counter][$key] = $_FILES[$namespace][$key][$fieldName];
-        }
-        $data['upload'][$counter] = array(
-            'data' => $counter,
-            'target' => $targetDirectory,
-        );
-    }
-    public function createFolders($nodeTypeFolder, $estateFolder) {
-        //$fullpath =  PATH_site . 'fileadmin/user_upload/'.$this->parentCustomerFolder;
-        //PATH_site . 'fileadmin/';
-        //$targetFalDirectory = '1:/'.$nodeTypePath.'/'.$estatePath.'/';
-
-        $nodeTypePath =  PATH_site . 'fileadmin/user_upload/'.$nodeTypeFolder;
-        if (!file_exists($nodeTypePath)) {
-            \TYPO3\CMS\Core\Utility\GeneralUtility::mkdir($nodeTypePath);
-        }
-        $fullPath = $nodeTypePath.'/'.$estateFolder.'/';
-        if (!file_exists($fullPath)) {
-            \TYPO3\CMS\Core\Utility\GeneralUtility::mkdir($fullPath);
-        }
-        /*
-        if (file_exists($fullpath)) {
-            $customerFolderFullPath = $fullpath.'/'.$this->userName;
-            if(!file_exists($customerFolderFullPath)) {
-                \TYPO3\CMS\Core\Utility\GeneralUtility::mkdir($customerFolderFullPath);
-            }
-            foreach($this->customerCatNames as $catName => $subCatNames) {
-                if(!file_exists($customerFolderFullPath.'/'.$catName)) {
-                    $customerSubFolderFullPath = $customerFolderFullPath.'/'.$catName;
-                    \TYPO3\CMS\Core\Utility\GeneralUtility::mkdir($customerSubFolderFullPath);
-                }
-                foreach($subCatNames as $subCatName) {
-                    if(!file_exists($customerSubFolderFullPath.'/'.$subCatName)) {
-                        $customerSub2FolderFullPath = $customerSubFolderFullPath.'/'.$subCatName;
-                        \TYPO3\CMS\Core\Utility\GeneralUtility::mkdir($customerSub2FolderFullPath);
-                    }
-                }
-            }
-        }
-        */
-        if (!file_exists($fullpath)) {
-            return NULL;
-        }
-        return $fullPath;
     }
 }

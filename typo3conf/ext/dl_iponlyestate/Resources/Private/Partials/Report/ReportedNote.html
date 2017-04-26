@@ -58,12 +58,9 @@
                 </f:if>
                 <f:if condition="{note.remarkType}==5">
                     <f:then>
-                        <f:comment>
-                        <button type="button" class="btn btn-secondary btn-ipaction btn-text-slide pre-active disabled" data-type="5" aria-pressed="false"></button>
-                        </f:comment>
                         <div class="add-photo-btn btn btn-info btn-ipaction" data-type="5" aria-pressed="true">
                           <span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
-                          <input type="file" class="upload-btn btn btn-text-slide pre-active disabled" name="tx_dliponlyestate_cp[image]" />
+                          <input type="file" class="upload-btn btn btn-text-slide pre-active" name="tx_dliponlyestate_cp[image]" />
                         </div>
                         <f:form.hidden name="pid" value="{pid}" />
                         <f:form.hidden name="notestate" value="5" />
@@ -82,10 +79,10 @@
                         </f:comment>
                         <button class="add-photo-btn btn btn-info btn-ipaction" data-type="5" aria-pressed="false">
                           <span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
-                          <input type="file" class="upload-btn btn btn-text-slide disabled" name="tx_dliponlyestate_cp[image]" />
+                          <input type="file" class="upload-btn btn btn-text-slide" name="tx_dliponlyestate_cp[image]" />
                         </button>
                         <f:form.hidden name="pid" value="{pid}" />
-                        <f:form.hidden name="notestate" value="5" />
+                        <f:form.hidden name="notestate" value="{note.remarkType}" />
                         <f:form.hidden name="estateuid" value="{reportWithVersion.estate.uid}" />
                         <f:form.hidden name="questionuid" value="{question.uid}" />
                         <f:form.hidden name="nodetypeuid" value="{controlPoint.nodeType.uid}" />
@@ -97,6 +94,9 @@
                     </f:else>                    
                 </f:if>
                 <button type="button" class="btn btn-success btn-ipaction enable-buttons" data-type="1" aria-pressed="false">Ändra</button>
+                <f:if condition="{note.uploadedImage}">
+                    <div class="alert alert-info uploadStatus">{uploadStatus}</div>
+                </f:if>  
               </div>
             </f:else>
           </f:if>

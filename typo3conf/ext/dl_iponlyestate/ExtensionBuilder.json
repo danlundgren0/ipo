@@ -868,6 +868,16 @@
                             "propertyName": "pageId",
                             "propertyType": "Integer",
                             "uid": "1243382864158"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": true,
+                            "propertyName": "uploadedImage",
+                            "propertyType": "Boolean",
+                            "uid": "42644775160"
                         }
                     ]
                 },
@@ -1294,7 +1304,7 @@
         }
     ],
     "log": {
-        "last_modified": "2017-04-16 03:56",
+        "last_modified": "2017-04-25 07:38",
         "extension_builder_version": "7.6.0",
         "be_user": " (1)"
     }

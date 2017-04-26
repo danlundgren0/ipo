@@ -302,6 +302,7 @@ CREATE TABLE tx_dliponlyestate_domain_model_note (
 	date datetime DEFAULT '0000-00-00 00:00:00',
 	executive_technician varchar(255) DEFAULT '' NOT NULL,
 	page_id int(11) DEFAULT '0' NOT NULL,
+	uploaded_image tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	control_point int(11) unsigned DEFAULT '0',
 	question int(11) unsigned DEFAULT '0',
 

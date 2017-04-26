@@ -242,6 +242,31 @@ class NoteTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 	/**
 	 * @test
 	 */
+	public function getUploadedImageReturnsInitialValueForBool()
+	{
+		$this->assertSame(
+			FALSE,
+			$this->subject->getUploadedImage()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setUploadedImageForBoolSetsUploadedImage()
+	{
+		$this->subject->setUploadedImage(TRUE);
+
+		$this->assertAttributeEquals(
+			TRUE,
+			'uploadedImage',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
 	public function getControlPointReturnsInitialValueForControlPoint()
 	{
 		$this->assertEquals(
