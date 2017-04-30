@@ -29,6 +29,18 @@ $pluginSignature = str_replace('_','',$_EXTKEY) . '_ajaxrequest';
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignature] = 'pi_flexform';
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($pluginSignature, 'FILE:EXT:' . $_EXTKEY . '/Configuration/FlexForms/flexform_ajaxrequest.xml');
 
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+	'DanLundgren.' . $_EXTKEY,
+	'Reportsearch',
+	'Report Search'
+);
+
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+	'DanLundgren.' . $_EXTKEY,
+	'Reportlist',
+	'Report List'
+);
+
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Iponly Estate');
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tx_dliponlyestate_domain_model_estate', 'EXT:dl_iponlyestate/Resources/Private/Language/locallang_csh_tx_dliponlyestate_domain_model_estate.xlf');

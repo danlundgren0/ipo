@@ -17,7 +17,7 @@
             <f:if condition="{question.measurementValues}">
               <f:then>
                 <div class="state-buttons">
-                  <button type="button" class="btn btn-success btn-ipaction btn-measure btn-text-slide" data-type="5" aria-pressed="false">{question.measurementValues.name} ({question.measurementValues.unit})</button>
+                  <button data-mandatory="1" type="button" class="btn btn-success btn-ipaction btn-measure btn-text-slide" data-type="5" aria-pressed="false">{question.measurementValues.name} ({question.measurementValues.unit})</button>
                   <button type="button" class="btn btn-success btn-ipaction enable-buttons hidden" data-type="5" aria-pressed="false">Ändra</button>
                 </div>
               </f:then>
@@ -25,13 +25,13 @@
                 <div class="state-buttons">
                   <button type="button" class="btn btn-success btn-ipaction save-note-ok" data-type="1" aria-pressed="false">OK</button>
                   <f:if condition="{controlPoint.showCriticalButton}=='FALSE'">
-                    <button type="button" class="btn btn-danger btn-ipaction btn-text-slide" data-type="2" aria-pressed="false">Krit.</button>
+                    <button data-mandatory="1" type="button" class="btn btn-danger btn-ipaction btn-text-slide" data-type="2" aria-pressed="false">Krit.</button>
                   </f:if>
                   <f:if condition="{controlPoint.showRemarkButton}=='FALSE'">
-                      <button type="button" class="btn btn-warning btn-ipaction btn-text-slide" data-type="3" aria-pressed="false">Anm.</button>            
+                      <button data-mandatory="1" type="button" class="btn btn-warning btn-ipaction btn-text-slide" data-type="3" aria-pressed="false">Anm.</button>            
                   </f:if>
                   <f:if condition="{controlPoint.showPurchaseInfoButton}=='FALSE'">
-                    <button type="button" class="btn btn-secondary btn-ipaction btn-text-slide" data-type="4" aria-pressed="false">Ink/Med</button>
+                    <button data-mandatory="1" type="button" class="btn btn-secondary btn-ipaction btn-text-slide" data-type="4" aria-pressed="false">Ink/Med</button>
                   </f:if>
                   <div class="add-photo-btn btn btn-info btn-ipaction">
                     <span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
@@ -49,8 +49,15 @@
                   <f:form.hidden name="notever" value="-1" />
                   <button type="button" class="btn btn-success btn-ipaction enable-buttons hidden" data-type="1" aria-pressed="false">Ändra</button>
                   <f:if condition="{note.uploadedImage}">
-                      <div class="alert alert-info uploadStatus">{uploadStatus}</div>
-                  </f:if>  
+                    <f:then>
+                      <f:if condition="{uploadStatus}=='Bilden är uppladdad'">
+                        <div class="alert alert-info uploadStatus">{uploadStatus}</div>
+                      </f:if>
+                    </f:then>
+                    <f:else>
+                        <div class="alert alert-info uploadStatus hidden">Bild <span class="imgName"></span> vald</div>                        
+                    </f:else>                    
+                  </f:if> 
                 </div>
               </f:else>
             </f:if>
@@ -67,9 +74,6 @@
                   </f:then>            
                   <f:else>
                     <f:form.textarea name="input-note" class="input-note" id="input_{question.uid}_NEW" style="display:none;" />
-                    <f:comment>
-                    <textarea class="input-note" id="input_{question.uid}_NEW" type="text" style="display:none;"></textarea>
-                    </f:comment>
                     <span class="save-btn hidden">
                       <button type="button" class="btn btn-success save-note save-note-btn">Spara</button>
                     </span>

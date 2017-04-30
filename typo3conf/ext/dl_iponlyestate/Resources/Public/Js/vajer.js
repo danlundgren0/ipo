@@ -17,19 +17,44 @@ DanL.Note = {
     parent: {},
 	setReadyForSave: function(obj) {
         DanL.Note.parent = $(obj).closest('.noteContainer');
+        console.log($(obj));
         //if($('btn-success').attr('aria-pressed')=='true' || (DanL.Note.isInputSet==true && DanL.Note.isButtonSet==true)) {
         
-        if(($(obj).closest('.noteContainer').find('.btn-success.active').length>0 && !$(obj).closest('.noteContainer').find('.btn-success.active').hasClass('btn-measure'))
+        /*if(($(obj).closest('.noteContainer').find('.btn-success.active').length>0 && !$(obj).closest('.noteContainer').find('.btn-success.active').hasClass('btn-measure'))
             || ($(obj).closest('.noteContainer').find('.input-note').val()!='' && $(obj).closest('.noteContainer').find('.state-buttons').find('.active').length>0)) {
             this.isReadyForSave = true;
             $(obj).closest('.noteContainer').find($('.save-btn')).removeClass('hidden');
             $('me').closest('.noteContainer').find('.enable-buttons').removeClass('hidden');
+        }*/
+        console.log($(obj).closest('.noteContainer').find('.state-buttons').find('.active[data-mandatory="1"]').length);
+        console.log($(obj).closest('.noteContainer').find('.input-note').val());
+        if($(obj).closest('.noteContainer').find('.input-note').val()!='' && $(obj).closest('.noteContainer').find('.state-buttons').find('.active[data-mandatory="1"]').length>0) {
+            this.isReadyForSave = true;
+            $(obj).closest('.noteContainer').find($('.save-btn')).removeClass('hidden');
+            //$('me').closest('.noteContainer').find('.enable-buttons').removeClass('hidden');
+            //$('me').closest('.noteContainer').find('.enable-buttons').removeClass('hidden');
+            $(obj).closest('.tab-container').find('[role="presentation"]').removeClass('disabled');
+            $(obj).closest('.tab-container').find('[role="tab"]').removeClass('disabled');
+            DanL.Note.setTabClickStatus(obj, true);
+            //data-trigger-cpuid="4"
         }
-        else if(!$(obj).hasClass('upload-btn')) {
+        else if(($(obj).closest('.noteContainer').find('.input-note').val()!='' ^ $(obj).closest('.noteContainer').find('.state-buttons').find('.active[data-mandatory="1"]').length>0)
+        	|| $(obj).closest('.noteContainer').find('.save-note-btn').attr('type')=='submit') {
+        	$(obj).closest('.noteContainer').find($('.save-btn')).addClass('hidden');
+            DanL.Note.setTabClickStatus(obj, true);
+        }
+		if($(obj).closest('.noteContainer').find('.input-note').val()=='' && 
+			$(obj).closest('.noteContainer').find('.state-buttons').find('.active[data-mandatory="1"]').length==0 &&
+			$(obj).closest('.noteContainer').find('.save-note-btn').attr('type')!='submit') {
+			$(obj).closest('.noteContainer').find($('.save-btn')).addClass('hidden');
+			DanL.Note.setTabClickStatus(obj);
+		}
+        /*else if(!$(obj).hasClass('upload-btn')) {
             this.isReadyForSave = false;
             $(obj).closest('.noteContainer').find($('.save-btn')).addClass('hidden');
             $('me').closest('.noteContainer').find('.enable-buttons').addClass('hidden');
-        }
+
+        }*/
     },
     postForm: function() {
         //TODO: Notes are saved as uncomplete until the form is posted
@@ -117,6 +142,7 @@ DanL.Note = {
         if($(this).hasClass('disabled')) {
             return;
         }
+        DanL.Note.setTabClickStatus(me);
         $(me).closest('.noteContainer').find('.btn-ipaction').addClass('disabled');
         $(me).closest('.noteContainer').find('.active').removeClass('active').addClass('disabled').addClass('pre-active');
         $(me).addClass('disabled');
@@ -142,7 +168,6 @@ DanL.Note = {
         var noteText = $(this).closest('.noteContainer').find('.input-note').val();
         var noteState = $(this).closest('.noteContainer').find('.btn-ipaction.active').data('type');
         var reportPid  = $('#reportPid').val();
-console.log(noteState);
 		DanL.ajax.fetch({
 			command: 'saveNote',
 			arguments: {
@@ -174,6 +199,7 @@ console.log(noteState);
         if($(this).hasClass('disabled')) {
             return;
         }
+        DanL.Note.setTabClickStatus(me);
         $(me).closest('.noteContainer').find('.btn-ipaction').not('.add-photo-btn').addClass('disabled');
         $(me).closest('.noteContainer').find('.active').removeClass('active').addClass('disabled').addClass('pre-active');
         $(me).addClass('disabled');
@@ -260,8 +286,13 @@ console.log(noteState);
             DanL.Note.isButtonSet = false;            
         }
         else {
-            $(this).closest('.state-buttons').find('.btn-ipaction').removeClass('active');
-            $(this).addClass('active');
+        	if($(this).hasClass('upload-btn')) {
+
+        	}
+        	else {
+	            $(this).closest('.state-buttons').find('.btn-ipaction').removeClass('active');
+	            $(this).addClass('active');        		
+        	}
             var questUid = $(this).closest('.noteContainer').find('[name="tx_dliponlyestate_cp[questionuid]"]').val();
             var noteState = $(this).attr('data-type');
             if(noteState!==undefined) {
@@ -287,12 +318,12 @@ console.log(noteState);
             }
             if($(this).hasClass('upload-btn')) {                
                 $(this).closest('.noteContainer').find('.save-note-btn').attr('type','submit');
-                $(this).closest('.noteContainer').find('.save-btn').removeClass('hidden');
+                //$(this).closest('.noteContainer').find('.save-btn').removeClass('hidden');
                 $(this).closest('.noteContainer').find('.input-note').removeAttr('disabled');
-                $(this).closest('.noteContainer').find('.save-note-btn').removeClass('disabled');
+                //$(this).closest('.noteContainer').find('.save-note-btn').removeClass('disabled');
             }
             else {
-                $(this).closest('.noteContainer').find('.save-note-btn').attr('type','button');
+                //$(this).closest('.noteContainer').find('.save-note-btn').attr('type','button');
             }
             DanL.Note.isButtonSet = true;
         }
@@ -338,8 +369,66 @@ console.log(noteState);
             $(this).closest('.container-messages').find('.btn-message').removeClass('hidden');
         }        
     },
+    setTabClickStatus: function(obj, disable) {
+    	/*
+		$('[role="presentation"] a').click(function (event) {
+		   	if(disable==true) {
+		        $(obj).closest('.tab-container').find('[role="presentation"]').addClass('disabled');
+		        $(obj).closest('.tab-container').find('[role="tab"]').addClass('disabled');
+				event.preventDefault();
+				event.stopPropagation();
+		   	}
+		   	else {
+		        $(obj).closest('.tab-container').find('[role="presentation"]').removeClass('disabled');
+		        $(obj).closest('.tab-container').find('[role="tab"]').removeClass('disabled');
+		   	}
+		});
+		*/
+		
+    	if(disable==true) {
+	        $(obj).closest('.tab-container').find('[role="presentation"]').addClass('disabled');
+	        $(obj).closest('.tab-container').find('[role="tab"]').addClass('disabled');
+	        $('[role="presentation"] a').on('click', function(event){
+	            event.preventDefault();
+	            event.stopPropagation();
+	            //event.stopImmediatePropagation();
+	        });    		
+    	}
+    	else {
+	        $(obj).closest('.tab-container').find('[role="presentation"]').removeClass('disabled');
+	        $(obj).closest('.tab-container').find('[role="tab"]').removeClass('disabled');
+	        $('[role="presentation"] a').on('click', function(event){
+	        	$(this).tab('show');
+	        });
+    	}
+    },
+    scrollToTabs: function() {
+    	if($('#imgupload').length>0 && $('#imgupload').val()=='1') {
+			var $container = $("html,body");
+			var $scrollTo = $('.tab-container');
+			$container.animate({scrollTop: $scrollTo.offset().top - $container.offset().top, scrollLeft: 0},500);
+    	}
+		//$('html, body').animate({scrollTop: $('#contact').offset().top -100 }, 'slow');
+    }
 }
-$(function() {    
+$(function() {   
+    //$('[role="presentation"]').find('a.disabled').on('click', function(event){
+	$('.upload-btn').change(function (){
+		//var fileName = $(this).val();		
+		//var filename = $(this).val().split('\\').pop();
+		var fileName = $(this).val().replace(/.*(\/|\\)/, '');
+		//var fileName = $('input[type=file]')[0].files.length ? ('input[type=file]')[0].files[0].name : "";
+		if(fileName=='') {
+			console.log('Ingen Bild vald');
+			$('.uploadStatus').addClass('hidden');
+		}
+		else {
+			$('.uploadStatus').removeClass('hidden');
+			$('.uploadStatus .imgName').text(fileName);
+			console.log('Bild '+fileName+' vald');			
+		}
+		//$(".filename").html(fileName);
+	});
     $('.input-note').on('keyup', DanL.Note.setNoteState);
     $('.input-message,.input-purchase').on('keyup', DanL.Note.setMsgButtonState);
     $('.state-buttons .btn').on('click', DanL.Note.setButtonState);
@@ -353,6 +442,10 @@ $(function() {
     $('.save-fixed-btn button').on('click', DanL.Note.saveNoteFixed);
     $('.save-measure-value').on('click', DanL.Note.saveMeasureValue);  
     $('.enable-buttons').on('click', DanL.Note.enableButtons);
+    $('.js_search-date').datepicker({
+      dateFormat: "yy-mm-dd"
+    });
+    DanL.Note.scrollToTabs();
     //DropDown Nav
     //$('.nav .dropdown.active.open .dropdown-menu>li>a').on('click', function(event) {
     /*

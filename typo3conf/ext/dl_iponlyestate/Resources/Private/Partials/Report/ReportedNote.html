@@ -1,12 +1,12 @@
 <f:form action="show" enctype="multipart/form-data">
     <div class="noteContainer" data-pid="{pid}" data-notestate="{note.state}" data-estateuid="{reportWithVersion.estate.uid}" data-questionuid="{question.uid}" data-nodetypeuid="{controlPoint.nodeType.uid}" data-cpuid="{controlPoint.uid}" data-reportuid="{reportWithVersion.uid}" data-measureuid="{reportedMeasurement.uid}" data-noteuid="{note.uid}" data-notever="{note.version}">
-      <input type="hidden" name="note" value="1" data-version="-1" />
+      <input type="hidden" name="note" value="1" data-version="-1" />      
       <div class="card">
         <div>
           <f:if condition="{question.measurementValues}">
             <f:then>
               <div class="state-buttons">
-                <button type="button" class="btn btn-success btn-ipaction btn-measure btn-text-slide" data-type="5" aria-pressed="false">{question.measurementValues.name} ({question.measurementValues.unit})</button>
+                <button data-mandatory="1" type="button" class="btn btn-success btn-ipaction btn-measure btn-text-slide" data-type="5" aria-pressed="false">{question.measurementValues.name} ({question.measurementValues.unit})</button>
                 <button type="button" class="btn btn-success btn-ipaction enable-buttons" data-type="5" aria-pressed="false">Ändra</button>
               </div>
             </f:then>
@@ -24,10 +24,10 @@
                   <f:then>
                     <f:if condition="{note.remarkType}==2">
                         <f:then>
-                            <button type="button" class="btn btn-danger btn-ipaction btn-text-slide pre-active disabled" data-type="2" aria-pressed="true">Krit.</button>
+                            <button data-mandatory="1" type="button" class="btn btn-danger btn-ipaction btn-text-slide pre-active disabled" data-type="2" aria-pressed="true">Krit.</button>
                         </f:then>
                         <f:else>
-                            <button type="button" class="btn btn-danger btn-ipaction btn-text-slide disabled" data-type="2" aria-pressed="false">Krit.</button>
+                            <button data-mandatory="1" type="button" class="btn btn-danger btn-ipaction btn-text-slide disabled" data-type="2" aria-pressed="false">Krit.</button>
                         </f:else>                    
                     </f:if>
                   </f:then>
@@ -36,10 +36,10 @@
                   <f:then>
                     <f:if condition="{note.remarkType}==3">
                         <f:then>
-                            <button type="button" class="btn btn-warning btn-ipaction btn-text-slide pre-active disabled" data-type="3" aria-pressed="true">Anm.</button>
+                            <button data-mandatory="1" type="button" class="btn btn-warning btn-ipaction btn-text-slide pre-active disabled" data-type="3" aria-pressed="true">Anm.</button>
                         </f:then>
                         <f:else>
-                            <button type="button" class="btn btn-warning btn-ipaction btn-text-slide disabled" data-type="3" aria-pressed="false">Anm.</button>
+                            <button data-mandatory="1" type="button" class="btn btn-warning btn-ipaction btn-text-slide disabled" data-type="3" aria-pressed="false">Anm.</button>
                         </f:else>                    
                     </f:if>                    
                   </f:then>  
@@ -48,10 +48,10 @@
                   <f:then>
                     <f:if condition="{note.remarkType}==4">
                         <f:then>
-                            <button type="button" class="btn btn-secondary btn-ipaction btn-text-slide pre-active disabled" data-type="4" aria-pressed="true">Inköp</button>
+                            <button data-mandatory="1" type="button" class="btn btn-secondary btn-ipaction btn-text-slide pre-active disabled" data-type="4" aria-pressed="true">Inköp</button>
                         </f:then>
                         <f:else>
-                            <button type="button" class="btn btn-secondary btn-ipaction btn-text-slide disabled" data-type="4" aria-pressed="false">Ink/Med</button>
+                            <button data-mandatory="1" type="button" class="btn btn-secondary btn-ipaction btn-text-slide disabled" data-type="4" aria-pressed="false">Ink/Med</button>
                         </f:else>                    
                     </f:if>
                   </f:then>  
@@ -95,7 +95,16 @@
                 </f:if>
                 <button type="button" class="btn btn-success btn-ipaction enable-buttons" data-type="1" aria-pressed="false">Ändra</button>
                 <f:if condition="{note.uploadedImage}">
-                    <div class="alert alert-info uploadStatus">{uploadStatus}</div>
+                  <f:then>
+                    <f:if condition="{uploadStatus}=='Bilden är uppladdad'">
+                      <div class="alert alert-info uploadStatus">{uploadStatus}</div>
+                    </f:if>
+                  </f:then>
+                  <f:else>
+                    <div class="uploadStatus">
+                      <div class="alert alert-info uploadStatus">Bild <span class="imgName"></span> vald</div>
+                    </div>                    
+                  </f:else>                    
                 </f:if>  
               </div>
             </f:else>

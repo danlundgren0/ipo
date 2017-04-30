@@ -207,6 +207,18 @@ class Note extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->images = $images;
     }
+
+    /**
+     * Removes a images
+     *
+     * @param \DanLundgren\DlIponlyestate\Domain\Model\Question $questionToRemove The Question to be removed
+     * @return void
+     */
+    public function removeImage()
+    {
+        //$this->images->detach($imagesToRemove);
+        $GLOBALS['TYPO3_DB']->exec_DELETEquery('sys_file_reference', 'uid='.intval($this->images->getUid()));
+    }
     
     /**
      * Returns the remarkType

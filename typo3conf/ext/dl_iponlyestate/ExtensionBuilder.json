@@ -515,12 +515,14 @@
             "name": "New Model Object",
             "value": {
                 "actionGroup": {
-                    "_default0_list": false,
+                    "_default0_list": true,
                     "_default1_show": false,
                     "_default2_new_create": false,
                     "_default3_edit_update": false,
                     "_default4_delete": false,
-                    "customActions": []
+                    "customActions": [
+                        "search"
+                    ]
                 },
                 "name": "Report",
                 "objectsettings": {
@@ -1153,6 +1155,24 @@
                 },
                 "key": "ajaxrequest",
                 "name": "Ajax Request"
+            },
+            {
+                "actions": {
+                    "controllerActionCombinations": "Report=>search",
+                    "noncacheableActions": "Report=>search",
+                    "switchableActions": ""
+                },
+                "key": "reportsearch",
+                "name": "Report Search"
+            },
+            {
+                "actions": {
+                    "controllerActionCombinations": "Report=>list",
+                    "noncacheableActions": "Report=>list",
+                    "switchableActions": ""
+                },
+                "key": "reportlist",
+                "name": "Report List"
             }
         ],
         "vendorName": "DanLundgren"
@@ -1304,7 +1324,7 @@
         }
     ],
     "log": {
-        "last_modified": "2017-04-25 07:38",
+        "last_modified": "2017-04-26 05:17",
         "extension_builder_version": "7.6.0",
         "be_user": " (1)"
     }

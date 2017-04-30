@@ -44,6 +44,36 @@ plugin.tx_dliponlyestate_ajaxrequest {
 	}
 }
 
+plugin.tx_dliponlyestate_reportsearch {
+	view {
+		# cat=plugin.tx_dliponlyestate_reportsearch/file; type=string; label=Path to template root (FE)
+		templateRootPath = EXT:dl_iponlyestate/Resources/Private/Templates/
+		# cat=plugin.tx_dliponlyestate_reportsearch/file; type=string; label=Path to template partials (FE)
+		partialRootPath = EXT:dl_iponlyestate/Resources/Private/Partials/
+		# cat=plugin.tx_dliponlyestate_reportsearch/file; type=string; label=Path to template layouts (FE)
+		layoutRootPath = EXT:dl_iponlyestate/Resources/Private/Layouts/
+	}
+	persistence {
+		# cat=plugin.tx_dliponlyestate_reportsearch//a; type=string; label=Default storage PID
+		storagePid =
+	}
+}
+
+plugin.tx_dliponlyestate_reportlist {
+	view {
+		# cat=plugin.tx_dliponlyestate_reportlist/file; type=string; label=Path to template root (FE)
+		templateRootPath = EXT:dl_iponlyestate/Resources/Private/Templates/
+		# cat=plugin.tx_dliponlyestate_reportlist/file; type=string; label=Path to template partials (FE)
+		partialRootPath = EXT:dl_iponlyestate/Resources/Private/Partials/
+		# cat=plugin.tx_dliponlyestate_reportlist/file; type=string; label=Path to template layouts (FE)
+		layoutRootPath = EXT:dl_iponlyestate/Resources/Private/Layouts/
+	}
+	persistence {
+		# cat=plugin.tx_dliponlyestate_reportlist//a; type=string; label=Default storage PID
+		storagePid =
+	}
+}
+
 ## EXTENSION BUILDER DEFAULTS END TOKEN - Everything BEFORE this line is overwritten with the defaults of the extension builder
 # customsubcategory=ids=Id settings for pages, groups etc.
 plugin.tx_dliponlyestate {

@@ -27,6 +27,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
         <h1>{controlPoint.header}</h1>
         <div>{controlPoint.description}</div>
         <input type="hidden" value="{controlPoint.uid}" id="cpUid" />
+        <input id="imgupload" type="hidden" name="imgupload" value="{imgupload}" />
       </div>
       <div class="col-md-6">
         <img src="{controlPoint.image.originalResource.publicUrl}" class="img-responsive" />
@@ -36,7 +37,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
       <ul class="nav nav-tabs" role="tablist">
         <!-- Loop tabs and set color based on remark type -->
         <f:for each="{controlPoint.questions}" as="question" iteration="tIt">
-          <v:variable.set name="noteColor" value="" />
+          <v:variable.set name="noteColor" value="" />          
           <f:if condition="{tIt.isFirst}">
             <f:then>
                 <f:for each="{reportWithVersion.notes}" as="note">
@@ -55,7 +56,21 @@ Otherwise your changes will be overwritten the next time you save the extension 
                         </f:if>
                   </f:if>
                 </f:for>
-              <li role="presentation" class="active"><a class="{v:variable.get(name: 'noteColor')}" href="#uid_{question.uid}" aria-controls="uid_{question.uid}" role="tab" data-toggle="tab" data-isloaded="true"  data-trigger-cpuid="{controlPoint.uid}" data-trigger-quid="{question.uid}">{question.header}</a></li>
+                <f:if condition="{questionUidWithPhoto}==0">
+                  <f:then>
+                    <li role="presentation" class="active"><a class="{v:variable.get(name: 'noteColor')}" href="#uid_{question.uid}" aria-controls="uid_{question.uid}" role="tab" data-toggle="tab" data-isloaded="true"  data-trigger-cpuid="{controlPoint.uid}" data-trigger-quid="{question.uid}">{question.header}</a></li>                    
+                  </f:then>
+                  <f:else>
+                    <f:if condition="{questionUidWithPhoto}=={question.uid}">
+                      <f:then>
+                        <li role="presentation" class="active"><a class="{v:variable.get(name: 'noteColor')}" href="#uid_{question.uid}" aria-controls="uid_{question.uid}" role="tab" data-toggle="tab" data-isloaded="true"  data-trigger-cpuid="{controlPoint.uid}" data-trigger-quid="{question.uid}">{question.header}</a></li>                    
+                      </f:then>
+                      <f:else>
+                        <li role="presentation"><a class="{v:variable.get(name: 'noteColor')}" href="#uid_{question.uid}" aria-controls="uid_{question.uid}" role="tab" data-toggle="tab" data-isloaded="true"  data-trigger-cpuid="{controlPoint.uid}" data-trigger-quid="{question.uid}">{question.header}</a></li>                    
+                      </f:else>                      
+                    </f:if>
+                  </f:else>    
+                </f:if>
             </f:then>
             <f:else>
                 <f:for each="{reportWithVersion.notes}" as="note">
@@ -74,7 +89,14 @@ Otherwise your changes will be overwritten the next time you save the extension 
                         </f:if>
                   </f:if>
                 </f:for>
-              <li role="presentation"><a class="{v:variable.get(name: 'noteColor')}" href="#uid_{question.uid}" aria-controls="uid_{question.uid}" role="tab" data-toggle="tab" data-isloaded="false" data-trigger-cpuid="{controlPoint.uid}" data-trigger-quid="{question.uid}">{question.header}</a></li>
+                  <f:if condition="{questionUidWithPhoto}=={question.uid}">
+                    <f:then>
+                      <li role="presentation" class="active"><a class="{v:variable.get(name: 'noteColor')}" href="#uid_{question.uid}" aria-controls="uid_{question.uid}" role="tab" data-toggle="tab" data-isloaded="true"  data-trigger-cpuid="{controlPoint.uid}" data-trigger-quid="{question.uid}">{question.header}</a></li>                    
+                    </f:then>
+                    <f:else>
+                      <li role="presentation"><a class="{v:variable.get(name: 'noteColor')}" href="#uid_{question.uid}" aria-controls="uid_{question.uid}" role="tab" data-toggle="tab" data-isloaded="true"  data-trigger-cpuid="{controlPoint.uid}" data-trigger-quid="{question.uid}">{question.header}</a></li>                    
+                    </f:else>                      
+                  </f:if>
             </f:else>
           </f:if>
         </f:for>  
@@ -84,13 +106,38 @@ Otherwise your changes will be overwritten the next time you save the extension 
           <f:for each="{controlPoint.questions}" as="question" iteration="qIt">
             <v:variable.set name="noteUidIsSet" value="0" />
             <v:variable.set name="newNoteIsSet" value="0" />
+            <v:variable.set name="activeClasses" value="" />
+            <f:if condition="{question.uid}=={questionUidWithPhoto}">
+              <v:variable.set name="activeClasses" value=" active in " />
+            </f:if>
             <f:if condition="{question.header} != ''">        
                     <f:if condition="{qIt.isFirst}">
                       <f:then>
-                        <div role="tabpanel" class="tab-pane active in fade" data-target-cpuid="{controlPoint.uid}" data-target-quid="{question.uid}" id="uid_{question.uid}">
+                        <f:if condition="{questionUidWithPhoto}==0">
+                          <f:then>
+                            <div role="tabpanel" class="tab-pane active in fade" data-target-cpuid="{controlPoint.uid}" data-target-quid="{question.uid}" id="uid_{question.uid}">
+                          </f:then>
+                          <f:else>
+                            <f:if condition="{questionUidWithPhoto}=={question.uid}">
+                              <f:then>
+                                <div role="tabpanel" class="tab-pane active in fade" data-target-cpuid="{controlPoint.uid}" data-target-quid="{question.uid}" id="uid_{question.uid}">  
+                              </f:then>
+                              <f:else>
+                                <div role="tabpanel" class="tab-pane fade" data-target-cpuid="{controlPoint.uid}" data-target-quid="{question.uid}" id="uid_{question.uid}">
+                              </f:else>
+                            </f:if>
+                          </f:else>                          
+                        </f:if>
                       </f:then>
                       <f:else>
-                        <div role="tabpanel" class="tab-pane fade" data-target-cpuid="{controlPoint.uid}" data-target-quid="{question.uid}" id="uid_{question.uid}">
+                        <f:if condition="{questionUidWithPhoto}=={question.uid}">
+                          <f:then>
+                            <div role="tabpanel" class="tab-pane active in fade" data-target-cpuid="{controlPoint.uid}" data-target-quid="{question.uid}" id="uid_{question.uid}">
+                          </f:then>
+                          <f:else>
+                            <div role="tabpanel" class="tab-pane fade" data-target-cpuid="{controlPoint.uid}" data-target-quid="{question.uid}" id="uid_{question.uid}">
+                          </f:else>                          
+                        </f:if>                        
                       </f:else>
                     </f:if>
                     <div class="row">

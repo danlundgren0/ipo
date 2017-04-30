@@ -9,6 +9,28 @@
 
 }
 */
+li.disabled {
+    cursor: not-allowed;
+}
+/* Clicks are not permitted and change the opacity. */
+li.disabled > a[data-toggle="tab"] {
+    pointer-events: none;
+    filter: alpha(opacity=65);
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    opacity: .65;
+}
+.lbl {
+    margin-top: 6px;    
+}
+.form-control.search-date {
+    width: 79%;
+}
+.glyphicon.glyphicon-calendar {
+    margin-left: 5px;
+    font-size: 21px;
+    top: 4px;
+}
 body .nav-tabs>li.active>a,body .nav-tabs>li.active>a:focus,body .nav-tabs>li.active>a:hover {
     border: 1px solid #555;
     border-bottom-color: transparent;

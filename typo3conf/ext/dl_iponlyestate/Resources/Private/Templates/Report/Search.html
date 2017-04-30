@@ -1,0 +1,68 @@
+
+<f:layout name="Default" />
+
+This Template is responsible for creating a table of domain objects.
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+  Resources:
+    Private:
+      Templates:
+        List.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+<f:section name="main">
+<h1>SEARCH</h1>
+
+<f:flashMessages />
+
+<f:form enctype="multipart/form-data">
+<div class="col-md-12">
+    <div class="row">
+    	<div class="col-md-6">
+    		<div class="col-md-2 lbl">Period</div>
+    		<div class="col-md-5">    			
+				 <div>
+				   <f:form.textfield id="fromDate" name="fromDate" placeholder="Från" value="" class="search-date js_search-date form-control" />
+				   <label for="fromDate">
+				     <span class="glyphicon glyphicon-calendar"></span>
+				   </label>
+				 </div>
+    		</div>
+    		<div class="col-md-5">
+				 <div>
+				   <f:form.textfield id="endDate" name="endDate" placeholder="Till" value="" class="search-date js_search-date form-control" />
+				   <label for="endDate">
+				     <span class="glyphicon glyphicon-calendar"></span>
+				   </label>
+				 </div>
+    		</div>
+    		<div class="col-md-2 lbl">Ort</div>
+    		<div class="col-md-10"><f:form.select name="cities" options="{cities}" optionValueField="uid" optionLabelField="name" class="form-control" /></div></div>
+    		<div class="col-md-2 lbl">Typo</div>
+    		<div class="col-md-10"></div>
+    		<div class="col-md-2 lbl">Tekniker</div>
+    		<div class="col-md-10"><f:form.select name="technicians" options="{technicians}" optionValueField="uid" optionLabelField="name" class="form-control" /></div></div></div>
+      	</div>
+    	<div class="col-md-6">
+    		<div class="col-md-2 lbl">Fastighet</div>
+			<div class="col-md-10"><f:form.select name="estates" options="{estates}" optionValueField="uid" optionLabelField="name" class="form-control" /></div>
+    		<div class="col-md-2 lbl">Noteringar</div>
+    		<div class="col-md-10"></div>
+    		<div class="col-md-2 lbl">Sök</div>
+			<div class="col-md-8"></div>
+    		<div class="col-md-2"><f:form.submit class="btn btn-secondary" value="Sök" /></div>
+    		<div class="col-md-2 lbl">Exportera</div>
+    		<div class="col-md-5">
+    			<button type="button" class="btn btn-secondary btn-ipaction btn-text-slide" data-type="4" aria-pressed="false">Exportera Excel</button>
+    		</div>
+    		<div class="col-md-5">
+    			<button type="button" class="btn btn-secondary btn-ipaction btn-text-slide" data-type="4" aria-pressed="false">Exportera PDF</button>
+    		</div>
+      	</div>
+	</div>
+</div>
+</f:form>
+
+</f:section>

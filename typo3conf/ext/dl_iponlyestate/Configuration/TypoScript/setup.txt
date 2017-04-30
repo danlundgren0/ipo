@@ -32,6 +32,28 @@ plugin.tx_dliponlyestate_ajaxrequest {
 	}
 }
 
+plugin.tx_dliponlyestate_reportsearch {
+	view {
+		templateRootPaths.0 = {$plugin.tx_dliponlyestate_reportsearch.view.templateRootPath}
+		partialRootPaths.0 = {$plugin.tx_dliponlyestate_reportsearch.view.partialRootPath}
+		layoutRootPaths.0 = {$plugin.tx_dliponlyestate_reportsearch.view.layoutRootPath}
+	}
+	persistence {
+		storagePid = {$plugin.tx_dliponlyestate_reportsearch.persistence.storagePid}
+	}
+}
+
+plugin.tx_dliponlyestate_reportlist {
+	view {
+		templateRootPaths.0 = {$plugin.tx_dliponlyestate_reportlist.view.templateRootPath}
+		partialRootPaths.0 = {$plugin.tx_dliponlyestate_reportlist.view.partialRootPath}
+		layoutRootPaths.0 = {$plugin.tx_dliponlyestate_reportlist.view.layoutRootPath}
+	}
+	persistence {
+		storagePid = {$plugin.tx_dliponlyestate_reportlist.persistence.storagePid}
+	}
+}
+
 plugin.tx_dliponlyestate._CSS_DEFAULT_STYLE (
 	textarea.f3-form-error {
 		background-color:#FF9F9F;
@@ -93,10 +115,28 @@ plugin.tx_dliponlyestate {
 		recursive = 99
 	}
 }
+plugin.tx_dliponlyestate_reportsearch {
+	persistence {
+		storagePid = {$plugin.tx_dliponlyestate.persistence.storagePid}
+		recursive = 99
+	}
+}
+
+plugin.tx_dliponlyestate_reportlist {
+	persistence {
+		storagePid = {$plugin.tx_dliponlyestate.persistence.storagePid}
+		recursive = 99
+	}
+}
+
+
 #plugin.tx_dliponlyestate_ajaxrequest.persistence.storagePid = {$plugin.tx_dliponlyestate_cp.persistence.storagePid}
 #plugin.tx_dliponlyestate_ajaxrequest.persistence.recursive = 99
 page.includeJSFooter.vajer = EXT:dl_iponlyestate/Resources/Public/Js/vajer.js
 page.includeCSS.vajer2 = EXT:dl_iponlyestate/Resources/Public/Css/vajer.css
+page.includeJSFooter.js_jqueryui = EXT:dl_iponlyestate/Resources/Public/Js/jquery-ui.min.js
+page.includeCSS.css_jqueryui = EXT:dl_iponlyestate/Resources/Public/Css/jquery-ui.min.css
+
 
 #/var/www/iponly/typo3conf/ext/dl_iponlyestate/Resources/Public/Js
 DanLAjaxPrototype = PAGE

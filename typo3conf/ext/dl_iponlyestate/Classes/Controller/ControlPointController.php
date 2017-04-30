@@ -149,13 +149,18 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
      */
     public function showAction(\DanLundgren\DlIponlyestate\Domain\Model\Note $note = NULL)
     {
+        $questionUidWithPhoto = 0;
         $arguments = $this->request->getArguments();
         $uploadStatus = '';
+        $imgupload = 0;
         if(count($arguments)>0) {
             //Action,Controller,ExtensionName, arguments
+            $questionUidWithPhoto = (int)$arguments['questionuid'];            
             $note = $this->saveNote($arguments, $estate);
             $uploadStatus = $this->uploadAction($arguments, $note, $estate);
+            $imgupload = 1;
         }
+        $this->view->assign('questionUidWithPhoto', $questionUidWithPhoto);
         if ($note !== NULL) {
             $this->noteRepository->update($note);
         }
@@ -249,6 +254,7 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
             $loopNo += 1;
         }
         //$unPostedReport = $unPostedReports[count($unPostedReports) - 1];
+        $this->view->assign('imgupload', $imgupload);
         $this->view->assign('preparedControlPoint', $preparedControlPoint);
         $tmpNote = new \DanLundgren\DlIponlyestate\Domain\Model\Note();                
         $this->view->assign('tmpNote', $tmpNote);
@@ -347,7 +353,7 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 		$reportIsNew = NULL;
 		$controlPoint = $this->controlPointRepository->findByUid($cpUid);
 		$question = $this->questionRepository->findByUid($questUid);
-		$noteText = ($noteState==1)?$question->getHeader().' - OK':$noteText;
+		$noteText = $noteText; //($noteState==1)?$question->getHeader().' - OK':$noteText;
 		$questions = $controlPoint->getQuestions();
 		$datetime = new \DateTime();
 		$datetime->format('Y-m-d H:i:s');
@@ -392,13 +398,17 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
     * @return void
     */
     public function uploadAction($arguments, $note, $estate) {
+        if(count($note->getImages())>0) {
+            $imagesToRemove = $note->getImages();
+            $note->removeImage($imagesToRemove);
+        }
         //$_FILES['tx_dliponlyestate_domain_model_note'] = $_FILES['tx_dliponlyestate_domain_model_controlpoint'];
         //unset($_FILES['tx_dliponlyestate_domain_model_controlpoint']);
-        if($note === NULL) {
+        /*if($note === NULL) {
             return $uploadError = 'Note is NULL';
         }
         $nodeTypeFolder = $note->getControlPoint()->getNodeType()->getName();
-        $estateFolder = ($estate->getName()!='')?$estate->getName():$estate->getHeader();
+        $estateFolder = ($estate->getName()!='')?$estate->getName():$estate->getHeader();*/
         //$targetFalDirectory = $this->createFolders($nodeTypeFolder, $estateFolder);
         $targetFalDirectory = '1:/user_upload/';
         $overwriteExistingFiles = TRUE;
