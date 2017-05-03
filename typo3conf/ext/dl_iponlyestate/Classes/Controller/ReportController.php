@@ -124,14 +124,6 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $reports = $this->reportRepository->findAll();
         
         $this->view->assign('reports', $reports);
-\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
- array(
-  'class' => __CLASS__,
-  'function' => __FUNCTION__,
-  'arguments' => $arguments,
-  'reports' => $reports,
- )
-);
     }
     
     /**

@@ -1,4 +1,4 @@
-
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
 <f:layout name="Default" />
 
 This Template is responsible for creating a table of domain objects.
@@ -37,17 +37,23 @@ Otherwise your changes will be overwritten the next time you save the extension 
 		    	<div class="col-md-1 handle">
 				<a role="button" data-toggle="collapse" data-parent="#accordion" href="#report-{report.uid}-notes" aria-expanded="true" aria-controls="report-{report.uid}-notes">
 					<span class="glyphicon glyphicon-play" aria-hidden="true"></span></div>
-				</a>		    	
-		    	<div class="col-md-1 type">{report.nodeType}</div>
+				</a>
+				<f:if condition="{report.noOfCriticalRemarks}>0">
+					<v:variable.set name="criticalColor" value="criticalColor" />	
+				</f:if>
+				<f:if condition="{report.noOfRemarks}>0">
+					<v:variable.set name="remarkColor" value="remarkColor" />	
+				</f:if>
+		    	<div class="col-md-1 type">{report.nodeTypeName}</div>
 		    	<div class="col-md-1 name">{report.estate.name}</div>
 		    	<div class="col-md-1 report">{f:format.date(date: report.date, format: 'Y-m-d')} Nr {report.version}</div>
-		    	<div class="col-md-1 resptech">{report.responsibleTechnicians}</div>
-		    	<div class="col-md-1 critical">{report.noOfCriticalRemarks}</div>
-		    	<div class="col-md-1 remark">{report.noOfRemarks}</div>
-		    	<div class="col-md-1 preremark">Tidigare Anm.</div>
-		    	<div class="col-md-1 exetech">{report.executiveTechnician}</div>
-		    	<div class="col-md-1 note">{report.noOfNotes}</div>
-		    	<div class="col-md-1 purchase">{report.noOfPurchases}</div>
+		    	<div class="col-md-1 resptech">{report.respTechnicianName}</div>
+		    	<div class="col-md-1 critical"><div class="square {v:variable.get(name: 'criticalColor')}">{report.noOfCriticalRemarks}</div></div>
+		    	<div class="col-md-1 remark"><div class="square  {v:variable.get(name: 'remarkColor')}">{report.noOfRemarks}</div></div>
+		    	<div class="col-md-1 preremark"><div class="square">?</div></div>
+		    	<div class="col-md-1 exetech">{report.execTechnicianName}</div>
+		    	<div class="col-md-1 note"><div class="square">{report.noOfNotes}</div></div>
+		    	<div class="col-md-1 purchase"><div class="square">{report.noOfPurchases}</div></div>
 		    </li>
 		    <div id="report-{report.uid}-notes" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
 		      <div class="panel-body">
@@ -78,47 +84,4 @@ Otherwise your changes will be overwritten the next time you save the extension 
 	    </ul>
 	</div>
 </div>    
-<table  class="tx_dliponlyestate" >
-	<tr>
-		<th><f:translate key="tx_dliponlyestate_domain_model_report.name" /></th>
-		<th><f:translate key="tx_dliponlyestate_domain_model_report.version" /></th>
-		<th><f:translate key="tx_dliponlyestate_domain_model_report.date" /></th>
-		<th><f:translate key="tx_dliponlyestate_domain_model_report.is_complete" /></th>
-		<th><f:translate key="tx_dliponlyestate_domain_model_report.node_type" /></th>
-		<th><f:translate key="tx_dliponlyestate_domain_model_report.control_point" /></th>
-		<th><f:translate key="tx_dliponlyestate_domain_model_report.executive_technician" /></th>
-		<th><f:translate key="tx_dliponlyestate_domain_model_report.responsible_technicians" /></th>
-		<th><f:translate key="tx_dliponlyestate_domain_model_report.report_is_posted" /></th>
-		<th><f:translate key="tx_dliponlyestate_domain_model_report.start_date" /></th>
-		<th><f:translate key="tx_dliponlyestate_domain_model_report.end_date" /></th>
-		<th><f:translate key="tx_dliponlyestate_domain_model_report.no_of_critical_remarks" /></th>
-		<th><f:translate key="tx_dliponlyestate_domain_model_report.no_of_remarks" /></th>
-		<th><f:translate key="tx_dliponlyestate_domain_model_report.no_of_old_remarks" /></th>
-		<th><f:translate key="tx_dliponlyestate_domain_model_report.no_of_notes" /></th>
-		<th><f:translate key="tx_dliponlyestate_domain_model_report.no_of_purchases" /></th>
-	</tr>
-
-	<f:for each="{reports}" as="report">
-		<tr>
-			<td><f:link.action action="show" arguments="{report : report}"> {report.name}</f:link.action></td>
-			<td><f:link.action action="show" arguments="{report : report}"> {report.version}</f:link.action></td>
-			<td><f:link.action action="show" arguments="{report : report}"> {report.date -> f:format.date()}</f:link.action></td>
-			<td><f:link.action action="show" arguments="{report : report}"> {report.isComplete}</f:link.action></td>
-			<td><f:link.action action="show" arguments="{report : report}"> {report.nodeType}</f:link.action></td>
-			<td><f:link.action action="show" arguments="{report : report}"> {report.controlPoint}</f:link.action></td>
-			<td><f:link.action action="show" arguments="{report : report}"> {report.executiveTechnician}</f:link.action></td>
-			<td><f:link.action action="show" arguments="{report : report}"> {report.responsibleTechnicians}</f:link.action></td>
-			<td><f:link.action action="show" arguments="{report : report}"> {report.reportIsPosted}</f:link.action></td>
-			<td><f:link.action action="show" arguments="{report : report}"> {report.startDate -> f:format.date()}</f:link.action></td>
-			<td><f:link.action action="show" arguments="{report : report}"> {report.endDate -> f:format.date()}</f:link.action></td>
-			<td><f:link.action action="show" arguments="{report : report}"> {report.noOfCriticalRemarks}</f:link.action></td>
-			<td><f:link.action action="show" arguments="{report : report}"> {report.noOfRemarks}</f:link.action></td>
-			<td><f:link.action action="show" arguments="{report : report}"> {report.noOfOldRemarks}</f:link.action></td>
-			<td><f:link.action action="show" arguments="{report : report}"> {report.noOfNotes}</f:link.action></td>
-			<td><f:link.action action="show" arguments="{report : report}"> {report.noOfPurchases}</f:link.action></td>
-		</tr>
-	</f:for>
-</table>
-
-<f:link.action action="new">New Report</f:link.action>
 </f:section>
