@@ -128,7 +128,8 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
  array(
   'class' => __CLASS__,
   'function' => __FUNCTION__,
-   'arguments' => $arguments,
+  'arguments' => $arguments,
+  'reports' => $reports,
  )
 );
     }
@@ -140,10 +141,15 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      */
     public function searchAction()
     {
+        $arguments = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('tx_dliponlyestate_reportsearch');
+        $this->view->assign('arguments', $arguments);
         $this->view->assign('estates', $this->getEstates());
         $this->view->assign('cities', $this->getEstateCities());
-        $estate = $this->estateRepository->findByUid(13);
-        $this->view->assign('technicians', $this->getTechnicians($estate));
+        //$estate = $this->estateRepository->findByUid(13);
+        //$this->view->assign('technicians', $this->getTechnicians($estate));
+        $this->view->assign('technicians', $this->getTechnicians());
+        $this->view->assign('nodeTypes', $this->getNodeTypes());
+        $this->view->assign('notes', $this->getNotes());
         
     }
     public function getControlPoints() {
@@ -161,13 +167,6 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
             }
         }
         $cities = array_merge(Array('*' => 'Alla'), $cities);
-\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
- array(
-  'class' => __CLASS__,
-  'function' => __FUNCTION__,
-  'cities' => $cities,
- )
-);
         return $cities;
     }
     public function getTechnicians($estate=NULL) {
@@ -225,10 +224,14 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         
     }
     public function getNodeTypes() {
-        
+        $nodeTypes = $this->nodeTypeRepository->findAll();
+        $nodeTypesArr = array_merge(Array('*' => 'Alla'), $nodeTypes->toArray());
+        return $nodeTypesArr;
     }
     public function getNotes() {
-        
+        $notes = $this->noteRepository->findAll();   
+        $notesArr = array_merge(Array('*' => 'Alla'), $notes->toArray());
+        return $notesArr;
     }
     public function getQuestions() {
         

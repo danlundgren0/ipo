@@ -319,12 +319,52 @@ class ReportUtility {
         $question = $questionRepository->findByUid($questUid);
 		$note->setQuestion($question);
 		$note->setPid($report->getPid());
+
+/*
+        switch($note->getRemarkType()) {
+            case 2:
+                $noOfCriticalRemarks +=1;
+                break;
+            case 3:
+                $noOfRemarks +=1;
+                break;
+            case 4:
+                $noOfPurchases +=1;
+                break;
+            default:
+
+        }*/
+
+       
         if((int)$noteUid>0) {
             $noteRepository->update($note);
         }
         else {
             $report->addNote($note);
-        }        
+        }
+        $noOfCriticalRemarks = 0;
+        $noOfRemarks = 0;
+        $noOfPurchases = 0;
+        $report->setNoOfNotes(count($report->getNotes()));
+        foreach($report->getNotes() as $tmpNote) {
+            switch($tmpNote->getRemarkType()) {
+                case 2:
+                    $noOfCriticalRemarks +=1;
+                    break;
+                case 3:
+                    $noOfRemarks +=1;
+                    break;
+                case 4:
+                    $noOfPurchases +=1;
+                    break;
+                default:
+
+            }
+        }
+        $report->setNoOfCriticalRemarks($noOfCriticalRemarks);
+        $report->setNoOfRemarks($noOfRemarks);
+        $report->setNoOfPurchases($noOfPurchases); 
+
         if($report->getUid()==NULL) {
             $reportRepository->add($report);
         }

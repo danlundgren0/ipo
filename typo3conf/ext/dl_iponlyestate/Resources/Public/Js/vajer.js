@@ -294,7 +294,12 @@ DanL.Note = {
 	            $(this).addClass('active');        		
         	}
             var questUid = $(this).closest('.noteContainer').find('[name="tx_dliponlyestate_cp[questionuid]"]').val();
-            var noteState = $(this).attr('data-type');
+            //var noteState = $(this).attr('data-type');
+            var noteState=undefined;
+            if($(this).closest('.noteContainer').find('.state-buttons').find('.active[data-mandatory="1"]').length>0) {
+                var noteState = $(this).closest('.noteContainer').find('.state-buttons').find('.active[data-mandatory="1"]').attr('data-type');    
+            }
+            //$(obj).closest('.noteContainer').find('.state-buttons').find('.active[data-mandatory="1"]').length==0
             if(noteState!==undefined) {
                 $('.tab-container').find('[aria-controls="uid_'+questUid+'"]').prop('class','');
                 $('.tab-container').find('[aria-controls="uid_'+questUid+'"]').addClass('color_'+noteState);
@@ -417,6 +422,8 @@ $(function() {
 		//var fileName = $(this).val();		
 		//var filename = $(this).val().split('\\').pop();
 		var fileName = $(this).val().replace(/.*(\/|\\)/, '');
+        console.log('fileName');
+        console.log(fileName);
 		//var fileName = $('input[type=file]')[0].files.length ? ('input[type=file]')[0].files[0].name : "";
 		if(fileName=='') {
 			console.log('Ingen Bild vald');
@@ -424,7 +431,7 @@ $(function() {
 		}
 		else {
 			$('.uploadStatus').removeClass('hidden');
-			$('.uploadStatus .imgName').text(fileName);
+			//$('.uploadStatus .imgName').text(fileName);
 			console.log('Bild '+fileName+' vald');			
 		}
 		//$(".filename").html(fileName);
@@ -446,6 +453,52 @@ $(function() {
       dateFormat: "yy-mm-dd"
     });
     DanL.Note.scrollToTabs();
+    // external js: isotope.pkgd.js
+
+    // init Isotope
+    var $table = $('.table-like').isotope({
+        layoutMode: 'vertical',
+        getSortData: {
+            type: '.type',
+            name: '.name',
+            report: '.report',
+            resptech: '.resptech',
+            critical: '.critical parseInt',
+            remark: '.remark parseInt',
+            preremark: '.preremark parseInt',
+            exetech: '.exetech',
+            note: '.note parseInt',
+            purchase: '.purchase parseInt'
+            /*category: '.category',
+            weight: function( itemElem ) {
+              var weight = $( itemElem ).find('.weight').text();
+              return parseFloat( weight.replace( /[\(\)]/g, '') );
+            }*/
+        }
+    });
+    //$container.isotope('reLayout');
+    // bind sort button click
+    $('.header').on( 'click', 'div', function() {
+        var sortClass = $(this).hasClass('sort-asc');
+        var sortValue = $(this).attr('data-sort-value');
+        $(this).toggleClass('sort-asc');
+        $table.isotope({ sortBy: sortValue, sortAscending: !sortClass });
+    });
+
+    // change is-checked class on buttons
+    $('.header').each( function( i, buttonGroup ) {
+        var $buttonGroup = $( buttonGroup );
+        $buttonGroup.on( 'click', 'div', function() {
+            $buttonGroup.find('.is-checked').removeClass('is-checked');
+            $( this ).addClass('is-checked');
+        });
+    });
+    $('.panel-collapse').on('shown.bs.collapse', function () {
+        $table.isotope('layout');
+    })
+    $('.panel-collapse').on('hidden.bs.collapse', function () {
+        $table.isotope('layout');
+    })
     //DropDown Nav
     //$('.nav .dropdown.active.open .dropdown-menu>li>a').on('click', function(event) {
     /*

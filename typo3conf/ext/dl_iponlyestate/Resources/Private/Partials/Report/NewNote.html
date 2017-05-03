@@ -51,13 +51,13 @@
                   <f:if condition="{note.uploadedImage}">
                     <f:then>
                       <f:if condition="{uploadStatus}=='Bilden är uppladdad'">
-                        <div class="alert alert-info uploadStatus">{uploadStatus}</div>
+                        <div class="alert alert-info uploadStatus">Bild <span class="imgName"></span> uppladdad</div>
                       </f:if>
                     </f:then>
                     <f:else>
-                        <div class="alert alert-info uploadStatus hidden">Bild <span class="imgName"></span> vald</div>                        
+                        <div class="alert alert-info uploadStatus hidden">Bild <span class="imgName"></span> vald</div>
                     </f:else>                    
-                  </f:if> 
+                  </f:if>  
                 </div>
               </f:else>
             </f:if>

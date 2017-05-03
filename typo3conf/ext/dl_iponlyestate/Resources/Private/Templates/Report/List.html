@@ -16,7 +16,68 @@ Otherwise your changes will be overwritten the next time you save the extension 
 <h1>Listing for Report</h1>
 
 <f:flashMessages />
-
+<div class="col-md-12">
+    <div class="row header">
+    	<div class="col-md-1 handle"></div>
+    	<div class="col-md-1 type" data-sort-value="type">Typ</div>
+    	<div class="col-md-1 name" data-sort-value="name">Namn/ Benämning</div>
+    	<div class="col-md-1 report" data-sort-value="report">Rapport</div>
+    	<div class="col-md-1 resptech" data-sort-value="resptech">Ansvarig tekniker</div>
+    	<div class="col-md-1 critical" data-sort-value="critical">Kritiska Anm.</div>
+    	<div class="col-md-1 remark" data-sort-value="remark">Anm.</div>
+    	<div class="col-md-1 preremark" data-sort-value="preremark">Tidigare Anm.</div>
+    	<div class="col-md-1 exetech" data-sort-value="exetech">Utförande tekniker</div>
+    	<div class="col-md-1 note" data-sort-value="note">Not.</div>
+    	<div class="col-md-1 purchase" data-sort-value="purchase">Inköp</div>
+    </div>
+    <div class="row">
+		<ul class="table-like">
+	    <f:for each="{reports}" as="report">
+	    	<li class="table-like__item">
+		    	<div class="col-md-1 handle">
+				<a role="button" data-toggle="collapse" data-parent="#accordion" href="#report-{report.uid}-notes" aria-expanded="true" aria-controls="report-{report.uid}-notes">
+					<span class="glyphicon glyphicon-play" aria-hidden="true"></span></div>
+				</a>		    	
+		    	<div class="col-md-1 type">{report.nodeType}</div>
+		    	<div class="col-md-1 name">{report.estate.name}</div>
+		    	<div class="col-md-1 report">{f:format.date(date: report.date, format: 'Y-m-d')} Nr {report.version}</div>
+		    	<div class="col-md-1 resptech">{report.responsibleTechnicians}</div>
+		    	<div class="col-md-1 critical">{report.noOfCriticalRemarks}</div>
+		    	<div class="col-md-1 remark">{report.noOfRemarks}</div>
+		    	<div class="col-md-1 preremark">Tidigare Anm.</div>
+		    	<div class="col-md-1 exetech">{report.executiveTechnician}</div>
+		    	<div class="col-md-1 note">{report.noOfNotes}</div>
+		    	<div class="col-md-1 purchase">{report.noOfPurchases}</div>
+		    </li>
+		    <div id="report-{report.uid}-notes" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+		      <div class="panel-body">
+			      <f:for each="{report.notes}" as="note">
+			      	<div class="col-md-1 comment">{note.comment}</div>
+			      	<div class="col-md-1 state">{note.state}</div>
+			      	<div class="col-md-1 images">{note.images}</div>
+			      	<div class="col-md-1 version">{note.version}</div>
+			      	<div class="col-md-1 isComplete">{note.isComplete}</div>
+			      	<div class="col-md-1 date">{f:format.date(date: note.date, format: 'Y-m-d')}</div>
+			      	<div class="col-md-2 executiveTechnician">{note.executiveTechnician}</div>
+			      	<div class="col-md-2 controlPoint-header">{note.controlPoint.header}</div>
+			      	<div class="col-md-2 question-header">{note.question.header}</div>
+			      </f:for>
+			      <f:for each="{report.reportedMeasurement}" as="measure">
+			      	<div class="col-md-1 comment">{measure.value}</div>
+			      	<div class="col-md-1 state">{measure.name}({measure.unit})</div>
+			      	<div class="col-md-1 images">{measure.version}</div>
+			      	<div class="col-md-1 version">{measure.version}</div>
+			      	<div class="col-md-1 date">{f:format.date(date: measure.date, format: 'Y-m-d')}</div>
+			      	<div class="col-md-2 executiveTechnician">{measure.executiveTechnician}</div>
+			      	<div class="col-md-2 controlPoint-header">{measure.controlPoint.header}</div>
+			      	<div class="col-md-3 question-header">{measure.question.header}</div>
+			      </f:for>
+		      </div>
+		    </div>
+	    </f:for>
+	    </ul>
+	</div>
+</div>    
 <table  class="tx_dliponlyestate" >
 	<tr>
 		<th><f:translate key="tx_dliponlyestate_domain_model_report.name" /></th>
@@ -35,8 +96,6 @@ Otherwise your changes will be overwritten the next time you save the extension 
 		<th><f:translate key="tx_dliponlyestate_domain_model_report.no_of_old_remarks" /></th>
 		<th><f:translate key="tx_dliponlyestate_domain_model_report.no_of_notes" /></th>
 		<th><f:translate key="tx_dliponlyestate_domain_model_report.no_of_purchases" /></th>
-		<th> </th>
-		<th> </th>
 	</tr>
 
 	<f:for each="{reports}" as="report">
@@ -57,8 +116,6 @@ Otherwise your changes will be overwritten the next time you save the extension 
 			<td><f:link.action action="show" arguments="{report : report}"> {report.noOfOldRemarks}</f:link.action></td>
 			<td><f:link.action action="show" arguments="{report : report}"> {report.noOfNotes}</f:link.action></td>
 			<td><f:link.action action="show" arguments="{report : report}"> {report.noOfPurchases}</f:link.action></td>
-			<td><f:link.action action="edit" arguments="{report : report}">Edit</f:link.action></td>
-			<td><f:link.action action="delete" arguments="{report : report}">Delete</f:link.action></td>
 		</tr>
 	</f:for>
 </table>

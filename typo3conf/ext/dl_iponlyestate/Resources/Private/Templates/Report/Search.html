@@ -19,12 +19,12 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 <f:form enctype="multipart/form-data">
 <div class="col-md-12">
-    <div class="row">
+    <div class="row search-container">
     	<div class="col-md-6">
     		<div class="col-md-2 lbl">Period</div>
     		<div class="col-md-5">    			
 				 <div>
-				   <f:form.textfield id="fromDate" name="fromDate" placeholder="Från" value="" class="search-date js_search-date form-control" />
+				   <f:form.textfield id="fromDate" value="{arguments.fromDate}" name="fromDate" placeholder="Från" class="search-date js_search-date form-control" />
 				   <label for="fromDate">
 				     <span class="glyphicon glyphicon-calendar"></span>
 				   </label>
@@ -32,26 +32,26 @@ Otherwise your changes will be overwritten the next time you save the extension 
     		</div>
     		<div class="col-md-5">
 				 <div>
-				   <f:form.textfield id="endDate" name="endDate" placeholder="Till" value="" class="search-date js_search-date form-control" />
+				   <f:form.textfield id="endDate" value="{arguments.endDate}" name="endDate" placeholder="Till" class="search-date js_search-date form-control" />
 				   <label for="endDate">
 				     <span class="glyphicon glyphicon-calendar"></span>
 				   </label>
 				 </div>
     		</div>
     		<div class="col-md-2 lbl">Ort</div>
-    		<div class="col-md-10"><f:form.select name="cities" options="{cities}" optionValueField="uid" optionLabelField="name" class="form-control" /></div></div>
-    		<div class="col-md-2 lbl">Typo</div>
-    		<div class="col-md-10"></div>
+    		<div class="col-md-10"><f:form.select value="{arguments.cities}" name="cities" options="{cities}" optionValueField="uid" optionLabelField="name" class="form-control" /></div>
+    		<div class="col-md-2 lbl">Typ</div>
+    		<div class="col-md-10"><f:form.select value="{arguments.nodeTypes}" name="nodeTypes" options="{nodeTypes}" optionValueField="uid" optionLabelField="name" class="form-control" /></div>
     		<div class="col-md-2 lbl">Tekniker</div>
-    		<div class="col-md-10"><f:form.select name="technicians" options="{technicians}" optionValueField="uid" optionLabelField="name" class="form-control" /></div></div></div>
+    		<div class="col-md-10"><f:form.select value="{arguments.technicians}" name="technicians" options="{technicians}" optionValueField="uid" optionLabelField="name" class="form-control" /></div>
       	</div>
     	<div class="col-md-6">
     		<div class="col-md-2 lbl">Fastighet</div>
-			<div class="col-md-10"><f:form.select name="estates" options="{estates}" optionValueField="uid" optionLabelField="name" class="form-control" /></div>
+			<div class="col-md-10"><f:form.select value="{arguments.estates}" name="estates" options="{estates}" optionValueField="uid" optionLabelField="name" class="form-control" /></div>
     		<div class="col-md-2 lbl">Noteringar</div>
-    		<div class="col-md-10"></div>
+    		<div class="col-md-10"><f:form.select value="{arguments.notes}" name="notes" options="{notes}" optionValueField="uid" optionLabelField="comment" class="form-control" /></div>
     		<div class="col-md-2 lbl">Sök</div>
-			<div class="col-md-8"></div>
+			<div class="col-md-8"><f:form.textfield value="{arguments.freeSearch}" name="freeSearch" class="form-control" /></div>
     		<div class="col-md-2"><f:form.submit class="btn btn-secondary" value="Sök" /></div>
     		<div class="col-md-2 lbl">Exportera</div>
     		<div class="col-md-5">

@@ -116,9 +116,10 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                 $hasImages+=1;      
             }
         }
-        /*
+        
         if ($curReportWithVersion && $curReportWithVersion->getStartDate() !== null) {
             $postedReports = ReportUtil::getPostedReports($reportPid, $estate, $curReportWithVersion->getStartDate());
+            /*
             foreach($postedReports as $report) {
                 foreach($report->getNotes() as $note) {
                     if($note->getImages()!=NULL) {
@@ -126,8 +127,9 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                     }
                 }
             }
+            */
         }
-        */
+        
         if (!$GLOBALS['TSFE']->fe_user->user['first_name'] || $GLOBALS['TSFE']->fe_user->user['last_name']) {
             $this->view->assign('technician', $GLOBALS['TSFE']->fe_user->user['name']);
         } else {
@@ -401,6 +403,7 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
         if(count($note->getImages())>0) {
             $imagesToRemove = $note->getImages();
             $note->removeImage($imagesToRemove);
+            $this->noteRepository->update($note);
         }
         //$_FILES['tx_dliponlyestate_domain_model_note'] = $_FILES['tx_dliponlyestate_domain_model_controlpoint'];
         //unset($_FILES['tx_dliponlyestate_domain_model_controlpoint']);

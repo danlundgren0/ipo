@@ -132,6 +132,7 @@ plugin.tx_dliponlyestate_reportlist {
 
 #plugin.tx_dliponlyestate_ajaxrequest.persistence.storagePid = {$plugin.tx_dliponlyestate_cp.persistence.storagePid}
 #plugin.tx_dliponlyestate_ajaxrequest.persistence.recursive = 99
+page.includeJSFooter.isotope = EXT:dl_iponlyestate/Resources/Public/Js/isotope.pkgd.min.js
 page.includeJSFooter.vajer = EXT:dl_iponlyestate/Resources/Public/Js/vajer.js
 page.includeCSS.vajer2 = EXT:dl_iponlyestate/Resources/Public/Css/vajer.css
 page.includeJSFooter.js_jqueryui = EXT:dl_iponlyestate/Resources/Public/Js/jquery-ui.min.js

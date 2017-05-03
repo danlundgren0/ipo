@@ -9,6 +9,68 @@
 
 }
 */
+.glyphicon.glyphicon-play.rotated {
+    transform: rotate(90deg);   
+}
+.row.header {
+    height: 50px;
+    background-color: #575656;
+    color: #ffffff;
+}
+.row.header div {
+    height: 100%;
+    text-align: center;
+    padding: 5px;
+    border-left: 1px solid #ffffff;
+}
+.table-like {
+  background: #DDD;
+  max-width: 1200px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.table-like__item {
+    width: 100%;
+    clear: both;
+    border-top: 1px solid;
+}
+.col-md-1.handle {
+    width: 3.33333%;
+}
+.col-md-1.type {
+    
+}
+.col-md-1.name {
+    
+}
+.col-md-1.report {
+    
+}
+.col-md-1.resptech {
+    
+}
+.col-md-1.critical {
+    
+}
+.col-md-1.remark {
+    
+}
+.col-md-1.preremark {
+    
+}
+.col-md-1.exetech {
+    
+}
+.col-md-1.note {
+    
+}
+.col-md-1.purchase {
+    
+}
+.search-container div {
+    margin-bottom: 10px;
+}
 li.disabled {
     cursor: not-allowed;
 }

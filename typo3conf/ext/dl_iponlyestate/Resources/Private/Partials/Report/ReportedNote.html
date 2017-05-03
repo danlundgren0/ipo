@@ -93,18 +93,14 @@
                         <f:form.hidden name="notever" value="{note.version}" />
                     </f:else>                    
                 </f:if>
-                <button type="button" class="btn btn-success btn-ipaction enable-buttons" data-type="1" aria-pressed="false">Ändra</button>
-                <f:if condition="{note.uploadedImage}">
-                  <f:then>
-                    <f:if condition="{uploadStatus}=='Bilden är uppladdad'">
-                      <div class="alert alert-info uploadStatus">{uploadStatus}</div>
-                    </f:if>
-                  </f:then>
-                  <f:else>
-                    <div class="uploadStatus">
-                      <div class="alert alert-info uploadStatus">Bild <span class="imgName"></span> vald</div>
-                    </div>                    
-                  </f:else>                    
+                <button type="button" class="btn btn-success btn-ipaction enable-buttons" data-type="1" aria-pressed="false">Ändra</button>                  
+                  <f:if condition="{uploadStatus}=='Bilden är uppladdad'">
+                    <f:then>
+                        <div class="alert alert-info uploadStatus">Bild <span class="imgName"></span> uppladdad</div>
+                    </f:then>                  
+                    <f:else>
+                        <div class="alert alert-info uploadStatus hidden">Bild <span class="imgName"></span> vald</div>
+                    </f:else>                    
                 </f:if>  
               </div>
             </f:else>
