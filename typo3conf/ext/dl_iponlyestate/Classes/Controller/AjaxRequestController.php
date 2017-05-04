@@ -71,6 +71,14 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     protected $controlPointRepository = NULL;
 
     /**
+     * nodeTypeRepository
+     *
+     * @var \DanLundgren\DlIponlyestate\Domain\Repository\NodeTypeRepository
+     * @inject
+     */
+    protected $nodeTypeRepository = NULL;
+
+    /**
      * persistence manager
      *
      * @var \TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface
@@ -319,5 +327,13 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 		$this->data['reportPid'] = $reportPid;
 		$this->status = TRUE;
 		$this->message = '';
+	}
+	public function getEstateSearchSettings($estateUid=NULL) {
+		$searchArr = array();
+		if($estateUid===NULL) {
+			return $this->estateRepository->findAll();
+		}
+		$estate = $this->estateRepository->findByUid((int)$estateUid);
+
 	}
 }

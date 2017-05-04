@@ -335,7 +335,6 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 
 
 	public function saveNote($arguments, &$estate=NULL) {
-
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
         $this->controlPointRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ControlPointRepository');
         $this->estateRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\EstateRepository');
@@ -355,7 +354,8 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 		$reportIsNew = NULL;
 		$controlPoint = $this->controlPointRepository->findByUid($cpUid);
 		$question = $this->questionRepository->findByUid($questUid);
-		$noteText = $noteText; //($noteState==1)?$question->getHeader().' - OK':$noteText;
+		$noteText = ($noteState==1)?$question->getHeader().' - OK':$noteText;
+		//$noteText = $noteText; //($noteState==1)?$question->getHeader().' - OK':$noteText;
 		$questions = $controlPoint->getQuestions();
 		$datetime = new \DateTime();
 		$datetime->format('Y-m-d H:i:s');

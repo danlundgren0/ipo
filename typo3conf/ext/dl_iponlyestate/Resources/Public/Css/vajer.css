@@ -9,12 +9,34 @@
 
 }
 */
+a {
+    cursor: pointer;
+}
+.collapse.in {
+    width:100%;
+}
+.panel-body > div {
+    margin-bottom:5px;
+}
+.modal-h2 {
+    font-weight:bold;
+    margin-top: 0px;
+    margin-bottom: 5px;
+}
+.modal-comment {
+    margin-bottom: 5px;
+}
+.cpName {
+    font-weight: bold;    
+}
 .square {
     background-color: #ffffff;
     width: 30px;
     display: inline-block;
     border: 1px solid #000000;
     height: 30px;
+    padding: 5px;
+    text-align: center;
 }
 .square.criticalColor {
     background-color: #EB545F;

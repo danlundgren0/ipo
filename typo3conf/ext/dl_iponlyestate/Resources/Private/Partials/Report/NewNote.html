@@ -9,7 +9,7 @@
 <v:variable.set name="measureUidIsSet" value="0" />
 <f:if condition="{v:variable.get(name: 'measureUidIsSet')}=='0'">
   <f:if condition="{v:variable.get(name: 'noteUidIsSet')}=='0'">
-    <f:form action="show" enctype="multipart/form-data">
+    <f:form action="show" enctype="multipart/form-data" id="form_{question.uid}">
       <div class="noteContainer" data-pid="{pid}" data-notestate="-1" data-estateuid="{reportWithVersion.estate.uid}" data-questionuid="{question.uid}" data-nodetypeuid="{controlPoint.nodeType.uid}" data-cpuid="{controlPoint.uid}" data-reportuid="{reportWithVersion.uid}" data-measureuid="-1" data-noteuid="-1" data-notever="-1">
         <input type="hidden" name="note" value="1" data-version="-1" />
         <div class="card">
@@ -23,7 +23,7 @@
               </f:then>
               <f:else>
                 <div class="state-buttons">
-                  <button type="button" class="btn btn-success btn-ipaction save-note-ok" data-type="1" aria-pressed="false">OK</button>
+                  <button data-post="0" type="button" class="btn btn-success btn-ipaction save-note-ok" data-type="1" aria-pressed="false">OK</button>
                   <f:if condition="{controlPoint.showCriticalButton}=='FALSE'">
                     <button data-mandatory="1" type="button" class="btn btn-danger btn-ipaction btn-text-slide" data-type="2" aria-pressed="false">Krit.</button>
                   </f:if>

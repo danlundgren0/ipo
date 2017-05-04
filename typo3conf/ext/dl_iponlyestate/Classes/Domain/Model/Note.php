@@ -196,6 +196,11 @@ class Note extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->images;
     }
+
+    public function getImageFileIdentifier()
+    {        
+        return $this->images->originalFileIdentifier;
+    }
     
     /**
      * Sets the images

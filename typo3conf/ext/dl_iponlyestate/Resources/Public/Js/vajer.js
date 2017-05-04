@@ -17,7 +17,6 @@ DanL.Note = {
     parent: {},
 	setReadyForSave: function(obj) {
         DanL.Note.parent = $(obj).closest('.noteContainer');
-        console.log($(obj));
         //if($('btn-success').attr('aria-pressed')=='true' || (DanL.Note.isInputSet==true && DanL.Note.isButtonSet==true)) {
         
         /*if(($(obj).closest('.noteContainer').find('.btn-success.active').length>0 && !$(obj).closest('.noteContainer').find('.btn-success.active').hasClass('btn-measure'))
@@ -26,8 +25,6 @@ DanL.Note = {
             $(obj).closest('.noteContainer').find($('.save-btn')).removeClass('hidden');
             $('me').closest('.noteContainer').find('.enable-buttons').removeClass('hidden');
         }*/
-        console.log($(obj).closest('.noteContainer').find('.state-buttons').find('.active[data-mandatory="1"]').length);
-        console.log($(obj).closest('.noteContainer').find('.input-note').val());
         if($(obj).closest('.noteContainer').find('.input-note').val()!='' && $(obj).closest('.noteContainer').find('.state-buttons').find('.active[data-mandatory="1"]').length>0) {
             this.isReadyForSave = true;
             $(obj).closest('.noteContainer').find($('.save-btn')).removeClass('hidden');
@@ -153,6 +150,11 @@ DanL.Note = {
     },
     saveNote: function() {
         if($(this).hasClass('disabled') || $(this).attr('type') == 'submit') {
+            return;
+        }
+        if($(this).attr('data-post')=='1') {
+            $(this).closest('.noteContainer').find('[name="tx_dliponlyestate_cp[notestate]"]').val(1);
+            $(this).closest('form').submit();
             return;
         }
         var me = $(this);        
@@ -323,6 +325,8 @@ DanL.Note = {
             }
             if($(this).hasClass('upload-btn')) {                
                 $(this).closest('.noteContainer').find('.save-note-btn').attr('type','submit');
+                $(this).closest('.noteContainer').find('.save-note-ok').attr('data-post','1');
+                
                 //$(this).closest('.noteContainer').find('.save-btn').removeClass('hidden');
                 $(this).closest('.noteContainer').find('.input-note').removeAttr('disabled');
                 //$(this).closest('.noteContainer').find('.save-note-btn').removeClass('disabled');

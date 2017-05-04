@@ -32,6 +32,60 @@ namespace DanLundgren\DlIponlyestate\Utility;
  */
 class ReportUtility {
 
+    public static function adaptReportsForOutput($reports) {
+        if(count($reports)<=0) {
+            return NULL;
+        }
+        $reportsArr = array();
+        foreach($reports as $report) {
+            $levelOneIdentifier = 'report_'.$report->getUid();
+            foreach($report->getNotes() as $note) {
+                $levelOneIdentifier = 'report_'.$report->getUid();
+                $levelTwoIdentifier = 'cp_'.$note->getControlPoint()->getUid();
+                $levelThreeIdentifier = 'quest_'.$note->getQuestion()->getUid();
+                $reportsArr['level1'][$levelOneIdentifier]['reportUid'] = $report->getUid();
+                $reportsArr['level1'][$levelOneIdentifier]['reportName'] = $report->getName();
+                $reportsArr['level1'][$levelOneIdentifier]['estateName'] = $report->getEstate()->getName();
+                $reportsArr['level1'][$levelOneIdentifier]['nodeTypeName'] = $report->getNodeTypeName();
+                $reportsArr['level1'][$levelOneIdentifier]['dateVersion'] = $report->getDate()->format('Y-m-d').' Nr '.$report->getVersion();
+                $reportsArr['level1'][$levelOneIdentifier]['respTechnicianName'] = $report->getRespTechnicianName();
+                $reportsArr['level1'][$levelOneIdentifier]['noOfCriticalRemarks'] = $report->getNoOfCriticalRemarks();
+                $reportsArr['level1'][$levelOneIdentifier]['noOfRemarks'] = $report->getNoOfRemarks();
+                $reportsArr['level1'][$levelOneIdentifier]['execTechnicianName'] = $report->getExecTechnicianName();
+                $reportsArr['level1'][$levelOneIdentifier]['noOfNotes'] = $report->getNoOfNotes();
+                $reportsArr['level1'][$levelOneIdentifier]['noOfPurchases'] = $report->getNoOfPurchases();
+
+
+                $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['cpName'] = $note->getControlPoint()->getHeader();
+                $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['questionName'] = $note->getQuestion()->getHeader();
+                $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['comment'] = $note->getComment();
+                $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['remarkType'] = $note->getRemarkType();
+                //$reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['image'] = $note->getImages();
+                if($note->getImages() && $note->getImages()->getUid()>0) {
+                    $fileRefUidRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid_local', 'sys_file_reference', 'uid='.$note->getImages()->getUid());
+                    while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($fileRefUidRes)) {
+                        $uidLocal = $row['uid_local'];
+                        break;
+                    }
+                    $sysFileRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'sys_file', 'uid='.$uidLocal);
+                    while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($sysFileRes)) {
+                        $sysFile = $row;
+                        break;
+                    }
+                    if($sysFile && count($sysFile)>0) {
+                        $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['image'] = 'fileadmin/'.$sysFile['identifier'];
+                    }
+                }
+            }
+            foreach($report->getReportedMeasurement() as $measurement) {
+            
+            }
+        }
+        return $reportsArr;
+    }
+
+
+
     /**
      * action getLatestOrNewReport
      *
@@ -319,23 +373,7 @@ class ReportUtility {
         $question = $questionRepository->findByUid($questUid);
 		$note->setQuestion($question);
 		$note->setPid($report->getPid());
-
-/*
-        switch($note->getRemarkType()) {
-            case 2:
-                $noOfCriticalRemarks +=1;
-                break;
-            case 3:
-                $noOfRemarks +=1;
-                break;
-            case 4:
-                $noOfPurchases +=1;
-                break;
-            default:
-
-        }*/
-
-       
+     
         if((int)$noteUid>0) {
             $noteRepository->update($note);
         }

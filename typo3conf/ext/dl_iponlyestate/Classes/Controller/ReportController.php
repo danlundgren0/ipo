@@ -1,6 +1,6 @@
 <?php
 namespace DanLundgren\DlIponlyestate\Controller;
-
+use DanLundgren\DlIponlyestate\Utility\ReportUtility as ReportUtil;
 
 /***************************************************************
  *
@@ -122,10 +122,11 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     {
         $arguments = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('tx_dliponlyestate_reportsearch');
         $reports = $this->reportRepository->findAll();
-        
-        $this->view->assign('reports', $reports);
+        $reportArr = ReportUtil::adaptReportsForOutput($reports);
+        $this->view->assign('reports', $reportArr);
     }
-    
+   
+
     /**
      * action search
      *
@@ -207,6 +208,13 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     public function getEstates() {
         $estates = $this->estateRepository->findAll();
         $estatesArr = array_merge(Array('*' => 'Alla'), $estates->toArray());
+\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
+ array(
+  'class' => __CLASS__,
+  'function' => __FUNCTION__,
+  'estatesArr' => $estatesArr,
+ )
+);
         return $estatesArr;
     }
     public function getFileReferences() {

@@ -14,10 +14,10 @@
               <div class="state-buttons">
                 <f:if condition="{note.remarkType}==1">
                     <f:then>
-                        <button type="button" class="btn btn-success btn-ipaction save-note-ok pre-active disabled" data-type="1" aria-pressed="true">OK</button>
+                        <button data-post="0" type="button" class="btn btn-success btn-ipaction save-note-ok pre-active disabled" data-type="1" aria-pressed="true">OK</button>
                     </f:then>
                     <f:else>
-                        <button type="button" class="btn btn-success btn-ipaction save-note-ok disabled" data-type="1" aria-pressed="false">OK</button>
+                        <button data-post="0" type="button" class="btn btn-success btn-ipaction save-note-ok disabled" data-type="1" aria-pressed="false">OK</button>
                     </f:else>                    
                 </f:if>
                 <f:if condition="{controlPoint.showCriticalButton}=='TRUE'">

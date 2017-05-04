@@ -16,8 +16,8 @@ Otherwise your changes will be overwritten the next time you save the extension 
 <h1>Listing for Report</h1>
 
 <f:flashMessages />
-<div class="col-md-12">
-    <div class="row header">
+<div class="col-md-12 js_search-header">
+    <div class="row header ">
     	<div class="col-md-1 handle"></div>
     	<div class="col-md-1 type" data-sort-value="type">Typ</div>
     	<div class="col-md-1 name" data-sort-value="name">Namn/ Benämning</div>
@@ -30,12 +30,14 @@ Otherwise your changes will be overwritten the next time you save the extension 
     	<div class="col-md-1 note" data-sort-value="note">Not.</div>
     	<div class="col-md-1 purchase" data-sort-value="purchase">Inköp</div>
     </div>
+</div>
+<div class="col-md-12">
     <div class="row">
 		<ul class="table-like">
-	    <f:for each="{reports}" as="report">
+	    <f:for each="{reports.level1}" as="report">
 	    	<li class="table-like__item">
 		    	<div class="col-md-1 handle">
-				<a role="button" data-toggle="collapse" data-parent="#accordion" href="#report-{report.uid}-notes" aria-expanded="true" aria-controls="report-{report.uid}-notes">
+				<a role="button" data-toggle="collapse" data-parent="#accordion" href="#report-{report.reportUid}-notes" aria-expanded="true" aria-controls="report-{report.reportUid}-notes">
 					<span class="glyphicon glyphicon-play" aria-hidden="true"></span></div>
 				</a>
 				<f:if condition="{report.noOfCriticalRemarks}>0">
@@ -45,8 +47,8 @@ Otherwise your changes will be overwritten the next time you save the extension 
 					<v:variable.set name="remarkColor" value="remarkColor" />	
 				</f:if>
 		    	<div class="col-md-1 type">{report.nodeTypeName}</div>
-		    	<div class="col-md-1 name">{report.estate.name}</div>
-		    	<div class="col-md-1 report">{f:format.date(date: report.date, format: 'Y-m-d')} Nr {report.version}</div>
+		    	<div class="col-md-1 name">{report.estateName}</div>
+		    	<div class="col-md-1 report">{report.dateVersion}</div>
 		    	<div class="col-md-1 resptech">{report.respTechnicianName}</div>
 		    	<div class="col-md-1 critical"><div class="square {v:variable.get(name: 'criticalColor')}">{report.noOfCriticalRemarks}</div></div>
 		    	<div class="col-md-1 remark"><div class="square  {v:variable.get(name: 'remarkColor')}">{report.noOfRemarks}</div></div>
@@ -55,18 +57,28 @@ Otherwise your changes will be overwritten the next time you save the extension 
 		    	<div class="col-md-1 note"><div class="square">{report.noOfNotes}</div></div>
 		    	<div class="col-md-1 purchase"><div class="square">{report.noOfPurchases}</div></div>
 		    </li>
-		    <div id="report-{report.uid}-notes" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-		      <div class="panel-body">
-			      <f:for each="{report.notes}" as="note">
-			      	<div class="col-md-1 comment">{note.comment}</div>
-			      	<div class="col-md-1 state">{note.state}</div>
-			      	<div class="col-md-1 images">{note.images}</div>
-			      	<div class="col-md-1 version">{note.version}</div>
-			      	<div class="col-md-1 isComplete">{note.isComplete}</div>
-			      	<div class="col-md-1 date">{f:format.date(date: note.date, format: 'Y-m-d')}</div>
-			      	<div class="col-md-2 executiveTechnician">{note.executiveTechnician}</div>
-			      	<div class="col-md-2 controlPoint-header">{note.controlPoint.header}</div>
-			      	<div class="col-md-2 question-header">{note.question.header}</div>
+		    <div id="report-{report.reportUid}-notes" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+		      <div class="panel-body">		      		
+			      <f:for each="{report.level2}" key="cpKey" as="controlpoint">
+			      	<div class="col-md-12 cpName">{controlpoint.cpName}</div>
+			      	<f:for each="{controlpoint.level3}" key="questKey" as="note">			      		
+			      		<div class="col-md-12">
+				      		<div class="col-md-3 questionName">{note.questionName}</div>
+					      	<div class="col-md-6 rcomment">
+								<a data-imgsrc="{note.image}" data-comment="{note.comment}" data-question="{note.questionName}" data-cp="{controlpoint.cpName}" class="show-more" data-toggle="modal" data-target="	#myModalReport">
+					      			<f:format.crop maxCharacters="50" append="... Läs mer">{note.comment}</f:format.crop>
+					      		</a>
+					      	</div>
+					      	<div class="col-md-1 state">
+					      		<div class="square color_{note.remarkType}"></div>
+					      	</div>
+					      	<div class="col-md-2 images">
+					      		<f:if condition="{note.image}">
+					      			<a data-imgsrc="{note.image}" data-comment="{note.comment}"  data-question="{note.questionName}" data-cp="{controlpoint.cpName}" class="show-more" data-toggle="modal" data-target="#myModalReport">Visa bild</a>
+					      		</f:if>					      			
+					      	</div>
+				      	</div>
+			      	</f:for>
 			      </f:for>
 			      <f:for each="{report.reportedMeasurement}" as="measure">
 			      	<div class="col-md-1 comment">{measure.value}</div>
@@ -83,5 +95,6 @@ Otherwise your changes will be overwritten the next time you save the extension 
 	    </f:for>
 	    </ul>
 	</div>
-</div>    
+</div>
+<f:render partial="Report/ImageModalReport" arguments="{reportWithVersion:reportWithVersion, postedReports:postedReports}" />    
 </f:section>
