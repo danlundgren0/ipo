@@ -124,6 +124,13 @@ class Estate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $controlPoints = null;
     
     /**
+     * nodeType
+     *
+     * @var \DanLundgren\DlIponlyestate\Domain\Model\NodeType
+     */
+    protected $nodeType = null;
+    
+    /**
      * __construct
      */
     public function __construct()
@@ -438,6 +445,27 @@ class Estate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setEstateDescription($estateDescription)
     {
         $this->estateDescription = $estateDescription;
+    }
+    
+    /**
+     * Returns the nodeType
+     *
+     * @return \DanLundgren\DlIponlyestate\Domain\Model\NodeType $nodeType
+     */
+    public function getNodeType()
+    {
+        return $this->nodeType;
+    }
+    
+    /**
+     * Sets the nodeType
+     *
+     * @param \DanLundgren\DlIponlyestate\Domain\Model\NodeType $nodeType
+     * @return void
+     */
+    public function setNodeType(\DanLundgren\DlIponlyestate\Domain\Model\NodeType $nodeType)
+    {
+        $this->nodeType = $nodeType;
     }
 
 }

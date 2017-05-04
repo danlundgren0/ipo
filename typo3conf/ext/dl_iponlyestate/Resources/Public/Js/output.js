@@ -1,31 +1,51 @@
 DanL.Search = {
-
-}
-DanL.Result = {
     getSearchOptionsByEstate: function(el) {
         console.log('getSearchOptionsByEstate');
         console.log($(el));
     },
+    addCities: function(cities) {
+        $('[name="tx_dliponlyestate_reportsearch[cities]"]').empty();
+        $.each(cities, function(index, value) {
+            $('[name="tx_dliponlyestate_reportsearch[cities]"]').append('<option value="'+value+'">'+value+'</option>');
+        });
+    },
+    addNodeTypes: function(nodeTypes) {
+        $('[name="tx_dliponlyestate_reportsearch[nodeTypes]"]').empty();
+        $.each(nodeTypes, function(index, value) {
+            $('[name="tx_dliponlyestate_reportsearch[nodeTypes]"]').append('<option value="'+index+'">'+value+'</option>');
+        });
+    },
+    addNotes: function(notes) {
+        $('[name="tx_dliponlyestate_reportsearch[notes]"]').empty();
+        $.each(notes, function(index, value) {
+            $('[name="tx_dliponlyestate_reportsearch[notes]"]').append('<option value="'+index+'">'+value+'</option>');
+        });
+    },
+    addTechnicians: function(technicians) {
+        $('[name="tx_dliponlyestate_reportsearch[technicians]"]').empty();
+        $.each(technicians, function(index, value) {
+            $('[name="tx_dliponlyestate_reportsearch[technicians]"]').append('<option value="'+index+'">'+value+'</option>');
+        });
+    }
+}
+DanL.Result = {
+
 }
 $(function() {
     $('[name="tx_dliponlyestate_reportsearch[estates]"]').on('change', function() {
-        DanL.Result.getSearchOptionsByEstate($(this));
+        DanL.Search.getSearchOptionsByEstate($(this));
         DanL.ajax.fetch({
             command: 'getEstateSearchSettings',
             arguments: {
                 estateUid: $(this).val()
             }
-        }).done(function(data, textStatus, jqXHR) {            
-            $('.saved-messages').html('');
-            $('.saved-purchases').purchases('');
-            $('.input-purchase').val('');
-            $('.input-message').val('');
-            $.each(data.data.message, function(index, value) {                
-                $('.saved-messages').append(value);
-            });
-            $.each(data.data.purchase, function(index, value) {
-                $('.saved-purchases').append(value);
-            });
+        }).done(function(data, textStatus, jqXHR) {
+            console.log(data);
+            DanL.Search.addCities(data.data.cities);
+            DanL.Search.addNodeTypes(data.data.nodetype);
+            DanL.Search.addNotes(data.data.notes);
+            DanL.Search.addTechnicians(data.data.technicians);
+            //$('[name="tx_dliponlyestate_reportsearch[cities]"]')
         }).fail(function( jqXHR, textStatus, errorThrown ) {
             console.log('getNewNoteTmpl failed: ' + textStatus);
         }); 

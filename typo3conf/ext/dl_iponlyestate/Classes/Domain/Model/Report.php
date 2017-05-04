@@ -439,14 +439,14 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function getNodeTypeName()
     {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-        $nodeTypeRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\NodeTypeRepository');
-        $nodeType = $nodeTypeRepository->findByUid($this->nodeType);       
-        if($nodeType) {
-            return $nodeType->getName();    
+        $nodeTypeRepository = $objectManager->get('DanLundgren\\DlIponlyestate\\Domain\\Repository\\NodeTypeRepository');
+        $nodeType = $nodeTypeRepository->findByUid($this->nodeType);
+        if ($nodeType) {
+            return $nodeType->getName();
         }
         return 'Ingen nodtyp satt';
     }
-
+    
     /**
      * Sets the nodeType
      *
@@ -488,14 +488,14 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->responsibleTechnicians;
     }
-
+    
     public function getRespTechnicianName()
     {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-        $techRepository = $objectManager->get('TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository');
-        $tech = $techRepository->findByUid($this->responsibleTechnicians);       
-        if($tech) {
-            return $tech->getName();    
+        $techRepository = $objectManager->get('TYPO3\\CMS\\Extbase\\Domain\\Repository\\FrontendUserRepository');
+        $tech = $techRepository->findByUid($this->responsibleTechnicians);
+        if ($tech) {
+            return $tech->getName();
         }
         return 'Ingen tekniker satt';
     }
@@ -503,14 +503,14 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function getExecTechnicianName()
     {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-        $techRepository = $objectManager->get('TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository');
-        $tech = $techRepository->findByUid($this->executiveTechnician);       
-        if($tech) {
-            return $tech->getName();    
+        $techRepository = $objectManager->get('TYPO3\\CMS\\Extbase\\Domain\\Repository\\FrontendUserRepository');
+        $tech = $techRepository->findByUid($this->executiveTechnician);
+        if ($tech) {
+            return $tech->getName();
         }
         return 'Ingen tekniker satt';
     }
-
+    
     /**
      * Sets the responsibleTechnicians
      *

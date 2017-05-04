@@ -1,7 +1,7 @@
 <?php
 namespace DanLundgren\DlIponlyestate\Controller;
-use DanLundgren\DlIponlyestate\Utility\ReportUtility as ReportUtil;
 
+use DanLundgren\DlIponlyestate\Utility\ReportUtility as ReportUtil;
 /***************************************************************
  *
  *  Copyright notice
@@ -32,7 +32,7 @@ use DanLundgren\DlIponlyestate\Utility\ReportUtility as ReportUtil;
  */
 class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
-    
+
     /**
      * controlPointRepository
      *
@@ -40,7 +40,7 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * @inject
      */
     protected $controlPointRepository = NULL;
-
+    
     /**
      * dynamicColumnRepository
      *
@@ -64,7 +64,7 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * @inject
      */
     protected $measurementValuesRepository = NULL;
-
+    
     /**
      * nodeTypeRepository
      *
@@ -72,7 +72,7 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * @inject
      */
     protected $nodeTypeRepository = NULL;
-
+    
     /**
      * noteRepository
      *
@@ -80,7 +80,7 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * @inject
      */
     protected $noteRepository = NULL;
-        
+    
     /**
      * questionRepository
      *
@@ -96,7 +96,7 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * @inject
      */
     protected $reportedMeasurementRepository = NULL;
-
+    
     /**
      * reportRepository
      *
@@ -104,7 +104,7 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * @inject
      */
     protected $reportRepository = NULL;
-
+    
     /**
      * technicianRepository
      *
@@ -125,8 +125,7 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $reportArr = ReportUtil::adaptReportsForOutput($reports);
         $this->view->assign('reports', $reportArr);
     }
-   
-
+    
     /**
      * action search
      *
@@ -143,103 +142,122 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $this->view->assign('technicians', $this->getTechnicians());
         $this->view->assign('nodeTypes', $this->getNodeTypes());
         $this->view->assign('notes', $this->getNotes());
-        
     }
-    public function getControlPoints() {
+    
+    public function getControlPoints()
+    {
         return $this->controlPointRepository->findAll();
     }
-    public function getDynamicColumns() {
+    
+    public function getDynamicColumns()
+    {
         
     }
-    public function getEstateCities() {
+    
+    public function getEstateCities()
+    {
         $estates = $this->estateRepository->findAll();
         $cities = array();
-        foreach($estates as $estate) {
-            if(!in_array($estate->getCity(), $cities) && $estate->getCity()!='') {
-               $cities[$estate->getCity()] = $estate->getCity();
+        foreach ($estates as $estate) {
+            if (!in_array($estate->getCity(), $cities) && $estate->getCity() != '') {
+                $cities[$estate->getCity()] = $estate->getCity();
             }
         }
-        $cities = array_merge(Array('*' => 'Alla'), $cities);
+        $cities = array_merge(array('*' => 'Alla'), $cities);
         return $cities;
     }
-    public function getTechnicians($estate=NULL) {
+    
+    /**
+     * @param $estate
+     */
+    public function getTechnicians($estate = NULL)
+    {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-        $technicianRepository = $objectManager->get('TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository');
+        $technicianRepository = $objectManager->get('TYPO3\\CMS\\Extbase\\Domain\\Repository\\FrontendUserRepository');
         $estates = $this->estateRepository->findAll();
         $technicians = array();
-        if($estate===NULL) {
-            foreach($estates as $estate) {
-                if($estate->getResponsibleTechnician()!=0) {
-                    $technician = $technicianRepository->findByUid((int)$estate->getResponsibleTechnician());
-                    if(!in_array($technician->getName(), $technicians)) {
-                       $technicians[$technician->getUid()] = $technician->getName();
+        if ($estate === NULL) {
+            foreach ($estates as $estate) {
+                if ($estate->getResponsibleTechnician() != 0) {
+                    $technician = $technicianRepository->findByUid((int) $estate->getResponsibleTechnician());
+                    if (!in_array($technician->getName(), $technicians)) {
+                        $technicians[$technician->getUid()] = $technician->getName();
                     }
                 }
             }
-        }
-        else {
-            if($estate->getResponsibleTechnician()!=0) {
-                $technician = $technicianRepository->findByUid((int)$estate->getResponsibleTechnician());
-                if(!in_array($technician->getName(), $technicians)) {
-                   $technicians[$technician->getUid()] = $technician->getName();
+        } else {
+            if ($estate->getResponsibleTechnician() != 0) {
+                $technician = $technicianRepository->findByUid((int) $estate->getResponsibleTechnician());
+                if (!in_array($technician->getName(), $technicians)) {
+                    $technicians[$technician->getUid()] = $technician->getName();
                 }
-            } 
+            }
         }
         $reports = $this->reportRepository->findAll();
-        foreach($reports as $report) {
-            if($report->getEstate()===$estate || $estate===NULL) {
-                if($report->getResponsibleTechnicians()>0) {
-                    $technician = $technicianRepository->findByUid((int)$report->getResponsibleTechnicians());
-                    if(!in_array($technician->getName(), $technicians)) {
-                       $technicians[$technician->getUid()] = $technician->getName();
+        foreach ($reports as $report) {
+            if ($report->getEstate() === $estate || $estate === NULL) {
+                if ($report->getResponsibleTechnicians() > 0) {
+                    $technician = $technicianRepository->findByUid((int) $report->getResponsibleTechnicians());
+                    if (!in_array($technician->getName(), $technicians)) {
+                        $technicians[$technician->getUid()] = $technician->getName();
                     }
                 }
-                if($report->getExecutiveTechnician()>0) {
-                    $technician = $technicianRepository->findByUid((int)$report->getExecutiveTechnician());
-                    if(!in_array($technician->getName(), $technicians)) {
-                       $technicians[$technician->getUid()] = $technician->getName();
+                if ($report->getExecutiveTechnician() > 0) {
+                    $technician = $technicianRepository->findByUid((int) $report->getExecutiveTechnician());
+                    if (!in_array($technician->getName(), $technicians)) {
+                        $technicians[$technician->getUid()] = $technician->getName();
                     }
-                }                
+                }
             }
         }
-        $techniciansArr = array_merge(Array('*' => 'Alla'), $technicians);
+        $techniciansArr = array_merge(array('*' => 'Alla'), $technicians);
         return $techniciansArr;
     }
-    public function getEstates() {
+    
+    public function getEstates()
+    {
         $estates = $this->estateRepository->findAll();
-        $estatesArr = array_merge(Array('*' => 'Alla'), $estates->toArray());
-\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
- array(
-  'class' => __CLASS__,
-  'function' => __FUNCTION__,
-  'estatesArr' => $estatesArr,
- )
-);
+        $estatesArr = array_merge(array('*' => 'Alla'), $estates->toArray());
         return $estatesArr;
     }
-    public function getFileReferences() {
+    
+    public function getFileReferences()
+    {
         
     }
-    public function getMeasurementValues() {
+    
+    public function getMeasurementValues()
+    {
         
     }
-    public function getNodeTypes() {
+    
+    public function getNodeTypes()
+    {
         $nodeTypes = $this->nodeTypeRepository->findAll();
-        $nodeTypesArr = array_merge(Array('*' => 'Alla'), $nodeTypes->toArray());
+        $nodeTypesArr = array_merge(array('*' => 'Alla'), $nodeTypes->toArray());
         return $nodeTypesArr;
     }
-    public function getNotes() {
-        $notes = $this->noteRepository->findAll();   
-        $notesArr = array_merge(Array('*' => 'Alla'), $notes->toArray());
+    
+    public function getNotes()
+    {
+        $notes = $this->noteRepository->findAll();
+        $notesArr = array_merge(array('*' => 'Alla'), $notes->toArray());
         return $notesArr;
     }
-    public function getQuestions() {
+    
+    public function getQuestions()
+    {
         
     }
-    public function getReports() {
+    
+    public function getReports()
+    {
         
     }
-    public function getReportedMeasurements() {
+    
+    public function getReportedMeasurements()
+    {
         
     }
+
 }

@@ -30,6 +30,7 @@ namespace DanLundgren\DlIponlyestate\Controller;
  * AjaxRequestController
  */
 class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
+
     /**
      * estateRepository
      *
@@ -328,12 +329,81 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 		$this->status = TRUE;
 		$this->message = '';
 	}
-	public function getEstateSearchSettings($estateUid=NULL) {
+	public function getEstateSearchSettings() {
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+        $technicianRepository = $objectManager->get('TYPO3\\CMS\\Extbase\\Domain\\Repository\\FrontendUserRepository');
+		$estateUid = (int)$this->arguments['estateUid'];
 		$searchArr = array();
-		if($estateUid===NULL) {
-			return $this->estateRepository->findAll();
+		$notes = array();
+		$cities = array();
+		$nodeTypes = array();
+		$technicians = array();
+		$techUids = array();
+		if(!$estateUid) {
+			$estates = $this->estateRepository->findAll();	
 		}
-		$estate = $this->estateRepository->findByUid((int)$estateUid);
-
+		else {
+			$estate = $this->estateRepository->findByUid((int)$estateUid);
+		}
+		$reports = $this->reportRepository->findAll();		
+		foreach($reports as $report) {
+			if($estates) {
+				foreach($estates as $estate) {
+					$cities[$estate->getCity()] = $estate->getCity();
+					$nodeTypes[$estate->getNodeType()->getUid()]['uid'] = $estate->getNodeType()->getUid();
+					$nodeTypes[$estate->getNodeType()->getUid()]['name'] = $estate->getNodeType()->getName();
+					if($report->getEstate()->getUid() == $estate->getUid()) {
+						if($report->getExecutiveTechnician() && !in_array($report->getExecutiveTechnician(), $techUids)) {
+							$techUids[] = $report->getExecutiveTechnician();
+							$technician = $technicianRepository->findByUid((int)$report->getExecutiveTechnician());
+							$technicians[$report->getExecutiveTechnician()]['uid'] = $technician->getUid();
+							$technicians[$report->getExecutiveTechnician()]['comment'] = $technician->getName();
+						}
+						if ($report->getResponsibleTechnicians() && !in_array($report->getResponsibleTechnicians(), $techUids)) {
+							$techUids[] = $report->getResponsibleTechnicians();
+							$technician = $technicianRepository->findByUid((int)$report->getResponsibleTechnicians());
+							$technicians[$report->getResponsibleTechnicians()]['uid'] = $technician->getUid();
+							$technicians[$report->getResponsibleTechnicians()]['comment'] = $technician->getName();
+						}
+						if($report->getEstate()->getUid() == (int)$estateUid) {
+							foreach($report->getNotes() as $note) {
+								$notes[$note->getUid()]['uid'] = $note->getUid();
+								$notes[$note->getUid()]['comment'] = $note->getComment();
+							}				
+						}
+					}
+				}				
+			}
+			else {
+				$cities[$estate->getCity()] = $estate->getCity();
+				//$nodeTypes[$estate->getNodeType()->getUid()]['uid'] = $estate->getNodeType()->getUid();
+				$nodeTypes[$estate->getNodeType()->getUid()] = $estate->getNodeType()->getName();
+				if($report->getEstate()->getUid() == $estate->getUid()) {
+					if($report->getExecutiveTechnician() && !in_array($report->getExecutiveTechnician(), $techUids)) {
+						$techUids[] = $report->getExecutiveTechnician();
+						$technician = $technicianRepository->findByUid((int)$report->getExecutiveTechnician());
+						$technicians[$technician->getUid()] = $technician->getName();
+					}
+					if ($report->getResponsibleTechnicians() && !in_array($report->getResponsibleTechnicians(), $techUids)) {
+						$techUids[] = $report->getResponsibleTechnicians();
+						$technician = $technicianRepository->findByUid((int)$report->getResponsibleTechnicians());
+						$technicians[$technician->getUid()] = $technician->getName();
+					}
+					if($report->getEstate()->getUid() == (int)$estateUid) {
+						foreach($report->getNotes() as $note) {
+							$notes[$note->getUid()] = $note->getComment();
+						}				
+					}
+				}
+			}
+		}
+		$this->data['notes'] = array_merge(array('0' => 'Alla'), $notes);
+		/*$this->data['cities'] = $estate->getCity();		
+		$this->data['nodetype']['uid'] = $estate->getNodeType()->getUid();	
+		$this->data['nodetype']['name'] = $estate->getNodeType()->getName();*/
+		$this->data['technicians'] = array_merge(array('0' => 'Alla'), $technicians);
+		$this->data['nodetype'] = $nodeTypes;
+		$this->data['cities'] = $cities;
+		//nodeTypeRepository
 	}
 }

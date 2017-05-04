@@ -102,6 +102,14 @@ class Note extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $pageId = 0;
     
     /**
+     * uploadedImage
+     *
+     * @var bool
+     * @validate NotEmpty
+     */
+    protected $uploadedImage = false;
+    
+    /**
      * controlPoint
      *
      * @var \DanLundgren\DlIponlyestate\Domain\Model\ControlPoint
@@ -114,14 +122,6 @@ class Note extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var \DanLundgren\DlIponlyestate\Domain\Model\Question
      */
     protected $question = null;
-    
-    /**
-     * uploadedImage
-     *
-     * @var bool
-     * @validate NotEmpty
-     */
-    protected $uploadedImage = false;
     
     /**
      * __construct
@@ -196,9 +196,9 @@ class Note extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->images;
     }
-
+    
     public function getImageFileIdentifier()
-    {        
+    {
         return $this->images->originalFileIdentifier;
     }
     
@@ -212,7 +212,7 @@ class Note extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->images = $images;
     }
-
+    
     /**
      * Removes a images
      *
@@ -222,7 +222,7 @@ class Note extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function removeImage()
     {
         //$this->images->detach($imagesToRemove);
-        $GLOBALS['TYPO3_DB']->exec_DELETEquery('sys_file_reference', 'uid='.intval($this->images->getUid()));
+        $GLOBALS['TYPO3_DB']->exec_DELETEquery('sys_file_reference', 'uid=' . intval($this->images->getUid()));
     }
     
     /**

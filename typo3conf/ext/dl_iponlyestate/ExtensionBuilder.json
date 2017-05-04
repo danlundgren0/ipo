@@ -166,6 +166,16 @@
                             "relationType": "manyToMany",
                             "relationWire": "[wired]",
                             "uid": "373712808345"
+                        },
+                        {
+                            "foreignRelationClass": "",
+                            "lazyLoading": false,
+                            "propertyIsExcludeField": true,
+                            "relationDescription": "",
+                            "relationName": "nodeType",
+                            "relationType": "manyToOne",
+                            "relationWire": "[wired]",
+                            "uid": "680128542610"
                         }
                     ]
                 }
@@ -1321,10 +1331,22 @@
                 "terminal": "SOURCES",
                 "uid": "201117816553"
             }
+        },
+        {
+            "src": {
+                "moduleId": 0,
+                "terminal": "relationWire_1",
+                "uid": "680128542610"
+            },
+            "tgt": {
+                "moduleId": 1,
+                "terminal": "SOURCES",
+                "uid": "178670175645"
+            }
         }
     ],
     "log": {
-        "last_modified": "2017-04-26 05:17",
+        "last_modified": "2017-05-04 05:45",
         "extension_builder_version": "7.6.0",
         "be_user": " (1)"
     }

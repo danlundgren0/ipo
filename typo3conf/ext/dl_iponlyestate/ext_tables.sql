@@ -19,6 +19,7 @@ CREATE TABLE tx_dliponlyestate_domain_model_estate (
 	longitude double(11,2) DEFAULT '0.00' NOT NULL,
 	responsible_technician int(11) DEFAULT '0' NOT NULL,
 	control_points int(11) unsigned DEFAULT '0' NOT NULL,
+	node_type int(11) unsigned DEFAULT '0',
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,

@@ -372,4 +372,30 @@ class EstateTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 		$this->subject->removeControlPoint($controlPoint);
 
 	}
+
+	/**
+	 * @test
+	 */
+	public function getNodeTypeReturnsInitialValueForNodeType()
+	{
+		$this->assertEquals(
+			NULL,
+			$this->subject->getNodeType()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setNodeTypeForNodeTypeSetsNodeType()
+	{
+		$nodeTypeFixture = new \DanLundgren\DlIponlyestate\Domain\Model\NodeType();
+		$this->subject->setNodeType($nodeTypeFixture);
+
+		$this->assertAttributeEquals(
+			$nodeTypeFixture,
+			'nodeType',
+			$this->subject
+		);
+	}
 }

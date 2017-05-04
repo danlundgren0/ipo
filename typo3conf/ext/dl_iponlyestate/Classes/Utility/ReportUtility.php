@@ -46,6 +46,7 @@ class ReportUtility {
                 $reportsArr['level1'][$levelOneIdentifier]['reportUid'] = $report->getUid();
                 $reportsArr['level1'][$levelOneIdentifier]['reportName'] = $report->getName();
                 $reportsArr['level1'][$levelOneIdentifier]['estateName'] = $report->getEstate()->getName();
+                $reportsArr['level1'][$levelOneIdentifier]['estateUid'] = $report->getEstate()->getUid();
                 $reportsArr['level1'][$levelOneIdentifier]['nodeTypeName'] = $report->getNodeTypeName();
                 $reportsArr['level1'][$levelOneIdentifier]['dateVersion'] = $report->getDate()->format('Y-m-d').' Nr '.$report->getVersion();
                 $reportsArr['level1'][$levelOneIdentifier]['respTechnicianName'] = $report->getRespTechnicianName();
