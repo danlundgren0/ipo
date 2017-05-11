@@ -334,7 +334,7 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
         $technicianRepository = $objectManager->get('TYPO3\\CMS\\Extbase\\Domain\\Repository\\FrontendUserRepository');
 		$estateUid = (int)$this->arguments['estateUid'];
 		$searchArr = array();
-		$notes = array();
+		$notes = array('0'=>'Alla');
 		$cities = array();
 		$nodeTypes = array();
 		$technicians = array();
@@ -367,8 +367,25 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 						}
 						if($report->getEstate()->getUid() == (int)$estateUid) {
 							foreach($report->getNotes() as $note) {
-								$notes[$note->getUid()]['uid'] = $note->getUid();
-								$notes[$note->getUid()]['comment'] = $note->getComment();
+								if(!array_key_exists($note->getState(), $notes)) {
+									switch($note->getState()) {
+										case 1:
+											$notes[$note->getState()] = 'Ok';
+											break;
+										case 2:
+											$notes[$note->getState()] = 'Kritiska';
+											break;
+										case 3:
+											$notes[$note->getState()] = 'Anmärkningar';
+											break;
+										case 4:
+											$notes[$note->getState()] = 'Inköp/Meddelanden';
+											break;
+										default:
+									}
+								}
+								//$notes[$note->getUid()]['uid'] = $note->getUid();
+								//$notes[$note->getUid()]['comment'] = $note->getComment();
 							}				
 						}
 					}
@@ -391,13 +408,31 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 					}
 					if($report->getEstate()->getUid() == (int)$estateUid) {
 						foreach($report->getNotes() as $note) {
-							$notes[$note->getUid()] = $note->getComment();
+							if(!array_key_exists($note->getState(), $notes)) {
+								switch($note->getState()) {
+									case 1:
+										$notes[$note->getState()] = 'Ok';
+										break;
+									case 2:
+										$notes[$note->getState()] = 'Kritiska';
+										break;
+									case 3:
+										$notes[$note->getState()] = 'Anmärkningar';
+										break;
+									case 4:
+										$notes[$note->getState()] = 'Inköp/Meddelanden';
+										break;
+									default:
+								}
+							}
+							//$notes[$note->getUid()] = $note->getComment();
 						}				
 					}
 				}
 			}
 		}
-		$this->data['notes'] = array_merge(array('0' => 'Alla'), $notes);
+		//$this->data['notes'] = array_merge(array('0' => 'Alla'), $notes);
+		$this->data['notes'] = $notes;
 		/*$this->data['cities'] = $estate->getCity();		
 		$this->data['nodetype']['uid'] = $estate->getNodeType()->getUid();	
 		$this->data['nodetype']['name'] = $estate->getNodeType()->getName();*/

@@ -112,6 +112,14 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * @inject
      */
     protected $technicianRepository = NULL;
+
+    public function cmp($a, $b)
+    {
+        if ($a->getUid() == $b->getUid()) {
+            return 0;
+        }
+        return ($a->getUid() > $b->getUid()) ? -1 : 1;
+    }
     
     /**
      * action list
@@ -122,8 +130,38 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     {
         $arguments = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('tx_dliponlyestate_reportsearch');
         $reports = $this->reportRepository->findAll();
-        $reportArr = ReportUtil::adaptReportsForOutput($reports);
-        $this->view->assign('reports', $reportArr);
+
+        $estates = $this->estateRepository->findAll();
+        $estateUids = array();
+        $allReports = array();
+        $latestReports = array();
+        foreach($estates as $estate) {
+        	$tmp = $this->reportRepository->findByEstate($estate->getUid())->toArray();
+        	if($tmp && is_array($tmp)) {
+        		usort($tmp, array($this, 'cmp'));	
+        	}
+        	$allReports[] = $tmp;
+        	//$fiveLatestPostedReports[] = $this->reportRepository->findByEstate($estate->getUid());
+        }
+		if($allReports) {
+			for($j=0;$j<count($allReports);$j++) {
+				for($i=0;$i<5;$i++) {
+					if(!$allReports[$j][$i]) {break;}
+					$latestReports[$j][] = $allReports[$j][$i];
+				}
+			}
+		}		        
+        $latestReports = ReportUtil::adaptPostedReportsForOutput($latestReports);
+        $this->view->assign('latestReports', $latestReports);
+/*\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
+ array(
+  'class' => __CLASS__,
+  'function' => __FUNCTION__,
+  'latestReports' => $latestReports,
+ )
+);*/
+
+        //$this->view->assign('reports', $reportArr);
     }
     
     /**
@@ -134,6 +172,25 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     public function searchAction()
     {
         $arguments = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('tx_dliponlyestate_reportsearch');
+        if($arguments) {
+            //$searchCriterias=\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias');
+            $searchCriterias = new \DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias(
+                $arguments['fromDate'],
+                $arguments['endDate'],
+                $arguments['nodeTypes'],
+                $arguments['estates'],
+                $arguments['cities'],
+                $arguments['notes'],
+                $arguments['technicians'],
+                $arguments['freeSearch']
+            );
+            $searchResults = $this->reportRepository->searchReports($searchCriterias);
+            //$searchResults = $this->reportRepository->searchReports($searchCriterias);
+        }
+        else {
+            $searchCriterias = new \DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias();
+            $searchResults = $this->reportRepository->searchReports($searchCriterias);
+        }
         $this->view->assign('arguments', $arguments);
         $this->view->assign('estates', $this->getEstates());
         $this->view->assign('cities', $this->getEstateCities());
@@ -157,13 +214,12 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     public function getEstateCities()
     {
         $estates = $this->estateRepository->findAll();
-        $cities = array();
+        $cities = array('-1' => 'Alla');
         foreach ($estates as $estate) {
             if (!in_array($estate->getCity(), $cities) && $estate->getCity() != '') {
                 $cities[$estate->getCity()] = $estate->getCity();
             }
         }
-        $cities = array_merge(array('*' => 'Alla'), $cities);
         return $cities;
     }
     
@@ -176,6 +232,7 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $technicianRepository = $objectManager->get('TYPO3\\CMS\\Extbase\\Domain\\Repository\\FrontendUserRepository');
         $estates = $this->estateRepository->findAll();
         $technicians = array();
+        $technicians['-1'] = 'Alla';
         if ($estate === NULL) {
             foreach ($estates as $estate) {
                 if ($estate->getResponsibleTechnician() != 0) {
@@ -210,14 +267,16 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
                 }
             }
         }
-        $techniciansArr = array_merge(array('*' => 'Alla'), $technicians);
-        return $techniciansArr;
+        return $technicians;
     }
     
     public function getEstates()
     {
         $estates = $this->estateRepository->findAll();
-        $estatesArr = array_merge(array('*' => 'Alla'), $estates->toArray());
+        $estatesArr = array('-1'=>'Alla');
+        foreach($estates as $estate) {
+            $estatesArr[$estate->getUid()] = $estate->getName();    
+        }
         return $estatesArr;
     }
     
@@ -234,15 +293,26 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     public function getNodeTypes()
     {
         $nodeTypes = $this->nodeTypeRepository->findAll();
-        $nodeTypesArr = array_merge(array('*' => 'Alla'), $nodeTypes->toArray());
+        //$nodeTypesArr['-1'] = 'Alla';
+        $nodeTypesArr = array('-1'=>'Alla');
+        foreach($nodeTypes as $nodeType) {
+            $nodeTypesArr[$nodeType->getUid()] = $nodeType->getName();    
+        }
         return $nodeTypesArr;
     }
     
     public function getNotes()
     {
-        $notes = $this->noteRepository->findAll();
-        $notesArr = array_merge(array('*' => 'Alla'), $notes->toArray());
-        return $notesArr;
+        $notes = array();
+        $notes[0]='Alla';
+        $notes[1]='Ok';
+        $notes[2]='Kritiska';
+        $notes[3]='Anmärkningar';
+        $notes[4]='Inköp/Meddelanden';
+        return $notes;
+        //$notes = $this->noteRepository->findAll();
+        //$notesArr = array_merge(array('*' => 'Alla'), $notes->toArray());
+        //return $notesArr;
     }
     
     public function getQuestions()

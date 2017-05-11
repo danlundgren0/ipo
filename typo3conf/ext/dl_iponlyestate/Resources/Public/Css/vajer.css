@@ -52,9 +52,17 @@ a {
 .glyphicon.glyphicon-play {
     color: #575656;
 }
-.table-like__item div {
+.table-like .panel-body {
+    background-color: skyblue;
+    border: 1px;
+    padding: 15px 0;
+    border-style: dotted;
+}
+.table-like__item div, .table-like .panel-body div {
+    height: 32px;
     padding: 5px;
-    text-align: center;    
+    text-align: center;
+    margin-bottom: 20px;
 }
 .row.header {
     height: 50px;

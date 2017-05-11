@@ -27,74 +27,81 @@ Otherwise your changes will be overwritten the next time you save the extension 
     	<div class="col-md-1 remark" data-sort-value="remark">Anm.</div>
     	<div class="col-md-1 preremark" data-sort-value="preremark">Tidigare Anm.</div>
     	<div class="col-md-1 exetech" data-sort-value="exetech">Utförande tekniker</div>
-    	<div class="col-md-1 note" data-sort-value="note">Not.</div>
+    	<div class="col-md-1 note" data-sort-value="note">Meddelande</div>
     	<div class="col-md-1 purchase" data-sort-value="purchase">Inköp</div>
+    	<div class="col-md-1 purchase" data-sort-value="purchase">Mätvärden</div>
     </div>
 </div>
 <div class="col-md-12">
     <div class="row">
 		<ul class="table-like">
-	    <f:for each="{reports.level1}" as="report">
-	    	<li class="table-like__item">
-		    	<div class="col-md-1 handle">
-				<a role="button" data-toggle="collapse" data-parent="#accordion" href="#report-{report.reportUid}-notes" aria-expanded="true" aria-controls="report-{report.reportUid}-notes">
-					<span class="glyphicon glyphicon-play" aria-hidden="true"></span></div>
-				</a>
-				<f:if condition="{report.noOfCriticalRemarks}>0">
-					<v:variable.set name="criticalColor" value="criticalColor" />	
-				</f:if>
-				<f:if condition="{report.noOfRemarks}>0">
-					<v:variable.set name="remarkColor" value="remarkColor" />	
-				</f:if>
-		    	<div class="col-md-1 type">{report.nodeTypeName}</div>
-		    	<div class="col-md-1 name">{report.estateName}</div>
-		    	<div class="col-md-1 report">{report.dateVersion}</div>
-		    	<div class="col-md-1 resptech">{report.respTechnicianName}</div>
-		    	<div class="col-md-1 critical"><div class="square {v:variable.get(name: 'criticalColor')}">{report.noOfCriticalRemarks}</div></div>
-		    	<div class="col-md-1 remark"><div class="square  {v:variable.get(name: 'remarkColor')}">{report.noOfRemarks}</div></div>
-		    	<div class="col-md-1 preremark"><div class="square">?</div></div>
-		    	<div class="col-md-1 exetech">{report.execTechnicianName}</div>
-		    	<div class="col-md-1 note"><div class="square">{report.noOfNotes}</div></div>
-		    	<div class="col-md-1 purchase"><div class="square">{report.noOfPurchases}</div></div>
-		    </li>
-		    <div id="report-{report.reportUid}-notes" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-		      <div class="panel-body">		      		
-			      <f:for each="{report.level2}" key="cpKey" as="controlpoint">
-			      	<div class="col-md-12 cpName">{controlpoint.cpName}</div>
-			      	<f:for each="{controlpoint.level3}" key="questKey" as="note">			      		
-			      		<div class="col-md-12">
-				      		<div class="col-md-3 questionName">{note.questionName}</div>
-					      	<div class="col-md-6 rcomment">
-								<a data-imgsrc="{note.image}" data-comment="{note.comment}" data-question="{note.questionName}" data-cp="{controlpoint.cpName}" class="show-more" data-toggle="modal" data-target="	#myModalReport">
-					      			<f:format.crop maxCharacters="50" append="... Läs mer">{note.comment}</f:format.crop>
-					      		</a>
-					      	</div>
-					      	<div class="col-md-1 state">
-					      		<div class="square color_{note.remarkType}"></div>
-					      	</div>
-					      	<div class="col-md-2 images">
-					      		<f:if condition="{note.image}">
-					      			<a data-imgsrc="{note.image}" data-comment="{note.comment}"  data-question="{note.questionName}" data-cp="{controlpoint.cpName}" class="show-more" data-toggle="modal" data-target="#myModalReport">Visa bild</a>
-					      		</f:if>					      			
-					      	</div>
-				      	</div>
-			      	</f:for>
-			      </f:for>
-			      <f:for each="{report.reportedMeasurement}" as="measure">
-			      	<div class="col-md-1 comment">{measure.value}</div>
-			      	<div class="col-md-1 state">{measure.name}({measure.unit})</div>
-			      	<div class="col-md-1 images">{measure.version}</div>
-			      	<div class="col-md-1 version">{measure.version}</div>
-			      	<div class="col-md-1 date">{f:format.date(date: measure.date, format: 'Y-m-d')}</div>
-			      	<div class="col-md-2 executiveTechnician">{measure.executiveTechnician}</div>
-			      	<div class="col-md-2 controlPoint-header">{measure.controlPoint.header}</div>
-			      	<div class="col-md-3 question-header">{measure.question.header}</div>
-			      </f:for>
-		      </div>
-		    </div>
+		<f:for each="{latestReports.level1}" as="estate">
+		    <f:for each="{estate.level2}" as="report" iteration="headerIt">
+		    	<f:if condition="{headerIt.index}=='0'">
+		    		<f:then>
+				    	<li class="table-like__item">
+				    		<div class="latest-report" data-report="{report.reportUid}">
+						    	<div class="col-md-1 handle">
+									<a role="button" data-toggle="collapse" data-parent="#accordion" href="#report-{estate.estateUid}-history" aria-expanded="true" aria-controls="report-{estate.estateUid}-history">
+										<span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+									</a>
+								</div>
+								<f:if condition="{report.noOfCriticalRemarks}>0">
+									<v:variable.set name="criticalColor" value="criticalColor" />	
+								</f:if>
+								<f:if condition="{report.noOfRemarks}>0">
+									<v:variable.set name="remarkColor" value="remarkColor" />	
+								</f:if>
+						    	<div class="col-md-1 type">{report.nodeTypeName}</div>
+						    	<div class="col-md-1 name">{estate.estateName}</div>
+						    	<div class="col-md-1 report">{report.dateVersion}</div>
+						    	<div class="col-md-1 resptech">{report.respTechnicianName}</div>
+						    	<div class="col-md-1 critical"><div class="square {v:variable.get(name: 'criticalColor')}">{report.noOfCriticalRemarks}</div></div>
+						    	<div class="col-md-1 remark"><div class="square  {v:variable.get(name: 'remarkColor')}">{report.noOfRemarks}</div></div>
+						    	<div class="col-md-1 preremark"><div class="square">{report.noOfCompletedNotes}</div></div>
+						    	<div class="col-md-1 exetech">{report.execTechnicianName}</div>
+						    	<div class="col-md-1 note"><div class="square">{report.noOfNotes}</div></div>
+						    	<div class="col-md-1 purchase"><div class="square">{report.noOfPurchases}</div></div>
+						    	<div class="col-md-1 measure"><div class="square">{report.noOfMeasurements}</div></div>
+					    	</div>
+					    </li>
+				    </f:then>
+				    <f:else>
+				    	<f:if condition="{headerIt.index}=='1'">
+						    <div id="report-{estate.estateUid}-history" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+						      <div class="panel-body">
+					    </f:if>
+							<f:if condition="{report.noOfCriticalRemarks}>0">
+								<v:variable.set name="criticalColor" value="criticalColor" />	
+							</f:if>
+							<f:if condition="{report.noOfRemarks}>0">
+								<v:variable.set name="remarkColor" value="remarkColor" />	
+							</f:if>
+							<div class="old-reports" data-report="{report.reportUid}">
+								<div class="col-md-1 handle"></div>
+						    	<div class="col-md-1 type">{report.nodeTypeName}</div>
+						    	<div class="col-md-1 name">{estate.estateName}</div>
+						    	<div class="col-md-1 report">{report.dateVersion}</div>
+						    	<div class="col-md-1 resptech">{report.respTechnicianName}</div>
+						    	<div class="col-md-1 critical"><div class="square {v:variable.get(name: 'criticalColor')}">{report.noOfCriticalRemarks}</div></div>
+						    	<div class="col-md-1 remark"><div class="square  {v:variable.get(name: 'remarkColor')}">{report.noOfRemarks}</div></div>
+						    	<div class="col-md-1 preremark"><div class="square">{report.noOfCompletedNotes}</div></div>
+						    	<div class="col-md-1 exetech">{report.execTechnicianName}</div>
+						    	<div class="col-md-1 note"><div class="square">{report.noOfNotes}</div></div>
+						    	<div class="col-md-1 purchase"><div class="square">{report.noOfPurchases}</div></div>
+						    	<div class="col-md-1 measure"><div class="square">{report.noOfMeasurements}</div></div>
+					    	</div>
+						<f:if condition="{headerIt.isLast}">
+						      </div>
+						    </div>
+				    	</f:if>
+				    </f:else>
+			    </f:if>
+		    </f:for>
 	    </f:for>
 	    </ul>
 	</div>
 </div>
 <f:render partial="Report/ImageModalReport" arguments="{reportWithVersion:reportWithVersion, postedReports:postedReports}" />    
+<f:render partial="Report/GenericModalReport" arguments="{reportWithVersion:reportWithVersion, postedReports:postedReports}" /> 
 </f:section>

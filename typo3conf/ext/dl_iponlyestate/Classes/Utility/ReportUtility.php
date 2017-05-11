@@ -32,6 +32,72 @@ namespace DanLundgren\DlIponlyestate\Utility;
  */
 class ReportUtility {
 
+    public static function adaptCurReportForOutput($reports) {    
+
+    }
+    public static function adaptPostedReportsForOutput($reportsByEstates) {    
+        if(count($reportsByEstates)<=0) {
+            return NULL;
+        }
+        $reportsArr = array();
+        foreach ($reportsByEstates as $reports) {
+            $noOfCompletedNotes = 0;
+            foreach($reports as $report) {
+                $levelOneIdentifier = 'report_'.$report->getUid();
+                foreach($report->getNotes() as $note) {
+                    if($note->getIsComplete()) {
+                        $noOfCompletedNotes+=1;
+                    }
+                    $levelOneIdentifier = 'estate_'.$report->getEstate()->getUid();
+                    $levelTwoIdentifier = 'report_'.$report->getUid();
+                    $levelThreeIdentifier = 'cp_'.$note->getControlPoint()->getUid();
+                    $levelFourIdentifier = 'quest_'.$note->getQuestion()->getUid();                
+                    $reportsArr['level1'][$levelOneIdentifier]['estateName'] = $report->getEstate()->getName();
+                    $reportsArr['level1'][$levelOneIdentifier]['estateUid'] = $report->getEstate()->getUid();
+                    $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['reportUid'] = $report->getUid();
+                    $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['reportName'] = $report->getName();
+                    $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['nodeTypeName'] = $report->getNodeTypeName();
+                    $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['dateVersion'] = $report->getDate()->format('Y-m-d').' Nr '.$report->getVersion();
+                    $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['respTechnicianName'] = $report->getRespTechnicianName();
+                    $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['noOfCriticalRemarks'] = $report->getNoOfCriticalRemarks();
+                    $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['noOfRemarks'] = $report->getNoOfRemarks();
+                    $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['noOfCompletedNotes'] = $noOfCompletedNotes;
+                    $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['execTechnicianName'] = $report->getExecTechnicianName();
+                    $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['noOfNotes'] = $report->getNoOfNotes();
+                    $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['noOfPurchases'] = $report->getNoOfPurchases();
+
+
+                    $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['cpName'] = $note->getControlPoint()->getHeader();
+
+                    $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['level4'][$levelFourIdentifier]['questionName'] = $note->getQuestion()->getHeader();
+                    $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['level4'][$levelFourIdentifier]['comment'] = $note->getComment();
+                    $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['level4'][$levelFourIdentifier]['remarkType'] = $note->getRemarkType();
+                    //$reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['image'] = $note->getImages();
+                    if($note->getImages() && $note->getImages()->getUid()>0) {
+                        $fileRefUidRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid_local', 'sys_file_reference', 'uid='.$note->getImages()->getUid());
+                        while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($fileRefUidRes)) {
+                            $uidLocal = $row['uid_local'];
+                            break;
+                        }
+                        $sysFileRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'sys_file', 'uid='.$uidLocal);
+                        while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($sysFileRes)) {
+                            $sysFile = $row;
+                            break;
+                        }
+                        if($sysFile && count($sysFile)>0) {
+                            $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['level4'][$levelFourIdentifier]['image'] = 'fileadmin/'.$sysFile['identifier'];
+                        }
+                    }
+                }
+                $noOfMeasurements = 0;
+                foreach($report->getReportedMeasurement() as $measurement) {
+                    $noOfMeasurements+=1;
+                }
+                $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['noOfMeasurements'] = $noOfMeasurements;
+            }
+        }
+        return $reportsArr;
+    }
     public static function adaptReportsForOutput($reports) {
         if(count($reports)<=0) {
             return NULL;
