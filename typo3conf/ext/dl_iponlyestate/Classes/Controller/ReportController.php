@@ -129,51 +129,7 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     public function listAction()
     {
         $arguments = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('tx_dliponlyestate_reportsearch');
-        $reports = $this->reportRepository->findAll();
-
-        $estates = $this->estateRepository->findAll();
-        $estateUids = array();
-        $allReports = array();
-        $latestReports = array();
-        foreach($estates as $estate) {
-        	$tmp = $this->reportRepository->findByEstate($estate->getUid())->toArray();
-        	if($tmp && is_array($tmp)) {
-        		usort($tmp, array($this, 'cmp'));	
-        	}
-        	$allReports[] = $tmp;
-        	//$fiveLatestPostedReports[] = $this->reportRepository->findByEstate($estate->getUid());
-        }
-		if($allReports) {
-			for($j=0;$j<count($allReports);$j++) {
-				for($i=0;$i<5;$i++) {
-					if(!$allReports[$j][$i]) {break;}
-					$latestReports[$j][] = $allReports[$j][$i];
-				}
-			}
-		}		        
-        $latestReports = ReportUtil::adaptPostedReportsForOutput($latestReports);
-        $this->view->assign('latestReports', $latestReports);
-/*\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
- array(
-  'class' => __CLASS__,
-  'function' => __FUNCTION__,
-  'latestReports' => $latestReports,
- )
-);*/
-
-        //$this->view->assign('reports', $reportArr);
-    }
-    
-    /**
-     * action search
-     *
-     * @return void
-     */
-    public function searchAction()
-    {
-        $arguments = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('tx_dliponlyestate_reportsearch');
         if($arguments) {
-            //$searchCriterias=\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias');
             $searchCriterias = new \DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias(
                 $arguments['fromDate'],
                 $arguments['endDate'],
@@ -185,12 +141,20 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
                 $arguments['freeSearch']
             );
             $searchResults = $this->reportRepository->searchReports($searchCriterias);
-            //$searchResults = $this->reportRepository->searchReports($searchCriterias);
+            $latestReports = ReportUtil::adaptPostedReportsForOutput($searchResults);
         }
-        else {
-            $searchCriterias = new \DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias();
-            $searchResults = $this->reportRepository->searchReports($searchCriterias);
-        }
+        $this->view->assign('latestReports', $latestReports);
+    }
+    
+    /**
+     * action search
+     *
+     * @return void
+     */
+    public function searchAction()
+    {
+    	
+        $arguments = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('tx_dliponlyestate_reportsearch');
         $this->view->assign('arguments', $arguments);
         $this->view->assign('estates', $this->getEstates());
         $this->view->assign('cities', $this->getEstateCities());

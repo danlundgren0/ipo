@@ -51,49 +51,121 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     		$where .= " reports.estate IN (SELECT estate.uid FROM tx_dliponlyestate_domain_model_estate estate WHERE estate.city = '".$searchCriterias->getCity()."')";
     		$and = ' AND ';
     	}
-    	if($searchCriterias->getNoteType()!=0) {    		
-    		$where .= $and." reports.notes IN (SELECT note.state FROM tx_dliponlyestate_domain_model_note note WHERE note.state = '".$searchCriterias->getNoteType()."')";
+    	if($searchCriterias->getNoteType()>0) {    		
+    		//$where .= $and." reports.notes IN (SELECT note.state FROM tx_dliponlyestate_domain_model_note note WHERE note.state = '".$searchCriterias->getNoteType()."')";
+    		$where .= $and." note.state = ".$searchCriterias->getNoteType();
     		$and = ' AND ';
     	}
+
+    	if($searchCriterias->getTechnician()>0) {    		
+    		$where .= $and." (reports.responsible_technicians = fe_user.uid AND fe_user.uid = ".$searchCriterias->getTechnician().") OR (reports.executive_technician = fe_user.uid AND fe_user.uid = ".$searchCriterias->getTechnician().")";
+    		$and = ' AND ';
+    	}
+
     	if($searchCriterias->getFromDate()!='') {
     		$fromDate = \DateTime::createFromFormat('Y-m-d', $searchCriterias->getFromDate());
-    		$where .= $and." date>='".$searchCriterias->getFromDate()."'";
+    		$where .= $and." reports.date>='".$searchCriterias->getFromDate()."'";
     		$and = ' AND ';
     	}
     	if($searchCriterias->getToDate()!='') {
     		$fromDate = \DateTime::createFromFormat('Y-m-d', $searchCriterias->getToDate());
-    		$where .= $and." date<='".$searchCriterias->getToDate()."'";
+    		$where .= $and." reports.date<='".$searchCriterias->getToDate()."'";
     		$and = ' AND ';
     	}
-    	if($searchCriterias->getEstate()!=-1) {
-    		$where .= $and." estate=".$searchCriterias->getEstate()->getUid();
+    	if($searchCriterias->getEstate()>0) {
+    		$where .= $and." reports.estate=".$searchCriterias->getEstate()->getUid();
     		$and = ' AND ';
     	}
-    	if($searchCriterias->getNodeType()!=-1) {    		
-    		$where .= $and." node_type=".$searchCriterias->getNodeType();
+    	if($searchCriterias->getNodeType()>0) {    		
+    		$where .= $and." reports.node_type=".$searchCriterias->getNodeType();
     		$and = ' AND ';
     	}
 
+    	if($searchCriterias->getFreeSearch()!='') {    		
+    		$where .= $and." note.comment LIKE '%".$searchCriterias->getFreeSearch()."%' AND reports.uid = note.report";
+    		$and = ' AND ';
+    	}
 
     	$searchRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-    		'reports.*', 
-    		'tx_dliponlyestate_domain_model_report reports', 
+    		' DISTINCT reports.*', 
+    		'tx_dliponlyestate_domain_model_report reports, fe_users fe_user, tx_dliponlyestate_domain_model_note note', 
     		$where 
     	);
         while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($searchRes)) {
         	$reportArr[] = $row;
         }
+
+        $reportUids = array();
+        $reportsByEstate = array();
+        $sortedAndLimitedReportsByEstate = array();
+        if(count($reportArr)>0) {
+        	foreach($reportArr as $report) {        		
+        		$reportUids[] = $report['uid'];
+        	}
+        	$query = $this->createQuery();
+		    $query->matching($query->in('uid', $reportUids));
+		    $allReports = $query->execute();		    
+	        if(count($allReports)>0) {
+	        	foreach($allReports as $report) {
+	        		$reportsByEstate[$report->getEstate()->getUid()][] = $report;
+	        		foreach($reportsByEstate as &$estateArr) {
+	        			usort($estateArr, array($this, 'cmpDesc'));	
+	        		}	        		
+					/*for($j=0;$j<count($reportsByEstate);$j++) {
+						for($i=0;$i<5;$i++) {
+							if(!$reportsByEstate[$j][$i]) {break;}
+							$sortedAndLimitedReportsByEstate[$j][] = $reportsByEstate[$j][$i];
+						}
+					}*/
+	        	}
+	        	$c=0;
+        		foreach($reportsByEstate as $estateArr2) {
+        			$r=0;
+        			foreach($estateArr2 as $report) {
+        				if($r>=5) {break;}
+        				$sortedAndLimitedReportsByEstate[$c][] = $report;
+        				$r+=1;	
+        			}
+        			$c+=1;	        			
+        		}	        	
+	        	//$estateUids[$report['estate']][] = $report;
+	        }
+        }
+        /*
+        if(count($reportArr)>0) {
+        	$reportUids = array();
+        	foreach($reportArr as $report) {
+        		$reportUids[] = $report['uid'];
+        	}
+        	$query = $this->createQuery();
+		    $query->matching($query->in('uid', $reportUids));
+		    return $query->execute();
+        }
+        */
 /*\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
  array(
   'class' => __CLASS__,
   'function' => __FUNCTION__,
+  'estateArr' => $estateArr,
+  'allReports' => $allReports,
+  'sortedAndLimitedReportsByEstate' => $sortedAndLimitedReportsByEstate,
+  'reportsByEstate' => $reportsByEstate,
   'searchCriterias' => $searchCriterias,
   'debug_lastBuiltQuery' => $GLOBALS['TYPO3_DB']->debug_lastBuiltQuery,
   'reportArr' => $reportArr,
  )
 );*/
+		return $sortedAndLimitedReportsByEstate;
     }
 
+    public function cmpDesc($a, $b)
+    {
+        if ($a->getUid() == $b->getUid()) {
+    	//if ($a['uid'] == $b['uid']) {
+            return 0;
+        }
+        return ($a->getUid() > $b->getUid()) ? -1 : 1;
+    }
 
 	public function findEstates(\DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias $demand) {
 	    $query = $this->createQuery();
