@@ -58,7 +58,7 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     	}
 
     	if($searchCriterias->getTechnician()>0) {    		
-    		$where .= $and." (reports.responsible_technicians = fe_user.uid AND fe_user.uid = ".$searchCriterias->getTechnician().") OR (reports.executive_technician = fe_user.uid AND fe_user.uid = ".$searchCriterias->getTechnician().")";
+    		$where .= $and." ((reports.responsible_technicians = fe_user.uid AND fe_user.uid = ".$searchCriterias->getTechnician().") OR (reports.executive_technician = fe_user.uid AND fe_user.uid = ".$searchCriterias->getTechnician()."))";
     		$and = ' AND ';
     	}
 
