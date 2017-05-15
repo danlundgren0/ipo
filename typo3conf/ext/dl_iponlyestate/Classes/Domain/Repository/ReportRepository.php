@@ -47,54 +47,69 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     	//$where = 'WHERE ';
     	$reportArr = array();
     	$and='';
+    	$from = 'tx_dliponlyestate_domain_model_report reports';
+    	$from = 'tx_dliponlyestate_domain_model_report reports, fe_users fe_user, tx_dliponlyestate_domain_model_note note, tx_dliponlyestate_domain_model_estate estate ';
     	if($searchCriterias->getCity()!=-1) {
     		$where .= " reports.estate IN (SELECT estate.uid FROM tx_dliponlyestate_domain_model_estate estate WHERE estate.city = '".$searchCriterias->getCity()."')";
     		$and = ' AND ';
     	}
-    	if($searchCriterias->getNoteType()>0) {    		
-    		//$where .= $and." reports.notes IN (SELECT note.state FROM tx_dliponlyestate_domain_model_note note WHERE note.state = '".$searchCriterias->getNoteType()."')";
-    		$where .= $and." note.state = ".$searchCriterias->getNoteType();
+    	if($searchCriterias->getNoteType()>0) {
+    		//$where .= $and." reports.notes IN (SELECT note.state FROM tx_dliponlyestate_domain_model_note note WHERE note.state = '".$searchCriterias->getNoteType()."' and reports.uid = note.report)";
+    		$where .= $and." note.state = ".$searchCriterias->getNoteType()." AND reports.uid = note.report AND note.deleted=0 AND note.hidden=0 ";
+    		$from = 'tx_dliponlyestate_domain_model_report reports, fe_users fe_user, tx_dliponlyestate_domain_model_note note, tx_dliponlyestate_domain_model_estate estate ';
+    		//$where .= $and." note.state = ".$searchCriterias->getNoteType();
     		$and = ' AND ';
     	}
 
     	if($searchCriterias->getTechnician()>0) {    		
     		$where .= $and." ((reports.responsible_technicians = fe_user.uid AND fe_user.uid = ".$searchCriterias->getTechnician().") OR (reports.executive_technician = fe_user.uid AND fe_user.uid = ".$searchCriterias->getTechnician()."))";
+    		$from = 'tx_dliponlyestate_domain_model_report reports, fe_users fe_user, tx_dliponlyestate_domain_model_note note, tx_dliponlyestate_domain_model_estate estate ';
     		$and = ' AND ';
     	}
 
     	if($searchCriterias->getFromDate()!='') {
     		$fromDate = \DateTime::createFromFormat('Y-m-d', $searchCriterias->getFromDate());
     		$where .= $and." reports.date>='".$searchCriterias->getFromDate()."'";
+    		$from = 'tx_dliponlyestate_domain_model_report reports, fe_users fe_user, tx_dliponlyestate_domain_model_note note, tx_dliponlyestate_domain_model_estate estate ';
     		$and = ' AND ';
     	}
     	if($searchCriterias->getToDate()!='') {
     		$fromDate = \DateTime::createFromFormat('Y-m-d', $searchCriterias->getToDate());
     		$where .= $and." reports.date<='".$searchCriterias->getToDate()."'";
+    		$from = 'tx_dliponlyestate_domain_model_report reports, fe_users fe_user, tx_dliponlyestate_domain_model_note note, tx_dliponlyestate_domain_model_estate estate ';
     		$and = ' AND ';
     	}
-    	if($searchCriterias->getEstate()>0) {
+    	/*if($searchCriterias->getEstate()>0) {
     		$where .= $and." reports.estate=".$searchCriterias->getEstate()->getUid();
     		$and = ' AND ';
-    	}
+    	}*/
     	if($searchCriterias->getNodeType()>0) {    		
     		$where .= $and." reports.node_type=".$searchCriterias->getNodeType();
+    		$from = 'tx_dliponlyestate_domain_model_report reports, fe_users fe_user, tx_dliponlyestate_domain_model_note note, tx_dliponlyestate_domain_model_estate estate ';
     		$and = ' AND ';
     	}
 
     	if($searchCriterias->getFreeSearch()!='') {    		
-    		$where .= $and." note.comment LIKE '%".$searchCriterias->getFreeSearch()."%' AND reports.uid = note.report";
+    		$where .= $and." ((note.comment LIKE '%".$searchCriterias->getFreeSearch()."%' AND reports.uid = note.report) OR (estate.name LIKE '%".$searchCriterias->getFreeSearch()."%' AND reports.estate = estate.uid))";
+    		$from = 'tx_dliponlyestate_domain_model_report reports, fe_users fe_user, tx_dliponlyestate_domain_model_note note, tx_dliponlyestate_domain_model_estate estate ';
     		$and = ' AND ';
     	}
-
+    	$where .= $and.' reports.deleted=0 AND reports.hidden=0 ';
     	$searchRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
     		' DISTINCT reports.*', 
-    		'tx_dliponlyestate_domain_model_report reports, fe_users fe_user, tx_dliponlyestate_domain_model_note note', 
+    		$from, 
     		$where 
     	);
         while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($searchRes)) {
         	$reportArr[] = $row;
         }
-
+\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
+ array(
+  'class' => __CLASS__,
+  'function' => __FUNCTION__,
+  'debug_lastBuiltQuery' => $GLOBALS['TYPO3_DB']->debug_lastBuiltQuery,  
+ )
+);
         $reportUids = array();
         $reportsByEstate = array();
         $sortedAndLimitedReportsByEstate = array();
@@ -119,10 +134,14 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 					}*/
 	        	}
 	        	$c=0;
+	        	$maxReports = 5;
+	        	if($searchCriterias->getFromDate()!='' && $searchCriterias->getToDate()!='') {
+	        		$maxReports = 999;
+	        	}
         		foreach($reportsByEstate as $estateArr2) {
-        			$r=0;
+        			$r=0;        			
         			foreach($estateArr2 as $report) {
-        				if($r>=5) {break;}
+        				if($r>=$maxReports) {break;}
         				$sortedAndLimitedReportsByEstate[$c][] = $report;
         				$r+=1;	
         			}
@@ -131,6 +150,13 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 	        	//$estateUids[$report['estate']][] = $report;
 	        }
         }
+\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
+ array(
+  'class' => __CLASS__,
+  'function' => __FUNCTION__,
+  'sortedAndLimitedReportsByEstate' => $sortedAndLimitedReportsByEstate,
+ )
+);
         /*
         if(count($reportArr)>0) {
         	$reportUids = array();
@@ -142,19 +168,6 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 		    return $query->execute();
         }
         */
-/*\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
- array(
-  'class' => __CLASS__,
-  'function' => __FUNCTION__,
-  'estateArr' => $estateArr,
-  'allReports' => $allReports,
-  'sortedAndLimitedReportsByEstate' => $sortedAndLimitedReportsByEstate,
-  'reportsByEstate' => $reportsByEstate,
-  'searchCriterias' => $searchCriterias,
-  'debug_lastBuiltQuery' => $GLOBALS['TYPO3_DB']->debug_lastBuiltQuery,
-  'reportArr' => $reportArr,
- )
-);*/
 		return $sortedAndLimitedReportsByEstate;
     }
 

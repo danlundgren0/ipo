@@ -46,8 +46,10 @@ Otherwise your changes will be overwritten the next time you save the extension 
     		<div class="col-md-10"><f:form.select value="{arguments.technicians}" name="technicians" options="{technicians}" optionValueField="uid" optionLabelField="name" class="form-control" /></div>
       	</div>
     	<div class="col-md-6">
-    		<div class="col-md-2 lbl">Fastighet</div>
-			<div class="col-md-10"><f:form.select value="{arguments.estates}" name="estates" options="{estates}" optionValueField="uid" optionLabelField="name" class="form-control" /></div>
+            <f:comment>            
+                <div class="col-md-2 lbl">Fastighet</div>
+			    <div class="col-md-10"><f:form.select value="{arguments.estates}" name="estates" options="{estates}" optionValueField="uid" optionLabelField="name" class="form-control" /></div>
+            </f:comment>
     		<div class="col-md-2 lbl">Noteringar</div>
     		<div class="col-md-10"><f:form.select value="{arguments.notes}" name="notes" options="{notes}" optionValueField="uid" optionLabelField="comment" class="form-control" /></div>
     		<div class="col-md-2 lbl">Sök</div>

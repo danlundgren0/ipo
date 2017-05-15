@@ -12,7 +12,7 @@ lib.mobileNavBtn {
     #value = <span class="fa fa-bars"></span>
 }
 
-[treeLevel = 0] && [usergroup = 17] || [treeLevel = 1] && [usergroup = 17]
+[treeLevel = 0] && [usergroup = 15] || [treeLevel = 1] && [usergroup = 15]
 # navbar
 lib.navbar = COA
 lib.navbar.wrap = <nav class="navbar navbar-default" role="navigation">|</nav>
@@ -97,7 +97,7 @@ lib.navbar {
     }
 }
 [global]
-[treeLevel = 2] && [usergroup = 17]
+[treeLevel = 2] && [usergroup = 15]
 # navbar
 lib.navbar = COA
 lib.navbar.wrap = <nav class="navbar navbar-default" role="navigation">|</nav>
@@ -182,7 +182,7 @@ lib.navbar {
     }
 }
 [global]
-[treeLevel = 3] && [usergroup = 17] || [treeLevel = 4] && [usergroup = 17]
+[treeLevel = 3] && [usergroup = 15] || [treeLevel = 4] && [usergroup = 15]
 # navbar
 lib.navbar = COA
 lib.navbar.wrap = <nav class="navbar navbar-default" role="navigation">|</nav>

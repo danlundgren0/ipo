@@ -485,8 +485,10 @@ $(function() {
     $('.header').on( 'click', 'div', function() {
         var sortClass = $(this).hasClass('sort-asc');
         var sortValue = $(this).attr('data-sort-value');
-        $(this).toggleClass('sort-asc');
-        $table.isotope({ sortBy: sortValue, sortAscending: !sortClass });
+        $(this).toggleClass('');
+        $table.isotope({ sortBy: sortValue, sortAscending: !sortClass });        
+        $(".collapse").collapse();
+        $table.isotope('layout');
     });
 
     // change is-checked class on buttons
