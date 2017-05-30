@@ -104,6 +104,31 @@ class EstateTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 	/**
 	 * @test
 	 */
+	public function getPageLinkReturnsInitialValueForString()
+	{
+		$this->assertSame(
+			'',
+			$this->subject->getPageLink()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setPageLinkForStringSetsPageLink()
+	{
+		$this->subject->setPageLink('Conceived at T3CON10');
+
+		$this->assertAttributeEquals(
+			'Conceived at T3CON10',
+			'pageLink',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
 	public function getAdressReturnsInitialValueForString()
 	{
 		$this->assertSame(

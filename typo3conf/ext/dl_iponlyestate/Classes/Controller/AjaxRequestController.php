@@ -1,6 +1,6 @@
 <?php
 namespace DanLundgren\DlIponlyestate\Controller;
-
+use DanLundgren\DlIponlyestate\Utility\ReportUtility as ReportUtility;
 /***************************************************************
  *
  *  Copyright notice
@@ -155,6 +155,137 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 	    return ($this->asJson) ? $this->generateJsonReturnArray() : $this->data;
 				//return $this->generateJsonReturnArray();
 	}
+
+	public function getCompleteReport() {		
+		$reportUid = $this->arguments['reportUid'];
+		$estateUid = $this->arguments['estateUid'];
+		if((int)$reportUid>0 && (int)$estateUid>0) {			
+			$report = $this->reportRepository->findByUid((int)$reportUid);
+			$estate = $this->estateRepository->findByUid((int)$estateUid);
+			$completeReportArr = ReportUtility::getCompleteReport($report, $estate);
+		}
+		if($completeReportArr) {
+			$layoutRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dl_iponlyestate/Resources/Private/Layouts');
+			$partialRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dl_iponlyestate/Resources/Private/Partials');
+			$templatePathAndFilename = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dl_iponlyestate/Resources/Private/Partials/Report/GenericModalReport.html');
+			$extensionName = $this->request->getControllerExtensionName();
+			$ajaxRenderHtmlView = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager')->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
+			$ajaxRenderHtmlView->setLayoutRootPath($layoutRootPath);
+			$ajaxRenderHtmlView->setPartialRootPath($partialRootPath);
+			$ajaxRenderHtmlView->setTemplatePathAndFilename($templatePathAndFilename);
+			$ajaxRenderHtmlView->getRequest()->setControllerExtensionName($extensionName);
+			$ajaxRenderHtmlView->assign('report', $completeReportArr);
+			$this->data['report'] = 'getCompleteReport';
+			$this->data['response'] = $ajaxRenderHtmlView->render();
+			$this->status = TRUE;
+			$this->message = '';
+		}
+	}
+
+	public function getCriticalReport() {
+		$reportUid = $this->arguments['reportUid'];
+		$estateUid = $this->arguments['estateUid'];
+		if((int)$reportUid>0 && (int)$estateUid>0) {			
+			$report = $this->reportRepository->findByUid((int)$reportUid);
+			$estate = $this->estateRepository->findByUid((int)$estateUid);
+			$completeReportArr = ReportUtility::getCompleteReport($report, $estate);
+		}
+		if($completeReportArr) {
+			$layoutRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dl_iponlyestate/Resources/Private/Layouts');
+			$partialRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dl_iponlyestate/Resources/Private/Partials');
+			$templatePathAndFilename = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dl_iponlyestate/Resources/Private/Partials/Report/CriticalModalReport.html');
+			$extensionName = $this->request->getControllerExtensionName();
+			$ajaxRenderHtmlView = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager')->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
+			$ajaxRenderHtmlView->setLayoutRootPath($layoutRootPath);
+			$ajaxRenderHtmlView->setPartialRootPath($partialRootPath);
+			$ajaxRenderHtmlView->setTemplatePathAndFilename($templatePathAndFilename);
+			$ajaxRenderHtmlView->getRequest()->setControllerExtensionName($extensionName);
+			$ajaxRenderHtmlView->assign('report', $completeReportArr);
+			$this->data['report'] = 'getCriticalReport';
+			$this->data['response'] = $ajaxRenderHtmlView->render();
+			$this->status = TRUE;
+			$this->message = '';
+		}
+	}
+
+	public function getRemarkReport() {
+		$reportUid = $this->arguments['reportUid'];
+		$estateUid = $this->arguments['estateUid'];
+		if((int)$reportUid>0 && (int)$estateUid>0) {			
+			$report = $this->reportRepository->findByUid((int)$reportUid);
+			$estate = $this->estateRepository->findByUid((int)$estateUid);
+			$completeReportArr = ReportUtility::getCompleteReport($report, $estate);
+		}
+		if($completeReportArr) {
+			$layoutRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dl_iponlyestate/Resources/Private/Layouts');
+			$partialRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dl_iponlyestate/Resources/Private/Partials');
+			$templatePathAndFilename = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dl_iponlyestate/Resources/Private/Partials/Report/RemarkModalReport.html');
+			$extensionName = $this->request->getControllerExtensionName();
+			$ajaxRenderHtmlView = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager')->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
+			$ajaxRenderHtmlView->setLayoutRootPath($layoutRootPath);
+			$ajaxRenderHtmlView->setPartialRootPath($partialRootPath);
+			$ajaxRenderHtmlView->setTemplatePathAndFilename($templatePathAndFilename);
+			$ajaxRenderHtmlView->getRequest()->setControllerExtensionName($extensionName);
+			$ajaxRenderHtmlView->assign('report', $completeReportArr);
+			$this->data['report'] = 'getCriticalReport';
+			$this->data['response'] = $ajaxRenderHtmlView->render();
+			$this->status = TRUE;
+			$this->message = '';
+		}
+	}
+
+	public function getPurchaseReport() {
+		$reportUid = $this->arguments['reportUid'];
+		$estateUid = $this->arguments['estateUid'];
+		if((int)$reportUid>0 && (int)$estateUid>0) {			
+			$report = $this->reportRepository->findByUid((int)$reportUid);
+			$estate = $this->estateRepository->findByUid((int)$estateUid);
+			$completeReportArr = ReportUtility::getCompleteReport($report, $estate);
+		}
+		if($completeReportArr) {
+			$layoutRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dl_iponlyestate/Resources/Private/Layouts');
+			$partialRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dl_iponlyestate/Resources/Private/Partials');
+			$templatePathAndFilename = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dl_iponlyestate/Resources/Private/Partials/Report/PurchaseModalReport.html');
+			$extensionName = $this->request->getControllerExtensionName();
+			$ajaxRenderHtmlView = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager')->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
+			$ajaxRenderHtmlView->setLayoutRootPath($layoutRootPath);
+			$ajaxRenderHtmlView->setPartialRootPath($partialRootPath);
+			$ajaxRenderHtmlView->setTemplatePathAndFilename($templatePathAndFilename);
+			$ajaxRenderHtmlView->getRequest()->setControllerExtensionName($extensionName);
+			$ajaxRenderHtmlView->assign('report', $completeReportArr);
+			$this->data['report'] = 'getCriticalReport';
+			$this->data['response'] = $ajaxRenderHtmlView->render();
+			$this->status = TRUE;
+			$this->message = '';
+		}
+	}
+
+	public function getAllCompletedRemarksReport() {
+		$reportUid = $this->arguments['reportUid'];
+		$estateUid = $this->arguments['estateUid'];
+		if((int)$reportUid>0 && (int)$estateUid>0) {			
+			$report = $this->reportRepository->findByUid((int)$reportUid);
+			$estate = $this->estateRepository->findByUid((int)$estateUid);
+			$completeReportArr = ReportUtility::getCompleteReport($report, $estate);
+		}
+		if($completeReportArr) {
+			$layoutRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dl_iponlyestate/Resources/Private/Layouts');
+			$partialRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dl_iponlyestate/Resources/Private/Partials');
+			$templatePathAndFilename = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dl_iponlyestate/Resources/Private/Partials/Report/CompletedRemarksModalReport.html');
+			$extensionName = $this->request->getControllerExtensionName();
+			$ajaxRenderHtmlView = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager')->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
+			$ajaxRenderHtmlView->setLayoutRootPath($layoutRootPath);
+			$ajaxRenderHtmlView->setPartialRootPath($partialRootPath);
+			$ajaxRenderHtmlView->setTemplatePathAndFilename($templatePathAndFilename);
+			$ajaxRenderHtmlView->getRequest()->setControllerExtensionName($extensionName);
+			$ajaxRenderHtmlView->assign('report', $completeReportArr);
+			$this->data['report'] = 'getCriticalReport';
+			$this->data['response'] = $ajaxRenderHtmlView->render();
+			$this->status = TRUE;
+			$this->message = '';
+		}
+	}
+
 	/**
 	 * generateJsonReturnArray
 	 * Used to return result in a predefined way to calling javascript

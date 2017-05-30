@@ -148,6 +148,19 @@ class ReportedMeasurement extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
     
     /**
+     * Returns if measure is checked
+     *
+     * @return string $boolean
+     */
+    public function isChecked()
+    {
+        if($this->value != '') {
+            return TRUE;    
+        }
+        return FALSE;
+    }
+
+    /**
      * Sets the value
      *
      * @param string $value

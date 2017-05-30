@@ -32,43 +32,190 @@ namespace DanLundgren\DlIponlyestate\Utility;
  */
 class ReportUtility {
 
-    public static function adaptCurReportForOutput($reports) {    
-
+    public static function getCompleteReport($report=NULL, $estate=NULL) {    
+        $reportsArr = array();
+        if(!$report || !$estate) return $reportsArr;
+        $reportsArr['estateName'] = $estate->getName();
+        $reportsArr['estateUid'] = $estate->getUid();
+        $reportsArr['pageLink'] = $estate->getPageLink();
+        $reportsArr['reportUid'] = $report->getUid();
+        $reportsArr['reportName'] = $report->getName();
+        $reportsArr['nodeTypeName'] = $report->getNodeTypeName();
+        $reportsArr['dateVersion'] = $report->getDate()->format('Y-m-d').' Nr '.$report->getVersion();
+        $reportsArr['reportVersion'] = $report->getVersion();
+        $reportsArr['reportDate'] = $report->getDate()->format('Y-m-d');
+        $reportsArr['respTechnicianName'] = $report->getRespTechnicianName();
+        $reportsArr['execTechnicianName'] = $report->getExecTechnicianName();
+        $reportsArr['noOfCriticalRemarks'] = $report->getNoOfCriticalRemarks();
+        $reportsArr['getNoOfOk'] = $report->getNoOfOk();
+        $reportsArr['noOfRemarks'] = $report->getNoOfRemarks();
+        $reportsArr['noOfNotes'] = $report->getNoOfNotes();
+        $reportsArr['noOfPurchases'] = $report->getNoOfPurchases();
+        $reportsArr['noOfReportedMeasurements'] = $report->getNoOfReportedMeasurements();
+        $reportsArr['noOfQuestionsLeft'] = 0;
+        $reportsArr['allCheckedAndOk'] = FALSE;	
+        $noOfPostedMeasure = 0;
+        $noOfOngoingNotes = 0;
+        $noOfPostedNotes = 0;
+        $noOfOngoingNotes = 0;
+        $noOfQuestionsReported = 0;
+        $noOfQuestionsLeft = 0;
+        $noOfTotalNotesAndMeas = 0;
+        foreach($estate->getControlPoints() as $cp) {
+            $levelOneIdentifier = 'estate';
+            $levelTwoIdentifier = 'report';
+            $cpIdentifier = 'cp_'.$cp->getUid();
+            foreach($cp->getQuestions() as $q) {
+            	$noOfTotalNotesAndMeas +=1;
+                $questIdentifier = 'quest_'.$q->getUid();
+                $qIsReported = false;
+                foreach($report->getNotes() as $note) {
+                    $noteIdentifier = 'note_'.$note->getUid();
+                    if($note->getQuestion()->getUid() == $q->getUid()) {
+                        $qIsReported = true;
+                        $noOfQuestionsReported += 1;
+                        if($note->getIsComplete()) {
+                            $noOfPostedNotes+=1;
+                        }
+                        else {
+                            $noOfOngoingNotes+=1;
+                        }
+                        $reportsArr['noOfQuestionsReported'] = $noOfQuestionsReported;
+                        $reportsArr['noOfOngoingNotes'] = $noOfOngoingNotes;
+                        $reportsArr['noOfPostedNotes'] = $noOfPostedNotes;
+                        $reportsArr['controlPoints'][$cpIdentifier]['cpName'] = $note->getControlPoint()->getHeader();
+                        $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['type'] = 'note';
+                        $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionName'] = $note->getQuestion()->getHeader();
+                        $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['noteIsComplete'] = $note->getIsComplete();
+                        $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['comment'] = $note->getComment();
+                        $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['remarkType'] = $note->getRemarkType();
+                        $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['status'] = 'checked-'.$note->getRemarkType();                        
+                        //$reportsArr[$cpIdentifier]['image'] = $note->getImages();
+                        if($note->getImages() && $note->getImages()->getUid()>0) {
+                            $fileRefUidRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid_local', 'sys_file_reference', 'uid='.$note->getImages()->getUid());
+                            while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($fileRefUidRes)) {
+                                $uidLocal = $row['uid_local'];
+                                break;
+                            }
+                            $sysFileRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'sys_file', 'uid='.$uidLocal);
+                            while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($sysFileRes)) {
+                                $sysFile = $row;
+                                break;
+                            }
+                            if($sysFile && count($sysFile)>0) {
+                                $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['image'] = '/fileadmin/'.$sysFile['identifier'];
+                            }
+                        }
+                        //break;    
+                    }
+                }
+                if(!$qIsReported) {
+                    foreach($report->getReportedMeasurement() as $meas) {
+                        if($meas->getQuestion()->getUid() == $q->getUid()) {
+                            $noteIdentifier = 'meas_'.$meas->getUid();
+                            $noOfQuestionsReported += 1;
+                            $noOfPostedMeasure += 1;
+                            $qIsReported = true;
+                            $reportsArr['noOfPostedMeasure'] = $noOfPostedMeasure;
+                            $reportsArr['noOfQuestionsReported'] = $noOfQuestionsReported;
+                            $reportsArr['nodeTypeName'] = $report->getNodeTypeName();
+                            $reportsArr['dateVersion'] = $report->getDate()->format('Y-m-d').' Nr '.$report->getVersion();
+                            $reportsArr['respTechnicianName'] = $report->getRespTechnicianName();
+                            $reportsArr['execTechnicianName'] = $report->getExecTechnicianName();
+                            $reportsArr['controlPoints'][$cpIdentifier]['cpName'] = $meas->getControlPoint()->getHeader();
+							$reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['type'] = 'measure';
+                            $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionName'] = $meas->getQuestion()->getHeader();
+                            $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['measName'] = $meas->getName();
+                            $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['unit'] = $meas->getUnit();
+                            $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['value'] = $meas->getValue();
+                            $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['status'] = 'measure-checked';
+                            break;
+                        }
+                    }
+                }
+                if(!$qIsReported) {
+                    $noOfQuestionsLeft += 1;
+                    $reportsArr['noOfQuestionsLeft'] = $noOfQuestionsLeft;
+                    $reportsArr['controlPoints'][$cpIdentifier]['cpName'] = $cp->getHeader();
+                    $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionName'] = $q->getHeader();
+                    $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['status'] = 'not-checked';
+                    $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['message'] = 'Ej kontrollerad';
+                }
+            }
+        }
+        $reportsArr['noOfTotalNotesAndMeas']=$noOfTotalNotesAndMeas;
+        $reportsArr['allCheckedAndOk'] = FALSE;
+        $reportsArr['partlyCheckedAndOk'] = FALSE;
+        $reportsArr['newOrNotCheckedAtAll'] = FALSE;
+        if((int)$reportsArr['getNoOfOk']+(int)$reportsArr['noOfReportedMeasurements']==(int)$reportsArr['noOfTotalNotesAndMeas']) {
+        	$reportsArr['allCheckedAndOk'] = TRUE;	
+        }
+        if(
+        	((int)$reportsArr['getNoOfOk']+(int)$reportsArr['noOfReportedMeasurements']>0) &&
+        	((int)$reportsArr['getNoOfOk']+(int)$reportsArr['noOfReportedMeasurements']<(int)$reportsArr['noOfTotalNotesAndMeas'])) {
+        	$reportsArr['partlyCheckedAndOk'] = TRUE;	
+        }
+        if((int)$reportsArr['getNoOfOk']+(int)$reportsArr['noOfReportedMeasurements']==0) {
+        	$reportsArr['newOrNotCheckedAtAll'] = TRUE;	
+        }
+        return $reportsArr;
     }
     public static function adaptPostedReportsForOutput($reportsByEstates) {    
         if(count($reportsByEstates)<=0) {
             return NULL;
         }
-        $reportsArr = array();
-        foreach ($reportsByEstates as $reports) {
+        $reportsArr = array();        
+        foreach ($reportsByEstates as $objType) {
+            if($objType instanceof \DanLundgren\DlIponlyestate\Domain\Model\Estate) {
+                $estate = $objType;
+                $levelOneIdentifier = 'estate_'.$estate->getUid();
+                $reportsArr['level1'][$levelOneIdentifier]['estateName'] = $estate->getName();
+                $reportsArr['level1'][$levelOneIdentifier]['estateUid'] = $estate->getUid();
+                $reportsArr['level1'][$levelOneIdentifier]['pageLink'] = $estate->getPageLink();
+                $reportsArr['level1'][$levelOneIdentifier]['nodeTypeName'] = $estate->getNodeType()->getName();
+                $reportsArr['level1'][$levelOneIdentifier]['respTechnicianName'] = $estate->getRespTechnicianName();
+                $reportsArr['level1'][$levelOneIdentifier]['hasReports'] = 0;
+                continue;
+            }
+            //$reportsArr['level1']['hasReports'] = count($reports->getreport());            
             $noOfCompletedNotes = 0;
-            foreach($reports as $report) {
-                $levelOneIdentifier = 'report_'.$report->getUid();
+            foreach($objType as $report) {
+            	$noOfTotalNotesAndMeas = 0;
+            	$isAtLeastPartlyChecked = FALSE;
+            	foreach($report->getEstate()->getControlPoints() as $cp) {
+            		$noOfTotalNotesAndMeas += count($cp->getQuestions());
+            	}
+                $levelOneIdentifier = 'estate_'.$report->getEstate()->getUid();
+                $levelTwoIdentifier = 'report_'.$report->getUid();
+                $reportsArr['level1'][$levelOneIdentifier]['hasReports'] = count($objType);
+                if(count($report->getNotes())==0) {
+                    $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['hasNotes'] = count($report->getNotes());
+                }
+                $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['getNoOfOk'] = $report->getNoOfOk();
                 foreach($report->getNotes() as $note) {
+                	$isAtLeastPartlyChecked = TRUE;
                     if($note->getIsComplete()) {
                         $noOfCompletedNotes+=1;
-                    }
-                    $levelOneIdentifier = 'estate_'.$report->getEstate()->getUid();
-                    $levelTwoIdentifier = 'report_'.$report->getUid();
+                    }					
                     $levelThreeIdentifier = 'cp_'.$note->getControlPoint()->getUid();
-                    $levelFourIdentifier = 'quest_'.$note->getQuestion()->getUid();                
+                    $levelFourIdentifier = 'quest_'.$note->getQuestion()->getUid();                                    
                     $reportsArr['level1'][$levelOneIdentifier]['estateName'] = $report->getEstate()->getName();
                     $reportsArr['level1'][$levelOneIdentifier]['estateUid'] = $report->getEstate()->getUid();
+                    $reportsArr['level1'][$levelOneIdentifier]['pageLink'] = $report->getEstate()->getPageLink();
+                    $reportsArr['level1'][$levelOneIdentifier]['nodeTypeName'] = $report->getEstate()->getNodeType()->getName();
+                    $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['hasNotes'] = count($report->getNotes());
                     $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['reportUid'] = $report->getUid();
                     $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['reportName'] = $report->getName();
-                    $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['nodeTypeName'] = $report->getNodeTypeName();
+                    $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['nodeTypeName'] = $report->getEstate()->getNodeType()->getName();
                     $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['dateVersion'] = $report->getDate()->format('Y-m-d').' Nr '.$report->getVersion();
-                    $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['respTechnicianName'] = $report->getRespTechnicianName();
+                    $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['respTechnicianName'] = $report->getEstate()->getRespTechnicianName();
                     $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['noOfCriticalRemarks'] = $report->getNoOfCriticalRemarks();
                     $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['noOfRemarks'] = $report->getNoOfRemarks();
-                    $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['noOfCompletedNotes'] = $noOfCompletedNotes;
+                    $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['noOfCompletedNotes'] = $report->getAllCompletedNotes();
                     $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['execTechnicianName'] = $report->getExecTechnicianName();
                     $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['noOfNotes'] = $report->getNoOfNotes();
                     $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['noOfPurchases'] = $report->getNoOfPurchases();
-
-
                     $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['cpName'] = $note->getControlPoint()->getHeader();
-
                     $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['level4'][$levelFourIdentifier]['questionName'] = $note->getQuestion()->getHeader();
                     $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['level4'][$levelFourIdentifier]['comment'] = $note->getComment();
                     $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['level4'][$levelFourIdentifier]['remarkType'] = $note->getRemarkType();
@@ -91,9 +238,25 @@ class ReportUtility {
                 }
                 $noOfMeasurements = 0;
                 foreach($report->getReportedMeasurement() as $measurement) {
+                	$isAtLeastPartlyChecked = TRUE;
                     $noOfMeasurements+=1;
                 }
                 $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['noOfMeasurements'] = $noOfMeasurements;
+		        $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['noOfTotalNotesAndMeas']=$noOfTotalNotesAndMeas;
+		        $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['allCheckedAndOk'] = FALSE;
+		        $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['partlyCheckedAndOk'] = FALSE;
+		        $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['newOrNotCheckedAtAll'] = FALSE;
+
+		        $tmpNoOfOk = $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['getNoOfOk'];
+		        if((int)$tmpNoOfOk+(int)$noOfMeasurements==(int)$noOfTotalNotesAndMeas) {
+		        	$reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['allCheckedAndOk'] = TRUE;	
+		        }
+		        else if($isAtLeastPartlyChecked) {
+		        	$reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['partlyCheckedAndOk'] = TRUE;	
+		        }
+		        else if(!$isAtLeastPartlyChecked) {
+		        	$reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['newOrNotCheckedAtAll'] = TRUE;	
+		        }
             }
         }
         return $reportsArr;
@@ -113,6 +276,7 @@ class ReportUtility {
                 $reportsArr['level1'][$levelOneIdentifier]['reportName'] = $report->getName();
                 $reportsArr['level1'][$levelOneIdentifier]['estateName'] = $report->getEstate()->getName();
                 $reportsArr['level1'][$levelOneIdentifier]['estateUid'] = $report->getEstate()->getUid();
+                $reportsArr['level1'][$levelOneIdentifier]['pageLink'] = $report->getEstate()->getPageLink();
                 $reportsArr['level1'][$levelOneIdentifier]['nodeTypeName'] = $report->getNodeTypeName();
                 $reportsArr['level1'][$levelOneIdentifier]['dateVersion'] = $report->getDate()->format('Y-m-d').' Nr '.$report->getVersion();
                 $reportsArr['level1'][$levelOneIdentifier]['respTechnicianName'] = $report->getRespTechnicianName();

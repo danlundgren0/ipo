@@ -20,14 +20,14 @@ return array(
 			'starttime' => 'starttime',
 			'endtime' => 'endtime',
 		),
-		'searchFields' => 'name,estate_description,adress,image,postal_code,city,width,length,door_position,latitude,longitude,responsible_technician,control_points,node_type,',
+		'searchFields' => 'name,estate_description,page_link,adress,image,postal_code,city,width,length,door_position,latitude,longitude,responsible_technician,control_points,node_type,',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('dl_iponlyestate') . 'Resources/Public/Icons/tx_dliponlyestate_domain_model_estate.gif'
 	),
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, estate_description, adress, image, postal_code, city, width, length, door_position, latitude, longitude, responsible_technician, control_points, node_type',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, estate_description, page_link, adress, image, postal_code, city, width, length, door_position, latitude, longitude, responsible_technician, control_points, node_type',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, estate_description;;;richtext:rte_transform[mode=ts_links], adress, image, postal_code, city, width, length, door_position, latitude, longitude, responsible_technician, control_points, node_type, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, estate_description;;;richtext:rte_transform[mode=ts_links], page_link, adress, image, postal_code, city, width, length, door_position, latitude, longitude, responsible_technician, control_points, node_type, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -150,6 +150,15 @@ return array(
 						'type' => 'script'
 					)
 				)
+			),
+		),
+		'page_link' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_estate.page_link',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
 			),
 		),
 		'adress' => array(

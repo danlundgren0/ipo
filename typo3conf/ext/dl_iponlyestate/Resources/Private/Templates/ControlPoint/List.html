@@ -23,6 +23,11 @@ Otherwise your changes will be overwritten the next time you save the extension 
 			<f:translate key="label.errorMess.{errorCode}"></f:translate>
 		</div>
 	</f:if>
+	  <f:if condition="{isValid}==0">
+		<div class="alert alert-danger" role="alert">
+			{ErrMess}
+		</div>
+	  </f:if>
 <div class="col-md-12">
     <div class="row">		
 		<div class="col-md-12">

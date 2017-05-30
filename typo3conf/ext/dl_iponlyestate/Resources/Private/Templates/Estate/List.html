@@ -16,6 +16,11 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 
 <f:flashMessages />
+  <f:if condition="{isValid}==0">
+    <div class="alert alert-danger" role="alert">
+      {ErrMess}
+    </div>
+  </f:if>
 
   <div class="col-md-12 estate-container">
     <div class="row">

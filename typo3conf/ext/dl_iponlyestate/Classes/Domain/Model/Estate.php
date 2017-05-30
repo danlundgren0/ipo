@@ -131,6 +131,13 @@ class Estate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $nodeType = null;
     
     /**
+     * pageLink
+     *
+     * @var string
+     */
+    protected $pageLink = '';
+    
+    /**
      * __construct
      */
     public function __construct()
@@ -415,6 +422,17 @@ class Estate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         return $this->responsibleTechnician;
     }
     
+    public function getRespTechnicianName()
+    {
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+        $techRepository = $objectManager->get('TYPO3\\CMS\\Extbase\\Domain\\Repository\\FrontendUserRepository');
+        $tech = $techRepository->findByUid($this->responsibleTechnician);
+        if ($tech) {
+            return $tech->getName();
+        }
+        return 'Tekniker saknas på fastigheten';
+    }
+
     /**
      * Sets the responsibleTechnician
      *
@@ -466,6 +484,27 @@ class Estate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setNodeType(\DanLundgren\DlIponlyestate\Domain\Model\NodeType $nodeType)
     {
         $this->nodeType = $nodeType;
+    }
+    
+    /**
+     * Returns the pageLink
+     *
+     * @return string $pageLink
+     */
+    public function getPageLink()
+    {
+        return $this->pageLink;
+    }
+    
+    /**
+     * Sets the pageLink
+     *
+     * @param string $pageLink
+     * @return void
+     */
+    public function setPageLink($pageLink)
+    {
+        $this->pageLink = $pageLink;
     }
 
 }

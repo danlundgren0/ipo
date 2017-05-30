@@ -1,0 +1,63 @@
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+<f:if condition="{report.allCheckedAndOk}">
+	<v:variable.set name="reportColor" value="allCpIsOk" />	
+</f:if>
+<f:if condition="{report.newOrNotCheckedAtAll}">
+	<v:variable.set name="reportColor" value="noChecksDone" />	
+</f:if>
+<f:if condition="{report.partlyCheckedAndOk}">
+	<v:variable.set name="reportColor" value="remarksExists" />	
+</f:if>	
+<f:if condition="{report.noOfCriticalRemarks}>0">
+	<v:variable.set name="criticalColor" value="criticalColor" />	
+</f:if>
+<f:if condition="{report.noOfRemarks}>0">
+	<v:variable.set name="remarkColor" value="remarkColor" />	
+</f:if>
+<f:if condition="{report.noOfPurchases}>0">
+	<v:variable.set name="purchaseColor" value="purchaseColor" />	
+</f:if>
+<f:if condition="{report.noOfCompletedNotes}>0">
+	<v:variable.set name="completedNotesColor" value="completedNotesColor" />	
+</f:if>	
+<div class="old-reports {v:variable.get(name: 'reportColor')} headerIt.index-{headerIt.index} headerIt.isLast-{headerIt.isLast}" data-report="{report.reportUid}"  data-estate="{estate.estateUid}">
+	<div class="col-md-1 handle"></div>
+	<div class="col-md-1">{report.nodeTypeName}</div>
+	<div class="col-md-1">{estate.estateName}</div>
+	<div class="col-md-1">
+		<a data-report="{report.reportUid}" data-estate="{estate.estateUid}" data-method="getCompleteReport" class="show-more estate-link" data-toggle="modal" data-target="#genericModalReport">	{report.dateVersion}
+		</a>
+	</div>
+	<div class="col-md-1">{report.respTechnicianName}</div>
+	<div class="col-md-1">
+		<a data-report="{report.reportUid}" data-estate="{estate.estateUid}" data-method="getCriticalReport" class="show-more estate-link" data-toggle="modal" data-target="#criticalModalReport">
+    		<div class="square {v:variable.get(name: 'criticalColor')}">
+    			{report.noOfCriticalRemarks}
+    		</div>
+		</a>
+	</div>
+	<div class="col-md-1">
+		<a data-report="{report.reportUid}" data-estate="{estate.estateUid}" data-method="getRemarkReport" class="show-more estate-link" data-toggle="modal" data-target="#remarkModalReport">
+    		<div class="square  {v:variable.get(name: 'remarkColor')}">
+    			{report.noOfRemarks}
+    		</div>
+		</a>
+	</div>
+	<div class="col-md-1">
+		<a data-report="{report.reportUid}" data-estate="{estate.estateUid}" data-method="getAllCompletedRemarksReport" class="show-more estate-link" data-toggle="modal" data-target="#getAllCompletedRemarksReport">
+			<div class="square {v:variable.get(name: 'completedNotesColor')}">
+				{report.noOfCompletedNotes}
+			</div>
+		</a>
+	</div>
+	<div class="col-md-1">{report.execTechnicianName}</div>
+	<div class="col-md-1">
+		<a data-report="{report.reportUid}" data-estate="{estate.estateUid}" data-method="getPurchaseReport" class="show-more estate-link" data-toggle="modal" data-target="#purchaseModalReport">
+    		<div class="square {v:variable.get(name: 'purchaseColor')}">
+    			{report.noOfPurchases}
+    		</div>
+		</a>
+	</div>
+	<div class="col-md-1"></div>
+	<div class="col-md-1"></div>
+</div>

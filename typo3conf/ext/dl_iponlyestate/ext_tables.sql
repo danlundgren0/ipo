@@ -8,6 +8,7 @@ CREATE TABLE tx_dliponlyestate_domain_model_estate (
 
 	name varchar(255) DEFAULT '' NOT NULL,
 	estate_description text NOT NULL,
+	page_link varchar(255) DEFAULT '' NOT NULL,
 	adress varchar(255) DEFAULT '' NOT NULL,
 	image int(11) unsigned NOT NULL default '0',
 	postal_code varchar(255) DEFAULT '' NOT NULL,

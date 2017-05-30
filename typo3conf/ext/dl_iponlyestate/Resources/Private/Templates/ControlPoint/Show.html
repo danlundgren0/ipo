@@ -13,6 +13,12 @@ in /Configuration/ExtensionBuilder/settings.yaml:
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
 
 <f:section name="main">
+	<f:debug>isValid: {isValid}</f:debug>
+    <f:if condition="{isValid}==0">
+    <div class="alert alert-danger" role="alert">
+      ErrMess: {ErrMess}
+    </div>
+    </f:if>
 <input type="hidden" id="reportPid" value="{reportPid}" />
 <div class="contaier">
   <f:if condition="{errorCode}!=''">

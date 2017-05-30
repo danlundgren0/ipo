@@ -59,6 +59,16 @@
                             "propertyDescription": "",
                             "propertyIsExcludeField": true,
                             "propertyIsRequired": false,
+                            "propertyName": "pageLink",
+                            "propertyType": "String",
+                            "uid": "946889675580"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
                             "propertyName": "adress",
                             "propertyType": "String",
                             "uid": "104107388653"
@@ -1346,7 +1356,7 @@
         }
     ],
     "log": {
-        "last_modified": "2017-05-04 05:45",
+        "last_modified": "2017-05-15 06:39",
         "extension_builder_version": "7.6.0",
         "be_user": " (1)"
     }

@@ -112,13 +112,17 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * @inject
      */
     protected $technicianRepository = NULL;
-
+    
+    /**
+     * @param $a
+     * @param $b
+     */
     public function cmp($a, $b)
     {
         if ($a->getUid() == $b->getUid()) {
             return 0;
         }
-        return ($a->getUid() > $b->getUid()) ? -1 : 1;
+        return $a->getUid() > $b->getUid() ? -1 : 1;
     }
     
     /**
@@ -128,19 +132,43 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      */
     public function listAction()
     {
+        $report = $this->reportRepository->findByUid(52);
+        $report2 = $this->reportRepository->findByUid(53);
+        $estate = $this->estateRepository->findByUid(25);
+        $completeReportArr = ReportUtil::getCompleteReport($report, $estate);
+        $completeReportArr2 = ReportUtil::getCompleteReport($report2, $estate);
+/*\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
+ array(
+  'class' => __CLASS__,
+  'function' => __FUNCTION__,
+  'completeReportArr' => $completeReportArr,
+  'completeReportArr controlPoints' => $completeReportArr['controlPoints'],
+  //'completeReportArr2' => $completeReportArr2,
+  //'completeReportArr2 controlPoints' => $completeReportArr2['controlPoints'],
+ )
+);*/
+
         $arguments = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('tx_dliponlyestate_reportsearch');
-        if($arguments) {
-            $searchCriterias = new \DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias(
-                $arguments['fromDate'],
-                $arguments['endDate'],
-                $arguments['nodeTypes'],
-                $arguments['estates'],
-                $arguments['cities'],
-                $arguments['notes'],
-                $arguments['technicians'],
-                $arguments['freeSearch']
-            );
+        if ($arguments) {
+            $searchCriterias = new \DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias($arguments['fromDate'], $arguments['endDate'], $arguments['nodeTypes'], $arguments['estates'], $arguments['cities'], $arguments['notes'], $arguments['technicians'], $arguments['freeSearch']);
             $searchResults = $this->reportRepository->searchReports($searchCriterias);
+            $allEstates = $this->estateRepository->findAll();
+            foreach($allEstates as $estate) {
+                if(!array_key_exists($estate->getUid(),$searchResults)) {
+                    $searchResults[$estate->getUid()] = $estate;
+                }
+            }
+            $latestReports = ReportUtil::adaptPostedReportsForOutput($searchResults);
+        }
+        else {
+            $searchCriterias = new \DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias();
+            $searchResults = $this->reportRepository->searchReports($searchCriterias);
+            $allEstates = $this->estateRepository->findAll();
+            foreach($allEstates as $estate) {
+                if(!array_key_exists($estate->getUid(),$searchResults)) {
+                    $searchResults[$estate->getUid()] = $estate;
+                }
+            }
             $latestReports = ReportUtil::adaptPostedReportsForOutput($searchResults);
         }
         $this->view->assign('latestReports', $latestReports);
@@ -153,7 +181,6 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      */
     public function searchAction()
     {
-    	
         $arguments = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('tx_dliponlyestate_reportsearch');
         $this->view->assign('arguments', $arguments);
         $this->view->assign('estates', $this->getEstates());
@@ -237,9 +264,9 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     public function getEstates()
     {
         $estates = $this->estateRepository->findAll();
-        $estatesArr = array('-1'=>'Alla');
-        foreach($estates as $estate) {
-            $estatesArr[$estate->getUid()] = $estate->getName();    
+        $estatesArr = array('-1' => 'Alla');
+        foreach ($estates as $estate) {
+            $estatesArr[$estate->getUid()] = $estate->getName();
         }
         return $estatesArr;
     }
@@ -258,9 +285,9 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     {
         $nodeTypes = $this->nodeTypeRepository->findAll();
         //$nodeTypesArr['-1'] = 'Alla';
-        $nodeTypesArr = array('-1'=>'Alla');
-        foreach($nodeTypes as $nodeType) {
-            $nodeTypesArr[$nodeType->getUid()] = $nodeType->getName();    
+        $nodeTypesArr = array('-1' => 'Alla');
+        foreach ($nodeTypes as $nodeType) {
+            $nodeTypesArr[$nodeType->getUid()] = $nodeType->getName();
         }
         return $nodeTypesArr;
     }
@@ -268,15 +295,12 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     public function getNotes()
     {
         $notes = array();
-        $notes[0]='Alla';
-        $notes[1]='Ok';
-        $notes[2]='Kritiska';
-        $notes[3]='Anmärkningar';
-        $notes[4]='Inköp/Meddelanden';
+        $notes[0] = 'Alla';
+        $notes[1] = 'Ok';
+        $notes[2] = 'Kritiska';
+        $notes[3] = 'Anmärkningar';
+        $notes[4] = 'Inköp/Meddelanden';
         return $notes;
-        //$notes = $this->noteRepository->findAll();
-        //$notesArr = array_merge(array('*' => 'Alla'), $notes->toArray());
-        //return $notesArr;
     }
     
     public function getQuestions()

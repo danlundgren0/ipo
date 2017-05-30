@@ -1,0 +1,35 @@
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+<f:for each="{estate.level2}" as="report" iteration="headerIt">
+	<f:if condition="{headerIt.index}=='0'">
+		<f:then>
+	    	
+	    		<f:render partial="Report/EstateLatestReport" arguments="{_all}" />	    		
+	    </f:then>
+	    <f:else>
+	    	<f:if condition="{headerIt.index}==1">
+			    <div id="report-{estate.estateUid}-1-history" class="report-history panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+			    	<div class="panel-body">
+		    </f:if>
+			<f:if condition="{headerIt.index}==5">
+				<div class="show-more-link">
+					<a role="button" data-action="hideme" data-toggle="collapse" data-parent="#accordion" href="#report-{estate.estateUid}-2-history" aria-expanded="true" aria-controls="report-{estate.estateUid}-2-history">Visa alla</a>
+					<span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+				</div>
+			    		<div id="report-{estate.estateUid}-2-history" class="report-history panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+			    			<div class="panel-body">
+			</f:if>
+			<f:if condition="{headerIt.index}>=1">
+				<f:render partial="Report/EstateOldReports" arguments="{_all}" />	
+			</f:if>
+			<f:if condition="{headerIt.isLast}">
+					<f:if condition="{headerIt.index}>=5">
+				      		</div> <!-- End 2nd .panel-body -->
+				    	</div> <!-- End 2nd .collapse -->
+					</f:if>	
+			      	</div> <!-- End 1st .panel-body -->
+			    </div> <!-- End 1st .collapse -->
+			
+	    	</f:if>
+	    </f:else>
+    </f:if>
+</f:for>

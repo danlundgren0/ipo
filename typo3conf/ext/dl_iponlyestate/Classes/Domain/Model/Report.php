@@ -529,9 +529,69 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getNoOfCriticalRemarks()
     {
-        return $this->noOfCriticalRemarks;
+        $no = 0;
+        foreach($this->getNotes() as $note) {
+            if($note->getState()==2 && !$note->getIsComplete()) {
+                $no += 1;
+            }
+        }
+        return $no;
+    }
+
+    /**
+     * Returns the NoOfOk
+     *
+     * @return int $no
+     */
+    public function getNoOfOk()
+    {
+        $no = 0;
+        foreach($this->getNotes() as $note) {
+            if($note->getState()==1) {
+                $no += 1;
+            }
+        }
+        return $no;
+    }
+
+    /**
+     * Returns the NoOfReportedMeasurements
+     *
+     * @return int $no
+     */
+    public function getNoOfReportedMeasurements()
+    {
+        $no = 0;
+        foreach($this->getReportedMeasurement() as $meas) {
+            if($meas->isChecked()) {
+                $no += 1;
+            }
+        }
+        return $no;
+    }
+
+    /**
+     * Returns the NoOfReportedMeasurements
+     *
+     * @return int $no
+     */
+    public function getTotalNoOfReportedMeasurements()
+    {
+        $no = 0;
+        foreach($this->getReportedMeasurement() as $meas) {
+            $no += 1;
+        }
+        return $no;
     }
     
+    public function isAllNotesOk()
+    {
+        if($this->getNoOfNotes()==$this->getNoOfOk()) {
+            return TRUE;
+        }
+        return FALSE;
+    }    
+
     /**
      * Sets the noOfCriticalRemarks
      *
@@ -542,6 +602,22 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->noOfCriticalRemarks = $noOfCriticalRemarks;
     }
+
+    /**
+     * Returns the noOfRemarks
+     *
+     * @return int $noOfRemarks
+     */
+    public function getAllCompletedNotes()
+    {
+        $no = 0;
+        foreach($this->getNotes() as $note) {
+            if(($note->getState()==2 || $note->getState()==3 || $note->getState()==4) && $note->getIsComplete()) {
+                $no += 1;
+            }
+        }
+        return $no;
+    }    
     
     /**
      * Returns the noOfRemarks
@@ -550,7 +626,45 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getNoOfRemarks()
     {
-        return $this->noOfRemarks;
+        $no = 0;
+        foreach($this->getNotes() as $note) {
+            if($note->getState()==3 && !$note->getIsComplete()) {
+                $no += 1;
+            }
+        }
+        return $no;
+    }
+
+    /**
+     * Returns the getNoOfAllRemarks
+     *
+     * @return int $noOfRemarks
+     */
+    public function getNoOfAllRemarks()
+    {
+        $no = 0;
+        foreach($this->getNotes() as $note) {
+            if($note->getState()==3) {
+                $no += 1;
+            }
+        }
+        return $no;
+    }
+
+    /**
+     * Returns the getNoCompletedRemarks
+     *
+     * @return int $noOfRemarks
+     */
+    public function getNoCompletedRemarks()
+    {
+        $no = 0;
+        foreach($this->getNotes() as $note) {
+            if($note->getIsComplete()) {
+                $no += 1;
+            }
+        }
+        return $no;
     }
     
     /**
@@ -571,7 +685,14 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getNoOfOldRemarks()
     {
-        return $this->noOfOldRemarks;
+        $no = 0;
+        foreach($this->getNotes() as $note) {
+            if($note->getIsComplete()) {
+                $no += 1;
+            }
+        }
+        return $no;
+        //return $this->noOfOldRemarks;
     }
     
     /**
@@ -592,7 +713,8 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getNoOfNotes()
     {
-        return $this->noOfNotes;
+        $no = count($this->getNotes());
+        return ($no>0)?$no:0;
     }
     
     /**
@@ -623,7 +745,13 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getNoOfPurchases()
     {
-        return $this->noOfPurchases;
+        $no = 0;
+        foreach($this->getNotes() as $note) {
+            if($note->getState()==4 && !$note->getIsComplete()) {
+                $no += 1;
+            }
+        }
+        return $no;
     }
     
     /**
