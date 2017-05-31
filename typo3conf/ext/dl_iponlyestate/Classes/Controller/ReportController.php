@@ -132,33 +132,25 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      */
     public function listAction()
     {
+        /*        
         $report = $this->reportRepository->findByUid(52);
         $report2 = $this->reportRepository->findByUid(53);
         $estate = $this->estateRepository->findByUid(25);
         $completeReportArr = ReportUtil::getCompleteReport($report, $estate);
         $completeReportArr2 = ReportUtil::getCompleteReport($report2, $estate);
-/*\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
- array(
-  'class' => __CLASS__,
-  'function' => __FUNCTION__,
-  'completeReportArr' => $completeReportArr,
-  'completeReportArr controlPoints' => $completeReportArr['controlPoints'],
-  //'completeReportArr2' => $completeReportArr2,
-  //'completeReportArr2 controlPoints' => $completeReportArr2['controlPoints'],
- )
-);*/
-
+        */
+        $reportsByEstate = array();
         $arguments = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('tx_dliponlyestate_reportsearch');
         if ($arguments) {
             $searchCriterias = new \DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias($arguments['fromDate'], $arguments['endDate'], $arguments['nodeTypes'], $arguments['estates'], $arguments['cities'], $arguments['notes'], $arguments['technicians'], $arguments['freeSearch']);
             $searchResults = $this->reportRepository->searchReports($searchCriterias);
             $allEstates = $this->estateRepository->findAll();
             foreach($allEstates as $estate) {
-                if(!array_key_exists($estate->getUid(),$searchResults)) {
-                    $searchResults[$estate->getUid()] = $estate;
+                if(array_key_exists($estate->getUid(),$searchResults)) {
+                    $reportsByEstate[$estate->getUid()] = $estate;
                 }
             }
-            $latestReports = ReportUtil::adaptPostedReportsForOutput($searchResults);
+            $latestReports = ReportUtil::adaptPostedReportsForOutput($reportsByEstate);
         }
         else {
             $searchCriterias = new \DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias();
@@ -166,10 +158,11 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
             $allEstates = $this->estateRepository->findAll();
             foreach($allEstates as $estate) {
                 if(!array_key_exists($estate->getUid(),$searchResults)) {
-                    $searchResults[$estate->getUid()] = $estate;
+                    $reportsByEstate[$estate->getUid()] = $estate;
                 }
             }
             $latestReports = ReportUtil::adaptPostedReportsForOutput($searchResults);
+
         }
         $this->view->assign('latestReports', $latestReports);
     }
