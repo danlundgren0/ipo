@@ -13,7 +13,6 @@ in /Configuration/ExtensionBuilder/settings.yaml:
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
 
 <f:section name="main">
-	<f:debug>isValid: {isValid}</f:debug>
     <f:if condition="{isValid}==0">
     <div class="alert alert-danger" role="alert">
       ErrMess: {ErrMess}
@@ -33,6 +32,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
         <h1>{controlPoint.header}</h1>
         <div>{controlPoint.description}</div>
         <input type="hidden" value="{controlPoint.uid}" id="cpUid" />
+        <input type="hidden" name="execScrollMobile" value="{execScrollMobile}" />
         <input id="imgupload" type="hidden" name="imgupload" value="{imgupload}" />
       </div>
       <div class="col-md-6">
@@ -40,7 +40,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
       </div>
     </div>
     <div class="tab-container">
-      <ul class="nav nav-tabs" role="tablist">
+      <ul class="nav nav-tabs responsive" role="tablist">
         <!-- Loop tabs and set color based on remark type -->
         <f:for each="{controlPoint.questions}" as="question" iteration="tIt">
           <v:variable.set name="noteColor" value="" />          
@@ -172,7 +172,9 @@ Otherwise your changes will be overwritten the next time you save the extension 
                         <div style="clear:both;"></div>
                       </div>
                     <div class="col-md-4">
-                      <img src="{question.image.originalResource.publicUrl}" width="554" height="332" class="img-responsive" />
+                      <f:if condition="{question.image.originalResource.publicUrl}">
+                        <img src="{question.image.originalResource.publicUrl}" width="554" height="332" class="img-responsive" />
+                      </f:if>
                     </div>
                   </div></div> <!-- tabpanel end-div -->
             </f:if>     

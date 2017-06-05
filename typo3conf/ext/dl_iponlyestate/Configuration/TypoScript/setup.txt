@@ -139,6 +139,7 @@ page.includeCSS.vajer2 = EXT:dl_iponlyestate/Resources/Public/Css/vajer.css
 page.includeJSFooter.js_jqueryui = EXT:dl_iponlyestate/Resources/Public/Js/jquery-ui.min.js
 page.includeJSFooter.sticky = EXT:dl_iponlyestate/Resources/Public/Js/jquery.sticky.js
 page.includeCSS.css_jqueryui = EXT:dl_iponlyestate/Resources/Public/Css/jquery-ui.min.css
+page.includeJSFooter.fakewaffle = EXT:dl_iponlyestate/Resources/Public/Js/responsive-tabs.js
 
 
 #/var/www/iponly/typo3conf/ext/dl_iponlyestate/Resources/Public/Js

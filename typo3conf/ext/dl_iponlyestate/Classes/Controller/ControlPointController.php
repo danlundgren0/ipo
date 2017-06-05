@@ -169,6 +169,7 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
         $imgupload = 0;
         if(count($arguments)>0) {
             //Action,Controller,ExtensionName, arguments
+            $this->view->assign('execScrollMobile', $arguments['scrollToId']);
             $questionUidWithPhoto = (int)$arguments['questionuid'];            
             $note = $this->saveNote($arguments, $estate);
             $uploadStatus = $this->uploadAction($arguments, $note, $estate);

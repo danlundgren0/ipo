@@ -191,8 +191,19 @@ DanL.Note = {
             $(me).closest('.noteContainer').find('[name="tx_dliponlyestate_cp[noteuid]"]').val(data.data['noteUid']);
             $(me).closest('.noteContainer').find('[name="tx_dliponlyestate_cp[notever]"]').val(data.data['curVer']);
             $(me).closest('.noteContainer').find('[name="tx_dliponlyestate_cp[notestate]"]').val(data.data['noteState']);
-            $('[aria-controls="uid_'+questUid+'"]').prop('class','');
-            $('[aria-controls="uid_'+questUid+'"]').addClass('color_'+noteState);
+            if($(me).closest('.panel-collapse').prev('.panel-heading').length>0) {
+                $(me).closest('.panel-collapse').prev('div').prop('class','');
+                $(me).closest('.panel-collapse').prev('div').addClass('panel-heading');
+                $(me).closest('.panel-collapse').prev('.panel-heading').addClass('color_'+noteState);
+                $(me).closest('.panel-collapse').prev('.panel-heading').find('a').prop('class','');
+                $(me).closest('.panel-collapse').prev('.panel-heading').find('a').addClass('accordion-toggle');
+                $(me).closest('.panel-collapse').prev('.panel-heading').find('a').addClass('color_'+noteState);
+            }
+            else {
+                $('[aria-controls="uid_'+questUid+'"]').prop('class','');
+                $('[aria-controls="uid_'+questUid+'"]').addClass('color_'+noteState);
+            }
+
             $(me).addClass('disabled');
             $('.link-to-list-button').removeClass('hidden');
 		}).fail(function( jqXHR, textStatus, errorThrown ) {
@@ -413,18 +424,37 @@ DanL.Note = {
     },
     scrollToTabs: function() {
     	if($('#imgupload').length>0 && $('#imgupload').val()=='1') {
-			var $container = $("html,body");
-			var $scrollTo = $('.tab-container');
-			$container.animate({scrollTop: $scrollTo.offset().top - $container.offset().top, scrollLeft: 0},500);
+            var execScrollMobile = $('body').find('[name="execScrollMobile"]').val();
+            if(execScrollMobile!='-1') {
+                var $container = $("html,body");
+                var $scrollTo = $('#'+execScrollMobile);
+                console.log(execScrollMobile);                
+                console.log($scrollTo.scrollTop());
+                console.log($scrollTo);
+                console.log($scrollTo.offset().top);
+                console.log($container.offset().top);
+                $container.animate({scrollTop: $scrollTo.offset().top},1);
+            }
+            else {
+                var $container = $("html,body");
+                var $scrollTo = $('.tab-container');
+                $container.animate({scrollTop: $scrollTo.offset().top - $container.offset().top, scrollLeft: 0},500);
+            }
+
     	}
 		//$('html, body').animate({scrollTop: $('#contact').offset().top -100 }, 'slow');
     }
 }
-$(function() {   
+$(function() { 
+    fakewaffle.responsiveTabs(['xs']);  
     //$('[role="presentation"]').find('a.disabled').on('click', function(event){
 	$('.upload-btn').change(function (){
 		//var fileName = $(this).val();		
 		//var filename = $(this).val().split('\\').pop();
+        var scrollToId = $(this).closest('.panel-body').prop('id');
+        console.log('scrollToId: '+scrollToId);
+        console.log('scrollToId: '+scrollToId);
+        $(this).closest('.panel-body').find('[name="tx_dliponlyestate_cp[scrollToId]"]').val(scrollToId);
 		var fileName = $(this).val().replace(/.*(\/|\\)/, '');
         console.log('fileName');
         console.log(fileName);
@@ -505,6 +535,8 @@ $(function() {
     $('.panel-collapse').on('hidden.bs.collapse', function () {
         $table.isotope('layout');
     })
+    $('.panel-group').find('.collapse').addClass('in');
+    $('.accordion-toggle').off();
     //DropDown Nav
     //$('.nav .dropdown.active.open .dropdown-menu>li>a').on('click', function(event) {
     /*

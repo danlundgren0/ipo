@@ -476,3 +476,22 @@ body .posted-note-container .checkbox input {
 .btn-ip-post-report {
 
 }
+
+@media screen and (max-width: 767px) {
+    .panel-group .fade {
+        opacity:1 !important;
+    }
+    .accordion-toggle {
+        padding: 10px 15px;
+        display: block;
+    }
+    .panel-heading {
+        padding: 0 !important;
+    }
+}
+@media screen and (max-width: 458px) {
+    .add-photo-btn {
+        width: 100%;
+        margin: 10px 0;
+    }
+}

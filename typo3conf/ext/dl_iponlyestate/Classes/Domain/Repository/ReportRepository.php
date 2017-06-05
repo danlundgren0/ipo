@@ -59,7 +59,7 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         }
         if ($searchCriterias->getNoteType() > 0) {
             //$where .= $and." reports.notes IN (SELECT note.state FROM tx_dliponlyestate_domain_model_note note WHERE note.state = '".$searchCriterias->getNoteType()."' and reports.uid = note.report)";
-            $where .= $and . ' note.state = ' . $searchCriterias->getNoteType() . ' AND reports.uid = note.report AND note.deleted=0 AND note.hidden=0 ';
+            $where .= $and . ' note.state = ' . $searchCriterias->getNoteType() . ' AND reports.uid = note.report AND note.is_complete=0 AND note.deleted=0 AND note.hidden=0 ';
             $from = 'tx_dliponlyestate_domain_model_report reports, fe_users fe_user, tx_dliponlyestate_domain_model_note note, tx_dliponlyestate_domain_model_estate estate ';
             //$where .= $and." note.state = ".$searchCriterias->getNoteType();
             $and = ' AND ';
@@ -87,7 +87,7 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             	}*/
         
         if ($searchCriterias->getNodeType() > 0) {
-            $where .= $and . ' reports.node_type=' . $searchCriterias->getNodeType();
+            $where .= $and . ' estate.node_type=' . $searchCriterias->getNodeType();
             $from = 'tx_dliponlyestate_domain_model_report reports, fe_users fe_user, tx_dliponlyestate_domain_model_note note, tx_dliponlyestate_domain_model_estate estate ';
             $and = ' AND ';
         }
@@ -101,6 +101,7 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($searchRes)) {
             $reportArr[] = $row;
         }
+//echo $GLOBALS['TYPO3_DB']->debug_lastBuiltQuery;
         $reportUids = array();
         $reportsByEstate = array();
         $sortedAndLimitedReportsByEstate = array();

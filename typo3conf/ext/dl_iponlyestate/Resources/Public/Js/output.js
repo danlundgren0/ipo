@@ -262,5 +262,5 @@ console.log(sortValue);
     });
     $('[data-action="hideme"]').on('click', function() {
         $(this).closest('.show-more-link').fadeOut();
-    });
+    });    
 });

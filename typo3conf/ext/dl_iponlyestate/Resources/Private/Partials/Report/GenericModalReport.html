@@ -61,7 +61,19 @@
 			        					<f:if condition="{q.type}=='note'">
 			        						<f:then>
 			        							<f:for each="{q.notes}" as="n">
-			        								{n.comment}
+			        								<f:if condition="{n.remarkType}==1">
+			        									Status: OK: {n.comment}
+			        								</f:if>
+			        								<f:if condition="{n.remarkType}==2">
+			        									Status: Kritisk: {n.comment}
+			        								</f:if>
+			        								<f:if condition="{n.remarkType}==3">
+			        									Status: Anmärkning: {n.comment}
+			        								</f:if>
+			        								<f:if condition="{n.remarkType}==4">
+			        									Status: Meddelande : {n.comment}
+			        								</f:if>
+			        								{n.remarkType}: {n.comment}
 			        							</f:for>
 			        						</f:then>
 			        						<f:else>
