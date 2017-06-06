@@ -218,11 +218,6 @@ $(function() {
         //var sortClass = $(this).hasClass('sort-asc');
         //var sortValue = $(this).attr('data-sort-value');
         //$(this).toggleClass('sort-asc');
-console.log($(this).attr('data-sort'));
-console.log($table);
-console.log(hasClass);
-console.log(sortClass);
-console.log(sortValue);
         $table.isotope({ sortBy: sortValue, sortAscending: !hasClass });
     });
 
