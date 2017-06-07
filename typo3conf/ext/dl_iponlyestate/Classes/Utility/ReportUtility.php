@@ -40,11 +40,11 @@ class ReportUtility {
         $reportsArr['pageLink'] = $estate->getPageLink();
         $reportsArr['reportUid'] = $report->getUid();
         $reportsArr['reportName'] = $report->getName();
-        $reportsArr['nodeTypeName'] = $report->getNodeTypeName();
+        $reportsArr['nodeTypeName'] = $estate->getNodeTypeName();
         $reportsArr['dateVersion'] = $report->getDate()->format('Y-m-d').' Nr '.$report->getVersion();
         $reportsArr['reportVersion'] = $report->getVersion();
         $reportsArr['reportDate'] = $report->getDate()->format('Y-m-d');
-        $reportsArr['respTechnicianName'] = $report->getRespTechnicianName();
+        $reportsArr['respTechnicianName'] = $estate->getRespTechnicianName();
         $reportsArr['execTechnicianName'] = $report->getExecTechnicianName();
         $reportsArr['noOfCriticalRemarks'] = $report->getNoOfCriticalRemarks();
         $reportsArr['getNoOfOk'] = $report->getNoOfOk();

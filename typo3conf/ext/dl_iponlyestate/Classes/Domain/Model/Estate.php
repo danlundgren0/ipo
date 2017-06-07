@@ -474,6 +474,25 @@ class Estate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->nodeType;
     }
+
+    /**
+     * Returns the nodeTypeName
+     *
+     * @return string
+     */
+
+    public function getNodeTypeName()
+    {
+        if((int)$this->nodeType>0) {
+            $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+            $nodeTypeRepository = $objectManager->get('DanLundgren\\DlIponlyestate\\Domain\\Repository\\NodeTypeRepository');
+            $nodeType = $nodeTypeRepository->findByUid($this->nodeType);
+            if ($nodeType) {
+                return $nodeType->getName();
+            }
+        }
+        return 'Ingen nodtyp satt';
+    }
     
     /**
      * Sets the nodeType
