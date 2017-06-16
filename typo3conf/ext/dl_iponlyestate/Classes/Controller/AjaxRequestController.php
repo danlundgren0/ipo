@@ -155,7 +155,18 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 	    return ($this->asJson) ? $this->generateJsonReturnArray() : $this->data;
 				//return $this->generateJsonReturnArray();
 	}
-
+	public function createNewReport() {
+		$version = $this->arguments['version'];
+		$estateUid = $this->arguments['estateUid'];
+		$this->data['version'] = $version;
+		$this->data['estateUid'] = $estateUid;
+		if((int)$version>0 && (int)$estateUid>0) {			
+			$newReport = ReportUtility::createNewReport($version, $estateUid, null, true);
+			$this->data['response'] = $newReport->getUid();
+			$this->status = TRUE;
+			$this->message = '';
+		}
+	}
 	public function getCompleteReport() {		
 		$reportUid = $this->arguments['reportUid'];
 		$estateUid = $this->arguments['estateUid'];

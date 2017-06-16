@@ -121,30 +121,31 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                 
             }
             $curReportWithVersion = ReportUtil::getLatestOrNewReport($reportPid, $estate);
-            foreach($curReportWithVersion->getNotes() as $note) {
-                if($note && $note->getImages()!=NULL) {
-                    $hasImages+=1;      
-                }
-            }
-            
-            if ($curReportWithVersion && $curReportWithVersion->getStartDate() !== null) {
-                $postedReports = ReportUtil::getPostedReports($reportPid, $estate, $curReportWithVersion->getStartDate());
-                /*
-                foreach($postedReports as $report) {
-                    foreach($report->getNotes() as $note) {
-                        if($note->getImages()!=NULL) {
-                            $hasImages+=1;      
-                        }
+            $hasOngoingReport = 0;
+            if($curReportWithVersion) {
+                $hasOngoingReport = 1;
+                foreach($curReportWithVersion->getNotes() as $note) {
+                    if($note && $note->getImages()!=NULL) {
+                        $hasImages+=1;      
                     }
                 }
-                */
+                if ($curReportWithVersion->getStartDate() !== null) {
+                    $postedReports = ReportUtil::getPostedReports($reportPid, $estate, $curReportWithVersion->getStartDate());
+                }
             }
-            
+            else {
+                $postedReports = ReportUtil::getPostedReports($reportPid, $estate, NULL);
+            }
+            $nextReportVersion = ReportUtil::getNextReportVersionNumber($estate);
             if (!$GLOBALS['TSFE']->fe_user->user['first_name'] || $GLOBALS['TSFE']->fe_user->user['last_name']) {
                 $this->view->assign('technician', $GLOBALS['TSFE']->fe_user->user['name']);
             } else {
                 $this->view->assign('technician', $GLOBALS['TSFE']->fe_user->user['first_name'] . ' ' . $GLOBALS['TSFE']->fe_user->user['last_name']);
             }
+            
+            $this->view->assign('estateUid', $estate->getUid());
+            $this->view->assign('nextReportVersion', $nextReportVersion);
+            $this->view->assign('hasOngoingReport', $hasOngoingReport);
             $this->view->assign('hasImages', $hasImages);
             $this->view->assign('reportWithVersion', $curReportWithVersion);
             $this->view->assign('postedReports', $postedReports);
@@ -227,64 +228,69 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
             //TODO: Om rapportens getIsCompleted = FALSE: returnera samma versionsnr, Om TRUE: Returnera versionnr+1
             $curReportWithVersion = ReportUtil::getLatestOrNewReport($reportPid, $estate);
 
-            $preparedControlPoint = $this->setNoteAndMeasureArr($controlPoint, $curReportWithVersion);
+            
             if($curReportWithVersion && $curReportWithVersion->getStartDate() !== null) {
+                $preparedControlPoint = $this->setNoteAndMeasureArr($controlPoint, $curReportWithVersion);
                 $postedReports = ReportUtil::getPostedReports($reportPid, $estate, $curReportWithVersion->getStartDate());
             }
-           
-            $questionUidsWithNotes = array();
-            $questionUidsWithMeasurements = array();
-            foreach ($controlPoint->getQuestions() as $question) {
-                foreach ($curReportWithVersion->getNotes() as $note) {
-                    if (!in_array($note->getQuestion()->getUid(), $questionUidsWithNotes)) {
-                        $questionUidsWithNotes[] = $note->getQuestion()->getUid();
-                    }
-                    if ($note->getControlPoint()->getUid() == $controlPoint->getUid() && $note->getQuestion()->getUid() == $question->getUid()) {
-                        
-                    }
-                }
-                foreach ($curReportWithVersion->getReportedMeasurement() as $reportedMeasurement) {
-                    if (!in_array($reportedMeasurement->getQuestion()->getUid(), $questionUidsWithMeasurements)) {
-                        $questionUidsWithMeasurements[] = $reportedMeasurement->getQuestion()->getUid();
-                    }
-                }
-            }
-            $reportArr = array();
-            $loopNo = 0;
-            foreach ($controlPoint->getQuestions() as $question) {
-                if (!in_array($question->getUid(), $questionUidsWithNotes) && !in_array($question->getUid(), $questionUidsWithMeasurements)) {
-                    $reportArr[$question->getUid()] = '';
-                } elseif (in_array($question->getUid(), $questionUidsWithNotes)) {
+            if($curReportWithVersion) {
+                $questionUidsWithNotes = array();
+                $questionUidsWithMeasurements = array();
+                foreach ($controlPoint->getQuestions() as $question) {
                     foreach ($curReportWithVersion->getNotes() as $note) {
+                        if (!in_array($note->getQuestion()->getUid(), $questionUidsWithNotes)) {
+                            $questionUidsWithNotes[] = $note->getQuestion()->getUid();
+                        }
                         if ($note->getControlPoint()->getUid() == $controlPoint->getUid() && $note->getQuestion()->getUid() == $question->getUid()) {
-                            $reportArr[$question->getUid()] = $note;
+                            
                         }
                     }
-                } elseif (in_array($question->getUid(), $questionUidsWithMeasurements)) {
                     foreach ($curReportWithVersion->getReportedMeasurement() as $reportedMeasurement) {
-                        if ($reportedMeasurement->getControlPoint()->getUid() == $controlPoint->getUid() && $reportedMeasurement->getQuestion()->getUid() == $question->getUid()) {
-                            $reportArr[$question->getUid()] = $reportedMeasurement;
+                        if (!in_array($reportedMeasurement->getQuestion()->getUid(), $questionUidsWithMeasurements)) {
+                            $questionUidsWithMeasurements[] = $reportedMeasurement->getQuestion()->getUid();
                         }
                     }
                 }
-                $loopNo += 1;
+                $reportArr = array();
+                $loopNo = 0;
+                foreach ($controlPoint->getQuestions() as $question) {
+                    if (!in_array($question->getUid(), $questionUidsWithNotes) && !in_array($question->getUid(), $questionUidsWithMeasurements)) {
+                        $reportArr[$question->getUid()] = '';
+                    } elseif (in_array($question->getUid(), $questionUidsWithNotes)) {
+                        foreach ($curReportWithVersion->getNotes() as $note) {
+                            if ($note->getControlPoint()->getUid() == $controlPoint->getUid() && $note->getQuestion()->getUid() == $question->getUid()) {
+                                $reportArr[$question->getUid()] = $note;
+                            }
+                        }
+                    } elseif (in_array($question->getUid(), $questionUidsWithMeasurements)) {
+                        foreach ($curReportWithVersion->getReportedMeasurement() as $reportedMeasurement) {
+                            if ($reportedMeasurement->getControlPoint()->getUid() == $controlPoint->getUid() && $reportedMeasurement->getQuestion()->getUid() == $question->getUid()) {
+                                $reportArr[$question->getUid()] = $reportedMeasurement;
+                            }
+                        }
+                    }
+                    $loopNo += 1;
+                }
+                //$unPostedReport = $unPostedReports[count($unPostedReports) - 1];
+                $this->view->assign('imgupload', $imgupload);
+                $this->view->assign('preparedControlPoint', $preparedControlPoint);
+                $tmpNote = new \DanLundgren\DlIponlyestate\Domain\Model\Note();                
+                $this->view->assign('tmpNote', $tmpNote);
+                $this->view->assign('reportArr', $reportArr);
+                $this->view->assign('rootLine1Uid', $rootLine1Uid);
+                $this->view->assign('reportWithVersion', $curReportWithVersion);
+                $this->view->assign('unPostedReport', $unPostedReport);
+                $this->view->assign('postedReports', $postedReports);
+                $this->view->assign('errorMess', $errorMess);
+                $this->view->assign('controlPoint', $controlPoint);
+                $this->view->assign('reportPid', $reportPid);
+                $this->view->assign('pid', $GLOBALS['TSFE']->id);
+                $this->view->assign('uploadStatus', $uploadStatus);
+                $this->view->assign('isValid', $isValid);
             }
-            //$unPostedReport = $unPostedReports[count($unPostedReports) - 1];
-            $this->view->assign('imgupload', $imgupload);
-            $this->view->assign('preparedControlPoint', $preparedControlPoint);
-            $tmpNote = new \DanLundgren\DlIponlyestate\Domain\Model\Note();                
-            $this->view->assign('tmpNote', $tmpNote);
-            $this->view->assign('reportArr', $reportArr);
-            $this->view->assign('rootLine1Uid', $rootLine1Uid);
-            $this->view->assign('reportWithVersion', $curReportWithVersion);
-            $this->view->assign('unPostedReport', $unPostedReport);
-            $this->view->assign('postedReports', $postedReports);
-            $this->view->assign('errorMess', $errorMess);
-            $this->view->assign('controlPoint', $controlPoint);
-            $this->view->assign('reportPid', $reportPid);
-            $this->view->assign('pid', $GLOBALS['TSFE']->id);
-            $this->view->assign('uploadStatus', $uploadStatus);
-            $this->view->assign('isValid', $isValid);
+            else {
+                $this->view->assign('ErrMess', 'Ingen rapport är skapad!');                
+            }
         }
     }
 

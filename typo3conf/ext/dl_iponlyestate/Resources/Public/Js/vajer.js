@@ -68,6 +68,22 @@ DanL.Note = {
             $(this).attr('data-isloaded','true');            
         }
     },
+    createNewReport: function(event) {
+        var version = $(this).attr('data-version');
+        var estateUid = $(this).attr('data-estateUid');
+        DanL.ajax.fetch({
+            command: 'createNewReport',
+            arguments: {
+               version: version,
+               estateUid: estateUid
+            }
+        }).done(function(data, textStatus, jqXHR) {
+            $('.btn-new-report').fadeOut();
+            //$('.note-fixed').prop("disabled", false);
+        }).fail(function( jqXHR, textStatus, errorThrown ) {
+            console.log('createNewReport failed: ' + textStatus);
+        });
+    },
     saveReport: function(event) {
         event.preventDefault();
         var reportUid = $(this).attr('data-reportuid'); 
@@ -470,6 +486,7 @@ $(function() {
 		}
 		//$(".filename").html(fileName);
 	});
+    $('.btn-new-report').on('click', DanL.Note.createNewReport);
     $('.input-note').on('keyup', DanL.Note.setNoteState);
     $('.input-message,.input-purchase').on('keyup', DanL.Note.setMsgButtonState);
     $('.state-buttons .btn').on('click', DanL.Note.setButtonState);

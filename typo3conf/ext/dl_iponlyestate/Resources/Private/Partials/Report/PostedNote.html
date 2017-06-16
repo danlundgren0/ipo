@@ -21,7 +21,13 @@
                             </div>
                             <f:comment>
                             <div class="checkbox">
-                            <label><input type="checkbox" class="note-fixed" data-noteuid="{note.uid}" value="">Bocka i om åtgärdat</label>
+                                <label>
+                                    <f:comment>
+                                    <input type="checkbox" class="note-fixed" data-noteuid="{note.uid}" value="" {f:if(condition: '{hasOngoingReport}=="0"', then: 'disabled', else: '')}>
+                                    </f:comment>
+                                    <input type="checkbox" class="note-fixed" data-noteuid="{note.uid}" value="">
+                                    Bocka i om åtgärdat
+                                </label>
                             </div>
                             </f:comment>
                         </div>
@@ -49,7 +55,13 @@
                                 <div>ID: {note.uid}</div>
                             </div>
                             <div class="checkbox">
-                            <label><input type="checkbox" class="note-fixed" data-noteuid="{note.uid}" value="">Bocka i om åtgärdat</label>
+                                <label>
+                                    <f:comment>
+                                    <input type="checkbox" class="note-fixed" data-noteuid="{note.uid}" value="" {f:if(condition: '{hasOngoingReport}=="0"', then: 'disabled', else: '')}>
+                                    </f:comment>
+                                    <input type="checkbox" class="note-fixed" data-noteuid="{note.uid}" value="">
+                                    Bocka i om åtgärdat
+                                </label>
                             </div>
                         </div>
                         <div class="clear-both"></div>
@@ -75,7 +87,13 @@
                                 <div>ID: {note.uid}</div>
                             </div>
                             <div class="checkbox">
-                            <label><input type="checkbox" class="note-fixed" data-noteuid="{note.uid}" value="">Bocka i om åtgärdat</label>
+                            <label>
+                                <f:comment>
+                                <input type="checkbox" class="note-fixed" data-noteuid="{note.uid}" value="" {f:if(condition: '{hasOngoingReport}=="0"', then: 'disabled', else: '')}>
+                                </f:comment>
+                                <input type="checkbox" class="note-fixed" data-noteuid="{note.uid}" value="">
+                                Bocka i om åtgärdat
+                            </label>
                             </div>
                         </div>
                         <div class="clear-both"></div>
@@ -101,7 +119,13 @@
                                 <div>ID: {note.uid}</div>
                             </div>
                             <div class="checkbox">
-                            <label><input type="checkbox" class="note-fixed" data-noteuid="{note.uid}" value="">Bocka i om åtgärdat</label>
+                                <label>
+                                    <f:comment>
+                                    <input type="checkbox" class="note-fixed" data-noteuid="{note.uid}" value="" {f:if(condition: '{hasOngoingReport}=="0"', then: 'disabled', else: '')}>
+                                    </f:comment>
+                                    <input type="checkbox" class="note-fixed" data-noteuid="{note.uid}" value="" {f:if(condition: '{hasOngoingReport}=="0"', then: 'disabled', else: '')}>
+                                    Bocka i om åtgärdat
+                                </label>
                             </div>
                             <div class="clear-both"></div>
                         </div>

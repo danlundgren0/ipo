@@ -340,7 +340,28 @@ class ReportUtility {
         return $reportsArr;
     }
 
-
+    /**
+     * action getNextReportVersionNumber
+     *
+     * @param \DanLundgren\DlIponlyestate\Domain\Model\Report $estate
+     * @return int
+     */
+    public static function getNextReportVersionNumber($estate) {
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+        $reportRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
+        $allReports = $reportRepository->findAll();
+        $highestVersion = -1;
+        $latestReport = NULL;
+        foreach($allReports as $report) {
+            if($report->getEstate()==$estate) {
+                if((int)$report->getVersion()>(int)$highestVersion) {
+                    $highestVersion = (int)$report->getVersion();
+                }
+            }
+        }
+        $highestVersion=($highestVersion==-1)?1:$highestVersion+=1;
+        return $highestVersion;
+    }
 
     /**
      * action getLatestOrNewReport
@@ -376,17 +397,18 @@ class ReportUtility {
         if($latestReport && !$latestReport->getIsComplete() && !$latestReport->getReportIsPosted()) {
             return $latestReport;
         }
-        //TODO: Check so reportPid constant is set
-        $newReport = self::createNewReport($highestVersion, $estate, $reportPid, $startDate, true);
-        //$newReport = self::createNewReport($highestVersion, $estate, $reportPid, $startDate, $persistIt);
-        return $newReport;
-        
-        //$newReport = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DanLundgren\DlIponlyestate\Domain\Model\Report');
-        //$newReport->setVersion($highestVersion);
-        return $newReport;
+        return NULL;
+        //$newReport = self::createNewReport($highestVersion, $estate, $reportPid, $startDate, true);
+        //return $newReport;
     }
-    public static function createNewReport($highestVersion, $estate, $reportPid, $startDate=null, $persistIt=false) {
+    //public static function createNewReport($highestVersion, $estate, $reportPid, $startDate=null, $persistIt=false) {
+    public static function createNewReport($highestVersion, $estateUid, $startDate=null, $persistIt=false) {
+        $reportPid = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dliponlyestate.']['persistence.']['reportPid'];
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+        $estateRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\EstateRepository');
+        if((int)$estateUid>0) {
+            $estate = $estateRepository->findByUid((int) $estateUid);    
+        }        
         $persistenceManager = $objectManager->get('TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface');
         $reportRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
         $report = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DanLundgren\DlIponlyestate\Domain\Model\Report');
