@@ -27,7 +27,7 @@
 
 	        		<div class="col-md-4">Ansvarig tekniker: {report.respTechnicianName} </div>
 	        		<div class="col-md-4">Utförande tekniker: {report.execTechnicianName}</div>
-	        		<div class="col-md-4"></div>
+	        		<div class="col-md-4">Rapport id: {report.reportUid}</div>
 	        		
 
 	        		<div class="col-md-4">Kritiska anm: {report.noOfCriticalRemarks} </div>
@@ -53,7 +53,8 @@
 			        			<f:if condition="{q.type}=='measure'">			        				
 			        				<f:then>			        					
 			        					<f:for each="{q.notes}" as="n">
-			        					Mätvärde: {n.value} {n.measName} ({n.unit})
+			        					Version: {report.reportVersion}<br>
+			        					Mätvärde: {n.value} {n.measName} ({n.unit})<br>
 			        					</f:for>
 			        				</f:then>
 			        				<f:else>
@@ -61,18 +62,21 @@
 			        						<f:then>
 			        							<f:for each="{q.notes}" as="n">
 			        								<f:if condition="{n.remarkType}==1">
-			        									Status: OK: {n.comment}
+			        									Version: {report.reportVersion}<br>
+			        									Status: OK: {n.comment} UID: {n.noteUid} reportUid: {report.reportUid}<br>
 			        								</f:if>
 			        								<f:if condition="{n.remarkType}==2">
-			        									Status: Kritisk: {n.comment}
+			        									Version: {report.reportVersion}<br>
+			        									Status: Kritisk: {n.comment} UID: {n.noteUid} reportUid: {report.reportUid}<br>
 			        								</f:if>
 			        								<f:if condition="{n.remarkType}==3">
-			        									Status: Anmärkning: {n.comment}
+			        									Version: {report.reportVersion}<br>
+			        									Status: Anmärkning: {n.comment} UID: {n.noteUid} reportUid: {report.reportUid}<br>
 			        								</f:if>
 			        								<f:if condition="{n.remarkType}==4">
-			        									Status: Meddelande : {n.comment}
+			        									Version: {report.reportVersion}<br>
+			        									Status: Meddelande : {n.comment} UID: {n.noteUid} reportUid: {report.reportUid}<br>
 			        								</f:if>
-			        								{n.remarkType}: {n.comment}
 			        							</f:for>
 			        						</f:then>
 			        						<f:else>

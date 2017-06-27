@@ -110,7 +110,28 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var \DateTime
      */
     protected $endDate = null;
+
+    /**
+     * totalNoOfCriticalRemarks
+     *
+     * @var int
+     */
+    protected $totalNoOfCriticalRemarks = 0;
+
+    /**
+     * totalNoOfRemarks
+     *
+     * @var int
+     */
+    protected $totalNoOfRemarks = 0;
     
+    /**
+     * totalNoOfPurchases
+     *
+     * @var int
+     */
+    protected $totalNoOfPurchases = 0;
+
     /**
      * noOfCriticalRemarks
      *
@@ -601,6 +622,69 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setNoOfCriticalRemarks($noOfCriticalRemarks)
     {
         $this->noOfCriticalRemarks = $noOfCriticalRemarks;
+    }
+
+    /**
+     * Returns the totalNoOfCriticalRemarks
+     *
+     * @return int $totalNoOfCriticalRemarks
+     */
+    public function getTotalNoOfCriticalRemarks()
+    {
+        return $this->totalNoOfCriticalRemarks;
+    }
+
+    /**
+     * Sets the totalNoOfCriticalRemarks
+     *
+     * @param int $totalNoOfCriticalRemarks
+     * @return void
+     */
+    public function setTotalNoOfCriticalRemarks($totalNoOfCriticalRemarks)
+    {
+        $this->totalNoOfCriticalRemarks = $totalNoOfCriticalRemarks;
+    }
+
+    /**
+     * Returns the totalNoOfRemarks
+     *
+     * @return int $totalNoOfRemarks
+     */
+    public function getTotalNoOfRemarks()
+    {
+        return $this->totalNoOfRemarks;
+    }
+
+    /**
+     * Sets the totalNoOfRemarks
+     *
+     * @param int $totalNoOfRemarks
+     * @return void
+     */
+    public function setTotalNoOfRemarks($totalNoOfRemarks)
+    {
+        $this->totalNoOfRemarks = $totalNoOfRemarks;
+    }
+
+    /**
+     * Returns the totalNoOfPurchases
+     *
+     * @return int $totalNoOfPurchases
+     */
+    public function getTotalNoOfPurchases()
+    {
+        return $this->totalNoOfPurchases;
+    }
+
+    /**
+     * Sets the totalNoOfPurchases
+     *
+     * @param int $totalNoOfPurchases
+     * @return void
+     */
+    public function setTotalNoOfPurchases($totalNoOfPurchases)
+    {
+        $this->totalNoOfPurchases = $totalNoOfPurchases;
     }
 
     /**

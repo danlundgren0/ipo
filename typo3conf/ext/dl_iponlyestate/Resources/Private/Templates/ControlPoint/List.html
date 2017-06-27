@@ -34,6 +34,11 @@ Otherwise your changes will be overwritten the next time you save the extension 
 			<f:if condition="{hasOngoingReport}=='0'">
 				<button type="button" class="btn btn-success btn-new-report" data-version="{nextReportVersion}" data-estateUid="{estateUid}">Starta ny rapport</button>
 			</f:if>
+			<f:if condition="{hasOngoingReport}=='1'">
+				<div class="alert alert-info">
+				  <strong>Aktiv rapport</strong>
+				</div>
+			</f:if>
 			<f:if condition="{hasImages}>0">
 			<div class="cp-container">				
 				<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Visa bilder</button>

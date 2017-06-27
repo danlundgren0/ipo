@@ -142,7 +142,12 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $reportsByEstate = array();
         $arguments = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('tx_dliponlyestate_reportsearch');
         if ($arguments) {
-            $searchCriterias = new \DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias($arguments['fromDate'], $arguments['endDate'], $arguments['nodeTypes'], $arguments['estates'], $arguments['cities'], $arguments['notes'], $arguments['technicians'], $arguments['freeSearch']);
+            $searchCriterias = new \DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias(
+                $arguments['fromDate'], $arguments['endDate'], 
+                $arguments['nodeTypes'], $arguments['estates'], 
+                $arguments['cities'], $arguments['notes'], 
+                $arguments['technicians'], $arguments['freeSearch']
+            );
             $searchResults = $this->reportRepository->searchReports($searchCriterias);
 /*\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
  array(

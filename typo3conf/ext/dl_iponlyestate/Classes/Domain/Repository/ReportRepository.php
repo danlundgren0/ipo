@@ -116,10 +116,26 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                 foreach ($allReports as $report) {
                     if($report->getEstate()) {
                         $reportsByEstate[$report->getEstate()->getUid()][] = $report;
-                        foreach ($reportsByEstate as &$estateArr) {
+                        /*foreach ($reportsByEstate as &$estateArr) {
                             usort($estateArr, array($this, 'cmpDesc'));
-                        }                        
+                        }*/                        
                     }
+                }
+                foreach ($reportsByEstate as $estateArr) {
+                    $totalNoOfCriticalRemarks = 0;
+                    $totalNoOfRemarks = 0;
+                    $totalNoOfPurchases = 0;
+                    foreach($estateArr as $report) {
+                        $totalNoOfCriticalRemarks += $report->getNoOfCriticalRemarks();
+                        $report->setTotalNoOfCriticalRemarks($totalNoOfCriticalRemarks);
+                        $totalNoOfRemarks += $report->getNoOfRemarks();
+                        $report->setTotalNoOfRemarks($totalNoOfRemarks);
+                        $totalNoOfPurchases += $report->getNoOfPurchases();
+                        $report->setTotalNoOfPurchases($totalNoOfPurchases);
+                    }
+                }
+                foreach ($reportsByEstate as &$estateArr) {
+                    usort($estateArr, array($this, 'cmpDesc'));
                 }
                 $c = 0;
                 $maxReports = 5;

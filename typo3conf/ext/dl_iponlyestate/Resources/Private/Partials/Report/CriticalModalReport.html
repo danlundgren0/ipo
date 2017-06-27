@@ -27,7 +27,7 @@
 
         		<div class="col-md-4">Ansvarig tekniker: {report.respTechnicianName} </div>
         		<div class="col-md-4">Utförande tekniker: {report.execTechnicianName}</div>
-        		<div class="col-md-4"></div>
+        		<div class="col-md-4">Rapport id: {report.reportUid}</div>
         		
 
         		<div class="col-md-4">Kritiska anm: {report.noOfCriticalRemarks} </div>
@@ -58,7 +58,7 @@
         											<div class="jumbotron {n.status}-nocolor">
         							        			<h2>Kontroll-punkt: {cp.cpName}</h2>
         							        			<h3>Del-punkt: {q.questionName}</h3>
-        				        						<div class="col-md-6">
+        				        						<div class="col-md-6" style="color:red;">
         				        							{n.comment}
         				        						</div>
         								        		<div class="col-md-6">
