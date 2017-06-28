@@ -1,0 +1,113 @@
+plugin.tx_pdfviewhelpers.settings {
+	config {
+		class = Bithost\Pdfviewhelpers\Model\EmptyFPDI
+		language = ger
+		disableCache = 1
+		jpgQuality = 100
+		allowedImageTypes {
+			image = jpg,png,gif
+			imageEPS = ai,eps
+			imageSVG = svg
+		}
+		fonts {
+			subset = 1
+			addTTFFont {
+#				roboto {
+#					path = typo3conf/ext/pdfviewhelpers/Resources/Public/Example/Roboto.ttf
+#				}
+#				opensans {
+#					path = typo3conf/ext/pdfviewhelpers/Resources/Public/Example/OpenSans.ttf
+#				}
+			}
+		}
+	}
+	document {
+		title = Default document title
+		subject =
+		author = Bithost GmbH
+		keywords =
+		creator = TYPO3 EXT:pdfviewhelpers
+		outputDestination = I
+		outputPath = document.pdf
+		sourceFile =
+	}
+	page {
+		autoPageBreak = 0
+		margins {
+			top = 15
+			right = 15
+			bottom = 15
+			left = 15
+		}
+		importPage =
+		orientation = P
+	}
+	generalText {
+		trim = 1
+		removeDoubleWhitespace = 1
+		color = #000
+		fontFamily = helvetica
+		fontSize = 11
+		fontStyle = R
+		alignment = L
+		paragraphSpacing = 2
+		padding {
+			top = 0
+			right = 0
+			bottom = 0
+			left = 0
+		}
+	}
+	text {
+		trim =
+		removeDoubleWhitespace =
+		color =
+		fontFamily =
+		fontSize =
+		fontStyle =
+		alignment =
+		paragraphSpacing =
+		padding {
+
+		}
+	}
+	headline {
+		trim =
+		removeDoubleWhitespace =
+		color =
+		fontFamily = 
+		fontSize = 16
+		fontStyle =
+		alignment =
+		paragraphSpacing = 0
+		padding {
+			top = 6
+			right = 0
+			bottom = 3
+			left = 0
+		}	
+	}
+	list {
+		trim =
+		removeDoubleWhitespace =
+		color =
+		fontFamily =
+		fontSize =
+		fontStyle =
+		alignment = L
+		padding {
+			top = 0
+			right = 0
+			bottom = 2
+			left = 1
+		}
+		bulletColor =
+		bulletImageSrc = 
+		bulletSize = 1.5
+	}
+	html {
+		styleSheet =
+	}
+}
+
+module.tx_pdfviewhelpers < plugin.tx_pdfviewhelpers
