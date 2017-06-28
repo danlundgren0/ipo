@@ -294,6 +294,12 @@ return [
             'packagePath' => 'typo3conf/ext/ke_search/',
             'suggestions' => [],
         ],
+        'pdfviewhelpers' => [
+            'composerName' => 'bithost-gmbh/pdfviewhelpers',
+            'state' => 'active',
+            'packagePath' => 'typo3conf/ext/pdfviewhelpers/',
+            'suggestions' => [],
+        ],
         'realurl' => [
             'composerName' => 'dmitryd/typo3-realurl',
             'state' => 'active',
