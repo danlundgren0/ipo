@@ -257,5 +257,26 @@ $(function() {
     });
     $('[data-action="hideme"]').on('click', function() {
         $(this).closest('.show-more-link').fadeOut();
-    });    
+    });
+    $('.glyphicon-play').on('click', function() {
+    	if($(this).closest('.table-like__item').find('.report-history').length>0) {
+	    	if($(this).closest('.table-like__item').find('.collapse').is(':visible')) {
+	    		$(this).rotate({
+	    			animateTo:0,
+	    			callback: function(){ $(this).css('color','#ED5661') }
+	    		});
+	    	}
+	    	else {
+	    		$(this).rotate({
+	    			animateTo:90,
+	    			callback: function(){ $(this).css('color','#3c763d') }	    			
+	    		});
+	    	}
+    	}
+    });
+    $.each($('.glyphicon-play'), function() {
+    	if($(this).closest('.table-like__item').find('.report-history').length==0) {
+    		$(this).css('display','none');
+    	}
+    });
 });

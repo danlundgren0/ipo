@@ -140,6 +140,7 @@ page.includeJSFooter.js_jqueryui = EXT:dl_iponlyestate/Resources/Public/Js/jquer
 page.includeJSFooter.sticky = EXT:dl_iponlyestate/Resources/Public/Js/jquery.sticky.js
 page.includeCSS.css_jqueryui = EXT:dl_iponlyestate/Resources/Public/Css/jquery-ui.min.css
 page.includeJSFooter.fakewaffle = EXT:dl_iponlyestate/Resources/Public/Js/responsive-tabs.js
+page.includeJSFooter.jQueryRotate = EXT:dl_iponlyestate/Resources/Public/Js/jQueryRotate.js
 
 
 #/var/www/iponly/typo3conf/ext/dl_iponlyestate/Resources/Public/Js

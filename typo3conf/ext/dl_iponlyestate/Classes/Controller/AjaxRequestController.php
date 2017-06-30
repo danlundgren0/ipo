@@ -173,8 +173,8 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 		if((int)$reportUid>0 && (int)$estateUid>0) {			
 			$clickedReport = $this->reportRepository->findByUid((int)$reportUid);
 			$estate = $this->estateRepository->findByUid((int)$estateUid);
-			$reports = $this->reportRepository->findByEstate($estate);
-			$completeReportArr = ReportUtility::getCompleteReport($clickedReport, $estate, $reports);
+			$reports = $this->reportRepository->findByEstate($estate);			
+			$completeReportArr = ReportUtility::getCompleteReport($clickedReport, $estate, $reports, TRUE);
 		}
 		if($completeReportArr) {
 			$layoutRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dl_iponlyestate/Resources/Private/Layouts');
@@ -201,7 +201,7 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 			$clickedReport = $this->reportRepository->findByUid((int)$reportUid);
 			$estate = $this->estateRepository->findByUid((int)$estateUid);
 			$reports = $this->reportRepository->findByEstate($estate);
-			$completeReportArr = ReportUtility::getCompleteReport($clickedReport, $estate, $reports);
+			$completeReportArr = ReportUtility::getAllReportsWithRemarks($clickedReport, $estate, $reports);
 		}
 		if($completeReportArr) {
 			$layoutRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dl_iponlyestate/Resources/Private/Layouts');
@@ -228,7 +228,7 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 			$clickedReport = $this->reportRepository->findByUid((int)$reportUid);
 			$estate = $this->estateRepository->findByUid((int)$estateUid);
 			$reports = $this->reportRepository->findByEstate($estate);
-			$completeReportArr = ReportUtility::getCompleteReport($clickedReport, $estate, $reports);
+			$completeReportArr = ReportUtility::getAllReportsWithRemarks($clickedReport, $estate, $reports);
 		}
 		if($completeReportArr) {
 			$layoutRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dl_iponlyestate/Resources/Private/Layouts');
@@ -255,7 +255,7 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 			$clickedReport = $this->reportRepository->findByUid((int)$reportUid);
 			$estate = $this->estateRepository->findByUid((int)$estateUid);
 			$reports = $this->reportRepository->findByEstate($estate);
-			$completeReportArr = ReportUtility::getCompleteReport($clickedReport, $estate, $reports);
+			$completeReportArr = ReportUtility::getAllReportsWithRemarks($clickedReport, $estate, $reports);
 		}
 		if($completeReportArr) {
 			$layoutRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dl_iponlyestate/Resources/Private/Layouts');
@@ -281,7 +281,7 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 		if((int)$reportUid>0 && (int)$estateUid>0) {			
 			$report = $this->reportRepository->findByUid((int)$reportUid);
 			$estate = $this->estateRepository->findByUid((int)$estateUid);
-			$completeReportArr = ReportUtility::getCompleteReport($report, $estate);
+			$completeReportArr = ReportUtility::getAllReportsWithRemarks($report, $estate);
 		}
 		if($completeReportArr) {
 			$layoutRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dl_iponlyestate/Resources/Private/Layouts');
