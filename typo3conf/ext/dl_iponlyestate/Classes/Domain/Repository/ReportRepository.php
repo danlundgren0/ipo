@@ -125,6 +125,7 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                     $totalNoOfCriticalRemarks = 0;
                     $totalNoOfRemarks = 0;
                     $totalNoOfPurchases = 0;
+                    $totalNoOfCompletedNotes = 0;
                     foreach($estateArr as $report) {
                         $totalNoOfCriticalRemarks += $report->getNoOfCriticalRemarks();
                         $report->setTotalNoOfCriticalRemarks($totalNoOfCriticalRemarks);
@@ -132,6 +133,8 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                         $report->setTotalNoOfRemarks($totalNoOfRemarks);
                         $totalNoOfPurchases += $report->getNoOfPurchases();
                         $report->setTotalNoOfPurchases($totalNoOfPurchases);
+                        $totalNoOfCompletedNotes += $report->getAllCompletedNotes();
+                        $report->setTotalNoOfCompletedNotes($totalNoOfCompletedNotes);
                     }
                 }
                 foreach ($reportsByEstate as &$estateArr) {

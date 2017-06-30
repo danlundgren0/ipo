@@ -93,7 +93,9 @@ class ReportUtility {
 	                            $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['noteIsComplete'] = $note->getIsComplete();
 	                            $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['comment'] = $note->getComment();
 	                            $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['remarkType'] = $note->getRemarkType();
-	                            $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['status'] = 'checked-'.$note->getRemarkType();                        
+	                            $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['status'] = 'checked-'.$note->getRemarkType();
+                                $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['date'] = $note->getDate()->format('Y-m-d');
+                                $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['exeTech'] = $note->getExecutiveTechnician();
 	                            //$reportsArr[$cpIdentifier]['image'] = $note->getImages();
 	                            if($note->getImages() && $note->getImages()->getUid()>0) {
 	                                $fileRefUidRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid_local', 'sys_file_reference', 'uid='.$note->getImages()->getUid());
@@ -324,6 +326,7 @@ class ReportUtility {
             	}
                 $levelOneIdentifier = 'estate_'.$report->getEstate()->getUid();
                 $levelTwoIdentifier = 'report_'.$report->getUid();
+                $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['totalNoOfCompletedNotes'] = $report->getTotalNoOfCompletedNotes();
                 $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['totalNoOfCriticalRemarks'] = $report->getTotalNoOfCriticalRemarks();
                 $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['totalNoOfRemarks'] = $report->getTotalNoOfRemarks();
                 $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['totalNoOfPurchases'] = $report->getTotalNoOfPurchases();

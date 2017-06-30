@@ -55,10 +55,12 @@
                                         <f:if condition="{n.noteIsComplete}">
                                             <f:if condition="{n.remarkType}=='2'">
                                                 <div class="cp-container">
-                                                    <div class="jumbotron {n.status}">
+                                                    <div class="jumbotron {n.status}-nocolor">
                                                         <h2>Kontroll-punkt: {cp.cpName}</h2>
-                                                        <h3>Del-punkt: {q.questionName}</h3> 
-                                                        <div class="col-md-6">
+                                                        <h3>Del-punkt: {q.questionName}</h3>
+                                                        <div class="note-date">Datum: {n.date}</div>
+                                                        <div class="note-date">Tekniker: {n.exeTech}</div>
+                                                        <div class="col-md-6" style="color:red">
                                                             Kommentar: {n.comment}
                                                         </div>
                                                         <div class="col-md-6">
@@ -74,10 +76,12 @@
                                             </f:if>
                 							<f:if condition="{n.remarkType}=='3'">
         	        							<div class="cp-container">
-        											<div class="jumbotron {n.status}">
+        											<div class="jumbotron {n.status}-nocolor">
         							        			<h2>Kontroll-punkt: {cp.cpName}</h2>
         							        			<h3>Del-punkt: {q.questionName}</h3>
-        				        						<div class="col-md-6">
+                                                        <div class="note-date">Datum: {n.date}</div>
+                                                        <div class="note-date">Tekniker: {n.exeTech}</div>
+        				        						<div class="col-md-6" style="color:#F0AD4E">
         				        							Kommentar: {n.comment}
         				        						</div>
         								        		<div class="col-md-6">
@@ -93,10 +97,12 @@
                 							</f:if>
                                             <f:if condition="{n.remarkType}=='4'">
                                                 <div class="cp-container">
-                                                    <div class="jumbotron {n.status}">
+                                                    <div class="jumbotron {n.status}-nocolor">
                                                         <h2>Kontroll-punkt: {cp.cpName}</h2>
                                                         <h3>Del-punkt: {q.questionName}</h3> 
-                                                        <div class="col-md-6">
+                                                        <div class="note-date">Datum: {n.date}</div>
+                                                        <div class="note-date">Tekniker: {n.exeTech}</div>
+                                                        <div class="col-md-6" style="color:#DDDDDD">
                                                             Kommentar: {n.comment}
                                                         </div>
                                                         <div class="col-md-6">

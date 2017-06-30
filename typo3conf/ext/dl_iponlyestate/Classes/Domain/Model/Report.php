@@ -152,7 +152,14 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var int
      */
     protected $noOfOldRemarks = 0;
-    
+
+    /**
+     * totalNoOfCompletedNotes
+     *
+     * @var int
+     */
+    protected $totalNoOfCompletedNotes = 0;
+
     /**
      * noOfNotes
      *
@@ -685,6 +692,27 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setTotalNoOfPurchases($totalNoOfPurchases)
     {
         $this->totalNoOfPurchases = $totalNoOfPurchases;
+    }
+
+    /**
+     * Sets the totalNoOfCompletedNotes
+     *
+     * @param int $totalNoOfCompletedNotes
+     * @return void
+     */
+    public function setTotalNoOfCompletedNotes($totalNoOfCompletedNotes)
+    {
+        $this->totalNoOfCompletedNotes = $totalNoOfCompletedNotes;
+    } 
+
+    /**
+     * Returns the totalNoOfCompletedNotes
+     *
+     * @return int $totalNoOfCompletedNotes
+     */
+    public function getTotalNoOfCompletedNotes()
+    {
+        return $this->totalNoOfCompletedNotes;
     }
 
     /**
