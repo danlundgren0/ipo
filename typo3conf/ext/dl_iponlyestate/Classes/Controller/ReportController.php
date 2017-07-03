@@ -149,6 +149,20 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
                 $arguments['technicians'], $arguments['freeSearch']
             );
             $searchResults = $this->reportRepository->searchReports($searchCriterias);
+			if(($arguments['fromDate'] || $arguments['endDate']) 
+				 && $arguments['nodeTypes'] < 0
+				 && $arguments['cities'] < 0
+				 && $arguments['technicians'] < 0
+				 && $arguments['notes'] <= 0
+				 && $arguments['freeSearch'] == ''
+			) {
+	            $allEstates = $this->estateRepository->findAll();
+	            foreach($allEstates as $estate) {
+	                if(!array_key_exists($estate->getUid(),$searchResults)) {
+	                    $searchResults[$estate->getUid()] = $estate;
+	                }
+	            }
+			}
 /*\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
  array(
   'class' => __CLASS__,
