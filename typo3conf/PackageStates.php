@@ -282,6 +282,12 @@ return [
             'packagePath' => 'typo3conf/ext/dl_iponlyestate/',
             'suggestions' => [],
         ],
+        'dl_qrcodesgenerator' => [
+            'composerName' => 'dl_qrcodesgenerator',
+            'state' => 'active',
+            'packagePath' => 'typo3conf/ext/dl_qrcodesgenerator/',
+            'suggestions' => [],
+        ],
         'extension_builder' => [
             'composerName' => 'ebt/extension_builder',
             'state' => 'active',
