@@ -30,3 +30,5 @@ CREATE TABLE tx_dlqrcodesgenerator_domain_model_qrcodesgenerator (
  KEY language (l10n_parent,sys_language_uid)
 
 );
+
+## EXTENSION BUILDER DEFAULTS END TOKEN - Everything BEFORE this line is overwritten with the defaults of the extension builder

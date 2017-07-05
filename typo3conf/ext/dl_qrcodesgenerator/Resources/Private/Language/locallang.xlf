@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2017-07-04T18:59:11Z" product-name="dl_qrcodesgenerator">
+	<file source-language="en" datatype="plaintext" original="messages" date="2017-07-05T05:02:00Z" product-name="dl_qrcodesgenerator">
 		<header/>
 		<body>
 			<trans-unit id="tx_dlqrcodesgenerator_domain_model_qrcodesgenerator">

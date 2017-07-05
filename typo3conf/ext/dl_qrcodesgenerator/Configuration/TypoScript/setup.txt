@@ -43,3 +43,27 @@ plugin.tx_dlqrcodesgenerator._CSS_DEFAULT_STYLE (
 	}
 
 )
+
+## EXTENSION BUILDER DEFAULTS END TOKEN - Everything BEFORE this line is overwritten with the defaults of the extension builder
+qrcodeRender = PAGE
+qrcodeRender {
+  10 = USER
+  10 {
+    userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+    extensionName = DlQrcodesgenerator
+    pluginName = Qrcodesgenerator
+    #extensionName = NzNazartravel
+    #pluginName = Bookingmytrip
+    vendorName = DanLundgren
+    switchableControllerActions.QRcodesGenerator.1 = list
+    #switchableControllerActions.Booking.1 = resebevis
+  }
+  typeNum = 532532
+  config {
+    disableAllHeaderCode = 1
+    xhtml_cleaning = 0
+    admPanel = 0
+    debug = 1
+    no_cache = 1
+  }
+}

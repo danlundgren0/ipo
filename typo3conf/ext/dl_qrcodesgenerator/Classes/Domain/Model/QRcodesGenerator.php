@@ -1,7 +1,6 @@
 <?php
 namespace DanLundgren\DlQrcodesgenerator\Domain\Model;
 
-
 /***************************************************************
  *
  *  Copyright notice

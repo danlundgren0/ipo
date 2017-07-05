@@ -13,10 +13,6 @@ in /Configuration/ExtensionBuilder/settings.yaml:
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
 
 <f:section name="main">
+<f:link.page pageUid="616" target="_blank" additionalParams="{type:532532,pid:pid}" class="btn btn-success">Skapa QR-Koder</f:link.page>
 <f:flashMessages />
-<button onclick="window.print();">Skriv ut</button>
-<div><f:format.raw>{qrParent}</f:format.raw></div>
-<f:for each="{qrSubPages}" as="qrSubPage">
-	<div><f:format.raw>{qrSubPage}</f:format.raw></div>
-</f:for>
 </f:section>

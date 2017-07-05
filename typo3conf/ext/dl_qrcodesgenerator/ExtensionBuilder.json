@@ -15,7 +15,9 @@
                     "_default2_new_create": false,
                     "_default3_edit_update": false,
                     "_default4_delete": false,
-                    "customActions": []
+                    "customActions": [
+                        "link"
+                    ]
                 },
                 "name": "QRcodesGenerator",
                 "objectsettings": {
@@ -57,8 +59,8 @@
         },
         "extensionKey": "dl_qrcodesgenerator",
         "name": "QRcodes Generator",
-        "originalExtensionKey": "",
-        "originalVendorName": "",
+        "originalExtensionKey": "dl_qrcodesgenerator",
+        "originalVendorName": "DanLundgren",
         "persons": [
             {
                 "company": "Dan Lundgren",
@@ -70,9 +72,9 @@
         "plugins": [
             {
                 "actions": {
-                    "controllerActionCombinations": "QRcodesGenerator=>list",
-                    "noncacheableActions": "QRcodesGenerator=>list",
-                    "switchableActions": ""
+                    "controllerActionCombinations": "QRcodesGenerator=>list,link",
+                    "noncacheableActions": "QRcodesGenerator=>list,link",
+                    "switchableActions": "Link to QR-code Page\nQRcodesGenerator->link;\nList QR-Codes\nQRcodesGenerator->list;"
                 },
                 "key": "qrcodesgenerator",
                 "name": "QRcodesGenerator"
@@ -82,7 +84,7 @@
     },
     "wires": [],
     "log": {
-        "last_modified": "2017-07-04 06:59",
+        "last_modified": "2017-07-05 05:02",
         "extension_builder_version": "7.6.0",
         "be_user": " (1)"
     }

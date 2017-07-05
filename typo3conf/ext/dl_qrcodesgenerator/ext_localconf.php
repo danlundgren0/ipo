@@ -7,12 +7,13 @@ if (!defined('TYPO3_MODE')) {
 	'DanLundgren.' . $_EXTKEY,
 	'Qrcodesgenerator',
 	array(
-		'QRcodesGenerator' => 'list',
+		'QRcodesGenerator' => 'list, link',
 		
 	),
 	// non-cacheable actions
 	array(
-		'QRcodesGenerator' => 'list',
+		'QRcodesGenerator' => 'list, link',
 		
 	)
 );
+## EXTENSION BUILDER DEFAULTS END TOKEN - Everything BEFORE this line is overwritten with the defaults of the extension builder

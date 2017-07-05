@@ -47,24 +47,31 @@ overwriteSettings:
       Repository: merge
 
   Configuration:
-    #TCA: merge
-    #TypoScript: keep
+    TCA: merge
+    TypoScript: merge
+    FlexForms: keep
 
   Resources:
     Private:
-      #Language: merge
-      #Templates: keep
+      Language: merge
+      Templates: keep
+      Backend: keep
 
   ext_icon.gif: keep
 
-#  ext_localconf.php: merge
+  ext_localconf.php: merge
 
-#  ext_tables.php: merge
+  ext_tables.php: merge
 
-#  ext_tables.sql: merge
+  ext_tables.sql: merge
 
-## use static date attribute in xliff files ##
-#staticDateInXliffFiles: 2017-07-04T18:59:00Z
+  ext_typoscript_setup.txt: keep
+
+  ## ext_autoload.php is only needed in special cases ##
+  createAutoloadRegistry: false
+
+  ## use static date attribute in xliff files ##
+  staticDateInXliffFiles: 2016-11-13T12:54:00Z
 
 ## list of error codes for warnings that should be ignored ##
 #ignoreWarnings:
