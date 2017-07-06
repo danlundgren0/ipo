@@ -764,6 +764,38 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
+     * Returns the getNoOfAllCriticalRemarks
+     *
+     * @return int $noOfAllCriticalRemarks
+     */
+    public function getNoOfAllCriticalRemarks()
+    {
+        $no = 0;
+        foreach($this->getNotes() as $note) {
+            if($note->getState()==2) {
+                $no += 1;
+            }
+        }
+        return $no;
+    }
+
+    /**
+     * Returns the getNoOfAllPurchases
+     *
+     * @return int $noOfAllPurchases
+     */
+    public function getNoOfAllPurchases()
+    {
+        $no = 0;
+        foreach($this->getNotes() as $note) {
+            if($note->getState()==4) {
+                $no += 1;
+            }
+        }
+        return $no;
+    }
+
+    /**
      * Returns the getNoCompletedRemarks
      *
      * @return int $noOfRemarks

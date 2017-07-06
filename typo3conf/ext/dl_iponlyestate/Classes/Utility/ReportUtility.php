@@ -183,11 +183,11 @@ class ReportUtility {
         $reportsArr['reportVersion'] = $clickedReport->getVersion();
         $reportsArr['reportDate'] = $clickedReport->getDate()->format('Y-m-d');        
         $reportsArr['execTechnicianName'] = $clickedReport->getExecTechnicianName();
-        $reportsArr['noOfCriticalRemarks'] = $clickedReport->getNoOfCriticalRemarks();
+        $reportsArr['noOfAllCriticalRemarks'] = $clickedReport->getNoOfAllCriticalRemarks();
         $reportsArr['getNoOfOk'] = $clickedReport->getNoOfOk();
-        $reportsArr['noOfRemarks'] = $clickedReport->getNoOfRemarks();
+        $reportsArr['noOfAllRemarks'] = $clickedReport->getNoOfAllRemarks();
         $reportsArr['noOfNotes'] = $clickedReport->getNoOfNotes();
-        $reportsArr['noOfPurchases'] = $clickedReport->getNoOfPurchases();
+        $reportsArr['noOfAllPurchases'] = $clickedReport->getNoOfAllPurchases();
         $reportsArr['noOfReportedMeasurements'] = $clickedReport->getNoOfReportedMeasurements();
         $reportsArr['noOfQuestionsLeft'] = 0;
         $reportsArr['allCheckedAndOk'] = FALSE; 
