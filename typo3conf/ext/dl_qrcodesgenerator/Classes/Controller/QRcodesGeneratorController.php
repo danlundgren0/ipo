@@ -60,16 +60,18 @@ class QRcodesGeneratorController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
         $rootlineUtility = new \TYPO3\CMS\Core\Utility\RootlineUtility($parentPid);
         $rootlineArr = $rootlineUtility->get();
         //$parentPid = $GLOBALS['TSFE']->id;
-
         $tmpUrl = '';
         foreach ($rootlineArr as $rootKey => $rootLine) {
             if ($rootLine['tx_realurl_pathsegment'] != '') {
                 $tmpUrl = $tmpUrl == '' ? $rootLine['tx_realurl_pathsegment'] : $rootLine['tx_realurl_pathsegment'] . '/' . $tmpUrl;
             }
+            else if($rootLine['uid']!=1) {
+            	$tmpUrl = $tmpUrl == '' ? $rootLine['uid'] : $rootLine['uid'] . '/' . $tmpUrl;	
+            }
         }
-        $qrUrl .= $this->request->getBaseUri() . '' . $tmpUrl;
+        $qrUrl = $this->request->getBaseUri() . '' . $tmpUrl;
         //print '<iframe width="100" height="100" src="https://chart.googleapis.com/chart?cht=qr&chs=100&chl='.$qrUrl.'" frameBorder="0"></iframe><div>'.$parentPage['title'].'</div>';
-        $qrParent = '<iframe width="100" height="100" src="https://chart.googleapis.com/chart?cht=qr&chs=100&chl='.$qrUrl.'" frameBorder="0"></iframe><div>'.$parentPage['title'].'</div>';
+        $qrParent = '<iframe width="150" height="150" src="https://chart.googleapis.com/chart?cht=qr&chs=150&chl='.$qrUrl.'" frameBorder="0"></iframe><div>'.$parentPage['title'].'</div>'; //<div>'.$qrUrl.'</div';
         $this->view->assign('qrParent',$qrParent);
         $qrSubPages = array();
         foreach($subPages as $subPage) {
@@ -80,11 +82,15 @@ class QRcodesGeneratorController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
                 if ($rootLine['tx_realurl_pathsegment'] != '') {
                     $tmpUrl = $tmpUrl == '' ? $rootLine['tx_realurl_pathsegment'] : $rootLine['tx_realurl_pathsegment'] . '/' . $tmpUrl;
                 }
+            	else if($rootLine['uid']!=1) {
+                	$tmpUrl = $tmpUrl == '' ? $rootLine['uid'] : $rootLine['uid'] . '/' . $tmpUrl;	
+                }
             }
+            $qrUrl = $this->request->getBaseUri() . '' . $tmpUrl;
             //print('<br>');
             //print '<iframe width="100" height="100" src="https://chart.googleapis.com/chart?cht=qr&chs=100&chl='.$qrUrl.'" frameBorder="0"></iframe><div>'.$parentPage['title'].' - '.$subPage['title'].'</div>';
-            $qrSubPages[] = '<iframe width="100" height="100" src="https://chart.googleapis.com/chart?cht=qr&chs=100&chl='.$qrUrl.'" frameBorder="0"></iframe><div>'.$parentPage['title'].' - '.$subPage['title'].'</div>';
-        }
+            $qrSubPages[] = '<iframe width="150" height="150" src="https://chart.googleapis.com/chart?cht=qr&chs=150&chl='.$qrUrl.'" frameBorder="0"></iframe><div>'.$parentPage['title'].' - '.$subPage['title'].'</div>'; //<div>'.$qrUrl.'</div';
+        }        
         $this->view->assign('qrSubPages',$qrSubPages);
     }
     
