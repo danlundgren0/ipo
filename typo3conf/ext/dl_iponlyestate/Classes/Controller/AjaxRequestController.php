@@ -170,6 +170,7 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 	public function getCompleteReport() {		
 		$reportUid = $this->arguments['reportUid'];
 		$estateUid = $this->arguments['estateUid'];
+		$completePdfPid = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dliponlyestate_pdf.']['persistence.']['completePdfPid'];
 		if((int)$reportUid>0 && (int)$estateUid>0) {			
 			$clickedReport = $this->reportRepository->findByUid((int)$reportUid);
 			$estate = $this->estateRepository->findByUid((int)$estateUid);
@@ -187,6 +188,7 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 			$ajaxRenderHtmlView->setTemplatePathAndFilename($templatePathAndFilename);
 			$ajaxRenderHtmlView->getRequest()->setControllerExtensionName($extensionName);
 			$ajaxRenderHtmlView->assign('report', $completeReportArr);
+			$ajaxRenderHtmlView->assign('completePdfPid', $completePdfPid);
 			$this->data['report'] = 'getCompleteReport';
 			$this->data['response'] = $ajaxRenderHtmlView->render();
 			$this->status = TRUE;

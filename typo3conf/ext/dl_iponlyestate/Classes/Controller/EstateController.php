@@ -49,21 +49,21 @@ class EstateController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     {
         $estates = $this->estateRepository->findAll();
         $estate = $this->estateRepository->findByUid((int) $this->settings['Estate']);
-        $isValid=1;
-        if(!$estate) {
+        $isValid = 1;
+        if (!$estate) {
             $this->view->assign('ErrMess', 'Fastigheten hittades ej');
-            $isValid=0;
-        }        
-        if($isValid && !$estate->getControlPoints()) {
+            $isValid = 0;
+        }
+        if ($isValid && !$estate->getControlPoints()) {
             $this->view->assign('ErrMess', 'Inga kontrollpunkter hittades');
-            $isValid=0;
+            $isValid = 0;
         }
         $this->view->assign('isValid', $isValid);
-        if($isValid) {
+        if ($isValid) {
             $controlPoints = $estate->getControlPoints();
             $this->view->assign('estates', $estates);
             $this->view->assign('estate', $estate);
-            $this->view->assign('controlPoints', $controlPoints);            
+            $this->view->assign('controlPoints', $controlPoints);
         }
     }
     
@@ -74,7 +74,7 @@ class EstateController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * @return void
      */
     public function showAction(\DanLundgren\DlIponlyestate\Domain\Model\Estate $estate)
-    {        
+    {
         $this->view->assign('estate', $estate);
     }
 

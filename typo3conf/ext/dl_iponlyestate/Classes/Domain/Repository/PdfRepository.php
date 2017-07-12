@@ -1,11 +1,12 @@
 <?php
 namespace DanLundgren\DlIponlyestate\Domain\Repository;
 
+
 /***************************************************************
  *
  *  Copyright notice
  *
- *  (c) 2016 Dan Lundgren <danlundgren0@gmail.com>, Dan Lundgren
+ *  (c) 2017 Dan Lundgren <danlundgren0@gmail.com>, Dan Lundgren
  *
  *  All rights reserved
  *
@@ -27,29 +28,10 @@ namespace DanLundgren\DlIponlyestate\Domain\Repository;
  ***************************************************************/
 
 /**
- * The repository for ControlPoints
+ * The repository for Pdfs
  */
-class ControlPointRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+class PdfRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
 
-    /**
-     * @var array
-     */
-    protected $defaultOrderings = array(
-        'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
-    );
     
-    /**
-     * @param $estate
-     */
-    public function findSubPagesByParentPid($pid)
-    {
-        $pagesRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid,title,doktype', 'pages', 'pid=' . $pid . ' AND hidden=0 AND deleted=0');
-        $subPages = array();
-        while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($pagesRes)) {
-            $subPages[] = $row;
-        }
-        return $subPages;
-    }
-
 }

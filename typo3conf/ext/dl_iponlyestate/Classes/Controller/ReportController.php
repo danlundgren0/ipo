@@ -132,74 +132,53 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      */
     public function listAction()
     {
-        /*        
+        /*
         $report = $this->reportRepository->findByUid(52);
         $report2 = $this->reportRepository->findByUid(53);
         $estate = $this->estateRepository->findByUid(25);
         $completeReportArr = ReportUtil::getCompleteReport($report, $estate);
         $completeReportArr2 = ReportUtil::getCompleteReport($report2, $estate);
         */
+        
         $reportsByEstate = array();
         $arguments = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('tx_dliponlyestate_reportsearch');
         if ($arguments) {
-            $searchCriterias = new \DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias(
-                $arguments['fromDate'], $arguments['endDate'], 
-                $arguments['nodeTypes'], $arguments['estates'], 
-                $arguments['cities'], $arguments['notes'], 
-                $arguments['technicians'], $arguments['freeSearch']
-            );
+            $searchCriterias = new \DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias($arguments['fromDate'], $arguments['endDate'], $arguments['nodeTypes'], $arguments['estates'], $arguments['cities'], $arguments['notes'], $arguments['technicians'], $arguments['freeSearch']);
             $searchResults = $this->reportRepository->searchReports($searchCriterias);
-/*\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
- array(
-  'class' => __CLASS__,
-  'function' => __FUNCTION__,
-  'searchResults raw' => $searchResults,
- )
-);*/
+            /*\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
+              array(
+              'class' => __CLASS__,
+              'function' => __FUNCTION__,
+              'searchResults raw' => $searchResults,
+              )
+              );*/
+            
             /*$allEstates = $this->estateRepository->findAll();
-            foreach($allEstates as $estate) {
-                if(!array_key_exists($estate->getUid(),$searchResults)) {
-                    $searchResults[$estate->getUid()] = $estate;
-                }
-            }*/
+              foreach($allEstates as $estate) {
+              if(!array_key_exists($estate->getUid(),$searchResults)) {
+              $searchResults[$estate->getUid()] = $estate;
+              }
+              }*/
+            
             $latestReports = ReportUtil::adaptPostedReportsForOutput($searchResults);
-/*\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
- array(
-  'class' => __CLASS__,
-  'function' => __FUNCTION__,
-  'arguments' => $arguments,
-  'searchResults' => $searchResults,
-  'latestReports' => $latestReports,
- )
-);*/
-        }
-        else {
+        } else {
             $searchCriterias = new \DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias();
             $searchResults = $this->reportRepository->searchReports($searchCriterias);
-/*\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
- array(
-  'class' => __CLASS__,
-  'function' => __FUNCTION__,
-  'searchResults raw' => $searchResults,
- )
-);*/
+            /*\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
+              array(
+              'class' => __CLASS__,
+              'function' => __FUNCTION__,
+              'searchResults raw' => $searchResults,
+              )
+              );*/
+            
             $allEstates = $this->estateRepository->findAll();
-            foreach($allEstates as $estate) {
-                if(!array_key_exists($estate->getUid(),$searchResults)) {
+            foreach ($allEstates as $estate) {
+                if (!array_key_exists($estate->getUid(), $searchResults)) {
                     $searchResults[$estate->getUid()] = $estate;
                 }
             }
             $latestReports = ReportUtil::adaptPostedReportsForOutput($searchResults);
-/*\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
- array(
-  'class' => __CLASS__,
-  'function' => __FUNCTION__,
-  'arguments' => $arguments,
-  'searchResults' => $searchResults,
-  'reportsByEstate' => $reportsByEstate,
-  'latestReports' => $latestReports,
- )
-);*/
         }
         $this->view->assign('latestReports', $latestReports);
     }

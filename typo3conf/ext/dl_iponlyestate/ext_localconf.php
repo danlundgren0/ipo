@@ -72,6 +72,20 @@ if (!defined('TYPO3_MODE')) {
 		
 	)
 );
+
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+	'DanLundgren.' . $_EXTKEY,
+	'Pdf',
+	array(
+		'Pdf' => 'pdfcomplete, pdfcritical, pdfremark, pdfpurchase, pdfoldremarks',
+		
+	),
+	// non-cacheable actions
+	array(
+		'Pdf' => 'pdfcomplete, pdfcritical, pdfremark, pdfpurchase, pdfoldremarks',
+		
+	)
+);
 ## EXTENSION BUILDER DEFAULTS END TOKEN - Everything BEFORE this line is overwritten with the defaults of the extension builder
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] = 'EXT:dl_iponlyestate/Classes/Hooks/copyPageTree.php:DanLundgren\DlIponlyestate\Hooks\injectCopyAndPaste';
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processCmdmapClass'][] = 'EXT:dl_iponlyestate/Classes/Hooks/copyPageTree.php:DanLundgren\DlIponlyestate\Hooks\injectCopyAndPaste';
