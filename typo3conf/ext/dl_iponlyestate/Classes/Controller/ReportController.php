@@ -145,14 +145,20 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         if ($arguments) {
             $searchCriterias = new \DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias($arguments['fromDate'], $arguments['endDate'], $arguments['nodeTypes'], $arguments['estates'], $arguments['cities'], $arguments['notes'], $arguments['technicians'], $arguments['freeSearch']);
             $searchResults = $this->reportRepository->searchReports($searchCriterias);
-            /*\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
-              array(
-              'class' => __CLASS__,
-              'function' => __FUNCTION__,
-              'searchResults raw' => $searchResults,
-              )
-              );*/
-            
+			if(($arguments['fromDate'] || $arguments['endDate']) 
+				 && $arguments['nodeTypes'] < 0
+				 && $arguments['cities'] < 0
+				 && $arguments['technicians'] < 0
+				 && $arguments['notes'] <= 0
+				 && $arguments['freeSearch'] == ''
+			) {
+	            $allEstates = $this->estateRepository->findAll();
+	            foreach($allEstates as $estate) {
+	                if(!array_key_exists($estate->getUid(),$searchResults)) {
+	                    $searchResults[$estate->getUid()] = $estate;
+	                }
+	            }
+			}
             /*$allEstates = $this->estateRepository->findAll();
               foreach($allEstates as $estate) {
               if(!array_key_exists($estate->getUid(),$searchResults)) {

@@ -12,6 +12,8 @@ h1 {
 }
 body footer .container .row {
     border-top:none;
+    margin-top:0;
+    padding-top:0;
 }
 .tab-container  {
     background-color:#EEEEEE;
@@ -53,11 +55,12 @@ body .container a {
     font-weight: 500;
 }
 footer {    
-    margin-top: 200px;
+    /*margin-top: 200px;*/
     background-color:#C73B44;
-    height: 276px;
+    /*height: 276px;*/
     text-align:center;
     color:#ffffff;
+    clear: both;
 }
 body footer p {
     color:#ffffff;

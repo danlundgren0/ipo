@@ -17,7 +17,7 @@
 <f:if condition="{report.totalNoOfPurchases}>0">
 	<v:variable.set name="purchaseColor" value="purchaseColor" />	
 </f:if>
-<f:if condition="{report.noOfCompletedNotes}>0">
+<f:if condition="{report.totalNoOfCompletedNotes}>0">
 	<v:variable.set name="completedNotesColor" value="completedNotesColor" />	
 </f:if>	
 <div class="old-reports {v:variable.get(name: 'reportColor')} headerIt.index-{headerIt.index} headerIt.isLast-{headerIt.isLast}" data-report="{report.reportUid}"  data-estate="{estate.estateUid}">
@@ -46,7 +46,7 @@
 	<div class="col-md-1">
 		<a data-report="{report.reportUid}" data-estate="{estate.estateUid}" data-method="getAllCompletedRemarksReport" class="show-more estate-link" data-toggle="modal" data-target="#getAllCompletedRemarksReport">
 			<div class="square {v:variable.get(name: 'completedNotesColor')}">
-				{report.noOfCompletedNotes}
+				{report.totalNoOfCompletedNotes}
 			</div>
 		</a>
 	</div>

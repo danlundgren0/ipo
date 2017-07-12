@@ -33,9 +33,9 @@
 	        		<div class="col-md-4">Rapport id: {report.reportUid}</div>
 	        		
 
-	        		<div class="col-md-4">Kritiska anm: {report.noOfCriticalRemarks} </div>
-	        		<div class="col-md-4">Anmärkningar: {report.noOfRemarks}</div>
-	        		<div class="col-md-4">Inköp/Med.: {report.noOfPurchases}</div>
+	        		<div class="col-md-4">Kritiska anm: {report.noOfAllCriticalRemarks} </div>
+	        		<div class="col-md-4">Anmärkningar: {report.noOfAllRemarks}</div>
+	        		<div class="col-md-4">Inköp/Med.: {report.noOfAllPurchases}</div>
 
 	        		<div class="col-md-4">Ok: {report.getNoOfOk} </div>
 	        		<div class="col-md-4">Rapporterade noteringar: {report.noOfPostedNotes}</div>
@@ -65,20 +65,32 @@
 			        						<f:then>
 			        							<f:for each="{q.notes}" as="n">
 			        								<f:if condition="{n.remarkType}==1">
+			        									<div>
 			        									Version: {report.reportVersion}<br>
-			        									Status: OK: {n.comment} UID: {n.noteUid} reportUid: {report.reportUid}<br>
+			        									Status: OK:<br>
+			        									Kommentar: {n.comment}<br>
+			        									</div>
 			        								</f:if>
 			        								<f:if condition="{n.remarkType}==2">
+			        									<div style="color:red;">
 			        									Version: {report.reportVersion}<br>
-			        									Status: Kritisk: {n.comment} UID: {n.noteUid} reportUid: {report.reportUid}<br>
+			        									Status: Kritisk:<br>
+			        									Kommentar: {n.comment}<br>
+			        									</div>
 			        								</f:if>
 			        								<f:if condition="{n.remarkType}==3">
+			        									<div style="color:red;">
 			        									Version: {report.reportVersion}<br>
-			        									Status: Anmärkning: {n.comment} UID: {n.noteUid} reportUid: {report.reportUid}<br>
+			        									Status: Anmärkning:<br>
+			        									Kommentar: {n.comment}<br>
+			        									</div>
 			        								</f:if>
 			        								<f:if condition="{n.remarkType}==4">
+			        									<div style="color:red;">
 			        									Version: {report.reportVersion}<br>
-			        									Status: Meddelande : {n.comment} UID: {n.noteUid} reportUid: {report.reportUid}<br>
+			        									Status: Meddelande:<br>
+			        									Kommentar: {n.comment}<br>
+			        									</div>
 			        								</f:if>
 			        							</f:for>
 			        						</f:then>

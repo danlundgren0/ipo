@@ -152,7 +152,14 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var int
      */
     protected $noOfOldRemarks = 0;
-    
+
+    /**
+     * totalNoOfCompletedNotes
+     *
+     * @var int
+     */
+    protected $totalNoOfCompletedNotes = 0;
+
     /**
      * noOfNotes
      *
@@ -688,6 +695,27 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
     
     /**
+     * Sets the totalNoOfCompletedNotes
+     *
+     * @param int $totalNoOfCompletedNotes
+     * @return void
+     */
+    public function setTotalNoOfCompletedNotes($totalNoOfCompletedNotes)
+    {
+        $this->totalNoOfCompletedNotes = $totalNoOfCompletedNotes;
+    } 
+
+    /**
+     * Returns the totalNoOfCompletedNotes
+     *
+     * @return int $totalNoOfCompletedNotes
+     */
+    public function getTotalNoOfCompletedNotes()
+    {
+        return $this->totalNoOfCompletedNotes;
+    }
+
+    /**
      * Returns the noOfRemarks
      *
      * @return int $noOfRemarks
@@ -735,6 +763,38 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         return $no;
     }
     
+    /**
+     * Returns the getNoOfAllCriticalRemarks
+     *
+     * @return int $noOfAllCriticalRemarks
+     */
+    public function getNoOfAllCriticalRemarks()
+    {
+        $no = 0;
+        foreach($this->getNotes() as $note) {
+            if($note->getState()==2) {
+                $no += 1;
+            }
+        }
+        return $no;
+    }
+
+    /**
+     * Returns the getNoOfAllPurchases
+     *
+     * @return int $noOfAllPurchases
+     */
+    public function getNoOfAllPurchases()
+    {
+        $no = 0;
+        foreach($this->getNotes() as $note) {
+            if($note->getState()==4) {
+                $no += 1;
+            }
+        }
+        return $no;
+    }
+
     /**
      * Returns the getNoCompletedRemarks
      *

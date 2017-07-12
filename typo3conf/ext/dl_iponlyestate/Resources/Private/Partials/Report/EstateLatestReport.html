@@ -23,7 +23,7 @@
 	<f:if condition="{report.totalNoOfPurchases}>0">
 		<v:variable.set name="purchaseColor" value="purchaseColor" />	
 	</f:if>
-	<f:if condition="{report.noOfCompletedNotes}>0">
+	<f:if condition="{report.totalNoOfCompletedNotes}>0">
 		<v:variable.set name="completedNotesColor" value="completedNotesColor" />	
 	</f:if>
 	<div class="col-md-1 type"><f:format.case mode="capital">{estate.nodeTypeName}</f:format.case></div>
@@ -57,7 +57,7 @@
 	<div class="col-md-1 preremark">
 		<a data-report="{report.reportUid}" data-estate="{estate.estateUid}" data-method="getAllCompletedRemarksReport" class="show-more estate-link" data-toggle="modal" data-target="#getAllCompletedRemarksReport">
 			<div class="square {v:variable.get(name: 'completedNotesColor')}">
-				{report.noOfCompletedNotes}
+				{report.totalNoOfCompletedNotes}
 			</div>
 		</a>
 	</div>
