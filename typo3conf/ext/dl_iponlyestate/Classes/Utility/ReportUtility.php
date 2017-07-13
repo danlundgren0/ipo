@@ -419,14 +419,10 @@ class ReportUtility {
 		        }
             }
         }
-/*\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
- array(
-  'class' => __CLASS__,
-  'function' => __FUNCTION__,
-  'reportsArr' => $reportsArr,
- )
-);*/
         return $reportsArr;
+    }
+    public static function adaptReportsForExcel($reports) {
+
     }
     public static function adaptReportsForOutput($reports) {
         if(count($reports)<=0) {

@@ -54,6 +54,13 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $totalNoOfPurchases = 0;
     
     /**
+     * totalNoOfCompletedNotes
+     *
+     * @var int
+     */
+    protected $totalNoOfCompletedNotes = 0;
+    
+    /**
      * name
      *
      * @var string
@@ -152,14 +159,7 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var int
      */
     protected $noOfOldRemarks = 0;
-
-    /**
-     * totalNoOfCompletedNotes
-     *
-     * @var int
-     */
-    protected $totalNoOfCompletedNotes = 0;
-
+    
     /**
      * noOfNotes
      *
@@ -703,8 +703,8 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setTotalNoOfCompletedNotes($totalNoOfCompletedNotes)
     {
         $this->totalNoOfCompletedNotes = $totalNoOfCompletedNotes;
-    } 
-
+    }
+    
     /**
      * Returns the totalNoOfCompletedNotes
      *
@@ -714,7 +714,7 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->totalNoOfCompletedNotes;
     }
-
+    
     /**
      * Returns the noOfRemarks
      *
@@ -771,14 +771,14 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function getNoOfAllCriticalRemarks()
     {
         $no = 0;
-        foreach($this->getNotes() as $note) {
-            if($note->getState()==2) {
+        foreach ($this->getNotes() as $note) {
+            if ($note->getState() == 2) {
                 $no += 1;
             }
         }
         return $no;
     }
-
+    
     /**
      * Returns the getNoOfAllPurchases
      *
@@ -787,14 +787,14 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function getNoOfAllPurchases()
     {
         $no = 0;
-        foreach($this->getNotes() as $note) {
-            if($note->getState()==4) {
+        foreach ($this->getNotes() as $note) {
+            if ($note->getState() == 4) {
                 $no += 1;
             }
         }
         return $no;
     }
-
+    
     /**
      * Returns the getNoCompletedRemarks
      *

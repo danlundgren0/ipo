@@ -1,0 +1,133 @@
+{namespace pdf=Bithost\Pdfviewhelpers\ViewHelpers}
+<pdf:document outputDestination="I" title="Bithost Example" outputPath="overwritten_name.pdf">
+        <pdf:page autoPageBreak="1">
+                <pdf:headline>Fastighet {report.estateName} - Tidigare anmärkningar</pdf:headline>
+                <pdf:html styleSheet="typo3conf/ext/dl_iponlyestate/Resources/Public/Css/pdf.css">
+                    <table class="table-outer"><tr><td>
+                        <table class="table-header">
+                            <tr><th colspan="3"><h2>Rapport {report.reportName}</h2></th></tr>
+                            <tr>
+                            <td class="col-md-4">Version: {report.reportVersion}</td>
+                            <td class="col-md-4">Datum: {report.reportDate}</td>
+                            <td class="col-md-4">Nod: {report.nodeTypeName}</td>
+                            </tr>
+                            <tr>
+                            <td class="col-md-4">Ansvarig tekniker: {report.respTechnicianName}</td>
+                            <td class="col-md-4">Utförande tekniker: {report.execTechnicianName}</td>
+                            <td class="col-md-4">Rapport id: {report.reportUid}</td>
+                            </tr>
+                            <tr>
+                            <td class="col-md-4">Kritiska anm: {report.noOfCriticalRemarks}</td>
+                            <td class="col-md-4">Anmärkningar: {report.noOfRemarks}</td>
+                            <td class="col-md-4">Inköp/Med.: {report.noOfPurchases}</td>
+                            </tr>
+                            <tr>
+                            <td class="col-md-4">Ok: {report.getNoOfOk}</td>
+                            <td class="col-md-4">Rapporterade noteringar: {report.noOfPostedNotes}</td>
+                            <td class="col-md-4">Pågående noteringar: {report.noOfOngoingNotes}</td>
+                            </tr>
+                            <tr>
+                            <td class="col-md-4">Rapporterade mätvärden: {report.noOfPostedMeasure}</td>
+                            <td class="col-md-4">Rapporterade Punkter: {report.noOfQuestionsReported}</td>
+                            <td class="col-md-4">Ej Rapporterade Punkter: {report.noOfQuestionsLeft}</td>
+                            </tr>
+                        </table>
+                    </td></tr></table>
+                </pdf:html>                
+                <f:for each="{report.controlPoints}" as="cp">
+                    <f:for each="{cp.questions}" as="q">                        
+                        <f:if condition="{q.type}=='measure'">
+                            <f:then>
+                            </f:then>
+                            <f:else>
+                                <f:if condition="{q.type}=='note'">
+                                    <f:then>
+                                        <f:for each="{q.notes}" as="n">                                            
+                                            <f:if condition="{n.noteIsComplete}">
+                                                <f:if condition="{n.remarkType}=='2'">                                                
+                                                    <pdf:html styleSheet="typo3conf/ext/dl_iponlyestate/Resources/Public/Css/pdf.css">
+                                                        <table class="table-cp-container">
+                                                            <tr><td><h2>Kontrollpunkt: {cp.cpName}</h2></td></tr>
+                                                            <tr><td> 
+                                                                <h3>Del-punkt: {q.questionName}</h3>
+                                                                <table class="table-quest-container {q.status}">
+                                                                    <tr><td>
+                                                                        <div class="note-date">Datum: {n.date}</div>
+                                                                        <div class="note-date">Tekniker: {n.exeTech}</div>
+                                                                        <div class="col-md-6" style="color:red;">
+                                                                            {n.comment}
+                                                                        </div>
+                                                                    </td><td>
+                                                                        <f:if condition="{n.image}">
+                                                                            <div class="item-img">
+                                                                                <img src="{n.image}" class="img-responsive" width="300" />
+                                                                            </div>                              
+                                                                        </f:if>
+                                                                    </td></tr>
+                                                                </table>
+                                                            </td></tr>
+                                                        </table> 
+                                                    </pdf:html>
+                                                </f:if>
+                                                <f:if condition="{n.remarkType}=='3'">
+                                                    <pdf:html styleSheet="typo3conf/ext/dl_iponlyestate/Resources/Public/Css/pdf.css">
+                                                        <table class="table-cp-container">
+                                                            <tr><td><h2>Kontrollpunkt: {cp.cpName}</h2></td></tr>
+                                                            <tr><td> 
+                                                                <h3>Del-punkt: {q.questionName}</h3>
+                                                                <table class="table-quest-container {q.status}">
+                                                                    <tr><td>
+                                                                        <div class="note-date">Datum: {n.date}</div>
+                                                                        <div class="note-date">Tekniker: {n.exeTech}</div>
+                                                                        <div class="col-md-6" style="color:#F0AD4E;">
+                                                                            {n.comment}
+                                                                        </div>
+                                                                    </td><td>
+                                                                        <f:if condition="{n.image}">
+                                                                            <div class="item-img">
+                                                                                <img src="{n.image}" class="img-responsive" width="300" />
+                                                                            </div>                              
+                                                                        </f:if>
+                                                                    </td></tr>
+                                                                </table>
+                                                            </td></tr>
+                                                        </table> 
+                                                    </pdf:html>
+                                                </f:if>
+                                                <f:if condition="{n.remarkType}=='4'">
+                                                    <pdf:html styleSheet="typo3conf/ext/dl_iponlyestate/Resources/Public/Css/pdf.css">
+                                                        <table class="table-cp-container">
+                                                            <tr><td><h2>Kontrollpunkt: {cp.cpName}</h2></td></tr>
+                                                            <tr><td> 
+                                                                <h3>Del-punkt: {q.questionName}</h3>
+                                                                <table class="table-quest-container {q.status}">
+                                                                    <tr><td>
+                                                                        <div class="note-date">Datum: {n.date}</div>
+                                                                        <div class="note-date">Tekniker: {n.exeTech}</div>
+                                                                        <div class="col-md-6" style="color:#DDDDDD;">
+                                                                            {n.comment}
+                                                                        </div>
+                                                                    </td><td>
+                                                                        <f:if condition="{n.image}">
+                                                                            <div class="item-img">
+                                                                                <img src="{n.image}" class="img-responsive" width="300" />
+                                                                            </div>                              
+                                                                        </f:if>
+                                                                    </td></tr>
+                                                                </table>
+                                                            </td></tr>
+                                                        </table> 
+                                                    </pdf:html>
+                                                </f:if>
+                                            </f:if>
+                                        </f:for>
+                                    </f:then>
+                                    <f:else>
+                                    </f:else>
+                                </f:if>
+                            </f:else>
+                        </f:if>                         
+                    </f:for>                
+                </f:for>                
+        </pdf:page>
+</pdf:document>

@@ -1,6 +1,7 @@
 <?php
 namespace DanLundgren\DlIponlyestate\Controller;
-use DanLundgren\DlIponlyestate\Utility\ReportUtility as ReportUtility;
+
+use DanLundgren\DlIponlyestate\Utility\ReportUtility;
 /***************************************************************
  *
  *  Copyright notice
@@ -39,7 +40,7 @@ class PdfController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      * @inject
      */
     protected $reportRepository = NULL;
-
+    
     /**
      * estateRepository
      *
@@ -47,7 +48,7 @@ class PdfController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      * @inject
      */
     protected $estateRepository = NULL;
-
+    
     /**
      * pdfRepository
      *
@@ -67,13 +68,13 @@ class PdfController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         //$estateUid = $this->getArgument('estate');
         $reportUid = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('report');
         $estateUid = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('estate');
-        if((int)$reportUid>0 && (int)$estateUid>0) {            
-            $clickedReport = $this->reportRepository->findByUid((int)$reportUid);
-            $estate = $this->estateRepository->findByUid((int)$estateUid);
+        if ((int) $reportUid > 0 && (int) $estateUid > 0) {
+            $clickedReport = $this->reportRepository->findByUid((int) $reportUid);
+            $estate = $this->estateRepository->findByUid((int) $estateUid);
             $reports = $this->reportRepository->findByEstate($estate);
             $completeReportArr = ReportUtility::getCompleteReport($clickedReport, $estate, $reports);
         }
-        if($completeReportArr) {
+        if ($completeReportArr) {
             $this->view->assign('report', $completeReportArr);
         }
     }
@@ -85,7 +86,17 @@ class PdfController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function pdfcriticalAction()
     {
-        
+        $reportUid = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('report');
+        $estateUid = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('estate');
+        if ((int) $reportUid > 0 && (int) $estateUid > 0) {
+            $clickedReport = $this->reportRepository->findByUid((int) $reportUid);
+            $estate = $this->estateRepository->findByUid((int) $estateUid);
+            $reports = $this->reportRepository->findByEstate($estate);
+            $completeReportArr = ReportUtility::getAllReportsWithRemarks($clickedReport, $estate, $reports);
+        }
+        if ($completeReportArr) {
+            $this->view->assign('report', $completeReportArr);
+        }
     }
     
     /**
@@ -95,7 +106,17 @@ class PdfController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function pdfremarkAction()
     {
-        
+        $reportUid = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('report');
+        $estateUid = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('estate');
+        if ((int) $reportUid > 0 && (int) $estateUid > 0) {
+            $clickedReport = $this->reportRepository->findByUid((int) $reportUid);
+            $estate = $this->estateRepository->findByUid((int) $estateUid);
+            $reports = $this->reportRepository->findByEstate($estate);
+            $completeReportArr = ReportUtility::getAllReportsWithRemarks($clickedReport, $estate, $reports);
+        }
+        if ($completeReportArr) {
+            $this->view->assign('report', $completeReportArr);
+        }
     }
     
     /**
@@ -105,7 +126,17 @@ class PdfController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function pdfpurchaseAction()
     {
-        
+        $reportUid = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('report');
+        $estateUid = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('estate');
+        if ((int) $reportUid > 0 && (int) $estateUid > 0) {
+            $clickedReport = $this->reportRepository->findByUid((int) $reportUid);
+            $estate = $this->estateRepository->findByUid((int) $estateUid);
+            $reports = $this->reportRepository->findByEstate($estate);
+            $completeReportArr = ReportUtility::getAllReportsWithRemarks($clickedReport, $estate, $reports);
+        }
+        if ($completeReportArr) {
+            $this->view->assign('report', $completeReportArr);
+        }
     }
     
     /**
@@ -115,7 +146,17 @@ class PdfController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function pdfoldremarksAction()
     {
-        
+        $reportUid = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('report');
+        $estateUid = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('estate');
+        if ((int) $reportUid > 0 && (int) $estateUid > 0) {
+            $clickedReport = $this->reportRepository->findByUid((int) $reportUid);
+            $estate = $this->estateRepository->findByUid((int) $estateUid);
+            $reports = $this->reportRepository->findByEstate($estate);
+            $completeReportArr = ReportUtility::getAllReportsWithRemarks($clickedReport, $estate, $reports);
+        }
+        if ($completeReportArr) {
+            $this->view->assign('report', $completeReportArr);
+        }
     }
 
 }

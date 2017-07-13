@@ -9,3 +9,11 @@
 .table-header td {
 
 }
+.table-cp-container {
+	border:1px solid #E3E3E3;
+	padding:5px;
+}
+.table-quest-container {
+	padding:5px;
+	background-color: #eee;
+}

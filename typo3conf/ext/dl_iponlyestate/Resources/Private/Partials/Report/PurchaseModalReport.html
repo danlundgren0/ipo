@@ -3,17 +3,19 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <button type="button" class="btn btn-secondary" data-estate="{report.estateUid}"  data-report="{report.reportUid}" aria-pressed="false" style="float:right;margin-right: 20px;">Exportera PDF</button>
+        <f:link.page pageUid="{purchasePdfPid}" additionalAttributes="{type: 'button', aria-pressed: 'false', role:'button'}" class="btn btn-primary" target="_blank" additionalParams="{estate: report.estateUid, report: report.reportUid}" style="float:right;margin-right: 20px;">
+            Exportera PDF
+        </f:link.page>
         <h4 class="modal-title" id="myModalLabel">
     		<f:if condition="{report.pageLink}">
     			<f:then>
 		    		<f:link.page pageUid="{report.pageLink}" class="estate-link" target="_blank">
 		    			Fastighet {report.estateName} <span class="glyphicon glyphicon-link" aria-hidden="true"></span>
 		    		</f:link.page>
-                    <span class="ext-header"> - Anmärkningar</span>
+                    <span class="ext-header"> - Inköp/Meddelanden</span>
     			</f:then>
     			<f:else>
-    				Fastighet {report.estateName}<span class="ext-header"> - Anmärkningar</span>
+    				Fastighet {report.estateName}<span class="ext-header"> - Inköp/Meddelanden</span>
     			</f:else>
     		</f:if>        	 
         </h4>        

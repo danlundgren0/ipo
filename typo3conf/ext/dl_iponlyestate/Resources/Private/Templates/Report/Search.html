@@ -56,10 +56,29 @@ Otherwise your changes will be overwritten the next time you save the extension 
     		<div class="col-md-2"><f:form.submit class="btn btn-secondary" value="Sök" /></div>
     		<div class="col-md-2 lbl">Exportera</div>
     		<div class="col-md-5">
+                <f:link.action action="list" 
+                    additionalParams="{tx_dliponlyestate_reportsearch: 
+                        '{
+                            xls: 1
+                        }'
+                    }"
+                    target="_blank">action link</f:link.action>
+                <f:comment>
+                <f:link.action action="excel" 
+                    additionalParams="{tx_dliponlyestate_reportsearch: 
+                        '{
+                            fromDate: arguments.fromDate,
+                            endDate: arguments.endDate,
+                            cities: arguments.cities,
+                            nodeTypes: arguments.nodeTypes,
+                            technicians: arguments.technicians,
+                            notes: arguments.notes,
+                            freeSearch: arguments.freeSearch
+                        }'
+                    }"
+                    target="_blank">action link</f:link.action>
+                </f:comment>
     			<button type="button" class="btn btn-secondary btn-ipaction btn-text-slide" data-type="4" aria-pressed="false">Exportera Excel</button>
-    		</div>
-    		<div class="col-md-5">
-    			<button type="button" class="btn btn-secondary btn-ipaction btn-text-slide" data-type="4" aria-pressed="false">Exportera PDF</button>
     		</div>
       	</div>
 	</div>

@@ -105,12 +105,12 @@ plugin.tx_dliponlyestate {
 plugin.tx_dliponlyestate_pdf.persistence {
 	# cat=plugin.tx_dliponlyestate_pdf/a; type=int; label=Complete Report PDF PID	
 	completePdfPid = 
-	# cat=plugin.tx_dliponlyestate_pdf/a; type=int; label=Complete Report PDF PID	
+	# cat=plugin.tx_dliponlyestate_pdf/a; type=int; label=Critical Report PDF PID	
 	criticalPdfPid = 
-	# cat=plugin.tx_dliponlyestate_pdf/a; type=int; label=Complete Report PDF PID	
+	# cat=plugin.tx_dliponlyestate_pdf/a; type=int; label=Remarks Report PDF PID	
 	remarksPdfPid = 
-	# cat=plugin.tx_dliponlyestate_pdf/a; type=int; label=Complete Report PDF PID	
+	# cat=plugin.tx_dliponlyestate_pdf/a; type=int; label=Purchase Report PDF PID	
 	purchasePdfPid = 
-	# cat=plugin.tx_dliponlyestate_pdf/a; type=int; label=Complete Report PDF PID	
+	# cat=plugin.tx_dliponlyestate_pdf/a; type=int; label=Oldremarks Report PDF PID	
 	oldRemarksPdfPid = 
 }
