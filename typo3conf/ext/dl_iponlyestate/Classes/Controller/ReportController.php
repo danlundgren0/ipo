@@ -285,6 +285,7 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
                 }
             }
         }
+        /*
         $reports = $this->reportRepository->findAll();
         foreach ($reports as $report) {
             if ($report->getEstate() === $estate || $estate === NULL) {
@@ -301,7 +302,7 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
                     }
                 }
             }
-        }
+        }*/
         return $technicians;
     }
     
