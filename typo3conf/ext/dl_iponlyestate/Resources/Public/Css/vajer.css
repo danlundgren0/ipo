@@ -9,6 +9,10 @@
 
 }
 */
+body .container .search-container a.btn-export {    
+    background-color: buttonface;
+    color: buttontext;
+}
 .note-date {
     padding-left:15px;
 }

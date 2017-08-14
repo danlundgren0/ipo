@@ -56,13 +56,16 @@ Otherwise your changes will be overwritten the next time you save the extension 
     		<div class="col-md-2"><f:form.submit class="btn btn-secondary" value="Sök" /></div>
     		<div class="col-md-2 lbl">Exportera</div>
     		<div class="col-md-5">
-                <f:link.action action="list" 
+                <f:link.action 
+                    action="list" 
                     additionalParams="{tx_dliponlyestate_reportsearch: 
                         '{
                             xls: 1
                         }'
                     }"
-                    target="_blank">action link</f:link.action>
+                    target="_blank"
+                    class="btn btn-secondary btn-ipaction btn-text-slide btn-export"
+                >Exportera Excel</f:link.action>
                 <f:comment>
                 <f:link.action action="excel" 
                     additionalParams="{tx_dliponlyestate_reportsearch: 
@@ -76,9 +79,9 @@ Otherwise your changes will be overwritten the next time you save the extension 
                             freeSearch: arguments.freeSearch
                         }'
                     }"
-                    target="_blank">action link</f:link.action>
-                </f:comment>
+                    target="_blank">action link</f:link.action>                
     			<button type="button" class="btn btn-secondary btn-ipaction btn-text-slide" data-type="4" aria-pressed="false">Exportera Excel</button>
+                </f:comment>
     		</div>
       	</div>
 	</div>
