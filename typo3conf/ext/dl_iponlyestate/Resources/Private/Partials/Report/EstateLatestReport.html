@@ -1,14 +1,17 @@
 {namespace v=FluidTYPO3\Vhs\ViewHelpers}
 <f:if condition="{report.allCheckedAndOk}">
-	<v:variable.set name="reportColor" value="allCpIsOk" />	
+	<v:variable.set name="reportColor" value="allCpIsOk" />
+	<v:variable.set name="dataColor" value="c" />
 </f:if>
 <f:if condition="{report.newOrNotCheckedAtAll}">
-	<v:variable.set name="reportColor" value="noChecksDone" />	
+	<v:variable.set name="reportColor" value="noChecksDone" />
+	<v:variable.set name="dataColor" value="a" />
 </f:if>
 <f:if condition="{report.partlyCheckedAndOk}">
-	<v:variable.set name="reportColor" value="remarksExists" />	
+	<v:variable.set name="reportColor" value="remarksExists" />
+	<v:variable.set name="dataColor" value="b" />
 </f:if>	
-<div class="latest-report {v:variable.get(name: 'reportColor')}" data-report="{report.reportUid}"  data-estate="{estate.estateUid}">
+<div class="latest-report" data-reportstatus="{v:variable.get(name: 'reportColor')}" data-colour="{v:variable.get(name: 'dataColor')}" data-report="{report.reportUid}"  data-estate="{estate.estateUid}">
 	<div class="col-md-1 handle">
 		<a role="button" data-toggle="collapse" data-parent="#accordion" href="#report-{estate.estateUid}-1-history" aria-expanded="true" aria-controls="report-{estate.estateUid}-1-history">
 			<span class="glyphicon glyphicon-play" aria-hidden="true"></span>
@@ -26,49 +29,50 @@
 	<f:if condition="{report.totalNoOfCompletedNotes}>0">
 		<v:variable.set name="completedNotesColor" value="completedNotesColor" />	
 	</f:if>
-	<div class="col-md-1 type"><f:format.case mode="capital">{estate.nodeTypeName}</f:format.case></div>
-	<div class="col-md-1">
+	<div class="status col-md-1" style="display:none;">{v:variable.get(name: 'dataColor')}</div>
+	<div class="type col-md-1"><f:format.case mode="capital">{estate.nodeTypeName}</f:format.case></div>
+	<div class="name col-md-1">
 		<f:if condition="{estate.pageLink}">
 			<f:then>
-	    		<f:link.page pageUid="{estate.pageLink}" class="estate-link name" target="_blank"><f:format.case mode="capital">{estate.estateName}</f:format.case></f:link.page>						    				
+	    		<f:link.page pageUid="{estate.pageLink}" class="estate-link" target="_blank"><f:format.case mode="capital">{estate.estateName}</f:format.case></f:link.page>	
 			</f:then>
-			<f:else><span class="name"><f:format.case mode="capital">{estate.estateName}</f:format.case></span></f:else>
+			<f:else><span class=""><f:format.case mode="capital">{estate.estateName}</f:format.case></span></f:else>
 		</f:if>
 	</div>
-	<div class="col-md-1 report">
-		<a data-sortversion="{report.dateVersion}" data-report="{report.reportUid}" data-estate="{estate.estateUid}" data-method="getCompleteReport" class="show-more estate-link" data-toggle="modal" data-target="#genericModalReport">{report.dateVersion}
+	<div class="report col-md-1">
+		<a data-sortversion="{report.dateVersion}" data-report="{report.reportUid}" data-estate="{estate.estateUid}" data-method="getCompleteReport" class="show-more estate-link" data-toggle="modal" data-target="#genericModalReport">{report.dateString}<br>{report.versionWithLabel}
 		</a>
 	</div>
-	<div class="col-md-1 resptech"><f:format.case mode="capital">{report.respTechnicianName}</f:format.case></div>
-	<div class="col-md-1 critical">
+	<div class="resptech col-md-1"><f:format.case mode="capital">{report.respTechnicianName}</f:format.case></div>
+	<div class="critical col-md-1">
 		<a data-report="{report.reportUid}" data-estate="{estate.estateUid}" data-method="getCriticalReport" class="show-more estate-link" data-toggle="modal" data-target="#criticalModalReport">
     		<div class="square {v:variable.get(name: 'criticalColor')}">
     			{report.totalNoOfCriticalRemarks}
     		</div>
 		</a>
 	</div>
-	<div class="col-md-1 remark">
+	<div class="remark col-md-1">
 		<a data-report="{report.reportUid}" data-estate="{estate.estateUid}" data-method="getRemarkReport" class="show-more estate-link" data-toggle="modal" data-target="#remarkModalReport">
     		<div class="square  {v:variable.get(name: 'remarkColor')}">
     			{report.totalNoOfRemarks}
     		</div>
 		</a>
 	</div>
-	<div class="col-md-1 preremark">
+	<div class="preremark col-md-1">
 		<a data-report="{report.reportUid}" data-estate="{estate.estateUid}" data-method="getAllCompletedRemarksReport" class="show-more estate-link" data-toggle="modal" data-target="#getAllCompletedRemarksReport">
 			<div class="square {v:variable.get(name: 'completedNotesColor')}">
 				{report.totalNoOfCompletedNotes}
 			</div>
 		</a>
 	</div>
-	<div class="col-md-1 exetech"><f:format.case mode="capital">{report.execTechnicianName}</f:format.case></div>
-	<div class="col-md-1 purchase">
+	<div class="exetech col-md-1"><f:format.case mode="capital">{report.execTechnicianName}</f:format.case></div>
+	<div class="purchase col-md-1">
 		<a data-report="{report.reportUid}" data-estate="{estate.estateUid}" data-method="getPurchaseReport" class="show-more estate-link" data-toggle="modal" data-target="#purchaseModalReport">
     		<div class="square {v:variable.get(name: 'purchaseColor')}">
     			{report.totalNoOfPurchases}
     		</div>
 		</a>
 	</div>
-	<div class="col-md-1 vacant1"></div>
-	<div class="col-md-1 vacant2"></div>
+	<div class="vacant1 col-md-1"></div>
+	<div class="vacant2 col-md-1"></div>
 </div>

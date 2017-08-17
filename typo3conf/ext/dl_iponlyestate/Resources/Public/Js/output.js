@@ -189,6 +189,7 @@ $(function() {
         layoutMode: 'vertical',
         itemSelector: '.latest-report',
         getSortData: {
+            status: '.status',
             type: '.type',
             name: '.name',
             report: '[data-sortversion]',
@@ -198,17 +199,29 @@ $(function() {
             preremark: '.preremark parseInt',
             exetech: '.exetech',
             note: '.note parseInt',
-            purchase: '.purchase parseInt'
-            /*category: '.category',
-            weight: function( itemElem ) {
-              var weight = $( itemElem ).find('.weight').text();
-              return parseFloat( weight.replace( /[\(\)]/g, '') );
-            }*/
+            purchase: '.purchase parseInt'            
         },
-        sortBy: ['resptech','type']
+        sortAscending: {
+            status: true,
+            type: true,
+            name: true,
+            report: true,
+            resptech: true,
+            critical: true,
+            remark: true,
+            preremark: true,
+            exetech: true,
+            note: true,
+            purchase: true  
+        }
+        //sortBy: ['resptech','type','status']
     });
-    //$container.isotope('reLayout');
-    // bind sort button click
+    //Sortering för resptech blir fel om man inte kör sortering på exetech först
+    //$table.isotope({ sortBy: 'exetech' });
+    $table.isotope({ sortBy: 'exetech' });
+    //$table.isotope('updateSortData').isotope();
+    //$table.isotope({ sortBy: ['resptech','type','status'] });
+    $table.isotope({ sortBy: ['resptech','type','status'] });
     $('.sort-header').on( 'click', 'div', function() {
     	var sortClass = 'sort-'+$(this).attr('data-sort');
         var hasClass = $(this).hasClass('sort-'+$(this).attr('data-sort'));
@@ -218,12 +231,15 @@ $(function() {
         //var sortClass = $(this).hasClass('sort-asc');
         //var sortValue = $(this).attr('data-sort-value');
         //$(this).toggleClass('sort-asc');
+        sortValue = sortValue.split(',');
+        console.log(sortValue);
         $table.isotope({ sortBy: sortValue, sortAscending: !hasClass });
     });
-
+    
     $(".js_search-header").sticky({topSpacing:0,zIndex:20000});
 
     // change is-checked class on buttons
+    /*
     $('.header').each( function( i, buttonGroup ) {
         var $buttonGroup = $( buttonGroup );
         $buttonGroup.on( 'click', 'div', function() {
@@ -231,6 +247,7 @@ $(function() {
             $( this ).addClass('is-checked');
         });
     });
+    */
     $('.panel-collapse').on('shown.bs.collapse', function () {
         $table.isotope('layout');
     })

@@ -79,6 +79,7 @@ DanL.Note = {
             }
         }).done(function(data, textStatus, jqXHR) {
             $('.btn-new-report').fadeOut();
+            $('.report-status').append('<div class="alert alert-info"><strong>Rapport påbörjad</strong></div>');
             //$('.note-fixed').prop("disabled", false);
         }).fail(function( jqXHR, textStatus, errorThrown ) {
             console.log('createNewReport failed: ' + textStatus);

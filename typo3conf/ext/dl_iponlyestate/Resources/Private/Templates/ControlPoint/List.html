@@ -31,14 +31,16 @@ Otherwise your changes will be overwritten the next time you save the extension 
 <div class="col-md-12">
     <div class="row">		
 		<div class="col-md-12">
-			<f:if condition="{hasOngoingReport}=='0'">
-				<button type="button" class="btn btn-success btn-new-report" data-version="{nextReportVersion}" data-estateUid="{estateUid}">Starta ny rapport</button>
-			</f:if>
-			<f:if condition="{hasOngoingReport}=='1'">
-				<div class="alert alert-info">
-				  <strong>Aktiv rapport</strong>
-				</div>
-			</f:if>
+			<div class="report-status">
+				<f:if condition="{hasOngoingReport}=='0'">
+					<button type="button" class="btn btn-success btn-new-report" data-version="{nextReportVersion}" data-estateUid="{estateUid}">Starta ny rapport</button>
+				</f:if>
+				<f:if condition="{hasOngoingReport}=='1'">
+					<div class="alert alert-info">
+					  <strong>Rapport påbörjad</strong>
+					</div>
+				</f:if>
+			</div>
 			<f:if condition="{hasImages}>0">
 			<div class="cp-container">				
 				<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Visa bilder</button>

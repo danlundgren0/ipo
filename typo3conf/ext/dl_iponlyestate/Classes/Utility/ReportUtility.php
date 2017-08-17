@@ -42,10 +42,18 @@ class ReportUtility {
         $reportsArr['respTechnicianName'] = $estate->getRespTechnicianName();
         //TODO: Move all report method to foreach loop
         $reportsArr['reportUid'] = $clickedReport->getUid();
-        $reportsArr['reportName'] = $clickedReport->getName();        
+        $reportsArr['reportName'] = $clickedReport->getName();
+        if($clickedReport->getStartDate()) {
+            $reportsArr['startDate'] = $clickedReport->getStartDate()->format('Y-m-d H:i');    
+        }
+        if($clickedReport->getEndDate()) {
+            $reportsArr['endDate'] = $clickedReport->getEndDate()->format('Y-m-d H:i');
+        }        
         $reportsArr['dateVersion'] = $clickedReport->getDate()->format('Y-m-d').' Nr '.$clickedReport->getVersion();
+        $reportsArr['dateString'] = $clickedReport->getDate()->format('Y-m-d');
+        $reportsArr['versionWithLabel'] = ' Nr '.$clickedReport->getVersion();
         $reportsArr['reportVersion'] = $clickedReport->getVersion();
-        $reportsArr['reportDate'] = $clickedReport->getDate()->format('Y-m-d');        
+        $reportsArr['reportDate'] = $clickedReport->getStartDate()->format('Y-m-d');        
         $reportsArr['execTechnicianName'] = $clickedReport->getExecTechnicianName();
         $reportsArr['noOfCriticalRemarks'] = $clickedReport->getNoOfCriticalRemarks();
         $reportsArr['getNoOfOk'] = $clickedReport->getNoOfOk();
@@ -126,6 +134,8 @@ class ReportUtility {
 	                                $reportsArr['noOfQuestionsReported'] = $noOfQuestionsReported;
 	                                $reportsArr['nodeTypeName'] = $report->getNodeTypeName();
 	                                $reportsArr['dateVersion'] = $report->getDate()->format('Y-m-d').' Nr '.$report->getVersion();
+                                    $reportsArr['dateString'] = $report->getDate()->format('Y-m-d');
+                                    $reportsArr['versionWithLabel'] = ' Nr '.$report->getVersion();
 	                                $reportsArr['respTechnicianName'] = $report->getRespTechnicianName();
 	                                $reportsArr['execTechnicianName'] = $report->getExecTechnicianName();
 	                                $reportsArr['controlPoints'][$cpIdentifier]['cpName'] = $meas->getControlPoint()->getHeader();
@@ -178,10 +188,16 @@ class ReportUtility {
         $reportsArr['respTechnicianName'] = $estate->getRespTechnicianName();
         //TODO: Move all report method to foreach loop
         $reportsArr['reportUid'] = $clickedReport->getUid();
-        $reportsArr['reportName'] = $clickedReport->getName();        
+        $reportsArr['reportName'] = $clickedReport->getName();
+        if($clickedReport->getStartDate()) {
+            $reportsArr['startDate'] = $clickedReport->getStartDate()->format('Y-m-d H:i');    
+        }
+        if($clickedReport->getEndDate()) {
+            $reportsArr['endDate'] = $clickedReport->getEndDate()->format('Y-m-d H:i');
+        }  
         $reportsArr['dateVersion'] = $clickedReport->getDate()->format('Y-m-d').' Nr '.$clickedReport->getVersion();
         $reportsArr['reportVersion'] = $clickedReport->getVersion();
-        $reportsArr['reportDate'] = $clickedReport->getDate()->format('Y-m-d');        
+        $reportsArr['reportDate'] = $clickedReport->getStartDate()->format('Y-m-d');        
         $reportsArr['execTechnicianName'] = $clickedReport->getExecTechnicianName();
         $reportsArr['noOfAllCriticalRemarks'] = $clickedReport->getNoOfAllCriticalRemarks();
         $reportsArr['getNoOfOk'] = $clickedReport->getNoOfOk();
@@ -258,6 +274,8 @@ class ReportUtility {
                             $reportsArr['noOfQuestionsReported'] = $noOfQuestionsReported;
                             $reportsArr['nodeTypeName'] = $clickedReport->getNodeTypeName();
                             $reportsArr['dateVersion'] = $clickedReport->getDate()->format('Y-m-d').' Nr '.$clickedReport->getVersion();
+                            $reportsArr['dateString'] = $clickedReport->getDate()->format('Y-m-d');
+                            $reportsArr['versionWithLabel'] = ' Nr '.$clickedReport->getVersion();
                             $reportsArr['respTechnicianName'] = $clickedReport->getRespTechnicianName();
                             $reportsArr['execTechnicianName'] = $clickedReport->getExecTechnicianName();
                             $reportsArr['controlPoints'][$cpIdentifier]['cpName'] = $meas->getControlPoint()->getHeader();
@@ -338,9 +356,17 @@ class ReportUtility {
                 $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['respTechnicianName'] = $report->getEstate()->getRespTechnicianName();
                 $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['execTechnicianName'] = $report->getExecTechnicianName();
                 $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['dateVersion'] = $report->getDate()->format('Y-m-d').' Nr '.$report->getVersion();
+                $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['dateString'] = $report->getDate()->format('Y-m-d');
+                $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['versionWithLabel'] = ' Nr '.$report->getVersion();
                 $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['hasNotes'] = count($report->getNotes());
                 $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['reportUid'] = $report->getUid();
                 $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['reportName'] = $report->getName();
+                if($report->getStartDate()) {
+                    $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['startDate'] = $report->getStartDate()->format('Y-m-d H:i');
+                }
+                if($report->getEndDate()) {
+                    $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['endDate'] = $report->getEndDate()->format('Y-m-d H:i');
+                }                
                 $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['noOfCriticalRemarks'] = $report->getNoOfCriticalRemarks();
                 $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['noOfRemarks'] = $report->getNoOfRemarks();
                 $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['noOfCompletedNotes'] = $report->getAllCompletedNotes();
@@ -441,11 +467,19 @@ class ReportUtility {
                 $levelThreeIdentifier = 'quest_'.$note->getQuestion()->getUid();
                 $reportsArr['level1'][$levelOneIdentifier]['reportUid'] = $report->getUid();
                 $reportsArr['level1'][$levelOneIdentifier]['reportName'] = $report->getName();
+                if($report->getStartDate()) {
+                    $reportsArr['level1'][$levelOneIdentifier]['startDate'] = $report->getStartDate()->format('Y-m-d H:i');
+                }
+                if($report->getEndDate()) {
+                    $reportsArr['level1'][$levelOneIdentifier]['endDate'] = $report->getEndDate()->format('Y-m-d H:i');
+                }
                 $reportsArr['level1'][$levelOneIdentifier]['estateName'] = $report->getEstate()->getName();
                 $reportsArr['level1'][$levelOneIdentifier]['estateUid'] = $report->getEstate()->getUid();
                 $reportsArr['level1'][$levelOneIdentifier]['pageLink'] = $report->getEstate()->getPageLink();
                 $reportsArr['level1'][$levelOneIdentifier]['nodeTypeName'] = $report->getNodeTypeName();
                 $reportsArr['level1'][$levelOneIdentifier]['dateVersion'] = $report->getDate()->format('Y-m-d').' Nr '.$report->getVersion();
+                $reportsArr['level1'][$levelOneIdentifier]['dateString'] = $clickedReport->getDate()->format('Y-m-d');
+                $reportsArr['level1'][$levelOneIdentifier]['versionWithLabel'] = ' Nr '.$clickedReport->getVersion();
                 $reportsArr['level1'][$levelOneIdentifier]['respTechnicianName'] = $report->getRespTechnicianName();
                 $reportsArr['level1'][$levelOneIdentifier]['noOfCriticalRemarks'] = $report->getNoOfCriticalRemarks();
                 $reportsArr['level1'][$levelOneIdentifier]['noOfRemarks'] = $report->getNoOfRemarks();
@@ -623,7 +657,7 @@ class ReportUtility {
         $report = $reportRepository->findByUid((int) $reportUid);
         $datetime = new \DateTime();
 		$datetime->format('Y-m-d H:i:s');
-        $report->setDate($datetime);
+        $report->setEndDate($datetime);
         $report->setReportIsPosted(true);
         $reportRepository->update($report);
         $persistenceManager->persistAll();
