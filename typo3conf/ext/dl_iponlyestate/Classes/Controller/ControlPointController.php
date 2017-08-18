@@ -142,7 +142,39 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
             } else {
                 $this->view->assign('technician', $GLOBALS['TSFE']->fe_user->user['first_name'] . ' ' . $GLOBALS['TSFE']->fe_user->user['last_name']);
             }
-            
+
+            foreach($subPages as $sub) {
+            	$cp = $this->controlPointRepository->findCpByPid($sub['uid']);
+\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
+ array(
+  'class' => __CLASS__,
+  'function' => __FUNCTION__,
+  'cp' => $cp,
+ )
+);
+            }
+
+            $totalNoOfQuestions = 0;
+            if($controlPoints) {
+            	foreach($controlPoints as $cp) {
+            		$totalNoOfQuestions += count($cp->getQuestions());
+            	}
+            }
+            $totalNoOfScanned = 0;
+            if($controlPoints) {
+            	foreach($controlPoints as $cp) {
+            		$totalNoOfQuestions += count($cp->getQuestions());
+            	}
+            }
+\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
+             array(
+              'class' => __CLASS__,
+              'function' => __FUNCTION__,              
+              'subPages' => $subPages,
+              'totalNoOfQuestions' => $totalNoOfQuestions,
+              'controlPoints' => $controlPoints,
+             )
+            );            
             $this->view->assign('estateUid', $estate->getUid());
             $this->view->assign('nextReportVersion', $nextReportVersion);
             $this->view->assign('hasOngoingReport', $hasOngoingReport);
