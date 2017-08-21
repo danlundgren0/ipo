@@ -956,4 +956,30 @@ class ReportUtility {
         }
     }
 
+    /**
+     * Get Flexform fieldvalue
+     * @param Flexform
+     * @paramFieldName
+     * @return mixed
+     */
+    public static function getFlexformSettingByField($flexform, $fieldName) {
+        foreach($flexform as $data) {
+            if(is_array($data)) {
+                foreach($data as $sDEF) {
+                    if(is_array($sDEF)) {
+                        foreach($sDEF as $lDEF) {
+                            if(is_array($lDEF)) {
+                                foreach($lDEF as $key => $value) {
+                                    if($key == $fieldName) {
+                                        return $value['vDEF'];
+                                    }
+                                }
+                            }                            
+                        }
+                    }
+                }
+            }
+        }
+        return NULL;
+    }
 }

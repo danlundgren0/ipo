@@ -63,11 +63,12 @@ Otherwise your changes will be overwritten the next time you save the extension 
 						<f:if condition="{v:variable.get(name: 'cpIsScanned')}=='1'">
 							<f:then>
 								<div class="cp-link-container">
-									<f:link.page pageUid="{pid.uid}" class="cp-link">{pid.title} >></f:link.page>
+									<f:link.page pageUid="{pid.uid}" class="cp-link">{pid.title} >> </f:link.page>
+									<span class="no-of-checked">({pid.scannedQuestions} av {pid.totalNoOfQuestions} kontrollerade)</span>
 								</div>
 							</f:then>
 							<f:else>
-								<div class="cp-info">{pid.title}</div>
+								<div class="cp-info">{pid.title} <span class="no-of-checked">({pid.scannedQuestions} av {pid.totalNoOfQuestions} kontrollerade)</span></div>								
 							</f:else>						
 						</f:if>
 					</f:if>
