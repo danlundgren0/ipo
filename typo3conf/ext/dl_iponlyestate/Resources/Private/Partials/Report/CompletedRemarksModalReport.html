@@ -10,10 +10,10 @@
 		    		<f:link.page pageUid="{report.pageLink}" class="estate-link" target="_blank">
 		    			Fastighet {report.estateName} <span class="glyphicon glyphicon-link" aria-hidden="true"></span>
 		    		</f:link.page>
-                    <span class="ext-header"> - Anmärkningar</span>
+                    <span class="ext-header"> - Tidigare anmärkningar</span>
     			</f:then>
     			<f:else>
-    				Fastighet {report.estateName} <span class="ext-header"> - Anmärkningar</span>
+    				Fastighet {report.estateName} <span class="ext-header"> - Tidigare anmärkningar</span>
     			</f:else>
     		</f:if>        	 
         </h4>        
@@ -27,7 +27,7 @@
 
         		<div class="col-md-4">Ansvarig tekniker: {report.respTechnicianName} </div>
         		<div class="col-md-4">Utförande tekniker: {report.execTechnicianName}</div>
-        		<div class="col-md-4"></div>
+        		<div class="col-md-4">Rapport id: {report.reportUid}</div>
         		
 
         		<div class="col-md-4">Kritiska anm: {report.noOfCriticalRemarks} </div>
@@ -55,7 +55,7 @@
                                         <f:if condition="{n.noteIsComplete}">
                                             <f:if condition="{n.remarkType}=='2'">
                                                 <div class="cp-container">
-                                                    <div class="jumbotron {n.status}-nocolor">
+                                                    <div class="jumbotron {n.status}-nocolor">                                                        
                                                         <h2>Kontroll-punkt: {cp.cpName}</h2>
                                                         <h3>Del-punkt: {q.questionName}</h3>
                                                         <div class="note-date">Datum: {n.date}</div>
@@ -102,7 +102,7 @@
                                                         <h3>Del-punkt: {q.questionName}</h3> 
                                                         <div class="note-date">Datum: {n.date}</div>
                                                         <div class="note-date">Tekniker: {n.exeTech}</div>
-                                                        <div class="col-md-6" style="color:#DDDDDD">
+                                                        <div class="col-md-6" style="color:#000000">
                                                             Kommentar: {n.comment}
                                                         </div>
                                                         <div class="col-md-6">

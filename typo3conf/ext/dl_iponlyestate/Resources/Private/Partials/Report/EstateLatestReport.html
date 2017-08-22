@@ -1,8 +1,4 @@
 {namespace v=FluidTYPO3\Vhs\ViewHelpers}
-<f:if condition="{report.allCheckedAndOk}">
-	<v:variable.set name="reportColor" value="allCpIsOk" />
-	<v:variable.set name="dataColor" value="c" />
-</f:if>
 <f:if condition="{report.newOrNotCheckedAtAll}">
 	<v:variable.set name="reportColor" value="noChecksDone" />
 	<v:variable.set name="dataColor" value="a" />
@@ -11,6 +7,10 @@
 	<v:variable.set name="reportColor" value="remarksExists" />
 	<v:variable.set name="dataColor" value="b" />
 </f:if>	
+<f:if condition="{report.noOfScannedNotesAndMeas}=={report.noOfTotalNotesAndMeas}">
+	<v:variable.set name="reportColor" value="allCpIsOk" />
+	<v:variable.set name="dataColor" value="c" />
+</f:if>
 <div class="latest-report" data-reportstatus="{v:variable.get(name: 'reportColor')}" data-colour="{v:variable.get(name: 'dataColor')}" data-report="{report.reportUid}"  data-estate="{estate.estateUid}">
 	<div class="col-md-1 handle">
 		<a role="button" data-toggle="collapse" data-parent="#accordion" href="#report-{estate.estateUid}-1-history" aria-expanded="true" aria-controls="report-{estate.estateUid}-1-history">
@@ -61,7 +61,7 @@
 	<div class="preremark col-md-1">
 		<a data-report="{report.reportUid}" data-estate="{estate.estateUid}" data-method="getAllCompletedRemarksReport" class="show-more estate-link" data-toggle="modal" data-target="#getAllCompletedRemarksReport">
 			<div class="square {v:variable.get(name: 'completedNotesColor')}">
-				{report.totalNoOfCompletedNotes}
+				{report.noOfCompletedNotes}
 			</div>
 		</a>
 	</div>

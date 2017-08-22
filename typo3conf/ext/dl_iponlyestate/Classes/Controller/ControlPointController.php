@@ -170,7 +170,7 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                                         }
                                     }
                                 }
-                                elseif(is_array($postedReports)) {
+                                /*elseif(is_array($postedReports)) {
                                     $lastReport = end($postedReports);
                                     foreach($lastReport->getNotes() as $note) {
                                         if($note->getControlPoint()->getUid() == $cp->getUid()) {
@@ -182,7 +182,7 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                                             $sub['scannedQuestions'] += 1;
                                         }
                                     }
-                                }
+                                }*/
                             }
                         }
                     }
