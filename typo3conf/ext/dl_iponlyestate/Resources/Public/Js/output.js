@@ -187,22 +187,32 @@ $(function() {
     });
     var $table = $('.table-like').isotope({
         layoutMode: 'vertical',
-        itemSelector: '.latest-report',
+        //itemSelector: '.latest-report',
         getSortData: {
-            status: '.status',
             type: '.type',
             name: '.name',
-            report: '[data-sortversion]',
+            //report: '[data-sortversion]',
+            report: function(itemElem) {
+              var report = $(itemElem).find('[data-sortversion]').attr('data-sortversion');
+              return report;
+            },
             resptech: '.resptech',
             critical: '.critical parseInt',
             remark: '.remark parseInt',
             preremark: '.preremark parseInt',
             exetech: '.exetech',
             note: '.note parseInt',
-            purchase: '.purchase parseInt'            
-        },
-        sortAscending: {
-            status: true,
+            purchase: '.purchase parseInt',
+            colour: function(itemElem) {
+              var colour = $(itemElem).find('[data-colour]').attr('data-colour');
+              return colour;
+            }
+        }
+    });
+
+    $table.isotope({
+      sortAscending: {
+            colour: true,
             type: true,
             name: true,
             report: true,
@@ -213,26 +223,15 @@ $(function() {
             exetech: true,
             note: true,
             purchase: true  
-        }
-        //sortBy: ['resptech','type','status']
+      }
     });
-    //Sortering för resptech blir fel om man inte kör sortering på exetech först
-    //$table.isotope({ sortBy: 'exetech' });
-    $table.isotope({ sortBy: 'exetech' });
-    //$table.isotope('updateSortData').isotope();
-    //$table.isotope({ sortBy: ['resptech','type','status'] });
-    $table.isotope({ sortBy: ['resptech','type','status'] });
+    $table.isotope({ sortBy: ['resptech','type','colour'] });
     $('.sort-header').on( 'click', 'div', function() {
     	var sortClass = 'sort-'+$(this).attr('data-sort');
         var hasClass = $(this).hasClass('sort-'+$(this).attr('data-sort'));
         var sortValue = $(this).attr('data-sort-value');
         $(this).toggleClass(sortClass);    	
-
-        //var sortClass = $(this).hasClass('sort-asc');
-        //var sortValue = $(this).attr('data-sort-value');
-        //$(this).toggleClass('sort-asc');
         sortValue = sortValue.split(',');
-        console.log(sortValue);
         $table.isotope({ sortBy: sortValue, sortAscending: !hasClass });
     });
     

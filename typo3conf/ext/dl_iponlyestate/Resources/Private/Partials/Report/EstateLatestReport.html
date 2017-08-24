@@ -11,8 +11,8 @@
 	<v:variable.set name="reportColor" value="allCpIsOk" />
 	<v:variable.set name="dataColor" value="c" />
 </f:if>
-<div class="latest-report" data-reportstatus="{v:variable.get(name: 'reportColor')}" data-colour="{v:variable.get(name: 'dataColor')}" data-report="{report.reportUid}"  data-estate="{estate.estateUid}">
-	<div class="col-md-1 handle">
+<div class="latest-report" data-reportstatus="{v:variable.get(name: 'reportColor')}" data-report="{report.reportUid}"  data-estate="{estate.estateUid}">
+	<div class="col-md-1 handle" data-colour="{v:variable.get(name: 'dataColor')}">
 		<a role="button" data-toggle="collapse" data-parent="#accordion" href="#report-{estate.estateUid}-1-history" aria-expanded="true" aria-controls="report-{estate.estateUid}-1-history">
 			<span class="glyphicon glyphicon-play" aria-hidden="true"></span>
 		</a>
@@ -29,7 +29,6 @@
 	<f:if condition="{report.totalNoOfCompletedNotes}>0">
 		<v:variable.set name="completedNotesColor" value="completedNotesColor" />	
 	</f:if>
-	<div class="status col-md-1" style="display:none;">{v:variable.get(name: 'dataColor')}</div>
 	<div class="type col-md-1"><f:format.case mode="capital">{estate.nodeTypeName}</f:format.case></div>
 	<div class="name col-md-1">
 		<f:if condition="{estate.pageLink}">

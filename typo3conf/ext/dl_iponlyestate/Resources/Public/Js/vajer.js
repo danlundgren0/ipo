@@ -508,7 +508,7 @@ $(function() {
     // external js: isotope.pkgd.js
 
     // init Isotope
-    var $table = $('.table-like').isotope({
+    /*var $table = $('.table-like').isotope({
         layoutMode: 'vertical',
         getSortData: {
             type: '.type',
@@ -521,13 +521,13 @@ $(function() {
             exetech: '.exetech',
             note: '.note parseInt',
             purchase: '.purchase parseInt'
-            /*category: '.category',
+            category: '.category',
             weight: function( itemElem ) {
               var weight = $( itemElem ).find('.weight').text();
               return parseFloat( weight.replace( /[\(\)]/g, '') );
-            }*/
+            }
         }
-    });
+    });*/
     //$container.isotope('reLayout');
     // bind sort button click
     $('.header').on( 'click', 'div', function() {

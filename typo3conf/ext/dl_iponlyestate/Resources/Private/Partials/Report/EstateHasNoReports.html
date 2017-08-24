@@ -11,21 +11,14 @@
 		<v:variable.set name="reportColor" value="allCpIsOk" />
 		<v:variable.set name="dataColor" value="c" />
 	</f:if>
-	<div class="latest-report noChecksDone" data-reportstatus="noChecksDone" data-colour="{v:variable.get(name: 'dataColor')}" data-report="{report.reportUid}"  data-estate="{estate.estateUid}">
-    	<div class="col-md-1 handle">
-    	<f:comment>
-			<a role="button" data-toggle="collapse" data-parent="#accordion" href="#report-{estate.estateUid}-1-history" aria-expanded="true" aria-controls="report-{estate.estateUid}-1-history">
-				<span class="glyphicon glyphicon-play" aria-hidden="true"></span>
-			</a>
-		</f:comment>
-		</div>
-		<f:if condition="{report.noOfCriticalRemarks}>0">
-			<v:variable.set name="criticalColor" value="criticalColor" />	
-		</f:if>
-		<f:if condition="{report.noOfRemarks}>0">
-			<v:variable.set name="remarkColor" value="remarkColor" />	
-		</f:if>
-		<div class="status col-md-1" style="display:none;">{v:variable.get(name: 'dataColor')}</div>
+	<f:if condition="{report.noOfCriticalRemarks}>0">
+		<v:variable.set name="criticalColor" value="criticalColor" />	
+	</f:if>
+	<f:if condition="{report.noOfRemarks}>0">
+		<v:variable.set name="remarkColor" value="remarkColor" />	
+	</f:if>
+	<div class="latest-report noChecksDone" data-reportstatus="noChecksDone" data-report="{report.reportUid}"  data-estate="{estate.estateUid}">
+    	<div class="col-md-1 handle" data-colour="{v:variable.get(name: 'dataColor')}">{v:variable.get(name: 'dataColor')}</div>
     	<div class="col-md-1 type"><f:format.case mode="capital">{estate.nodeTypeName}</f:format.case></div>
     	<div class="col-md-1 name">
     		<f:if condition="{estate.pageLink}">
