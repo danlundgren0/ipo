@@ -530,6 +530,7 @@ $(function() {
     });*/
     //$container.isotope('reLayout');
     // bind sort button click
+/*
     $('.header').on( 'click', 'div', function() {
         var sortClass = $(this).hasClass('sort-asc');
         var sortValue = $(this).attr('data-sort-value');
@@ -538,8 +539,6 @@ $(function() {
         $(".collapse").collapse();
         $table.isotope('layout');
     });
-
-    // change is-checked class on buttons
     $('.header').each( function( i, buttonGroup ) {
         var $buttonGroup = $( buttonGroup );
         $buttonGroup.on( 'click', 'div', function() {
@@ -555,6 +554,8 @@ $(function() {
     })
     $('.panel-group').find('.collapse').addClass('in');
     $('.accordion-toggle').off();
+
+*/    
     //DropDown Nav
     //$('.nav .dropdown.active.open .dropdown-menu>li>a').on('click', function(event) {
     /*

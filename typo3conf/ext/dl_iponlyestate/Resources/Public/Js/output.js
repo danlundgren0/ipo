@@ -234,7 +234,31 @@ $(function() {
         sortValue = sortValue.split(',');
         $table.isotope({ sortBy: sortValue, sortAscending: !hasClass });
     });
-    
+
+    $('.header').on( 'click', 'div', function() {
+        var sortClass = $(this).hasClass('sort-asc');
+        var sortValue = $(this).attr('data-sort-value');
+        $(this).toggleClass('');
+        $table.isotope({ sortBy: sortValue, sortAscending: !sortClass });        
+        $(".collapse").collapse();
+        $table.isotope('layout');
+    });
+    $('.header').each( function( i, buttonGroup ) {
+        var $buttonGroup = $( buttonGroup );
+        $buttonGroup.on( 'click', 'div', function() {
+            $buttonGroup.find('.is-checked').removeClass('is-checked');
+            $( this ).addClass('is-checked');
+        });
+    });
+    $('.panel-collapse').on('shown.bs.collapse', function () {
+        $table.isotope('layout');
+    })
+    $('.panel-collapse').on('hidden.bs.collapse', function () {
+        $table.isotope('layout');
+    })
+    $('.panel-group').find('.collapse').addClass('in');
+    $('.accordion-toggle').off();
+
     $(".js_search-header").sticky({topSpacing:0,zIndex:20000});
 
     // change is-checked class on buttons
