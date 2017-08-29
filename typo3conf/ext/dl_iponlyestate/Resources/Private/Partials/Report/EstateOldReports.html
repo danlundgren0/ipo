@@ -1,13 +1,16 @@
 {namespace v=FluidTYPO3\Vhs\ViewHelpers}
-<f:if condition="{report.allCheckedAndOk}">
-	<v:variable.set name="reportColor" value="allCpIsOk" />	
-</f:if>
 <f:if condition="{report.newOrNotCheckedAtAll}">
-	<v:variable.set name="reportColor" value="noChecksDone" />	
+	<v:variable.set name="reportColor" value="noChecksDone" />
+	<v:variable.set name="dataColor" value="1" />
 </f:if>
 <f:if condition="{report.partlyCheckedAndOk}">
-	<v:variable.set name="reportColor" value="remarksExists" />	
+	<v:variable.set name="reportColor" value="remarksExists" />
+	<v:variable.set name="dataColor" value="2" />
 </f:if>	
+<f:if condition="{report.newOrNotCheckedAtAll}">
+	<v:variable.set name="reportColor" value="noChecksDone" />
+	<v:variable.set name="dataColor" value="a" />
+</f:if>
 <f:if condition="{report.totalNoOfCriticalRemarks}>0">
 	<v:variable.set name="criticalColor" value="criticalColor" />	
 </f:if>
@@ -20,44 +23,44 @@
 <f:if condition="{report.totalNoOfCompletedNotes}>0">
 	<v:variable.set name="completedNotesColor" value="completedNotesColor" />	
 </f:if>	
-<div class="old-reports {v:variable.get(name: 'reportColor')} headerIt.index-{headerIt.index} headerIt.isLast-{headerIt.isLast}" data-report="{report.reportUid}"  data-estate="{estate.estateUid}">
+<div class="old-reports headerIt.index-{headerIt.index} headerIt.isLast-{headerIt.isLast}" data-reportstatus="{v:variable.get(name: 'reportColor')}" data-report="{report.reportUid}"  data-estate="{estate.estateUid}">
 	<div class="col-md-1 handle"></div>
-	<div class="col-md-1">{report.nodeTypeName}</div>
-	<div class="col-md-1">{estate.estateName}</div>
-	<div class="col-md-1">
-		<a data-report="{report.reportUid}" data-estate="{estate.estateUid}" data-method="getCompleteReport" class="show-more estate-link" data-toggle="modal" data-target="#genericModalReport">	{report.dateVersion}
+	<div class="type_old col-md-1">{report.nodeTypeName}</div>
+	<div class="name_old col-md-1">{estate.estateName}</div>
+	<div class="report_old col-md-1">
+		<a data-report="{report.reportUid}" data-estate="{estate.estateUid}" data-method="getCompleteReport" class="show-more estate-link" data-toggle="modal" data-target="#genericModalReport">{report.dateString}<br>{report.versionWithLabel}
 		</a>
 	</div>
-	<div class="col-md-1">{report.respTechnicianName}</div>
-	<div class="col-md-1">
+	<div class="resptech_old col-md-1">{report.respTechnicianName}</div>
+	<div class="critical_old col-md-1">
 		<a data-report="{report.reportUid}" data-estate="{estate.estateUid}" data-method="getCriticalReport" class="show-more estate-link" data-toggle="modal" data-target="#criticalModalReport">
     		<div class="square {v:variable.get(name: 'criticalColor')}">
     			{report.totalNoOfCriticalRemarks}
     		</div>
 		</a>
 	</div>
-	<div class="col-md-1">
+	<div class="remark_old col-md-1">
 		<a data-report="{report.reportUid}" data-estate="{estate.estateUid}" data-method="getRemarkReport" class="show-more estate-link" data-toggle="modal" data-target="#remarkModalReport">
     		<div class="square  {v:variable.get(name: 'remarkColor')}">
     			{report.totalNoOfRemarks}
     		</div>
 		</a>
 	</div>
-	<div class="col-md-1">
+	<div class="preremark_old col-md-1">
 		<a data-report="{report.reportUid}" data-estate="{estate.estateUid}" data-method="getAllCompletedRemarksReport" class="show-more estate-link" data-toggle="modal" data-target="#getAllCompletedRemarksReport">
 			<div class="square {v:variable.get(name: 'completedNotesColor')}">
-				{report.totalNoOfCompletedNotes}
+				{report.noOfCompletedNotes}
 			</div>
 		</a>
 	</div>
-	<div class="col-md-1">{report.execTechnicianName}</div>
-	<div class="col-md-1">
+	<div class="exetech_old col-md-1">{report.execTechnicianName}</div>
+	<div class="purchase_old col-md-1">
 		<a data-report="{report.reportUid}" data-estate="{estate.estateUid}" data-method="getPurchaseReport" class="show-more estate-link" data-toggle="modal" data-target="#purchaseModalReport">
     		<div class="square {v:variable.get(name: 'purchaseColor')}">
     			{report.totalNoOfPurchases}
     		</div>
 		</a>
 	</div>
-	<div class="col-md-1"></div>
-	<div class="col-md-1"></div>
+	<div class="vacant1_old col-md-1"></div>
+	<div class="vacant2_oldcol-md-1"></div>
 </div>

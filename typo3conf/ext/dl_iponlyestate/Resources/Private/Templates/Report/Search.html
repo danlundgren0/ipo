@@ -60,7 +60,14 @@ Otherwise your changes will be overwritten the next time you save the extension 
                     action="list" 
                     additionalParams="{tx_dliponlyestate_reportsearch: 
                         '{
-                            xls: 1
+                            xls: 1,
+                            fromDate: arguments.fromDate,
+                            endDate: arguments.endDate,
+                            cities: arguments.cities,
+                            nodeTypes: arguments.nodeTypes,
+                            technicians: arguments.technicians,
+                            notes: arguments.notes,
+                            freeSearch: arguments.freeSearch
                         }'
                     }"
                     target="_blank"

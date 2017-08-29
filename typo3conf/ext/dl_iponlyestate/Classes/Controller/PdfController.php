@@ -152,7 +152,7 @@ class PdfController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             $clickedReport = $this->reportRepository->findByUid((int) $reportUid);
             $estate = $this->estateRepository->findByUid((int) $estateUid);
             $reports = $this->reportRepository->findByEstate($estate);
-            $completeReportArr = ReportUtility::getAllReportsWithRemarks($clickedReport, $estate, $reports);
+            $completeReportArr = ReportUtility::getAllCompletedRemarksReport($clickedReport, $estate);
         }
         if ($completeReportArr) {
             $this->view->assign('report', $completeReportArr);

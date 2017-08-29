@@ -290,8 +290,9 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 		if((int)$reportUid>0 && (int)$estateUid>0) {			
 			$clickedReport = $this->reportRepository->findByUid((int)$reportUid);
 			$estate = $this->estateRepository->findByUid((int)$estateUid);
-			$reports = $this->reportRepository->findByEstate($estate);
-			$completeReportArr = ReportUtility::getAllReportsWithRemarks($clickedReport, $estate, $reports);
+			//$reports = $this->reportRepository->findByEstate($estate);
+			$completeReportArr = ReportUtility::getAllCompletedRemarksReport($clickedReport, $estate);
+			//$completeReportArr = ReportUtility::getAllReportsWithRemarks($clickedReport, $estate);
 		}
 		if($completeReportArr) {
 			$layoutRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dl_iponlyestate/Resources/Private/Layouts');

@@ -1,5 +1,5 @@
 {namespace pdf=Bithost\Pdfviewhelpers\ViewHelpers}
-<pdf:document outputDestination="I" title="Bithost Example" outputPath="overwritten_name.pdf">
+<pdf:document outputDestination="I" title="IP-Only" outputPath="Purchase.pdf">
         <pdf:page autoPageBreak="1">
                 <pdf:headline>Fastighet {report.estateName} - Inköp/Meddelanden</pdf:headline>
                 <pdf:html styleSheet="typo3conf/ext/dl_iponlyestate/Resources/Public/Css/pdf.css">
@@ -23,7 +23,7 @@
                             </tr>
                             <tr>
                             <td class="col-md-4">Ok: {report.getNoOfOk}</td>
-                            <td class="col-md-4">Rapporterade noteringar: {report.noOfPostedNotes}</td>
+                            <td class="col-md-4">Tidigare anmärkningar: {report.noOfPostedNotes}</td>
                             <td class="col-md-4">Pågående noteringar: {report.noOfOngoingNotes}</td>
                             </tr>
                             <tr>

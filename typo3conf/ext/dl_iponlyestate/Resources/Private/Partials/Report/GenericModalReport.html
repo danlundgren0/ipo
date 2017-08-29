@@ -23,7 +23,7 @@
       </div>
       <div class="modal-body">
         		<div class="jumbotron">
-        			<h2>Rapport {report.reportName}</h2>
+        			<h2>Rapport påbörjad {report.startDate} - Rapport inskickad {report.endDate}</h2>
 	        		<div class="col-md-4">Version: {report.reportVersion} </div>
 	        		<div class="col-md-4">Datum: {report.reportDate}</div>
 	        		<div class="col-md-4">Nod: {report.nodeTypeName}</div>
@@ -38,7 +38,7 @@
 	        		<div class="col-md-4">Inköp/Med.: {report.noOfAllPurchases}</div>
 
 	        		<div class="col-md-4">Ok: {report.getNoOfOk} </div>
-	        		<div class="col-md-4">Rapporterade noteringar: {report.noOfPostedNotes}</div>
+	        		<div class="col-md-4">Tidigare anmärkningar: {report.noOfPostedNotes}</div>
 	        		<div class="col-md-4">Pågående noteringar: {report.noOfOngoingNotes}</div>
 
 	        		<div class="col-md-4">Rapporterade mätvärden: {report.noOfPostedMeasure} </div>
@@ -62,11 +62,13 @@
 			        				</f:then>
 			        				<f:else>
 			        					<f:if condition="{q.type}=='note'">
-			        						<f:then>
+			        						<f:then>			        							
 			        							<f:for each="{q.notes}" as="n">
 			        								<f:if condition="{n.remarkType}==1">
 			        									<div>
 			        									Version: {report.reportVersion}<br>
+                                                        Datum: {report.reportDate}<br>
+                                                        Tekniker: {report.execTechnicianName}<br>
 			        									Status: OK:<br>
 			        									Kommentar: {n.comment}<br>
 			        									</div>
@@ -74,21 +76,33 @@
 			        								<f:if condition="{n.remarkType}==2">
 			        									<div style="color:red;">
 			        									Version: {report.reportVersion}<br>
-			        									Status: Kritisk:<br>
+                                                        Datum: {report.reportDate}<br>
+                                                        Tekniker: {report.execTechnicianName}<br>
+			        									Status: Kritisk
+			        									<f:if condition="{n.noteIsComplete}"> - Åtgärdad</f:if>
+			        									<br>
 			        									Kommentar: {n.comment}<br>
 			        									</div>
 			        								</f:if>
 			        								<f:if condition="{n.remarkType}==3">
 			        									<div style="color:red;">
 			        									Version: {report.reportVersion}<br>
-			        									Status: Anmärkning:<br>
+                                                        Datum: {report.reportDate}<br>
+                                                        Tekniker: {report.execTechnicianName}<br>
+			        									Status: Anmärkning			        									
+														<f:if condition="{n.noteIsComplete}"> - Åtgärdad</f:if>
+			        									<br>
 			        									Kommentar: {n.comment}<br>
 			        									</div>
 			        								</f:if>
 			        								<f:if condition="{n.remarkType}==4">
 			        									<div style="color:red;">
 			        									Version: {report.reportVersion}<br>
-			        									Status: Meddelande:<br>
+                                                        Datum: {report.reportDate}<br>
+                                                        Tekniker: {report.execTechnicianName}<br>
+			        									Status: Meddelande
+			        									<f:if condition="{n.noteIsComplete}"> - Åtgärdad</f:if>
+			        									<br>
 			        									Kommentar: {n.comment}<br>
 			        									</div>
 			        								</f:if>

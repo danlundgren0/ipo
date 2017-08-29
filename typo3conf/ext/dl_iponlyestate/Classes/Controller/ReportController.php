@@ -139,10 +139,12 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $completeReportArr = ReportUtil::getCompleteReport($report, $estate);
         $completeReportArr2 = ReportUtil::getCompleteReport($report2, $estate);
         */
+        //header("Content-Type: text/html");
+        //header_remove('Content-Disposition'); 
 
         $reportsByEstate = array();
         $arguments = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('tx_dliponlyestate_reportsearch');
-        if ($arguments) {
+        if ($arguments && count($arguments)>1) {
             $searchCriterias = new \DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias($arguments['fromDate'], $arguments['endDate'], $arguments['nodeTypes'], $arguments['estates'], $arguments['cities'], $arguments['notes'], $arguments['technicians'], $arguments['freeSearch']);
             $searchResults = $this->reportRepository->searchReports($searchCriterias);
             if (($arguments['fromDate'] || $arguments['endDate']) && $arguments['nodeTypes'] < 0 && $arguments['cities'] < 0 && $arguments['technicians'] < 0 && $arguments['notes'] <= 0 && $arguments['freeSearch'] == '') {
@@ -161,17 +163,10 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
               }*/
             
             $latestReports = ReportUtil::adaptPostedReportsForOutput($searchResults);
-        } else {
+        } 
+        else if(!$arguments || (count($arguments)==1 && $arguments['xls']=='1')) {
             $searchCriterias = new \DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias();
             $searchResults = $this->reportRepository->searchReports($searchCriterias);
-            /*\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
-              array(
-              'class' => __CLASS__,
-              'function' => __FUNCTION__,
-              'searchResults raw' => $searchResults,
-              )
-              );*/
-            
             $allEstates = $this->estateRepository->findAll();
             foreach ($allEstates as $estate) {
                 if (!array_key_exists($estate->getUid(), $searchResults)) {
@@ -180,8 +175,8 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
             }
             $latestReports = ReportUtil::adaptPostedReportsForOutput($searchResults);
         }
-        if ($arguments && $arguments['xls']==1) {
-            $this->excelAction($latestReports);
+        if ($arguments['xls']=='1') {
+            $this->excelAction($latestReports, $arguments);
             //$this->redirect('excel'); //, $controllerName = null, $extensionName = null,array   $arguments = null, $pageUid = null, $delay = 0, $statusCode = 303);   
         }
         $this->view->assign('latestReports', $latestReports);
@@ -254,6 +249,7 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
                 }
             }
         }
+        /*
         $reports = $this->reportRepository->findAll();
         foreach ($reports as $report) {
             if ($report->getEstate() === $estate || $estate === NULL) {
@@ -270,7 +266,7 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
                     }
                 }
             }
-        }
+        }*/
         return $technicians;
     }
     
@@ -336,15 +332,8 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      *
      * @return void
      */
-    public function excelAction($latestReports)
+    public function excelAction($latestReports, $arguments=NULL)
     {
-/*\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
-    	 array(
-    	  'class' => __CLASS__,
-    	  'function' => __FUNCTION__,
-    	  'latestReports' => $latestReports,
-    	 )
-    	); */   	
         $tmpexcelArr = array();
         $i=0;
         foreach($latestReports['level1'] as $estate) {            

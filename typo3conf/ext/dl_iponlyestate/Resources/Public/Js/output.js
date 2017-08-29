@@ -187,43 +187,62 @@ $(function() {
     });
     var $table = $('.table-like').isotope({
         layoutMode: 'vertical',
-        itemSelector: '.latest-report',
+        //itemSelector: '.latest-report',
         getSortData: {
             type: '.type',
             name: '.name',
-            report: '[data-sortversion]',
+            //report: '[data-sortversion]',
+            report: function(itemElem) {
+              var report = $(itemElem).find('[data-sortversion]').attr('data-sortversion');
+              return report;
+            },
             resptech: '.resptech',
             critical: '.critical parseInt',
             remark: '.remark parseInt',
             preremark: '.preremark parseInt',
             exetech: '.exetech',
             note: '.note parseInt',
-            purchase: '.purchase parseInt'
-            /*category: '.category',
-            weight: function( itemElem ) {
-              var weight = $( itemElem ).find('.weight').text();
-              return parseFloat( weight.replace( /[\(\)]/g, '') );
-            }*/
-        },
-        sortBy: ['resptech','type']
+            purchase: '.purchase parseInt',
+            colour: function(itemElem) {
+              var colour = $(itemElem).find('[data-colour]').attr('data-colour');
+              return colour;
+            }
+        }
     });
-    //$container.isotope('reLayout');
-    // bind sort button click
+
+    $table.isotope({
+      sortAscending: {
+            colour: true,
+            type: true,
+            name: true,
+            report: true,
+            resptech: true,
+            critical: true,
+            remark: true,
+            preremark: true,
+            exetech: true,
+            note: true,
+            purchase: true  
+      }
+    });
+    $table.isotope({ sortBy: ['resptech','type','colour'] });
     $('.sort-header').on( 'click', 'div', function() {
     	var sortClass = 'sort-'+$(this).attr('data-sort');
         var hasClass = $(this).hasClass('sort-'+$(this).attr('data-sort'));
         var sortValue = $(this).attr('data-sort-value');
         $(this).toggleClass(sortClass);    	
-
-        //var sortClass = $(this).hasClass('sort-asc');
-        //var sortValue = $(this).attr('data-sort-value');
-        //$(this).toggleClass('sort-asc');
+        sortValue = sortValue.split(',');
         $table.isotope({ sortBy: sortValue, sortAscending: !hasClass });
     });
 
-    $(".js_search-header").sticky({topSpacing:0,zIndex:20000});
-
-    // change is-checked class on buttons
+    $('.header').on( 'click', 'div', function() {
+        var sortClass = $(this).hasClass('sort-asc');
+        var sortValue = $(this).attr('data-sort-value');
+        $(this).toggleClass('');
+        $table.isotope({ sortBy: sortValue, sortAscending: !sortClass });        
+        $(".collapse").collapse();
+        $table.isotope('layout');
+    });
     $('.header').each( function( i, buttonGroup ) {
         var $buttonGroup = $( buttonGroup );
         $buttonGroup.on( 'click', 'div', function() {
@@ -231,6 +250,27 @@ $(function() {
             $( this ).addClass('is-checked');
         });
     });
+    $('.panel-collapse').on('shown.bs.collapse', function () {
+        $table.isotope('layout');
+    })
+    $('.panel-collapse').on('hidden.bs.collapse', function () {
+        $table.isotope('layout');
+    })
+    $('.panel-group').find('.collapse').addClass('in');
+    $('.accordion-toggle').off();
+
+    $(".js_search-header").sticky({topSpacing:0,zIndex:20000});
+
+    // change is-checked class on buttons
+    /*
+    $('.header').each( function( i, buttonGroup ) {
+        var $buttonGroup = $( buttonGroup );
+        $buttonGroup.on( 'click', 'div', function() {
+            $buttonGroup.find('.is-checked').removeClass('is-checked');
+            $( this ).addClass('is-checked');
+        });
+    });
+    */
     $('.panel-collapse').on('shown.bs.collapse', function () {
         $table.isotope('layout');
     })

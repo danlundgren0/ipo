@@ -1,11 +1,11 @@
 {namespace pdf=Bithost\Pdfviewhelpers\ViewHelpers}
-<pdf:document outputDestination="I" title="Bithost Example" outputPath="overwritten_name.pdf">
+<pdf:document outputDestination="I" title="IP-Only" outputPath="Complete.pdf">
         <pdf:page autoPageBreak="1">
                 <pdf:headline>Fastighet {report.estateName} - Komplett rapport</pdf:headline>
                 <pdf:html styleSheet="typo3conf/ext/dl_iponlyestate/Resources/Public/Css/pdf.css">
                     <table class="table-outer"><tr><td>
                         <table class="table-header">
-                            <tr><th colspan="3"><h2>Rapport {report.reportName}</h2></th></tr>
+                            <tr><th colspan="3"><h2>Rapport påbörjad {report.startDate} - Rapport inskickad {report.endDate}</h2></th></tr>
                             <tr>
                             <td class="col-md-4">Version: {report.reportVersion}</td>
                             <td class="col-md-4">Datum: {report.reportDate}</td>
@@ -17,13 +17,13 @@
                             <td class="col-md-4">Rapport id: {report.reportUid}</td>
                             </tr>
                             <tr>
-                            <td class="col-md-4">Kritiska anm: {report.noOfCriticalRemarks}</td>
-                            <td class="col-md-4">Anmärkningar: {report.noOfRemarks}</td>
-                            <td class="col-md-4">Inköp/Med.: {report.noOfPurchases}</td>
+                            <td class="col-md-4">Kritiska anm: {report.noOfAllCriticalRemarks}</td>
+                            <td class="col-md-4">Anmärkningar: {report.noOfAllRemarks}</td>
+                            <td class="col-md-4">Inköp/Med.: {report.noOfAllPurchases}</td>
                             </tr>
                             <tr>
                             <td class="col-md-4">Ok: {report.getNoOfOk}</td>
-                            <td class="col-md-4">Rapporterade noteringar: {report.noOfPostedNotes}</td>
+                            <td class="col-md-4">Tidigare anmärkningar: {report.noOfPostedNotes}</td>
                             <td class="col-md-4">Pågående noteringar: {report.noOfOngoingNotes}</td>
                             </tr>
                             <tr>
@@ -56,24 +56,42 @@
                                                                                 <f:for each="{q.notes}" as="n">
                                                                                         <f:if condition="{n.remarkType}==1">
                                                                                                 Version: {report.reportVersion}<br>
-                                                                                                Status: OK: {n.comment} UID: {n.noteUid} reportUid: {report.reportUid}<br>
+                                                                                                Datum: {report.reportDate}<br>
+                                                                                                Tekniker: {report.execTechnicianName}<br>
+                                                                                                Status: OK<br>
+                                                                                                Kommentar: {n.comment}<br>
                                                                                         </f:if>
                                                                                         <f:if condition="{n.remarkType}==2">
                                                                                             <div style="color:red;">
                                                                                                 Version: {report.reportVersion}<br>
-                                                                                                Status: Kritisk: {n.comment} UID: {n.noteUid} reportUid: {report.reportUid}<br>
+                                                                                                Datum: {report.reportDate}<br>
+                                                                                                Tekniker: {report.execTechnicianName}<br>
+                                                                                                Status: Kritisk
+                                                                                                <f:if condition="{n.noteIsComplete}"> - Åtgärdad</f:if>
+                                                                                                <br>
+                                                                                                Kommentar: {n.comment}<br>
                                                                                             </div>
                                                                                         </f:if>
                                                                                         <f:if condition="{n.remarkType}==3">
                                                                                             <div style="color:red;">
                                                                                                 Version: {report.reportVersion}<br>
-                                                                                                Status: Anmärkning: {n.comment} UID: {n.noteUid} reportUid: {report.reportUid}<br>
+                                                                                                Datum: {report.reportDate}<br>
+                                                                                                Tekniker: {report.execTechnicianName}<br>
+                                                                                                Status: Anmärkning
+                                                                                                <f:if condition="{n.noteIsComplete}"> - Åtgärdad</f:if>
+                                                                                                <br>
+                                                                                                Kommentar: {n.comment}<br>
                                                                                             </div>
                                                                                         </f:if>
                                                                                         <f:if condition="{n.remarkType}==4">
                                                                                             <div style="color:red;">
                                                                                                 Version: {report.reportVersion}<br>
-                                                                                                Status: Meddelande : {n.comment} UID: {n.noteUid} reportUid: {report.reportUid}<br>
+                                                                                                Datum: {report.reportDate}<br>
+                                                                                                Tekniker: {report.execTechnicianName}<br>
+                                                                                                Status: Meddelande
+                                                                                                <f:if condition="{n.noteIsComplete}"> - Åtgärdad</f:if>
+                                                                                                <br>
+                                                                                                Kommentar: {n.comment}<br>
                                                                                             </div>
                                                                                         </f:if>
                                                                                 </f:for>

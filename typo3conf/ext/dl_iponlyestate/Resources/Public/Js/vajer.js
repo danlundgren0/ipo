@@ -79,6 +79,7 @@ DanL.Note = {
             }
         }).done(function(data, textStatus, jqXHR) {
             $('.btn-new-report').fadeOut();
+            $('.report-status').append('<div class="alert alert-info"><strong>Rapport påbörjad</strong></div>');
             //$('.note-fixed').prop("disabled", false);
         }).fail(function( jqXHR, textStatus, errorThrown ) {
             console.log('createNewReport failed: ' + textStatus);
@@ -507,7 +508,7 @@ $(function() {
     // external js: isotope.pkgd.js
 
     // init Isotope
-    var $table = $('.table-like').isotope({
+    /*var $table = $('.table-like').isotope({
         layoutMode: 'vertical',
         getSortData: {
             type: '.type',
@@ -520,15 +521,16 @@ $(function() {
             exetech: '.exetech',
             note: '.note parseInt',
             purchase: '.purchase parseInt'
-            /*category: '.category',
+            category: '.category',
             weight: function( itemElem ) {
               var weight = $( itemElem ).find('.weight').text();
               return parseFloat( weight.replace( /[\(\)]/g, '') );
-            }*/
+            }
         }
-    });
+    });*/
     //$container.isotope('reLayout');
     // bind sort button click
+/*
     $('.header').on( 'click', 'div', function() {
         var sortClass = $(this).hasClass('sort-asc');
         var sortValue = $(this).attr('data-sort-value');
@@ -537,8 +539,6 @@ $(function() {
         $(".collapse").collapse();
         $table.isotope('layout');
     });
-
-    // change is-checked class on buttons
     $('.header').each( function( i, buttonGroup ) {
         var $buttonGroup = $( buttonGroup );
         $buttonGroup.on( 'click', 'div', function() {
@@ -554,6 +554,8 @@ $(function() {
     })
     $('.panel-group').find('.collapse').addClass('in');
     $('.accordion-toggle').off();
+
+*/    
     //DropDown Nav
     //$('.nav .dropdown.active.open .dropdown-menu>li>a').on('click', function(event) {
     /*
