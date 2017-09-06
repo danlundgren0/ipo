@@ -44,7 +44,7 @@ class QRcodesGeneratorController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
         while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($pageRes)) {
             $parentPage = $row;
         }
-        $subPageRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery('title,uid', 'pages', 'pid=' . $parentPid.' AND hidden=0 AND deleted=0');
+        $subPageRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery('title,uid', 'pages', 'pid=' . $parentPid.' AND hidden=0 AND deleted=0 AND doktype=1');
         $subPages = array();
         while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($subPageRes)) {
             $subPages[] = $row;
