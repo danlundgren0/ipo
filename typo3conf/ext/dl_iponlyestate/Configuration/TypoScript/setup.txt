@@ -54,6 +54,17 @@ plugin.tx_dliponlyestate_reportlist {
 	}
 }
 
+plugin.tx_dliponlyestate_pdf {
+	view {
+		templateRootPaths.0 = {$plugin.tx_dliponlyestate_pdf.view.templateRootPath}
+		partialRootPaths.0 = {$plugin.tx_dliponlyestate_pdf.view.partialRootPath}
+		layoutRootPaths.0 = {$plugin.tx_dliponlyestate_pdf.view.layoutRootPath}
+	}
+	persistence {
+		storagePid = {$plugin.tx_dliponlyestate_pdf.persistence.storagePid}
+	}
+}
+
 plugin.tx_dliponlyestate._CSS_DEFAULT_STYLE (
 	textarea.f3-form-error {
 		background-color:#FF9F9F;
@@ -129,6 +140,17 @@ plugin.tx_dliponlyestate_reportlist {
 	}
 }
 
+plugin.tx_dliponlyestate_pdf {
+	persistence {
+		completePdfPid = {$plugin.tx_dliponlyestate_pdf.persistence.completePdfPid}
+		criticalPdfPid = {$plugin.tx_dliponlyestate_pdf.persistence.criticalPdfPid}
+		remarksPdfPid = {$plugin.tx_dliponlyestate_pdf.persistence.remarksPdfPid}
+		purchasePdfPid = {$plugin.tx_dliponlyestate_pdf.persistence.purchasePdfPid}
+		oldRemarksPdfPid = {$plugin.tx_dliponlyestate_pdf.persistence.oldRemarksPdfPid}
+		storagePid = {$plugin.tx_dliponlyestate.persistence.storagePid}
+		recursive = 99
+	}
+}
 
 #plugin.tx_dliponlyestate_ajaxrequest.persistence.storagePid = {$plugin.tx_dliponlyestate_cp.persistence.storagePid}
 #plugin.tx_dliponlyestate_ajaxrequest.persistence.recursive = 99

@@ -9,16 +9,26 @@
 
 }
 */
+.modal-open .modal {
+    top:40px;
+}
+body .container .search-container a.btn-export {    
+    background-color: buttonface;
+    color: buttontext;
+}
+.no-of-checked {
+    font-size:20px;
+}
 .note-date {
     padding-left:15px;
 }
-.allCpIsOk {
+[data-reportstatus="allCpIsOk"] {
     background-color: #e3edc6;
 }
-.remarksExists {
+[data-reportstatus="remarksExists"] {
     background-color: #fff7b2;
 }
-.noChecksDone {
+[data-reportstatus="noChecksDone"] {
     background-color: #f8c8d3;
 }
 
@@ -212,6 +222,43 @@ body .table-like__item .latest-report, body .table-like__item .old-reports {
     clear: both;
     border-top: 1px solid;
 }
+.col-md-1.h-status {
+
+}
+.col-md-1.h-type, .col-md-1.type, .col-md-1.type_old {
+	width:7.333333%;
+}
+.col-md-1.h-name, .col-md-1.name, .col-md-1.name_old {
+	width:14.333333%;
+}
+.col-md-1.h-report, .col-md-1.report, .col-md-1.report_old {
+	width:14.333333%;
+}
+.col-md-1.h-resptech {
+	
+}
+.col-md-1.h-critical, .col-md-1.critical, .col-md-1.critical_old {
+	width:7.333333%;
+}
+.col-md-1.h-remark, .col-md-1.remark, .col-md-1.remark_old {
+	width:7.333333%;
+}
+.col-md-1.h-preremark, .col-md-1.preremark, .col-md-1.preremark_old {
+	width:7.333333%;
+}
+.col-md-1.h-exetech {
+	
+}
+.col-md-1.h-purchase, .col-md-1.purchase, .col-md-1.purchase_old {
+	width:7.333333%;
+}
+.col-md-1.h-vacant1, .col-md-1.vacant1, .col-md-1.vacant1_old {
+	width:7.333333%;	
+}
+.col-md-1.h-vacant2, .col-md-1.vacant2, .col-md-1.vacant2_old {
+	width:7.333333%;
+}
+
 .col-md-1.handle {
     width: 3.33333%;
     padding-top: 11px;

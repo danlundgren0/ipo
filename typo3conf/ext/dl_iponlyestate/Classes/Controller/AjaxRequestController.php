@@ -170,6 +170,7 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 	public function getCompleteReport() {		
 		$reportUid = $this->arguments['reportUid'];
 		$estateUid = $this->arguments['estateUid'];
+		$completePdfPid = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dliponlyestate_pdf.']['persistence.']['completePdfPid'];
 		if((int)$reportUid>0 && (int)$estateUid>0) {			
 			$clickedReport = $this->reportRepository->findByUid((int)$reportUid);
 			$estate = $this->estateRepository->findByUid((int)$estateUid);
@@ -187,6 +188,7 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 			$ajaxRenderHtmlView->setTemplatePathAndFilename($templatePathAndFilename);
 			$ajaxRenderHtmlView->getRequest()->setControllerExtensionName($extensionName);
 			$ajaxRenderHtmlView->assign('report', $completeReportArr);
+			$ajaxRenderHtmlView->assign('completePdfPid', $completePdfPid);
 			$this->data['report'] = 'getCompleteReport';
 			$this->data['response'] = $ajaxRenderHtmlView->render();
 			$this->status = TRUE;
@@ -197,6 +199,7 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 	public function getCriticalReport() {
 		$reportUid = $this->arguments['reportUid'];
 		$estateUid = $this->arguments['estateUid'];
+		$criticalPdfPid = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dliponlyestate_pdf.']['persistence.']['criticalPdfPid'];
 		if((int)$reportUid>0 && (int)$estateUid>0) {			
 			$clickedReport = $this->reportRepository->findByUid((int)$reportUid);
 			$estate = $this->estateRepository->findByUid((int)$estateUid);
@@ -214,6 +217,7 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 			$ajaxRenderHtmlView->setTemplatePathAndFilename($templatePathAndFilename);
 			$ajaxRenderHtmlView->getRequest()->setControllerExtensionName($extensionName);
 			$ajaxRenderHtmlView->assign('report', $completeReportArr);
+			$ajaxRenderHtmlView->assign('criticalPdfPid', $criticalPdfPid);
 			$this->data['report'] = 'CriticalReport';
 			$this->data['response'] = $ajaxRenderHtmlView->render();
 			$this->status = TRUE;
@@ -224,6 +228,7 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 	public function getRemarkReport() {
 		$reportUid = $this->arguments['reportUid'];
 		$estateUid = $this->arguments['estateUid'];
+		$remarksPdfPid = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dliponlyestate_pdf.']['persistence.']['remarksPdfPid'];
 		if((int)$reportUid>0 && (int)$estateUid>0) {			
 			$clickedReport = $this->reportRepository->findByUid((int)$reportUid);
 			$estate = $this->estateRepository->findByUid((int)$estateUid);
@@ -241,6 +246,7 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 			$ajaxRenderHtmlView->setTemplatePathAndFilename($templatePathAndFilename);
 			$ajaxRenderHtmlView->getRequest()->setControllerExtensionName($extensionName);
 			$ajaxRenderHtmlView->assign('report', $completeReportArr);
+			$ajaxRenderHtmlView->assign('remarksPdfPid', $remarksPdfPid);
 			$this->data['report'] = 'RemarkReport';
 			$this->data['response'] = $ajaxRenderHtmlView->render();
 			$this->status = TRUE;
@@ -251,6 +257,7 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 	public function getPurchaseReport() {
 		$reportUid = $this->arguments['reportUid'];
 		$estateUid = $this->arguments['estateUid'];
+		$purchasePdfPid = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dliponlyestate_pdf.']['persistence.']['purchasePdfPid'];
 		if((int)$reportUid>0 && (int)$estateUid>0) {			
 			$clickedReport = $this->reportRepository->findByUid((int)$reportUid);
 			$estate = $this->estateRepository->findByUid((int)$estateUid);
@@ -268,6 +275,7 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 			$ajaxRenderHtmlView->setTemplatePathAndFilename($templatePathAndFilename);
 			$ajaxRenderHtmlView->getRequest()->setControllerExtensionName($extensionName);
 			$ajaxRenderHtmlView->assign('report', $completeReportArr);
+			$ajaxRenderHtmlView->assign('purchasePdfPid', $purchasePdfPid);
 			$this->data['report'] = 'PurchaseReport';
 			$this->data['response'] = $ajaxRenderHtmlView->render();
 			$this->status = TRUE;
@@ -278,11 +286,13 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 	public function getAllCompletedRemarksReport() {
 		$reportUid = $this->arguments['reportUid'];
 		$estateUid = $this->arguments['estateUid'];
+		$oldRemarksPdfPid = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dliponlyestate_pdf.']['persistence.']['oldRemarksPdfPid'];
 		if((int)$reportUid>0 && (int)$estateUid>0) {			
 			$clickedReport = $this->reportRepository->findByUid((int)$reportUid);
 			$estate = $this->estateRepository->findByUid((int)$estateUid);
-			$reports = $this->reportRepository->findByEstate($estate);
-			$completeReportArr = ReportUtility::getAllReportsWithRemarks($clickedReport, $estate, $reports);
+			//$reports = $this->reportRepository->findByEstate($estate);
+			$completeReportArr = ReportUtility::getAllCompletedRemarksReport($clickedReport, $estate);
+			//$completeReportArr = ReportUtility::getAllReportsWithRemarks($clickedReport, $estate);
 		}
 		if($completeReportArr) {
 			$layoutRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dl_iponlyestate/Resources/Private/Layouts');
@@ -295,6 +305,7 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 			$ajaxRenderHtmlView->setTemplatePathAndFilename($templatePathAndFilename);
 			$ajaxRenderHtmlView->getRequest()->setControllerExtensionName($extensionName);
 			$ajaxRenderHtmlView->assign('report', $completeReportArr);
+			$ajaxRenderHtmlView->assign('oldRemarksPdfPid', $oldRemarksPdfPid);
 			$this->data['report'] = 'getAllCompletedRemarksReport';
 			$this->data['response'] = $ajaxRenderHtmlView->render();
 			$this->status = TRUE;

@@ -541,7 +541,8 @@
                     "_default3_edit_update": false,
                     "_default4_delete": false,
                     "customActions": [
-                        "search"
+                        "search",
+                        "excel"
                     ]
                 },
                 "name": "Report",
@@ -1119,6 +1120,51 @@
                     "relations": []
                 }
             }
+        },
+        {
+            "config": {
+                "position": [
+                    1042,
+                    522
+                ]
+            },
+            "name": "New Model Object",
+            "value": {
+                "actionGroup": {
+                    "_default0_list": false,
+                    "_default1_show": false,
+                    "_default2_new_create": false,
+                    "_default3_edit_update": false,
+                    "_default4_delete": false,
+                    "customActions": [
+                        "pdfcomplete",
+                        "pdfcritical",
+                        "pdfremark",
+                        "pdfpurchase",
+                        "pdfoldremarks"
+                    ]
+                },
+                "name": "Pdf",
+                "objectsettings": {
+                    "addDeletedField": true,
+                    "addHiddenField": true,
+                    "addStarttimeEndtimeFields": true,
+                    "aggregateRoot": true,
+                    "categorizable": false,
+                    "description": "",
+                    "mapToTable": "",
+                    "parentClass": "",
+                    "sorting": false,
+                    "type": "Entity",
+                    "uid": "1039612971333"
+                },
+                "propertyGroup": {
+                    "properties": []
+                },
+                "relationGroup": {
+                    "relations": []
+                }
+            }
         }
     ],
     "properties": {
@@ -1193,6 +1239,15 @@
                 },
                 "key": "reportlist",
                 "name": "Report List"
+            },
+            {
+                "actions": {
+                    "controllerActionCombinations": "Pdf=>pdfcomplete,pdfcritical,pdfremark,pdfpurchase,pdfoldremarks",
+                    "noncacheableActions": "Pdf=>pdfcomplete,pdfcritical,pdfremark,pdfpurchase,pdfoldremarks",
+                    "switchableActions": "Complete Pdf\nPdf->pdfcomplete;\nCritical Pdf\nPdf->pdfcritical;\nRemarks Pdf\nPdf->pdfremark;\nPurchase Pdf\nPdf->pdfpurchase;\nOld remarks Pdf\nPdf->pdfoldremarks;"
+                },
+                "key": "pdf",
+                "name": "Pdf"
             }
         ],
         "vendorName": "DanLundgren"
@@ -1356,7 +1411,7 @@
         }
     ],
     "log": {
-        "last_modified": "2017-05-15 06:39",
+        "last_modified": "2017-07-13 08:33",
         "extension_builder_version": "7.6.0",
         "be_user": " (1)"
     }

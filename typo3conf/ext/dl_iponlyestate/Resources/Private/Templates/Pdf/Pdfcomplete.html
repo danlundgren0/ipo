@@ -1,0 +1,121 @@
+{namespace pdf=Bithost\Pdfviewhelpers\ViewHelpers}
+<pdf:document outputDestination="I" title="IP-Only" outputPath="Complete.pdf">
+        <pdf:page autoPageBreak="1">
+                <pdf:headline>Fastighet {report.estateName} - Komplett rapport</pdf:headline>
+                <pdf:html styleSheet="typo3conf/ext/dl_iponlyestate/Resources/Public/Css/pdf.css">
+                    <table class="table-outer"><tr><td>
+                        <table class="table-header">
+                            <tr><th colspan="3"><h2>Rapport påbörjad {report.startDate} - Rapport inskickad {report.endDate}</h2></th></tr>
+                            <tr>
+                            <td class="col-md-4">Version: {report.reportVersion}</td>
+                            <td class="col-md-4">Datum: {report.reportDate}</td>
+                            <td class="col-md-4">Nod: {report.nodeTypeName}</td>
+                            </tr>
+                            <tr>
+                            <td class="col-md-4">Ansvarig tekniker: {report.respTechnicianName}</td>
+                            <td class="col-md-4">Utförande tekniker: {report.execTechnicianName}</td>
+                            <td class="col-md-4">Rapport id: {report.reportUid}</td>
+                            </tr>
+                            <tr>
+                            <td class="col-md-4">Kritiska anm: {report.noOfAllCriticalRemarks}</td>
+                            <td class="col-md-4">Anmärkningar: {report.noOfAllRemarks}</td>
+                            <td class="col-md-4">Inköp/Med.: {report.noOfAllPurchases}</td>
+                            </tr>
+                            <tr>
+                            <td class="col-md-4">Ok: {report.getNoOfOk}</td>
+                            <td class="col-md-4">Tidigare anmärkningar: {report.noOfPostedNotes}</td>
+                            <td class="col-md-4">Pågående noteringar: {report.noOfOngoingNotes}</td>
+                            </tr>
+                            <tr>
+                            <td class="col-md-4">Rapporterade mätvärden: {report.noOfPostedMeasure}</td>
+                            <td class="col-md-4">Rapporterade Punkter: {report.noOfQuestionsReported}</td>
+                            <td class="col-md-4">Ej Rapporterade Punkter: {report.noOfQuestionsLeft}</td>
+                            </tr>
+                        </table>
+                    </td></tr></table>
+                </pdf:html>
+                <pdf:html styleSheet="typo3conf/ext/dl_iponlyestate/Resources/Public/Css/pdf.css">
+                <f:for each="{report.controlPoints}" as="cp">                
+                        <table class="table-cp-container">
+                            <tr><td><h2>Kontrollpunkt: {cp.cpName}</h2></td></tr>
+                            <tr><td>                                
+                                <f:for each="{cp.questions}" as="q">                                
+                                    <h3>Delpunkt: {q.questionName}</h3>
+                                    <table class="table-quest-container {q.status}">
+                                        <tr><td>
+                                                <f:if condition="{q.type}=='measure'">                                                          
+                                                        <f:then>                                                                        
+                                                                <f:for each="{q.notes}" as="n">
+                                                                Version: {report.reportVersion}<br>
+                                                                Mätvärde: {n.value} {n.measName} ({n.unit})<br>
+                                                                </f:for>
+                                                        </f:then>
+                                                        <f:else>
+                                                                <f:if condition="{q.type}=='note'">
+                                                                        <f:then>
+                                                                                <f:for each="{q.notes}" as="n">
+                                                                                        <f:if condition="{n.remarkType}==1">
+                                                                                                Version: {report.reportVersion}<br>
+                                                                                                Datum: {report.reportDate}<br>
+                                                                                                Tekniker: {report.execTechnicianName}<br>
+                                                                                                Status: OK<br>
+                                                                                                Kommentar: {n.comment}<br>
+                                                                                        </f:if>
+                                                                                        <f:if condition="{n.remarkType}==2">
+                                                                                            <div style="color:red;">
+                                                                                                Version: {report.reportVersion}<br>
+                                                                                                Datum: {report.reportDate}<br>
+                                                                                                Tekniker: {report.execTechnicianName}<br>
+                                                                                                Status: Kritisk
+                                                                                                <f:if condition="{n.noteIsComplete}"> - Åtgärdad</f:if>
+                                                                                                <br>
+                                                                                                Kommentar: {n.comment}<br>
+                                                                                            </div>
+                                                                                        </f:if>
+                                                                                        <f:if condition="{n.remarkType}==3">
+                                                                                            <div style="color:red;">
+                                                                                                Version: {report.reportVersion}<br>
+                                                                                                Datum: {report.reportDate}<br>
+                                                                                                Tekniker: {report.execTechnicianName}<br>
+                                                                                                Status: Anmärkning
+                                                                                                <f:if condition="{n.noteIsComplete}"> - Åtgärdad</f:if>
+                                                                                                <br>
+                                                                                                Kommentar: {n.comment}<br>
+                                                                                            </div>
+                                                                                        </f:if>
+                                                                                        <f:if condition="{n.remarkType}==4">
+                                                                                            <div style="color:red;">
+                                                                                                Version: {report.reportVersion}<br>
+                                                                                                Datum: {report.reportDate}<br>
+                                                                                                Tekniker: {report.execTechnicianName}<br>
+                                                                                                Status: Meddelande
+                                                                                                <f:if condition="{n.noteIsComplete}"> - Åtgärdad</f:if>
+                                                                                                <br>
+                                                                                                Kommentar: {n.comment}<br>
+                                                                                            </div>
+                                                                                        </f:if>
+                                                                                </f:for>
+                                                                        </f:then>
+                                                                        <f:else>
+                                                                                Ej rapporterad
+                                                                        </f:else>
+                                                                </f:if>
+                                                        </f:else>
+                                                </f:if>
+                                        </td>
+                                        <td>
+                                                <f:for each="{q.notes}" as="n">
+                                                        <f:if condition="{n.image}">
+                                                            <div class="item-img">
+                                                                <img src="{n.image}" class="img-responsive" width="300" />
+                                                            </div>                                                      
+                                                        </f:if>
+                                                </f:for>
+                                        </td></tr>
+                                    </table>
+                                </f:for>                                
+                        </td></tr></table>                
+                </f:for>
+                </pdf:html>
+        </pdf:page>
+</pdf:document>

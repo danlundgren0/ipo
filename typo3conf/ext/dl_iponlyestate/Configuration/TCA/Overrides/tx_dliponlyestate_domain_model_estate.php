@@ -5,7 +5,7 @@ $GLOBALS['TCA']['tx_dliponlyestate_domain_model_estate']['columns']['responsible
     array('Select technician', 0),
 );
 $GLOBALS['TCA']['tx_dliponlyestate_domain_model_estate']['columns']['responsible_technician']['config']['foreign_table'] = 'fe_users';
-$GLOBALS['TCA']['tx_dliponlyestate_domain_model_estate']['columns']['responsible_technician']['config']['foreign_table_where'] = 'ORDER BY username';
+$GLOBALS['TCA']['tx_dliponlyestate_domain_model_estate']['columns']['responsible_technician']['config']['foreign_table_where'] = ' AND usergroup = 2 ORDER BY username';
 $GLOBALS['TCA']['tx_dliponlyestate_domain_model_estate']['columns']['page_link'] = array (
     'label' => 'LLL:EXT:cms/locallang_ttc.xlf:header_link',
     'exclude' => 1,

@@ -1,0 +1,44 @@
+<T3DataStructure>
+	<sheets>
+		<sDEF>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>Function</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
+					<switchableControllerActions>
+						<TCEforms>
+							<label>Select function</label>
+							<config>
+								<type>select</type>
+								<items>
+									<numIndex index="0">
+										<numIndex index="0">Complete Pdf</numIndex>
+										<numIndex index="1">Pdf->pdfcomplete</numIndex>
+									</numIndex>
+									<numIndex index="1">
+										<numIndex index="0">Critical Pdf</numIndex>
+										<numIndex index="1">Pdf->pdfcritical</numIndex>
+									</numIndex>
+									<numIndex index="2">
+										<numIndex index="0">Remarks Pdf</numIndex>
+										<numIndex index="1">Pdf->pdfremark</numIndex>
+									</numIndex>
+									<numIndex index="3">
+										<numIndex index="0">Purchase Pdf</numIndex>
+										<numIndex index="1">Pdf->pdfpurchase</numIndex>
+									</numIndex>
+									<numIndex index="4">
+										<numIndex index="0">Old remarks Pdf</numIndex>
+										<numIndex index="1">Pdf->pdfoldremarks</numIndex>
+									</numIndex>
+								</items>
+							</config>
+						</TCEforms>
+					</switchableControllerActions>
+				</el>
+			</ROOT>
+		</sDEF>
+	</sheets>
+</T3DataStructure>

@@ -74,6 +74,21 @@ plugin.tx_dliponlyestate_reportlist {
 	}
 }
 
+plugin.tx_dliponlyestate_pdf {
+	view {
+		# cat=plugin.tx_dliponlyestate_pdf/file; type=string; label=Path to template root (FE)
+		templateRootPath = EXT:dl_iponlyestate/Resources/Private/Templates/
+		# cat=plugin.tx_dliponlyestate_pdf/file; type=string; label=Path to template partials (FE)
+		partialRootPath = EXT:dl_iponlyestate/Resources/Private/Partials/
+		# cat=plugin.tx_dliponlyestate_pdf/file; type=string; label=Path to template layouts (FE)
+		layoutRootPath = EXT:dl_iponlyestate/Resources/Private/Layouts/
+	}
+	persistence {
+		# cat=plugin.tx_dliponlyestate_pdf//a; type=string; label=Default storage PID
+		storagePid =
+	}
+}
+
 ## EXTENSION BUILDER DEFAULTS END TOKEN - Everything BEFORE this line is overwritten with the defaults of the extension builder
 # customsubcategory=ids=Id settings for pages, groups etc.
 plugin.tx_dliponlyestate {
@@ -87,3 +102,15 @@ plugin.tx_dliponlyestate {
 	}
 }
 #plugin.tx_dliponlyestate.persistence.storagePid
+plugin.tx_dliponlyestate_pdf.persistence {
+	# cat=plugin.tx_dliponlyestate_pdf/a; type=int; label=Complete Report PDF PID	
+	completePdfPid = 
+	# cat=plugin.tx_dliponlyestate_pdf/a; type=int; label=Critical Report PDF PID	
+	criticalPdfPid = 
+	# cat=plugin.tx_dliponlyestate_pdf/a; type=int; label=Remarks Report PDF PID	
+	remarksPdfPid = 
+	# cat=plugin.tx_dliponlyestate_pdf/a; type=int; label=Purchase Report PDF PID	
+	purchasePdfPid = 
+	# cat=plugin.tx_dliponlyestate_pdf/a; type=int; label=Oldremarks Report PDF PID	
+	oldRemarksPdfPid = 
+}

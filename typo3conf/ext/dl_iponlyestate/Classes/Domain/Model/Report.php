@@ -33,6 +33,34 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
 
     /**
+     * totalNoOfCriticalRemarks
+     *
+     * @var int
+     */
+    protected $totalNoOfCriticalRemarks = 0;
+    
+    /**
+     * totalNoOfRemarks
+     *
+     * @var int
+     */
+    protected $totalNoOfRemarks = 0;
+    
+    /**
+     * totalNoOfPurchases
+     *
+     * @var int
+     */
+    protected $totalNoOfPurchases = 0;
+    
+    /**
+     * totalNoOfCompletedNotes
+     *
+     * @var int
+     */
+    protected $totalNoOfCompletedNotes = 0;
+    
+    /**
      * name
      *
      * @var string
@@ -110,28 +138,7 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var \DateTime
      */
     protected $endDate = null;
-
-    /**
-     * totalNoOfCriticalRemarks
-     *
-     * @var int
-     */
-    protected $totalNoOfCriticalRemarks = 0;
-
-    /**
-     * totalNoOfRemarks
-     *
-     * @var int
-     */
-    protected $totalNoOfRemarks = 0;
     
-    /**
-     * totalNoOfPurchases
-     *
-     * @var int
-     */
-    protected $totalNoOfPurchases = 0;
-
     /**
      * noOfCriticalRemarks
      *
@@ -152,14 +159,7 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var int
      */
     protected $noOfOldRemarks = 0;
-
-    /**
-     * totalNoOfCompletedNotes
-     *
-     * @var int
-     */
-    protected $totalNoOfCompletedNotes = 0;
-
+    
     /**
      * noOfNotes
      *
@@ -558,14 +558,14 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function getNoOfCriticalRemarks()
     {
         $no = 0;
-        foreach($this->getNotes() as $note) {
-            if($note->getState()==2 && !$note->getIsComplete()) {
+        foreach ($this->getNotes() as $note) {
+            if ($note->getState() == 2 && !$note->getIsComplete()) {
                 $no += 1;
             }
         }
         return $no;
     }
-
+    
     /**
      * Returns the NoOfOk
      *
@@ -574,14 +574,14 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function getNoOfOk()
     {
         $no = 0;
-        foreach($this->getNotes() as $note) {
-            if($note->getState()==1) {
+        foreach ($this->getNotes() as $note) {
+            if ($note->getState() == 1) {
                 $no += 1;
             }
         }
         return $no;
     }
-
+    
     /**
      * Returns the NoOfReportedMeasurements
      *
@@ -590,14 +590,14 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function getNoOfReportedMeasurements()
     {
         $no = 0;
-        foreach($this->getReportedMeasurement() as $meas) {
-            if($meas->isChecked()) {
+        foreach ($this->getReportedMeasurement() as $meas) {
+            if ($meas->isChecked()) {
                 $no += 1;
             }
         }
         return $no;
     }
-
+    
     /**
      * Returns the NoOfReportedMeasurements
      *
@@ -606,7 +606,7 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function getTotalNoOfReportedMeasurements()
     {
         $no = 0;
-        foreach($this->getReportedMeasurement() as $meas) {
+        foreach ($this->getReportedMeasurement() as $meas) {
             $no += 1;
         }
         return $no;
@@ -614,12 +614,12 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     
     public function isAllNotesOk()
     {
-        if($this->getNoOfNotes()==$this->getNoOfOk()) {
+        if ($this->getNoOfNotes() == $this->getNoOfOk()) {
             return TRUE;
         }
         return FALSE;
-    }    
-
+    }
+    
     /**
      * Sets the noOfCriticalRemarks
      *
@@ -630,7 +630,7 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->noOfCriticalRemarks = $noOfCriticalRemarks;
     }
-
+    
     /**
      * Returns the totalNoOfCriticalRemarks
      *
@@ -640,7 +640,7 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->totalNoOfCriticalRemarks;
     }
-
+    
     /**
      * Sets the totalNoOfCriticalRemarks
      *
@@ -651,7 +651,7 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->totalNoOfCriticalRemarks = $totalNoOfCriticalRemarks;
     }
-
+    
     /**
      * Returns the totalNoOfRemarks
      *
@@ -661,7 +661,7 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->totalNoOfRemarks;
     }
-
+    
     /**
      * Sets the totalNoOfRemarks
      *
@@ -672,7 +672,7 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->totalNoOfRemarks = $totalNoOfRemarks;
     }
-
+    
     /**
      * Returns the totalNoOfPurchases
      *
@@ -682,7 +682,7 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->totalNoOfPurchases;
     }
-
+    
     /**
      * Sets the totalNoOfPurchases
      *
@@ -693,7 +693,7 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->totalNoOfPurchases = $totalNoOfPurchases;
     }
-
+    
     /**
      * Sets the totalNoOfCompletedNotes
      *
@@ -703,8 +703,8 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setTotalNoOfCompletedNotes($totalNoOfCompletedNotes)
     {
         $this->totalNoOfCompletedNotes = $totalNoOfCompletedNotes;
-    } 
-
+    }
+    
     /**
      * Returns the totalNoOfCompletedNotes
      *
@@ -714,7 +714,7 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->totalNoOfCompletedNotes;
     }
-
+    
     /**
      * Returns the noOfRemarks
      *
@@ -723,13 +723,13 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function getAllCompletedNotes()
     {
         $no = 0;
-        foreach($this->getNotes() as $note) {
-            if(($note->getState()==2 || $note->getState()==3 || $note->getState()==4) && $note->getIsComplete()) {
+        foreach ($this->getNotes() as $note) {
+            if (($note->getState() == 2 || $note->getState() == 3 || $note->getState() == 4) && $note->getIsComplete()) {
                 $no += 1;
             }
         }
         return $no;
-    }    
+    }
     
     /**
      * Returns the noOfRemarks
@@ -739,14 +739,14 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function getNoOfRemarks()
     {
         $no = 0;
-        foreach($this->getNotes() as $note) {
-            if($note->getState()==3 && !$note->getIsComplete()) {
+        foreach ($this->getNotes() as $note) {
+            if ($note->getState() == 3 && !$note->getIsComplete()) {
                 $no += 1;
             }
         }
         return $no;
     }
-
+    
     /**
      * Returns the getNoOfAllRemarks
      *
@@ -755,14 +755,46 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function getNoOfAllRemarks()
     {
         $no = 0;
-        foreach($this->getNotes() as $note) {
-            if($note->getState()==3) {
+        foreach ($this->getNotes() as $note) {
+            if ($note->getState() == 3) {
                 $no += 1;
             }
         }
         return $no;
     }
-
+    
+    /**
+     * Returns the getNoOfAllCriticalRemarks
+     *
+     * @return int $noOfAllCriticalRemarks
+     */
+    public function getNoOfAllCriticalRemarks()
+    {
+        $no = 0;
+        foreach ($this->getNotes() as $note) {
+            if ($note->getState() == 2) {
+                $no += 1;
+            }
+        }
+        return $no;
+    }
+    
+    /**
+     * Returns the getNoOfAllPurchases
+     *
+     * @return int $noOfAllPurchases
+     */
+    public function getNoOfAllPurchases()
+    {
+        $no = 0;
+        foreach ($this->getNotes() as $note) {
+            if ($note->getState() == 4) {
+                $no += 1;
+            }
+        }
+        return $no;
+    }
+    
     /**
      * Returns the getNoCompletedRemarks
      *
@@ -771,8 +803,8 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function getNoCompletedRemarks()
     {
         $no = 0;
-        foreach($this->getNotes() as $note) {
-            if($note->getIsComplete()) {
+        foreach ($this->getNotes() as $note) {
+            if ($note->getIsComplete()) {
                 $no += 1;
             }
         }
@@ -798,13 +830,12 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function getNoOfOldRemarks()
     {
         $no = 0;
-        foreach($this->getNotes() as $note) {
-            if($note->getIsComplete()) {
+        foreach ($this->getNotes() as $note) {
+            if ($note->getIsComplete()) {
                 $no += 1;
             }
         }
         return $no;
-        //return $this->noOfOldRemarks;
     }
     
     /**
@@ -826,7 +857,7 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function getNoOfNotes()
     {
         $no = count($this->getNotes());
-        return ($no>0)?$no:0;
+        return $no > 0 ? $no : 0;
     }
     
     /**
@@ -858,8 +889,8 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function getNoOfPurchases()
     {
         $no = 0;
-        foreach($this->getNotes() as $note) {
-            if($note->getState()==4 && !$note->getIsComplete()) {
+        foreach ($this->getNotes() as $note) {
+            if ($note->getState() == 4 && !$note->getIsComplete()) {
                 $no += 1;
             }
         }

@@ -51,7 +51,7 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         //$where = 'WHERE ';
         $reportArr = array();
         $and = '';
-        $from = 'tx_dliponlyestate_domain_model_report reports';        
+        $from = 'tx_dliponlyestate_domain_model_report reports';
         if ($searchCriterias->getCity() != -1) {
             $where .= ' reports.estate IN (SELECT estate.uid FROM tx_dliponlyestate_domain_model_estate estate WHERE estate.city = \'' . $searchCriterias->getCity() . '\')';
             $from = 'tx_dliponlyestate_domain_model_report reports, fe_users fe_user, tx_dliponlyestate_domain_model_note note, tx_dliponlyestate_domain_model_estate estate ';
@@ -82,9 +82,9 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             $and = ' AND ';
         }
         /*if($searchCriterias->getEstate()>0) {
-            		$where .= $and." reports.estate=".$searchCriterias->getEstate()->getUid();
-            		$and = ' AND ';
-            	}*/
+                                    		$where .= $and." reports.estate=".$searchCriterias->getEstate()->getUid();
+                                    		$and = ' AND ';
+                                    	}*/
         
         if ($searchCriterias->getNodeType() > 0) {
             $where .= $and . ' estate.node_type=' . $searchCriterias->getNodeType();
@@ -101,7 +101,7 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($searchRes)) {
             $reportArr[] = $row;
         }
-//echo $GLOBALS['TYPO3_DB']->debug_lastBuiltQuery;
+        //echo $GLOBALS['TYPO3_DB']->debug_lastBuiltQuery;
         $reportUids = array();
         $reportsByEstate = array();
         $sortedAndLimitedReportsByEstate = array();
@@ -114,11 +114,8 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             $allReports = $query->execute();
             if (count($allReports) > 0) {
                 foreach ($allReports as $report) {
-                    if($report->getEstate()) {
+                    if ($report->getEstate()) {
                         $reportsByEstate[$report->getEstate()->getUid()][] = $report;
-                        /*foreach ($reportsByEstate as &$estateArr) {
-                            usort($estateArr, array($this, 'cmpDesc'));
-                        }*/                        
                     }
                 }
                 foreach ($reportsByEstate as $estateArr) {
@@ -126,7 +123,7 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                     $totalNoOfRemarks = 0;
                     $totalNoOfPurchases = 0;
                     $totalNoOfCompletedNotes = 0;
-                    foreach($estateArr as $report) {
+                    foreach ($estateArr as $report) {
                         $totalNoOfCriticalRemarks += $report->getNoOfCriticalRemarks();
                         $report->setTotalNoOfCriticalRemarks($totalNoOfCriticalRemarks);
                         $totalNoOfRemarks += $report->getNoOfRemarks();
@@ -158,7 +155,6 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                 }
             }
         }
-
         /*
         if(count($reportArr)>0) {
         	$reportUids = array();
@@ -170,8 +166,8 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         		    return $query->execute();
         }
         */
+        
         return $reportsByEstate;
-        //return $sortedAndLimitedReportsByEstate;
     }
     
     /**
@@ -202,7 +198,6 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             $estates = $estateRepository->findAll();
             $constraints[] = $estateRepository->findAll();
         }
-
         $query->matching($query->logicalAnd($constraints));
         return $query->execute();
     }
@@ -221,7 +216,6 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                 }
             }
         }
-
         //$query->matching($query->logicalAnd($constraints));
         return $query->execute();
     }
@@ -237,12 +231,12 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             $constraints[] = $query->matching($query->equals('estate', $demand->getEstate()));
         }
         /*
-        	    if ($demand->getCategory() !== NULL) {
-                $constraints[] = $query->contains('categories', $demand->getCategory());
-        	    }
-        	    if ($demand->getOrganization() !== NULL) {
-                $constraints[] = $query->contains('organization', $demand->getOrganization());
-        	    }*/
+                                	    if ($demand->getCategory() !== NULL) {
+                                        $constraints[] = $query->contains('categories', $demand->getCategory());
+                                	    }
+                                	    if ($demand->getOrganization() !== NULL) {
+                                        $constraints[] = $query->contains('organization', $demand->getOrganization());
+                                	    }*/
         
         if (is_string($demand->getFreeSearch()) && strlen($demand->getFreeSearch()) > 0) {
             if (count($demand->getNotes()) > 0) {
@@ -252,15 +246,15 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             }
         }
         /*    if (($demand->getFromDate() !== '') && ($demand->getToDate() !== '')) {
-        	    	$fromDate = \DateTime::createFromFormat('Y-m-d', $demand->getFromDate());
-        	    	$toDate = \DateTime::createFromFormat('Y-m-d', $demand->getToDate());
-        	    	$constraints[] = $query->lessThanOrEqual('date', $fromDate->format('Y-m-d'));
-        	    	*/
+                                	    	$fromDate = \DateTime::createFromFormat('Y-m-d', $demand->getFromDate());
+                                	    	$toDate = \DateTime::createFromFormat('Y-m-d', $demand->getToDate());
+                                	    	$constraints[] = $query->lessThanOrEqual('date', $fromDate->format('Y-m-d'));
+                                	    	*/
         
         /*$constraints[] = $query->logicalAnd(
-        	            	$query->greaterThanOrEqual('date', $fromDate->format('Y-m-d')),
+                                	            	$query->greaterThanOrEqual('date', $fromDate->format('Y-m-d')),
           $query->lessThanOrEqual('date', $toDate->format('Y-m-d'))
-        	            	//$query->greaterThanOrEqual('date', $demand->getFromDate()),
+                                	            	//$query->greaterThanOrEqual('date', $demand->getFromDate()),
           //$query->lessThanOrEqual('date', $demand->getToDate())
           );*/
         
@@ -284,14 +278,13 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
           }*/
         
         /*
-        	    $constraints[] = $query->logicalOr(
-                $query->equals('dateRange.minimumValue', NULL),
-                $query->equals('dateRange.minimumValue', 0),
-                $query->greaterThan('dateRange.maximumValue', (time() - 60*60*24*7))
-        	    );*/
+                                	    $constraints[] = $query->logicalOr(
+                                        $query->equals('dateRange.minimumValue', NULL),
+                                        $query->equals('dateRange.minimumValue', 0),
+                                        $query->greaterThan('dateRange.maximumValue', (time() - 60*60*24*7))
+                                	    );*/
         
         $query->matching($query->logicalAnd($constraints));
-
         return $query->execute();
     }
 

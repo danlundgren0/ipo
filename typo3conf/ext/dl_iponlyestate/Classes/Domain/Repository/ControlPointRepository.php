@@ -44,12 +44,25 @@ class ControlPointRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      */
     public function findSubPagesByParentPid($pid)
     {
-        $pagesRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid,title,doktype', 'pages', 'pid=' . $pid.' AND hidden=0 AND deleted=0');
+        $pagesRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid,title,doktype', 'pages', 'pid=' . $pid . ' AND hidden=0 AND deleted=0');
         $subPages = array();
         while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($pagesRes)) {
             $subPages[] = $row;
         }
         return $subPages;
+    }
+
+    /**
+     * @param $estate
+     */
+    public function findCpByPid($pid)
+    {
+        $cpRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid,pi_flexform', 'tt_content', 'list_type="dliponlyestate_cp" AND pid=' . $pid.' AND hidden=0 AND deleted=0');
+        $cp = NULL;
+        while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($cpRes)) {
+            $cp = $row;
+        }
+        return $cp;
     }
 
 }
