@@ -16,6 +16,9 @@ body .container .search-container a.btn-export {
     background-color: buttonface;
     color: buttontext;
 }
+body .tx-dl-iponlyestate h1, body .tx-dl-iponlyestate .tabpanel h5 {
+    word-wrap:break-word;
+}
 .no-of-checked {
     font-size:20px;
 }

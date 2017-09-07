@@ -6,7 +6,7 @@
 
 $GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['types'] = array(
 	'1' => array('showitem' => '
-        sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, version, estate, control_point, date, start_date, end_date, is_complete, node_type, executive_technician, responsible_technicians, report_is_posted, no_of_critical_remarks, no_of_remarks, no_of_old_remarks, no_of_notes, no_of_purchases, dynamic_column, message, purchase,
+        sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, version, estate, control_point, date, start_date, end_date, is_complete, node_type, executive_technician, report_is_posted, no_of_critical_remarks, no_of_remarks, no_of_old_remarks, no_of_notes, no_of_purchases, dynamic_column, message, purchase,
 		--div--;Notes, notes,
 		--div--;Measurement, reported_measurement,		
 		--div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime
@@ -54,7 +54,7 @@ $GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['responsible
 $GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['responsible_technicians']['config']['foreign_table_where'] = 'AND fe_users.disable = 0 AND fe_users.deleted = 0 ORDER BY fe_users.username';
 $GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['responsible_technicians']['config']['items'] = array();
 $GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['responsible_technicians']['config']['wizards'] = array();
-$GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['responsible_technicians']['config']['minitems'] = 1;
+$GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['responsible_technicians']['config']['minitems'] = 0;
 $GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['responsible_technicians']['config']['maxitems'] = 999;
 $GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['responsible_technicians']['config']['size'] = 10;
 $GLOBALS['TCA']['tx_dliponlyestate_domain_model_report']['columns']['responsible_technicians']['config']['renderType'] = 'selectMultipleSideBySide';

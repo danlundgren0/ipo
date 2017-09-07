@@ -96,7 +96,7 @@ class ReportUtility {
 	                            if($note->getIsComplete()) {
 	                                $noOfPostedNotes+=1;
 	                            }
-	                            else {
+	                            elseif($note->getRemarkType()!=1) {
 	                                $noOfOngoingNotes+=1;
 	                            }
 	                            $reportsArr['noOfQuestionsReported'] = $noOfQuestionsReported;
@@ -240,7 +240,7 @@ class ReportUtility {
                         if($note->getIsComplete()) {
                             $noOfPostedNotes+=1;
                         }
-                        else {
+                        elseif($note->getRemarkType()!=1) {
                             $noOfOngoingNotes+=1;
                         }
                         $reportsArr['noOfQuestionsReported'] = $noOfQuestionsReported;
@@ -380,7 +380,7 @@ class ReportUtility {
                         if($note->getIsComplete()) {
                             $noOfPostedNotes+=1;
                         }
-                        else {
+                        elseif($note->getRemarkType()!=1) {
                             $noOfOngoingNotes+=1;
                         }
                         $reportsArr['noOfQuestionsReported'] = $noOfQuestionsReported;
