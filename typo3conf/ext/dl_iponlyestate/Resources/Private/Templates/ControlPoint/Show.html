@@ -15,7 +15,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
 <f:section name="main">
     <f:if condition="{isValid}==0">
     <div class="alert alert-danger" role="alert">
-      Felmeddelande: {ErrMess}
+      {ErrMess}
     </div>
     </f:if>
 <input type="hidden" id="reportPid" value="{reportPid}" />
@@ -191,7 +191,9 @@ Otherwise your changes will be overwritten the next time you save the extension 
             <f:link.page pageUid="{rootLine1Uid}" class="btn btn-danger link-to-list-button">Se översikt och/eller slutför rapporteringen >></f:link.page>
           </f:then>
           <f:else>
+          	<f:comment>
             <f:link.page pageUid="{rootLine1Uid}" class="btn btn-danger link-to-list-button">Se översikt >></f:link.page>      
+            </f:comment>
         </f:else>
         </f:if>
       </f:else>      

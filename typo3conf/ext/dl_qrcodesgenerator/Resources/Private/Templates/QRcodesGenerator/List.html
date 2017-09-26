@@ -14,8 +14,12 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 <f:section name="main">
 <f:flashMessages />
+<f:comment>
 <button onclick="window.print();">Skriv ut</button>
-<div><f:format.raw>{qrParent}</f:format.raw></div>
+</f:comment>
+<div>
+	<f:format.raw>{qrParent}</f:format.raw>
+</div>
 <f:for each="{qrSubPages}" as="qrSubPage">
 	<div><f:format.raw>{qrSubPage}</f:format.raw></div>
 </f:for>

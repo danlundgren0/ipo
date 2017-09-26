@@ -351,7 +351,7 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                 $this->view->assign('isValid', $isValid);
             }
             else {
-                $this->view->assign('ErrMess', 'Ingen rapport är skapad!');                
+                $this->view->assign('ErrMess', 'Ingen rapport är skapad! Scanna fastighetstaggen först och skapa rapport där, innan du går vidare.');                
             }
         }
     }
