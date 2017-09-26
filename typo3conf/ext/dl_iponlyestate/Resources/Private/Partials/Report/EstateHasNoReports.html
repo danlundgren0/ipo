@@ -18,7 +18,7 @@
 		<v:variable.set name="remarkColor" value="remarkColor" />	
 	</f:if>
 	<div class="latest-report noChecksDone" data-reportstatus="noChecksDone" data-report="{report.reportUid}"  data-estate="{estate.estateUid}">
-    	<div class="col-md-1 handle" data-colour="{v:variable.get(name: 'dataColor')}">{v:variable.get(name: 'dataColor')}</div>
+    	<div class="col-md-1 handle" data-colour="{v:variable.get(name: 'dataColor')}"></div>
     	<div class="col-md-1 type"><f:format.case mode="capital">{estate.nodeTypeName}</f:format.case></div>
     	<div class="col-md-1 name">
     		<f:if condition="{estate.pageLink}">
