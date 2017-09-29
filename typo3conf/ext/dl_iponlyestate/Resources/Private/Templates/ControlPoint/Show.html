@@ -147,9 +147,9 @@ Otherwise your changes will be overwritten the next time you save the extension 
                       </f:else>
                     </f:if>
                     <div class="row">
-                      <div class="col-md-8">
+                      <div class="col-md-8 _js_cp-container">
                         <h1>{question.header}</h1>
-                        <div><f:format.html>{question.description}</f:format.html></div>
+                        <div class="_js_cp-description"><f:format.html>{question.description}</f:format.html></div>
                         <input type="hidden" value="{question.uid}" class="qUid" />
                             <f:for each="{preparedControlPoint}" as="note" key="questUid">
                                 <f:if condition="{question.uid}=={questUid}">
@@ -171,7 +171,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
                         <div class="posted-notes"></div>
                         <div style="clear:both;"></div>
                       </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 _js_cp-image">
                       <f:if condition="{question.image.originalResource.publicUrl}">
                         <img src="{question.image.originalResource.publicUrl}" width="554" height="332" class="img-responsive" />
                       </f:if>

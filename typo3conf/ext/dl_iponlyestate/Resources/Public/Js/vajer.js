@@ -462,7 +462,13 @@ DanL.Note = {
 		//$('html, body').animate({scrollTop: $('#contact').offset().top -100 }, 'slow');
     }
 }
-$(function() { 
+$(function() {
+	console.log($(window).width());
+	if ($(window).width() <= 458) {
+		$('._js_cp-image').find('img').each(function(){
+			$(this).appendTo($(this).closest('.row').find('._js_cp-container').find('._js_cp-description'));
+		});
+	}
     fakewaffle.responsiveTabs(['xs']);  
     //$('[role="presentation"]').find('a.disabled').on('click', function(event){
 	$('.upload-btn').change(function (){
