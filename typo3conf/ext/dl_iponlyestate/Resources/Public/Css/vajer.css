@@ -541,6 +541,9 @@ body .posted-note-container .checkbox input {
     .panel-heading {
         padding: 0 !important;
     }
+	body .tx-dl-iponlyestate h1, body .tx-dl-iponlyestate .tabpanel h5 {
+		font-size: 4vw;
+	}
 }
 @media screen and (max-width: 458px) {
     .add-photo-btn {
