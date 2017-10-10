@@ -70,10 +70,17 @@ class QRcodesGeneratorController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
             }
         }
         $qrUrl = $this->request->getBaseUri() . '' . $tmpUrl;
-        //print '<iframe width="100" height="100" src="https://chart.googleapis.com/chart?cht=qr&chs=100&chl='.$qrUrl.'" frameBorder="0"></iframe><div>'.$parentPage['title'].'</div>';
-        $qrParent = '<iframe style="overflow: hidden;" width="180" height="180" src="https://chart.googleapis.com/chart?cht=qr&chs=150&chl='.$qrUrl.'" frameBorder="0"></iframe><div style="text-align: center;width: 150px;font-size: 12px;margin-top: -40px;">'.$parentPage['title'].'</div>'; //<div>'.$qrUrl.'</div';
-        $this->view->assign('qrParent',$qrParent);
-        $qrSubPages = array();
+        $qrPages = array();
+        /*
+        //Old google.apis - different size based´on url-length
+        $qrPages[] = '<img style="overflow: hidden;" width="200" height="200" src="https://chart.googleapis.com/chart?cht=qr&chs=180x180&chl='.$qrUrl.'" frameBorder="0" />
+            <div style="text-align: center;width: 150px;font-size: 12px;margin-top: -40px;">'.$parentPage['title'].'</div>';
+        */    
+
+        $qrPages[] = '<div style="width: 180px;margin-top:15px;"><img src="https://api.qrserver.com/v1/create-qr-code/?data='.$qrUrl.'&amp;size=180x180" alt="" title="" />
+            <div style="text-align: center;font-size: 12px;">'.$parentPage['title'].'</div>
+            </div>';
+
         foreach($subPages as $subPage) {
             $rootlineUtility = new \TYPO3\CMS\Core\Utility\RootlineUtility($subPage['uid']);
             $rootlineArr = $rootlineUtility->get();
@@ -87,11 +94,20 @@ class QRcodesGeneratorController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
                 }
             }
             $qrUrl = $this->request->getBaseUri() . '' . $tmpUrl;
-            //print('<br>');
-            //print '<iframe width="100" height="100" src="https://chart.googleapis.com/chart?cht=qr&chs=100&chl='.$qrUrl.'" frameBorder="0"></iframe><div>'.$parentPage['title'].' - '.$subPage['title'].'</div>';
-            $qrSubPages[] = '<iframe style="overflow: hidden;" width="180" height="180" src="https://chart.googleapis.com/chart?cht=qr&chs=150&chl='.$qrUrl.'" frameBorder="0"></iframe><div style="text-align: center;width: 150px;font-size: 12px;margin-top: -40px;">'.$parentPage['title'].'</div><div style="text-align: center;width: 150px;font-size: 12px;">'.$subPage['title'].'</div>'; //<div>'.$qrUrl.'</div';
+            /*
+            //Old google.apis - different size based´on url-length
+            $qrPages[] = '<img style="overflow: hidden;" width="200" height="200" src="https://chart.googleapis.com/chart?cht=qr&chs=180x180&chl='.$qrUrl.'" frameBorder="0" />
+                <div style="text-align: center;width: 150px;font-size: 12px;margin-top: -40px;">'.$parentPage['title'].'</div>
+                <div style="text-align: center;width: 150px;font-size: 12px;">'.$subPage['title'].'</div>';
+            */
+
+            $qrPages[] = '<div style="width: 180px;margin-top:15px;"><img src="https://api.qrserver.com/v1/create-qr-code/?data='.$qrUrl.'&amp;size=180x180" alt="" title="" />
+                <div style="text-align: center;font-size: 12px;">'.$parentPage['title'].'</div>
+                <div style="text-align: center;font-size: 12px;">'.$subPage['title'].'</div>
+                </div>';
+
         }        
-        $this->view->assign('qrSubPages',$qrSubPages);
+        $this->view->assign('qrPages',$qrPages);
     }
     
     /**
