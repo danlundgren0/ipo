@@ -254,6 +254,8 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
             setcookie('scanned_cps', $toCookieCPs, time() + 3600 * 12, '/');
         }        
         $rootLine1Uid = $GLOBALS['TSFE']->rootLine['3'][uid];
+        //Link to estate-Page
+        $parentPid = $GLOBALS['TSFE']->page['pid'];
         $cpId = (int) $this->settings['ControlPoint'];
         $estateId = (int) $this->settings['Estate'];
         //$reportPid = (int) $this->settings['ReportPid'];
@@ -340,6 +342,8 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                 $this->view->assign('tmpNote', $tmpNote);
                 $this->view->assign('reportArr', $reportArr);
                 $this->view->assign('rootLine1Uid', $rootLine1Uid);
+                $this->view->assign('parentPid', $parentPid);
+                
                 $this->view->assign('reportWithVersion', $curReportWithVersion);
                 $this->view->assign('unPostedReport', $unPostedReport);
                 $this->view->assign('postedReports', $postedReports);
