@@ -181,6 +181,10 @@ Otherwise your changes will be overwritten the next time you save the extension 
           </f:for>
         </div>
     </div>
+    <f:if condition="{isValid}==1">
+    	<f:link.page pageUid="{parentPid}" class="btn btn-danger link-to-list-button">Se översikt och/eller slutför rapporteringen >></f:link.page>
+    </f:if>
+    <f:comment>
     <f:if condition="{reportWithVersion.notes -> f:count()}>0">
       <f:then>
         <f:link.page pageUid="{parentPid}" class="btn btn-danger link-to-list-button">Se översikt och/eller slutför rapporteringen >></f:link.page>        
@@ -196,6 +200,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
         </f:if>
       </f:else>      
     </f:if> 
+    </f:comment>
   </div>
 </div>
 <f:flashMessages />
