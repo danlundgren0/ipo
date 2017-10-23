@@ -78,7 +78,7 @@ class QRcodesGeneratorController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
         */    
 
         $qrPages[] = '<div style="width: 180px;margin-top:15px;"><img src="https://api.qrserver.com/v1/create-qr-code/?data='.$qrUrl.'&amp;size=180x180" alt="" title="" />
-            <div style="text-align: center;font-size: 12px;">'.$parentPage['title'].'</div>
+            <div style="text-align: center;font-size: 13px;">'.$parentPage['title'].'</div>
             </div>';
 
         foreach($subPages as $subPage) {
@@ -102,8 +102,8 @@ class QRcodesGeneratorController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
             */
 
             $qrPages[] = '<div style="width: 180px;margin-top:15px;"><img src="https://api.qrserver.com/v1/create-qr-code/?data='.$qrUrl.'&amp;size=180x180" alt="" title="" />
-                <div style="text-align: center;font-size: 12px;">'.$parentPage['title'].'</div>
-                <div style="text-align: center;font-size: 12px;">'.$subPage['title'].'</div>
+                <div style="text-align: center;font-size: 13px;">'.$parentPage['title'].'</div>
+                <div style="text-align: center;font-size: 13px;">'.$subPage['title'].'</div>
                 </div>';
 
         }        
