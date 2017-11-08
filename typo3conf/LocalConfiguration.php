@@ -8,11 +8,11 @@ return [
         'versionNumberInFilename' => '0',
     ],
     'DB' => [
-        'database' => 'iponly_se',
-        'host' => '127.0.0.1',
-        'password' => 'lQrRUyQEBQ',
-        'port' => 3306,
-        'username' => 'iponly_se',
+        'database' => '',
+        'host' => '',
+        'password' => '',
+        'port' => 0,
+        'username' => '',
     ],
     'EXT' => [
         'extConf' => [

@@ -1,3 +1,4 @@
 /typo3conf/deprecation_*.log
 /typo3conf/ENABLE_INSTALL_TOOL
 /typo3conf/realurl_autoconf.php
+/typo3conf/AdditionalConfiguration.php
