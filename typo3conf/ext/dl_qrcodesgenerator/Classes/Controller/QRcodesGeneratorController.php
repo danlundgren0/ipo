@@ -77,8 +77,8 @@ class QRcodesGeneratorController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
             <div style="text-align: center;width: 150px;font-size: 12px;margin-top: -40px;">'.$parentPage['title'].'</div>';
         */    
 
-        $qrPages[] = '<div style="width: 180px;margin-top:15px;"><img src="https://api.qrserver.com/v1/create-qr-code/?data='.$qrUrl.'&amp;size=180x180" alt="" title="" />
-            <div style="text-align: center;font-size: 13px;font-family: Arial;">'.$parentPage['title'].'</div>
+        $qrPages[] = '<div style="transform: rotate(-90deg);width: 180px;margin-left: 40px;"><img src="https://api.qrserver.com/v1/create-qr-code/?data='.$qrUrl.'&amp;size=180x180" alt="" title="" />
+            <div style="margin-top: 20px;text-align: center;font-size: 22px;font-family: Arial;font-weight: bold;white-space: nowrap;">'.$parentPage['title'].'</div>
             </div>';
 
         foreach($subPages as $subPage) {
@@ -101,9 +101,9 @@ class QRcodesGeneratorController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
                 <div style="text-align: center;width: 150px;font-size: 12px;">'.$subPage['title'].'</div>';
             */
 
-            $qrPages[] = '<div style="width: 180px;margin-top:15px;"><img src="https://api.qrserver.com/v1/create-qr-code/?data='.$qrUrl.'&amp;size=180x180" alt="" title="" />
-                <div style="text-align: center;font-size: 13px;font-family: Arial;">'.$parentPage['title'].'</div>
-                <div style="text-align: center;font-size: 13px;font-family: Arial;">'.$subPage['title'].'</div>
+            $qrPages[] = '<div style="transform: rotate(-90deg);width: 180px;margin-left: 48px;"><img src="https://api.qrserver.com/v1/create-qr-code/?data='.$qrUrl.'&amp;size=180x180" alt="" title="" />
+                <div style="margin-top: 20px;text-align: center;font-size: 22px;font-family: Arial;font-weight: bold;white-space: nowrap;">'.$parentPage['title'].'</div>
+                <div style="font-weight: bold;text-align: center;font-size: 13px;font-family: Arial;white-space: nowrap;">'.$subPage['title'].'</div>
                 </div>';
 
         }        
