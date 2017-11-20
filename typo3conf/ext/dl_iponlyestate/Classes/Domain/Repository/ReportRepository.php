@@ -72,53 +72,59 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     public function searchReports(\DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias $searchCriterias)
     {
 
-    	$in = $this->addInClause($searchCriterias->getCity(), $searchCriterias->getTechnician(), $searchCriterias->getNodeType());
+    	//$in = $this->addInClause($searchCriterias->getCity(), $searchCriterias->getTechnician(), $searchCriterias->getNodeType());
         $reportArr = array();
         $and = '';
         //$from = 'tx_dliponlyestate_domain_model_report reports';
-        $from = '';
-        if(strlen($in)>0) {        	
-            $from = ' tx_dliponlyestate_domain_model_report reports, tx_dliponlyestate_domain_model_note note, tx_dliponlyestate_domain_model_estate estate ';
+        $from = 'tx_dliponlyestate_domain_model_report reports ';
+        //if(strlen($in)>0) {
+        if((int)$searchCriterias->getNodeType()>0 || (int)$searchCriterias->getTechnician() > 0 || (int)$searchCriterias->getCity() != '-1') {
+            $from .= ' INNER JOIN tx_dliponlyestate_domain_model_estate estate ON estate.uid = reports.estate';
+        }
+        if((int)$searchCriterias->getNodeType()>0) {         
+            //$from = ' tx_dliponlyestate_domain_model_report reports, tx_dliponlyestate_domain_model_note note, tx_dliponlyestate_domain_model_estate estate ';
+            $from .= ' AND estate.node_type = '.$searchCriterias->getNodeType();
         	$and = ' AND ';
         }
+        if($searchCriterias->getCity()!='-1') {         
+            //$from = ' tx_dliponlyestate_domain_model_report reports, tx_dliponlyestate_domain_model_note note, tx_dliponlyestate_domain_model_estate estate ';
+            $from .= ' AND estate.city = \''.$searchCriterias->getCity().'\'';
+            $and = ' AND ';
+        }
+        if((int)$searchCriterias->getTechnician()>0) {         
+            //$from = ' tx_dliponlyestate_domain_model_report reports, tx_dliponlyestate_domain_model_note note, tx_dliponlyestate_domain_model_estate estate ';
+            $from .= ' AND estate.responsible_technician = '.$searchCriterias->getTechnician();
+            $and = ' AND ';
+        }
         if ($searchCriterias->getNoteType() > 0) {
-            //$where .= $and." reports.notes IN (SELECT note.state FROM tx_dliponlyestate_domain_model_note note WHERE note.state = '".$searchCriterias->getNoteType()."' and reports.uid = note.report)";
-            $where .= $and . ' note.state = ' . $searchCriterias->getNoteType() . ' AND reports.uid = note.report AND note.is_complete=0 AND note.deleted=0 AND note.hidden=0 ';
-            //$from = 'tx_dliponlyestate_domain_model_report reports, tx_dliponlyestate_domain_model_note note, tx_dliponlyestate_domain_model_estate estate ';
-            if($from == '') {
-                $from = 'tx_dliponlyestate_domain_model_report reports, tx_dliponlyestate_domain_model_note note ';    
-            }
-            //$where .= $and." note.state = ".$searchCriterias->getNoteType();
+            //$where .= $and . ' note.state = ' . $searchCriterias->getNoteType() . ' AND reports.uid = note.report AND note.is_complete=0 AND note.deleted=0 AND note.hidden=0 ';
+            $from .= ' INNER JOIN tx_dliponlyestate_domain_model_note note ON note.state = '. $searchCriterias->getNoteType() .'
+             AND reports.uid = note.report AND note.is_complete=0';
             $and = ' AND ';
         }
         if ($searchCriterias->getFromDate() != '') {
             $fromDate = \DateTime::createFromFormat('Y-m-d', $searchCriterias->getFromDate());
             $where .= $and . ' reports.date>=\'' . $searchCriterias->getFromDate() . '\'';
             //$from = 'tx_dliponlyestate_domain_model_report reports, tx_dliponlyestate_domain_model_note note, tx_dliponlyestate_domain_model_estate estate ';
-            if($from == '') {
-                $from = 'tx_dliponlyestate_domain_model_report reports ';    
-            }
             $and = ' AND ';
         }
         if ($searchCriterias->getToDate() != '') {
             $fromDate = \DateTime::createFromFormat('Y-m-d', $searchCriterias->getToDate());
             $where .= $and . ' reports.date<=\'' . $searchCriterias->getToDate() . '\'';
             //$from = 'tx_dliponlyestate_domain_model_report reports, tx_dliponlyestate_domain_model_note note, tx_dliponlyestate_domain_model_estate estate ';
-            if($from == '') {
-                $from = 'tx_dliponlyestate_domain_model_report reports ';    
-            }
             $and = ' AND ';
         }
         if ($searchCriterias->getFreeSearch() != '') {
-            $where .= $and . ' ((note.comment LIKE \'%' . $searchCriterias->getFreeSearch() . '%\' AND reports.uid = note.report) OR (estate.name LIKE \'%' . $searchCriterias->getFreeSearch() . '%\' AND reports.estate = estate.uid))';
-            $from = 'tx_dliponlyestate_domain_model_report reports, tx_dliponlyestate_domain_model_note note, tx_dliponlyestate_domain_model_estate estate ';
+            $from .= $and . ' ((note.comment LIKE \'%' . $searchCriterias->getFreeSearch() . '%\' AND reports.uid = note.report) OR (estate.name LIKE \'%' . $searchCriterias->getFreeSearch() . '%\' AND reports.estate = estate.uid))';
+            //$from = 'tx_dliponlyestate_domain_model_report reports, tx_dliponlyestate_domain_model_note note, tx_dliponlyestate_domain_model_estate estate ';
             $and = ' AND ';
         }
         if($from == '') {
             $from = 'tx_dliponlyestate_domain_model_report reports ';    
         }
-        $where = $in.$where;
-        $where .= $and . ' reports.deleted=0 AND reports.hidden=0 ';
+        //$where = $in.$where;
+        //$where .= $and . ' reports.deleted=0 AND reports.hidden=0 ';
+        $where = ' reports.deleted=0 AND reports.hidden=0 ';
 //$GLOBALS['TYPO3_DB']->store_lastBuiltQuery = 1;
 //$sqltimer1 = microtime(true);
         $searchRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery(' DISTINCT reports.*', $from, $where);
@@ -126,10 +132,10 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($searchRes)) {
             $reportArr[] = $row;
         }
-/*
-$totalsqltimer1 = microtime(true) - $sqltimer1;
-echo $totalsqltimer1;
-*/
+
+//$totalsqltimer1 = microtime(true) - $sqltimer1;
+//echo $totalsqltimer1;
+
         //echo $GLOBALS['TYPO3_DB']->debug_lastBuiltQuery;
         $reportUids = array();
         $reportsByEstate = array();
