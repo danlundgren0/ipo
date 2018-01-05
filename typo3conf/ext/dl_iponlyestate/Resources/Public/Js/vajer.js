@@ -106,6 +106,7 @@ DanL.Note = {
         }
     },
     saveMeasureValue: function() {
+        $('#modal').css('display','block');
         if($(this).hasClass('disabled')) {
             return;
         }
@@ -150,6 +151,7 @@ DanL.Note = {
             $('[aria-controls="uid_'+questUid+'"]').prop('class','');
             $('[aria-controls="uid_'+questUid+'"]').addClass('color_1');
             $('.link-to-list-button').removeClass('hidden');
+            $('#modal').css('display','none');
 		}).fail(function( jqXHR, textStatus, errorThrown ) {
 			console.log('getNewNoteTmpl failed: ' + textStatus);
 		});
