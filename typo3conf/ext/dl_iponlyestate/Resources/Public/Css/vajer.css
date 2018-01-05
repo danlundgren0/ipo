@@ -551,3 +551,22 @@ body .posted-note-container .checkbox input {
         margin: 10px 0;
     }
 }
+
+#modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    z-index: 1002;
+    text-align: center;
+    overflow: auto;
+    opacity: 0.4;
+}
+#loader {
+    left: 50%;
+    position: absolute;
+    top: 50%;    
+}

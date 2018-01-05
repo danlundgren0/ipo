@@ -166,6 +166,7 @@ DanL.Note = {
         $(me).closest('.noteContainer').find('.enable-buttons').removeClass('disabled');
     },
     saveNote: function() {
+        $('#modal').css('display','block');
         if($(this).hasClass('disabled') || $(this).attr('type') == 'submit') {
             return;
         }
@@ -223,6 +224,7 @@ DanL.Note = {
 
             $(me).addClass('disabled');
             $('.link-to-list-button').removeClass('hidden');
+            $('#modal').css('display','none');
 		}).fail(function( jqXHR, textStatus, errorThrown ) {
 			console.log('getNewNoteTmpl failed: ' + textStatus);
 		});
@@ -487,7 +489,8 @@ $(function() {
 			$('.uploadStatus').addClass('hidden');
 		}
 		else {
-			$('.uploadStatus').removeClass('hidden');
+            $(this).closest('.noteContainer').find('.uploadStatus').removeClass('hidden');
+			//$('.uploadStatus').removeClass('hidden');
 			//$('.uploadStatus .imgName').text(fileName);
 			console.log('Bild '+fileName+' vald');			
 		}

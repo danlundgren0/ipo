@@ -705,7 +705,8 @@ class ReportUtility {
         $reportRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
         $reportPid = (int)$reportPid;
         //$allReports = $reportRepository->findByPid($reportPid);
-        $allReports = $reportRepository->findAll();
+        //$allReports = $reportRepository->findAll();
+        $allReports = $reportRepository->findByEstate($estate);
         $highestVersion = -1;
         $latestReport = NULL;
         foreach($allReports as $report) {
@@ -929,6 +930,7 @@ class ReportUtility {
         $questionRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\QuestionRepository');
         $controlPointRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ControlPointRepository');
         $noteRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\noteRepository');
+        $note=null;
         if((int)$noteUid>0) {
             $note = $noteRepository->findByUid((int)$noteUid);
         }
@@ -1050,8 +1052,8 @@ class ReportUtility {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
         $reportRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
         //$allReports = $reportRepository->findByPid($reportPid); 
-        //$allReports = $reportRepository->findByEstate($estate);
-        $allReports = $reportRepository->findAll();
+        $allReports = $reportRepository->findByEstate($estate);
+        //$allReports = $reportRepository->findAll();
         $postedReports = array();
         foreach($allReports as $report) {
             /*

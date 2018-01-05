@@ -120,6 +120,20 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
             if ($this && $this->estateRepository) {
                 
             }
+
+/*
+Ellapsed time:
+curReportWithVersionStart: 8.0012638568878
+getNotesStart: 4.3153762817383E-5
+subPagesStart: 0.0066049098968506
+controlPointsStart: 3.8862228393555E-5
+
+$curReportWithVersionStart = microtime(true);
+$ellapsed = microtime(true) - $curReportWithVersionStart;
+echo 'curReportWithVersionStart: ' . $ellapsed;
+echo '<br>';
+*/
+
             $curReportWithVersion = ReportUtil::getLatestOrNewReport($reportPid, $estate);
             $hasOngoingReport = 0;
             if($curReportWithVersion) {
@@ -127,6 +141,7 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                 foreach($curReportWithVersion->getNotes() as $note) {
                     if($note && $note->getImages()!=NULL) {
                         $hasImages+=1;      
+                        break;
                     }
                 }
                 if ($curReportWithVersion->getStartDate() !== null) {
@@ -136,14 +151,12 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
             else {
                 $postedReports = ReportUtil::getPostedReports($reportPid, $estate, NULL);
             }
-
             $nextReportVersion = ReportUtil::getNextReportVersionNumber($estate);
             if (!$GLOBALS['TSFE']->fe_user->user['first_name'] || $GLOBALS['TSFE']->fe_user->user['last_name']) {
                 $this->view->assign('technician', $GLOBALS['TSFE']->fe_user->user['name']);
             } else {
                 $this->view->assign('technician', $GLOBALS['TSFE']->fe_user->user['first_name'] . ' ' . $GLOBALS['TSFE']->fe_user->user['last_name']);
             }
-
             foreach($subPages as &$sub) {
                 $sub['scannedQuestions'] = 0;
             	$piUid = $this->controlPointRepository->findCpByPid($sub['uid']);
@@ -191,8 +204,9 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
                 }
                 
             }
-
             $totalNoOfQuestions = 0;
+//$controlPointsStart = microtime(true);
+            /*
             if($controlPoints) {
             	foreach($controlPoints as $cp) {
             		$totalNoOfQuestions += count($cp->getQuestions());
@@ -204,7 +218,11 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
             		$totalNoOfQuestions += count($cp->getQuestions());
             	}
             }
-     
+            */
+//$ellapsed = microtime(true) - $controlPointsStart;
+//echo 'controlPointsStart: ' . $ellapsed;
+//echo '<br>';
+
             $this->view->assign('estateUid', $estate->getUid());
             $this->view->assign('nextReportVersion', $nextReportVersion);
             $this->view->assign('hasOngoingReport', $hasOngoingReport);
