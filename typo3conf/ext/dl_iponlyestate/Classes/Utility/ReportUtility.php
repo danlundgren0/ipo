@@ -537,6 +537,18 @@ class ReportUtility {
                     //    $noOfCompletedNotes+=1;
                     //}					
                     $levelThreeIdentifier = 'cp_'.$note->getControlPoint()->getUid();
+                    if($note->getQuestion()===null) {
+
+\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
+ array(
+  'class' => __CLASS__,
+  'function' => __FUNCTION__,
+  'ERROR' => 'A NodeType, Question or Control Point belonging to note:  '.$note->getComment().' with ID '.$note->getUid().' is missing. Check if it is deteted or disabled',
+  'MESSAGE' => 'Erroe on line 547',
+ )
+);
+                        continue;
+                    }
                     $levelFourIdentifier = 'quest_'.$note->getQuestion()->getUid();                                    
                     //$reportsArr['level1'][$levelOneIdentifier]['estateName'] = $report->getEstate()->getName();
                     //$reportsArr['level1'][$levelOneIdentifier]['estateUid'] = $report->getEstate()->getUid();
