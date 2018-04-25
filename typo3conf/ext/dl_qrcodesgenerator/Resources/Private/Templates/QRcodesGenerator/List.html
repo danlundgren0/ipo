@@ -18,7 +18,16 @@ Otherwise your changes will be overwritten the next time you save the extension 
 <button onclick="window.print();">Skriv ut</button>
 <div><f:format.raw>{qrParent}</f:format.raw></div>
 </f:comment>
+
+
 <f:for each="{qrPages}" as="qrSubPage">
 	<div><f:format.raw>{qrSubPage}</f:format.raw></div>
 </f:for>
+
+<f:comment>
+<v:asset.script content="NULL" path="NULL" external="1" name="NULL" overwrite="1" dependencies="NULL" group="'fluid'" debug="1" standalone="1" rewrite="1" fluid="1" variables="[mixed]" movable="1" trim="1" namedChunks="1">
+	<!-- tag content - may be ignored! -->
+</v:asset.script>
+makeCode.js
+</f:comment>
 </f:section>

@@ -45,6 +45,9 @@ plugin.tx_dlqrcodesgenerator._CSS_DEFAULT_STYLE (
 )
 
 ## EXTENSION BUILDER DEFAULTS END TOKEN - Everything BEFORE this line is overwritten with the defaults of the extension builder
+page.includeJSFooter.qrcode = EXT:dl_qrcodesgenerator/Resources/Public/Js/qrcode.js
+page.includeJSFooter.makeCode = EXT:dl_qrcodesgenerator/Resources/Public/Js/makeCode.js
+
 qrcodeRender = PAGE
 qrcodeRender {
   10 = USER

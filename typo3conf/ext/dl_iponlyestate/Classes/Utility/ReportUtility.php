@@ -535,18 +535,13 @@ class ReportUtility {
                     $noOfScannedNotesAndMeas+=1;
                     //if($note->getIsComplete()) {                        
                     //    $noOfCompletedNotes+=1;
-                    //}					
+                    //}
+                    if($note->getControlPoint()===null) {
+                    continue;
+                    }
+
                     $levelThreeIdentifier = 'cp_'.$note->getControlPoint()->getUid();
                     if($note->getQuestion()===null) {
-
-\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
- array(
-  'class' => __CLASS__,
-  'function' => __FUNCTION__,
-  'ERROR' => 'A NodeType, Question or Control Point belonging to note:  '.$note->getComment().' with ID '.$note->getUid().' is missing. Check if it is deteted or disabled',
-  'MESSAGE' => 'Erroe on line 547',
- )
-);
                         continue;
                     }
                     $levelFourIdentifier = 'quest_'.$note->getQuestion()->getUid();                                    
