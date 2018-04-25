@@ -71,16 +71,18 @@ class QRcodesGeneratorController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
         }
         $qrUrl = $this->request->getBaseUri() . '' . $tmpUrl;
         $qrPages = array();
-        /*
-        //Old google.apis - different size based´on url-length
-        $qrPages[] = '<img style="overflow: hidden;" width="200" height="200" src="https://chart.googleapis.com/chart?cht=qr&chs=180x180&chl='.$qrUrl.'" frameBorder="0" />
-            <div style="text-align: center;width: 150px;font-size: 12px;margin-top: -40px;">'.$parentPage['title'].'</div>';
-        */  
-
         
+        //Old google.apis - different size based´on url-length
+        $qrPages[] = '<div style="transform: rotate(-90deg);width: 180px;margin-left: 40px;"><img style="overflow: hidden;" width="200" height="200" src="https://chart.googleapis.com/chart?cht=qr&chs=180x180&chl='.$qrUrl.'" frameBorder="0" /><div style="margin-top: 20px;text-align: center;font-size: 22px;font-family: Arial;font-weight: bold;white-space: nowrap;">'.$parentPage['title'].'</div>
+            </div>';
+        
+
+        /*
         $qrPages[] = '<div style="transform: rotate(-90deg);width: 180px;margin-left: 40px;"><img src="https://api.qrserver.com/v1/create-qr-code/?data='.$qrUrl.'&amp;size=180x180" alt="" title="" />
             <div style="margin-top: 20px;text-align: center;font-size: 22px;font-family: Arial;font-weight: bold;white-space: nowrap;">'.$parentPage['title'].'</div>
             </div>';
+
+        */
         
         /*   
         $id = 0;
@@ -103,20 +105,19 @@ class QRcodesGeneratorController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
                 }
             }
             $qrUrl = $this->request->getBaseUri() . '' . $tmpUrl;
-            /*
-            //Old google.apis - different size based´on url-length
-            $qrPages[] = '<img style="overflow: hidden;" width="200" height="200" src="https://chart.googleapis.com/chart?cht=qr&chs=180x180&chl='.$qrUrl.'" frameBorder="0" />
-                <div style="text-align: center;width: 150px;font-size: 12px;margin-top: -40px;">'.$parentPage['title'].'</div>
-                <div style="text-align: center;width: 150px;font-size: 12px;">'.$subPage['title'].'</div>';
-            */
-
-
             
+            //Old google.apis - different size based´on url-length
+            $qrPages[] = '<div style="transform: rotate(-90deg);width: 180px;margin-left: 48px;"><img style="overflow: hidden;" width="200" height="200" src="https://chart.googleapis.com/chart?cht=qr&chs=180x180&chl='.$qrUrl.'" frameBorder="0" /><div style="margin-top: 20px;text-align: center;font-size: 22px;font-family: Arial;font-weight: bold;white-space: nowrap;">'.$parentPage['title'].'</div>
+                <div style="font-weight: bold;text-align: center;font-size: 13px;font-family: Arial;white-space: nowrap;">'.$subPage['title'].'</div>
+                </div>';
+            
+
+			/*            
             $qrPages[] = '<div style="transform: rotate(-90deg);width: 180px;margin-left: 48px;"><img src="https://api.qrserver.com/v1/create-qr-code/?data='.$qrUrl.'&amp;size=180x180" alt="" title="" />
                 <div style="margin-top: 20px;text-align: center;font-size: 22px;font-family: Arial;font-weight: bold;white-space: nowrap;">'.$parentPage['title'].'</div>
                 <div style="font-weight: bold;text-align: center;font-size: 13px;font-family: Arial;white-space: nowrap;">'.$subPage['title'].'</div>
                 </div>';
-			
+			*/
 
             /*
             //https://davidshimjs.github.io/qrcodejs/
