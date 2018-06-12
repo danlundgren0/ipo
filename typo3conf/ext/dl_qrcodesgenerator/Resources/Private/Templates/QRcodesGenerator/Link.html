@@ -13,6 +13,13 @@ in /Configuration/ExtensionBuilder/settings.yaml:
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
 
 <f:section name="main">
-<f:link.page pageUid="616" target="_blank" additionalParams="{type:532532,pid:pid}" class="btn btn-success">Skapa QR-Koder</f:link.page>
+<f:link.page pageUid="616" target="_blank" additionalParams="{type:532532,pid:pid,libtest:'qrserver'}" class="btn btn-success">Skapa QR-Koder1 (Ombyggt)</f:link.page>
+<f:link.page pageUid="616" target="_blank" additionalParams="{type:532532,pid:pid,libtest:'shieldQRcode'}" class="btn btn-success">Skapa QR-Koder2 (HTML5 Canvas)</f:link.page>
+
+<f:comment>
+<f:link.page pageUid="616" target="_blank" additionalParams="{type:532532,pid:pid,libtest:'rawUrl'}" class="btn btn-success">Skapa QR-Koder3 (Okrypterat)</f:link.page>
+<f:link.page pageUid="616" target="_blank" additionalParams="{type:532532,pid:pid,libtest:'QRious'}" class="btn btn-success">Skapa QR-Koder (QRious)</f:link.page>
+<f:link.page pageUid="616" target="_blank" additionalParams="{type:532532,pid:pid,libtest:'qrcode'}" class="btn btn-success">Skapa QR-Koder (qrcode)</f:link.page>
+</f:comment>
 <f:flashMessages />
 </f:section>

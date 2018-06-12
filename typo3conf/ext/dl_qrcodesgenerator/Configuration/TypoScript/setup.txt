@@ -48,6 +48,9 @@ plugin.tx_dlqrcodesgenerator._CSS_DEFAULT_STYLE (
 page.includeJSFooter.qrcode = EXT:dl_qrcodesgenerator/Resources/Public/Js/qrcode.js
 page.includeJSFooter.makeCode = EXT:dl_qrcodesgenerator/Resources/Public/Js/makeCode.js
 
+
+#page.includeJS.QRious = EXT:dl_qrcodesgenerator/Resources/Public/Js/QRious.js
+
 qrcodeRender = PAGE
 qrcodeRender {
   10 = USER
@@ -63,10 +66,10 @@ qrcodeRender {
   }
   typeNum = 532532
   config {
-    disableAllHeaderCode = 1
-    xhtml_cleaning = 0
+    #disableAllHeaderCode = 1
+    #xhtml_cleaning = 0
     admPanel = 0
-    debug = 1
+    #debug = 1
     no_cache = 1
   }
 }
