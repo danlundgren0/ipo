@@ -412,7 +412,7 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 		}
 		if((int)$reportUid>0) {
 			$report = \DanLundgren\DlIponlyestate\Utility\ReportUtility::setReportProperties($estateUid, $datetime, $reportUid, $cpUid, $nodeTypeUid, $responsibleTechnician);	
-			$measure = \DanLundgren\DlIponlyestate\Utility\ReportUtility::saveMeasurement($report, $cpUid, $questUid, $measureUid, $measureValue, $measureName, $measureUnit, $pid);	
+			$measure = \DanLundgren\DlIponlyestate\Utility\ReportUtility::saveMeasurement($report, $cpUid, $questUid, $measureUid, $measureValue, $measureName, $measureUnit, $pid, $curVer);	
 			//$this->data['comment'] = $measure->getComment();
 			//$this->data['note'] = $note->getState();	
 		}
@@ -461,12 +461,21 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 		$estate = $this->estateRepository->findByUid($estateUid);
 		$responsibleTechnician = $estate->getResponsibleTechnician();
 		if(!$reportUid) {
+$time_start = microtime(true);
 			$report = \DanLundgren\DlIponlyestate\Utility\ReportUtility::getLatestOrNewReport($reportPid, $estate, true);
+$time_end = microtime(true);
+$this->data['timegetLatestOrNewReport'] = $time_end - $time_start;
 			$reportUid = $report->getUid();
 		}
 		if((int)$reportUid>0) {
+$time_start = microtime(true);
 			$report = \DanLundgren\DlIponlyestate\Utility\ReportUtility::setReportProperties($estateUid, $datetime, $reportUid, $cpUid, $nodeTypeUid, $responsibleTechnician);	
-			$note = \DanLundgren\DlIponlyestate\Utility\ReportUtility::saveNote($report, $cpUid, $questUid, $noteUid, $noteText, $noteState, $curVer, $pid);	
+$time_end = microtime(true);
+$this->data['timesetReportProperties'] = $time_end - $time_start;
+$time_start = microtime(true);
+			$note = \DanLundgren\DlIponlyestate\Utility\ReportUtility::saveNote($report, $cpUid, $questUid, $noteUid, $noteText, $noteState, $curVer, $pid);
+$time_end = microtime(true);
+$this->data['timesaveNote'] = $time_end - $time_start;
 			$this->data['comment'] = $note->getComment();
 			$this->data['note'] = $note->getState();	
 		}

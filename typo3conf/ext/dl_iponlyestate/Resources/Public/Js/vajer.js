@@ -116,7 +116,14 @@ DanL.Note = {
         var estateUid = $(noteObj).attr('data-estateuid'); 
         var questUid = $(noteObj).attr('data-questionuid');
         var measureUid = $(noteObj).attr('data-measureuid');
-        var ver = $(noteObj).attr('data-notever');
+        //var ver = $(noteObj).attr('data-notever');
+        var ver = -1; 
+        $('[data-notever]').each(function() {
+            var curVer = parseInt($(this).attr('data-notever'));
+            if(curVer > ver) {
+              ver = curVer;
+            }
+        });
         var reportUid = $(noteObj).attr('data-reportuid');
         var cpUid = $(noteObj).attr('data-cpuid');
         var nodeTypeUid = $(noteObj).attr('data-nodetypeuid');
@@ -176,14 +183,21 @@ DanL.Note = {
             $(this).closest('.noteContainer').find('[name="tx_dliponlyestate_cp[notestate]"]').val(1);
             $(this).closest('form').submit();
             return;
-        }
+        }        
         var me = $(this);        
         var noteObj = $(this).closest('.noteContainer');
         var pid = $(noteObj).attr('data-pid');
         var estateUid = $(noteObj).attr('data-estateuid'); 
         var questUid = $(noteObj).attr('data-questionuid');
         var noteUid = $(noteObj).attr('data-noteuid');
-        var ver = $(noteObj).attr('data-notever');
+        //var ver = $(noteObj).attr('data-notever');
+        var ver = -1; 
+        $('[data-notever]').each(function() {
+            var curVer = parseInt($(this).attr('data-notever'));
+            if(curVer > ver) {
+              ver = curVer;
+            }
+        });
         var reportUid = $(noteObj).attr('data-reportuid');
         var cpUid = $(noteObj).attr('data-cpuid');
         var nodeTypeUid = $(noteObj).attr('data-nodetypeuid');

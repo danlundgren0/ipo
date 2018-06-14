@@ -683,7 +683,8 @@ class ReportUtility {
     public static function getNextReportVersionNumber($estate) {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
         $reportRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
-        $allReports = $reportRepository->findAll();
+        //$allReports = $reportRepository->findAll();
+        $allReports = $reportRepository->findByEstate($estate);
         $highestVersion = -1;
         $latestReport = NULL;
         foreach($allReports as $report) {
@@ -867,7 +868,7 @@ class ReportUtility {
         }
         return $newVerNo+=1;  
     }
-    public static function saveMeasurement($report, $cpUid, $questUid, $measureUid, $measureValue, $measureName, $measureUnit, $pid) {
+    public static function saveMeasurement($report, $cpUid, $questUid, $measureUid, $measureValue, $measureName, $measureUnit, $pid, $curVer) {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
         $persistenceManager = $objectManager->get('TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface');
         $reportRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
@@ -894,7 +895,9 @@ class ReportUtility {
 		$cp = $controlPointRepository->findByUid($cpUid);
 		$reportedMeasurement->setControlPoint($cp);
         //$newVerNo+=1;       
-        $reportedMeasurement->setVersion(self::getNextMeasureVersion($report->getEstate()));
+        //$reportedMeasurement->setVersion(self::getNextMeasureVersion($report->getEstate()));
+        $reportedMeasurement->setVersion($curVer+1);
+        
         /*
         if($newVerNo<0) {
             $reportedMeasurement->setVersion(1);    
@@ -954,11 +957,13 @@ class ReportUtility {
 		}
 		$cp = $controlPointRepository->findByUid($cpUid);
 		$note->setControlPoint($cp);
+        $note->setVersion($curVer+1);
         if((int)$noteUid>0) {
             //$note->setVersion(self::getNextNoteVersion($report->getEstate()));
         }
         else {
-            $note->setVersion(self::getNextNoteVersion($report->getEstate()));
+
+            //$note->setVersion(self::getNextNoteVersion($report->getEstate()));
         }        
         //$note->setVersion($newVerNo);
         /*

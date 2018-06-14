@@ -133,7 +133,6 @@ $ellapsed = microtime(true) - $curReportWithVersionStart;
 echo 'curReportWithVersionStart: ' . $ellapsed;
 echo '<br>';
 */
-
             $curReportWithVersion = ReportUtil::getLatestOrNewReport($reportPid, $estate);
             $hasOngoingReport = 0;
             if($curReportWithVersion) {
