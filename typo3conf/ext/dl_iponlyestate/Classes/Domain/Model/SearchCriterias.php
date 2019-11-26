@@ -51,14 +51,14 @@ class SearchCriterias extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * fromDate
      *
-     * @var \DateTime
+     * @var string
      */
     protected $fromDate = null;
 
     /**
      * toDate
      *
-     * @var \DateTime
+     * @var string
      */
     protected $toDate = null;
 
@@ -127,7 +127,7 @@ class SearchCriterias extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->technician = $technician;
      	$this->freeSearch = $freeSearch;
 
-     	$this->getNotes();
+     	//$this->getNotes();
     }
     
     /**
@@ -147,7 +147,7 @@ class SearchCriterias extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Returns the fromDate
      *
-     * @return \DateTime $fromDate
+     * @return string $fromDate
      */
     public function getFromDate()
     {
@@ -168,13 +168,13 @@ class SearchCriterias extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Returns the toDate
      *
-     * @return \DateTime $toDate
+     * @return string $toDate
      */
     public function getToDate()
     {
         return $this->toDate;
     }
-    
+
     /**
      * Sets the toDate
      *

@@ -416,7 +416,7 @@ class ReportUtility {
                 }
                 if(!$qIsReported) {
                     foreach($clickedReport->getReportedMeasurement() as $meas) {
-                        if($meas->getQuestion()->getUid() == $q->getUid()) {
+                        if(count($meas->getQuestion()) && $meas->getQuestion()->getUid() == $q->getUid()) {
                             $noteIdentifier = 'meas_'.$meas->getUid();
                             $noOfQuestionsReported += 1;
                             $noOfPostedMeasure += 1;
@@ -609,6 +609,7 @@ class ReportUtility {
         }
         return $reportsArr;
     }
+    /*
     public static function adaptReportsForExcel($reports) {
 
     }
@@ -673,7 +674,7 @@ class ReportUtility {
         }
         return $reportsArr;
     }
-
+    */
     /**
      * action getNextReportVersionNumber
      *

@@ -71,6 +71,306 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      */
     public function searchReports(\DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias $searchCriterias)
     {
+        //$in = $this->addInClause($searchCriterias->getCity(), $searchCriterias->getTechnician(), $searchCriterias->getNodeType());
+        $reportArr = array();
+        $and = '';
+        //$from = 'tx_dliponlyestate_domain_model_report reports';
+        $from = 'tx_dliponlyestate_domain_model_report reports ';
+        $additionalWhere = '';
+        $additionalOrderBy = '';
+        //if(strlen($in)>0) {
+        /*
+        if((int)$searchCriterias->getNodeType()>0 || (int)$searchCriterias->getTechnician() > 0 || (int)$searchCriterias->getCity() != '-1') {
+            $from .= ' INNER JOIN tx_dliponlyestate_domain_model_estate estate ON estate.uid = reports.estate';
+        }
+        */
+        if((int)$searchCriterias->getNodeType()>0) {
+            //$from = ' tx_dliponlyestate_domain_model_report reports, tx_dliponlyestate_domain_model_note note, tx_dliponlyestate_domain_model_estate estate ';
+            //$from .= ' AND estate.node_type = '.$searchCriterias->getNodeType();
+            //$and = ' AND ';
+            $additionalWhere .= ' AND nodetype.uid =  '.$searchCriterias->getNodeType();
+        }
+        if($searchCriterias->getCity()!='-1') {         
+            //$from = ' tx_dliponlyestate_domain_model_report reports, tx_dliponlyestate_domain_model_note note, tx_dliponlyestate_domain_model_estate estate ';
+            //$from .= ' AND estate.city = \''.$searchCriterias->getCity().'\'';
+            //$and = ' AND ';
+            $additionalWhere .= ' AND estate.city =  "'.$searchCriterias->getCity().'"';
+        }
+        if((int)$searchCriterias->getTechnician()>0) {         
+            //$from = ' tx_dliponlyestate_domain_model_report reports, tx_dliponlyestate_domain_model_note note, tx_dliponlyestate_domain_model_estate estate ';
+            //$from .= ' AND estate.responsible_technician = '.$searchCriterias->getTechnician();
+            //$and = ' AND ';
+            $additionalWhere .= ' AND estate.responsible_technician =  '.$searchCriterias->getTechnician();
+        }
+        if ($searchCriterias->getNoteType() > 0) {
+            //$where .= $and . ' note.state = ' . $searchCriterias->getNoteType() . ' AND reports.uid = note.report AND note.is_complete=0 AND note.deleted=0 AND note.hidden=0 ';
+            $from .= ' LEFT JOIN tx_dliponlyestate_domain_model_note note ON note.state = '. $searchCriterias->getNoteType() .'
+             AND reports.uid = note.report AND note.is_complete=0';
+            $and = ' AND ';
+            switch ($searchCriterias->getNoteType()) {
+                case '2':
+                    $additionalWhere .= ' AND reports.no_of_critical_remarks > 0 ';
+                    //TODO: Activate if Lina request it
+                    //$additionalOrderBy .= ' reports.no_of_critical_remarks DESC, ';
+                    break;
+                case '3':                    
+                    $additionalWhere .= ' AND reports.no_of_remarks > 0 ';
+                    //TODO: Activate if Lina request it
+                    //$additionalOrderBy .= ' reports.no_of_remarks DESC, ';
+                    break;
+                case '4':
+                    $additionalWhere .= ' AND reports.no_of_purchases > 0 ';
+                    //TODO: Activate if Lina request it
+                    //$additionalOrderBy .= ' reports.no_of_purchases DESC, ';
+                    break;
+                default:
+                    break;
+            }
+        }
+        if ($searchCriterias->getFromDate() != '') {
+            $additionalWhere .= ' AND reports.date>=\'' . $searchCriterias->getFromDate() . '\' ';
+        }
+        if ($searchCriterias->getToDate() != '') {
+            $additionalWhere .= ' AND reports.date<=\'' . $searchCriterias->getToDate() . '\' ';
+        }
+        if ($searchCriterias->getFreeSearch() != '') {            
+            //$from .= $and . ' ((note.comment LIKE \'%' . $searchCriterias->getFreeSearch() . '%\' AND reports.uid = note.report) OR (estate.name LIKE \'%' . $searchCriterias->getFreeSearch() . '%\' AND reports.estate = estate.uid))';
+            //$from = 'tx_dliponlyestate_domain_model_report reports, tx_dliponlyestate_domain_model_note note, tx_dliponlyestate_domain_model_estate estate ';
+            //$and = ' AND ';
+            $additionalWhere .= '
+				AND (
+				 	(estate.name LIKE \'%' . $searchCriterias->getFreeSearch() . '%\' AND reports.estate = estate.uid)
+				 	OR (feuser2.username LIKE \'%' . $searchCriterias->getFreeSearch() . '%\' AND reports.executive_technician = feuser2.uid)
+				 	OR (remarks.comment LIKE \'%' . $searchCriterias->getFreeSearch() . '%\' AND reports.uid = remarks.report)
+				)
+            ';
+            //$additionalWhere .= ' AND (estate.name LIKE \'%' . $searchCriterias->getFreeSearch() . '%\' AND reports.estate = estate.uid) ';
+        }
+        if($from == '') {
+            $from = 'tx_dliponlyestate_domain_model_report reports ';    
+        }
+        $select = ' 
+            reports.*, estate.name AS estateName, estate.uid AS estateUid, estate.page_link AS pageLink, 
+            nodetype.uid AS nodeTypeUid, nodetype.name AS nodeTypeName, 
+            feuser.username AS respTechnicianName, feuser2.username AS execTechnicianName, 
+            COUNT(CASE WHEN remarks.remark_type = 3 AND remarks.is_complete = 0 THEN remarks.remark_type END) AS noOfRemarks, 
+            COUNT(CASE WHEN remarks.remark_type = 2 AND remarks.is_complete = 0 THEN remarks.remark_type END) AS noOfCriticalRemarks,  
+            COUNT(CASE WHEN remarks.is_complete = 1 THEN remarks.remark_type END) AS noOfCompletedNotes, 
+            COUNT(CASE WHEN remarks.remark_type = 4 AND remarks.is_complete = 0 THEN remarks.remark_type END) AS noOfPurchases, 
+            COUNT(CASE WHEN remarks.remark_type = 1 THEN remarks.remark_type END) AS getNoOfOk, 
+            (
+                SELECT SUM(cp.questions)
+                FROM tx_dliponlyestate_domain_model_controlpoint cp, tx_dliponlyestate_estate_controlpoint_mm estate_cp_mm
+                WHERE cp.uid = estate_cp_mm.uid_foreign AND estate.uid = estate_cp_mm.uid_local
+            ) AS noOfTotalNotesAndMeas 
+        ';
+        $from .= '  LEFT JOIN tx_dliponlyestate_domain_model_note remarks ON reports.uid = remarks.report
+                    LEFT JOIN tx_dliponlyestate_domain_model_estate estate ON estate.uid = reports.estate 
+                    LEFT JOIN tx_dliponlyestate_domain_model_nodetype nodetype ON nodetype.uid = estate.node_type 
+                    LEFT JOIN fe_users feuser ON feuser.uid = estate.responsible_technician 
+                    LEFT JOIN fe_users feuser2 ON feuser2.uid = reports.executive_technician 
+                ';
+        $where = ' reports.deleted=0 AND reports.hidden=0 ';
+        $where .= $additionalWhere;
+        $groupBy = 'reports.uid';
+        $orderBy = $additionalOrderBy.' respTechnicianName ASC , nodeTypeName ASC , reports.name DESC';
+        $searchRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery($select, $from, $where,$groupBy,$orderBy);
+//print('select '.$select.' from '.$from.'where'.$where. 'group by '.$groupBy.' order by '.$orderBy);
+//echo $GLOBALS['TYPO3_DB']->debug_lastBuiltQuery;
+        $reportUids = [];
+        $reportsByEstate = [];
+        //$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+        //$estateRepository = $objectManager->get('DanLundgren\\DlIponlyestate\\Domain\\Repository\\EstateRepository');
+        //$reportRepository = $objectManager->get('DanLundgren\\DlIponlyestate\\Domain\\Repository\\ReportRepository');
+        //$estates = $estateRepository->findAll();
+        //$reports = $reportRepository->findAll();
+        $rowArr=[];        
+        while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($searchRes)) {
+            if((int)$row['estate']>0) {
+                $reportsByEstate[$row['estate']][] = $row;
+            }
+            /*
+            $report = $reportRepository->findByUid($row['uid']);            
+            if($report->getEstate()) {
+                $reportsByEstate[$report->getEstate()->getUid()][] = $report;
+            }
+            */
+            //$reportArr[] = $row['uid'];
+            
+            $rowArr[] = $row;
+        }
+        $searchedReports = $this->getSearchedReports($reportsByEstate);
+        return $searchedReports;
+    }
+
+
+    private function getSearchedReports($reportsByEstate) {
+        $returnArr = [];
+        foreach($reportsByEstate as $estateArr) {
+            $totalNoOfCriticalRemarks = 0;
+            $totalNoOfRemarks = 0;
+            $totalNoOfPurchases = 0;
+            $totalNoOfCompletedNotes = 0;
+            foreach ($estateArr as $reportsArr) {
+                $noOfTotalNotesAndMeas = 0;
+                //TODO: Kolla ifall denna behövs ReportUtility rad: 494
+                /*
+                foreach($report->getEstate()->getControlPoints() as $cp) {
+                    $noOfTotalNotesAndMeas += count($cp->getQuestions());
+                }
+                */
+                $noOfScannedNotesAndMeas = 0;
+                $isAtLeastPartlyChecked = FALSE;
+                $totalNoOfCriticalRemarks += $reportsArr['no_of_critical_remarks']; //->getNoOfCriticalRemarks();
+                //$reportsArr['totalNoOfCriticalRemarks'] = $totalNoOfCriticalRemarks;
+                $totalNoOfRemarks += $reportsArr['no_of_remarks'];
+                //$reportsArr['totalNoOfRemarks'] = $totalNoOfRemarks;
+                $totalNoOfPurchases += $reportsArr['no_of_purchases'];
+                //$reportsArr['totalNoOfPurchases'] = $totalNoOfPurchases;
+                //TODO: Implement in main query
+                $noteRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery('notes.*', 'tx_dliponlyestate_domain_model_note notes', 'report = '.$reportsArr['uid'].' and is_complete = 1 ','','');
+                //$totalNoOfCompletedNotes += $GLOBALS['TYPO3_DB']->sql_num_rows($noteRes);
+                $totalNoOfCompletedNotes = $GLOBALS['TYPO3_DB']->sql_num_rows($noteRes);
+                $reportsArr['totalNoOfCompletedNotes'] = $totalNoOfCompletedNotes;
+                $levelOneIdentifier = 'estate_'.$reportsArr['estate'];
+                $returnArr['level1'][$levelOneIdentifier]['estateUid'] = $reportsArr['estateUid']; //$estate->getUid();
+                $returnArr['level1'][$levelOneIdentifier]['pageLink'] = $reportsArr['pageLink']; //$estate->getPageLink();
+                $returnArr['level1'][$levelOneIdentifier]['nodeTypeName'] = $reportsArr['nodeTypeName']; //$estate->getNodeType()->getName();
+                $returnArr['level1'][$levelOneIdentifier]['respTechnicianName'] = (strlen($reportsArr['respTechnicianName'])>0)?$reportsArr['respTechnicianName']:'Tekniker saknas på fastigheten'; //$estate->getRespTechnicianName();
+                $returnArr['level1'][$levelOneIdentifier]['newOrNotCheckedAtAll'] = FALSE;
+                $returnArr['level1'][$levelOneIdentifier]['hasReports'] = count($reportsArr);
+
+                $levelTwoIdentifier = 'report_'.$reportsArr['uid'];
+                $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['totalNoOfCompletedNotes'] = $totalNoOfCompletedNotes;
+                $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['totalNoOfCriticalRemarks'] = $totalNoOfCriticalRemarks;
+                $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['totalNoOfRemarks'] = $totalNoOfRemarks;
+                $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['totalNoOfPurchases'] = $totalNoOfPurchases;
+                $returnArr['level1'][$levelOneIdentifier]['estateName'] = $reportsArr['estateName'];;
+                $returnArr['level1'][$levelOneIdentifier]['estateUid'] = $reportsArr['estateUid'];
+                $returnArr['level1'][$levelOneIdentifier]['pageLink'] = $reportsArr['pageLink'];
+                $returnArr['level1'][$levelOneIdentifier]['nodeTypeName'] = $reportsArr['nodeTypeName'];
+                $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['nodeTypeName'] = $reportsArr['nodeTypeName'];
+                $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['respTechnicianName'] = (strlen($reportsArr['respTechnicianName'])>0)?$reportsArr['respTechnicianName']:'Tekniker saknas på fastigheten';
+                $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['execTechnicianName'] = $reportsArr['execTechnicianName'];
+                $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['dateVersion'] = date('Y-m-d', strtotime($reportsArr['date'])) . ' Nr '.$reportsArr['version'];
+                $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['dateString'] = date('Y-m-d', strtotime($reportsArr['date']));
+                $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['versionWithLabel'] = ' Nr '.$reportsArr['version'];
+                $noteRes2 = $GLOBALS['TYPO3_DB']->exec_SELECTquery('notes.*', 'tx_dliponlyestate_domain_model_note notes', 'report = '.$reportsArr['uid'],'','');
+                $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['hasNotes'] = $GLOBALS['TYPO3_DB']->sql_num_rows($noteRes2);
+                $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['reportUid'] = $reportsArr['uid'];
+                $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['reportName'] = $reportsArr['name'];
+
+                if(strlen($reportsArr['start_date'])>0) {
+                    $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['startDate'] = date('Y-m-d H:i', strtotime($reportsArr['start_date']));
+                }
+                if(strlen($reportsArr['end_date'])>0) {
+                    $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['endDate'] = date('Y-m-d H:i', strtotime($reportsArr['end_date']));
+                }
+                //TODO: Check Multi Joins if note remarks is wrong
+                $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['noOfCriticalRemarks'] = $reportsArr['noOfCriticalRemarks'];
+                $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['noOfRemarks'] = $reportsArr['noOfRemarks'];
+                $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['noOfCompletedNotes'] = $reportsArr['noOfCompletedNotes'];
+                
+                $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['noOfNotes'] = $reportsArr['notes'];
+                $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['noOfPurchases'] = $reportsArr['noOfPurchases'];
+
+                $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['newOrNotCheckedAtAll'] = FALSE;
+                $returnArr['level1'][$levelOneIdentifier]['hasReports'] = count($estateArr);
+                $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['hasNotes'] = $reportsArr['no_of_notes'];
+                $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['getNoOfOk'] = $reportsArr['getNoOfOk'];
+
+                $noteSelect = ' note.control_point AS cpUid, 
+                                note.question AS quUid, note.comment AS comment, 
+                                note.remark_type AS remarkType, 
+                                image.identifier AS image, cp.NAME AS cpName, 
+                                qu.NAME AS questionName ';
+                $noteFrom = ' tx_dliponlyestate_domain_model_note note 
+                            RIGHT JOIN tx_dliponlyestate_domain_model_controlpoint cp ON note.control_point = cp.uid
+                            RIGHT JOIN tx_dliponlyestate_domain_model_question qu ON note.question = qu.uid
+                            RIGHT JOIN sys_file_reference ref ON note.uid = ref.uid_foreign AND ref.tablenames = "tx_dliponlyestate_domain_model_note"
+                            RIGHT JOIN sys_file image ON image.uid = ref.uid_local 
+                            ';
+                $noteWhere = ' report='.$reportsArr['uid'];
+                $debugSQL = 'SELECT '.$noteSelect.' FROM '. $noteFrom.' WHERE '.$noteWhere;
+                $noteRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery($noteSelect, $noteFrom, $noteWhere,'','');
+                while ($note = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($noteRes)) {
+                    $isAtLeastPartlyChecked = TRUE;
+                    $noOfScannedNotesAndMeas+=1;
+                    if($note['cpUid']===null || (int)$note['cpUid']==0) {
+                        continue;
+                    }
+                    $levelThreeIdentifier = 'cp_'.$note['cpUid'];
+                    if($note['quUid']===null || (int)$note['quUid']==0) {
+                        continue;
+                    }
+                    $levelFourIdentifier = 'quest_'.$note['quUid'];
+                    $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['cpName'] = $note['cpName'];
+                    $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['level4'][$levelFourIdentifier]['questionName'] = $note['questionName'];
+                    $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['level4'][$levelFourIdentifier]['comment'] = $note['comment'];
+                    $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['level4'][$levelFourIdentifier]['remarkType'] = $note['remarkType'];
+                    if($note['image'] && strlen($note['image'])>0) {
+                        $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['level4'][$levelFourIdentifier]['image'] = 'fileadmin'.$note['image'];    
+                    }                    
+                }
+                $measureSelect = ' reported_measurement.control_point AS cpUid, 
+                                    reported_measurement.question AS quUid, 
+                                    reported_measurement.unit AS unit, 
+                                    reported_measurement.value AS value, 
+                                    reported_measurement.page_id AS page_id,
+                                    cp.NAME AS cpName, 
+                                    qu.NAME AS questionName 
+                                ';
+                $measureFrom = '    tx_dliponlyestate_domain_model_reportedmeasurement reported_measurement 
+                                    RIGHT JOIN tx_dliponlyestate_domain_model_controlpoint cp ON reported_measurement.control_point = cp.uid 
+                                    RIGHT JOIN tx_dliponlyestate_domain_model_question qu ON reported_measurement.question = qu.uid
+                            ';
+                $measureWhere = ' report='.$reportsArr['uid'];
+                $debugSQL = 'SELECT '.$measureSelect.' FROM '. $measureFrom.' WHERE '.$measureWhere;
+                $measureRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery($measureSelect, $measureFrom, $measureWhere,'','');
+                $noOfMeasurements = 0;
+                while ($measurement = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($measureRes)) {
+                    $isAtLeastPartlyChecked = TRUE;
+                    $noOfMeasurements+=1;
+                    $noOfScannedNotesAndMeas+=1;
+                }
+
+                /*
+                foreach($report->getReportedMeasurement() as $measurement) {
+                    $isAtLeastPartlyChecked = TRUE;
+                    $noOfMeasurements+=1;
+                    $noOfScannedNotesAndMeas+=1;
+                }
+                */
+
+                $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['noOfMeasurements'] = $noOfMeasurements;
+                $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['noOfScannedNotesAndMeas'] = $noOfScannedNotesAndMeas;
+                $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['noOfTotalNotesAndMeas']=$reportsArr['noOfTotalNotesAndMeas'];
+                $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['allCheckedAndOk'] = FALSE;
+                $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['partlyCheckedAndOk'] = FALSE;
+                //$reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['newOrNotCheckedAtAll'] = FALSE;
+
+                $tmpNoOfOk = $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['getNoOfOk'];
+                if((int)$tmpNoOfOk+(int)$noOfMeasurements==(int)$noOfTotalNotesAndMeas) {
+                    $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['allCheckedAndOk'] = TRUE;    
+                }
+                else if($isAtLeastPartlyChecked) {
+                    $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['partlyCheckedAndOk'] = TRUE; 
+                }
+                else if(!$isAtLeastPartlyChecked) {
+                    $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['newOrNotCheckedAtAll'] = TRUE;   
+                }
+                //$returnArr[]['level1'] = $reportsArr['level1'];
+            }
+        }
+        return $returnArr;
+    }
+
+
+    /**
+     * @param \DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias $searchCriterias
+     */
+    public function searchReports2018(\DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias $searchCriterias)
+    {
 
     	//$in = $this->addInClause($searchCriterias->getCity(), $searchCriterias->getTechnician(), $searchCriterias->getNodeType());
         $reportArr = array();

@@ -146,6 +146,7 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $arguments = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('tx_dliponlyestate_reportsearch');
         if ($arguments && count($arguments)>1) {
             $searchCriterias = new \DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias($arguments['fromDate'], $arguments['endDate'], $arguments['nodeTypes'], $arguments['estates'], $arguments['cities'], $arguments['notes'], $arguments['technicians'], $arguments['freeSearch']);
+            /*
             $searchResults = $this->reportRepository->searchReports($searchCriterias);
             if (($arguments['fromDate'] || $arguments['endDate']) && $arguments['nodeTypes'] < 0 && $arguments['cities'] < 0 && $arguments['technicians'] < 0 && $arguments['notes'] <= 0 && $arguments['freeSearch'] == '') {
                 $allEstates = $this->estateRepository->findAll();
@@ -155,6 +156,7 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
                     }
                 }
             }
+            */
             /*$allEstates = $this->estateRepository->findAll();
               foreach($allEstates as $estate) {
               if(!array_key_exists($estate->getUid(),$searchResults)) {
@@ -162,18 +164,22 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
               }
               }*/
             
-            $latestReports = ReportUtil::adaptPostedReportsForOutput($searchResults);
+            //$latestReports = ReportUtil::adaptPostedReportsForOutput($searchResults);
+            $latestReports = $this->reportRepository->searchReports($searchCriterias);  
         } 
         else if(!$arguments || (count($arguments)==1 && $arguments['xls']=='1')) {
             $searchCriterias = new \DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias();
-            $searchResults = $this->reportRepository->searchReports($searchCriterias);
+            /*
+            $searchResults = $this->reportRepository->searchReports($searchCriterias);            
             $allEstates = $this->estateRepository->findAll();
             foreach ($allEstates as $estate) {
                 if (!array_key_exists($estate->getUid(), $searchResults)) {
                     $searchResults[$estate->getUid()] = $estate;
                 }
             }
-            $latestReports = ReportUtil::adaptPostedReportsForOutput($searchResults);
+            $latestReports = ReportUtil::adaptPostedReportsForOutput($searchResults);            
+            */
+            $latestReports = $this->reportRepository->searchReports($searchCriterias);  
         }
         if ($arguments['xls']=='1') {
             $this->excelAction($latestReports, $arguments);
