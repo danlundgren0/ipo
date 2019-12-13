@@ -41,6 +41,7 @@
                             <tr><td>                                
                                 <f:for each="{cp.questions}" as="q">                                
                                     <h3>Delpunkt: {q.questionName}</h3>
+                                    <div class="note-date desc">Beskrivning: <f:format.html>{q.questionDesc}</f:format.html></div>
                                     <table class="table-quest-container {q.status}">
                                         <tr><td>
                                                 <f:if condition="{q.type}=='measure'">                                                          

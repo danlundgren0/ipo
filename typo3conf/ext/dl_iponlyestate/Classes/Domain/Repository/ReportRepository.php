@@ -78,6 +78,9 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $from = 'tx_dliponlyestate_domain_model_report reports ';
         $additionalWhere = '';
         $additionalOrderBy = '';
+        $addEstateNoReportWhereFromDate = '';
+        $addEstateNoReportWhereToDate = '';
+        $addEstateNoReportWhere = '';
         //if(strlen($in)>0) {
         /*
         if((int)$searchCriterias->getNodeType()>0 || (int)$searchCriterias->getTechnician() > 0 || (int)$searchCriterias->getCity() != '-1') {
@@ -89,18 +92,21 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             //$from .= ' AND estate.node_type = '.$searchCriterias->getNodeType();
             //$and = ' AND ';
             $additionalWhere .= ' AND nodetype.uid =  '.$searchCriterias->getNodeType();
+            $addAND .= ' AND nodeType.uid =  '.$searchCriterias->getNodeType();
         }
         if($searchCriterias->getCity()!='-1') {         
             //$from = ' tx_dliponlyestate_domain_model_report reports, tx_dliponlyestate_domain_model_note note, tx_dliponlyestate_domain_model_estate estate ';
             //$from .= ' AND estate.city = \''.$searchCriterias->getCity().'\'';
             //$and = ' AND ';
             $additionalWhere .= ' AND estate.city =  "'.$searchCriterias->getCity().'"';
+            $addAND .= ' AND estate.city = "'.$searchCriterias->getCity().'"';
         }
         if((int)$searchCriterias->getTechnician()>0) {         
             //$from = ' tx_dliponlyestate_domain_model_report reports, tx_dliponlyestate_domain_model_note note, tx_dliponlyestate_domain_model_estate estate ';
             //$from .= ' AND estate.responsible_technician = '.$searchCriterias->getTechnician();
             //$and = ' AND ';
             $additionalWhere .= ' AND estate.responsible_technician =  '.$searchCriterias->getTechnician();
+            $addAND .= ' AND feuser.uid = '.$searchCriterias->getTechnician();
         }
         if ($searchCriterias->getNoteType() > 0) {
             //$where .= $and . ' note.state = ' . $searchCriterias->getNoteType() . ' AND reports.uid = note.report AND note.is_complete=0 AND note.deleted=0 AND note.hidden=0 ';
@@ -129,9 +135,12 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         }
         if ($searchCriterias->getFromDate() != '') {
             $additionalWhere .= ' AND reports.date>=\'' . $searchCriterias->getFromDate() . '\' ';
+            //$addEstateNoReportWhereFromDate = $searchCriterias->getFromDate().' 00:00:00';
+            $addEstateNoReportWhereFromDate = '\''.$searchCriterias->getFromDate().'\' ';
         }
         if ($searchCriterias->getToDate() != '') {
             $additionalWhere .= ' AND reports.date<=\'' . $searchCriterias->getToDate() . '\' ';
+            $addEstateNoReportWhereToDate = '\''.$searchCriterias->getToDate().' 23:59:59\'';
         }
         if ($searchCriterias->getFreeSearch() != '') {            
             //$from .= $and . ' ((note.comment LIKE \'%' . $searchCriterias->getFreeSearch() . '%\' AND reports.uid = note.report) OR (estate.name LIKE \'%' . $searchCriterias->getFreeSearch() . '%\' AND reports.estate = estate.uid))';
@@ -152,12 +161,13 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $select = ' 
             reports.*, estate.name AS estateName, estate.uid AS estateUid, estate.page_link AS pageLink, 
             nodetype.uid AS nodeTypeUid, nodetype.name AS nodeTypeName, 
-            feuser.username AS respTechnicianName, feuser2.username AS execTechnicianName, 
+            feuser.name AS respTechnicianName, feuser2.name AS execTechnicianName, 
             COUNT(CASE WHEN remarks.remark_type = 3 AND remarks.is_complete = 0 THEN remarks.remark_type END) AS noOfRemarks, 
             COUNT(CASE WHEN remarks.remark_type = 2 AND remarks.is_complete = 0 THEN remarks.remark_type END) AS noOfCriticalRemarks,  
             COUNT(CASE WHEN remarks.is_complete = 1 THEN remarks.remark_type END) AS noOfCompletedNotes, 
             COUNT(CASE WHEN remarks.remark_type = 4 AND remarks.is_complete = 0 THEN remarks.remark_type END) AS noOfPurchases, 
             COUNT(CASE WHEN remarks.remark_type = 1 THEN remarks.remark_type END) AS getNoOfOk, 
+            (reports.no_of_notes+reports.reported_measurement) AS NoOfReportedNotesAndMeas, 
             (
                 SELECT SUM(cp.questions)
                 FROM tx_dliponlyestate_domain_model_controlpoint cp, tx_dliponlyestate_estate_controlpoint_mm estate_cp_mm
@@ -170,23 +180,68 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                     LEFT JOIN fe_users feuser ON feuser.uid = estate.responsible_technician 
                     LEFT JOIN fe_users feuser2 ON feuser2.uid = reports.executive_technician 
                 ';
-        $where = ' reports.deleted=0 AND reports.hidden=0 ';
+        $where = ' reports.deleted=0 AND reports.hidden=0 AND estate.deleted=0 AND estate.hidden=0  ';
         $where .= $additionalWhere;
         $groupBy = 'reports.uid';
         $orderBy = $additionalOrderBy.' respTechnicianName ASC , nodeTypeName ASC , reports.name DESC';
         $searchRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery($select, $from, $where,$groupBy,$orderBy);
 //print('select '.$select.' from '.$from.'where'.$where. 'group by '.$groupBy.' order by '.$orderBy);
 //echo $GLOBALS['TYPO3_DB']->debug_lastBuiltQuery;
+        if(strlen($addEstateNoReportWhereFromDate)>0 && strlen($addEstateNoReportWhereToDate)>0) {
+            $addEstateNoReportWhere .= ' 
+                AND
+                (
+                    tx_dliponlyestate_domain_model_report.start_date >= '.$addEstateNoReportWhereFromDate.' AND tx_dliponlyestate_domain_model_report.end_date <= '.$addEstateNoReportWhereToDate.' 
+                )
+            ';
+        }
+        elseif(strlen($addEstateNoReportWhereFromDate)>0) {
+            $addEstateNoReportWhere .= ' 
+                AND
+                (
+                    tx_dliponlyestate_domain_model_report.start_date >= '.$addEstateNoReportWhereFromDate.' 
+                )
+            ';
+        }
+        elseif(strlen($addEstateNoReportWhereToDate)>0) {
+            $addEstateNoReportWhere .= ' 
+                AND
+                (
+                    tx_dliponlyestate_domain_model_report.end_date >= '.$addEstateNoReportWhereToDate.' 
+                )
+            ';
+        }
+        //THIS SQL selects all estates without any report within the set daterange
+        $estateUidArr = [];
+        $estateUidSelect = 'estate.uid AS estate,estate.name AS estateName, nodeType.name AS nodeTypeName, estate.page_link AS pageLink, feuser.name AS respTechnicianName, "noReport"';
+        $estateUidFrom = '
+                tx_dliponlyestate_domain_model_estate AS estate 
+                LEFT JOIN tx_dliponlyestate_domain_model_nodetype nodeType ON nodeType.uid = estate.node_type
+                LEFT JOIN fe_users feuser ON feuser.uid = estate.responsible_technician
+            ';
+        $estateUidWhere = '
+             NOT EXISTS 
+            (
+                SELECT 1 FROM tx_dliponlyestate_domain_model_report 
+                WHERE estate.uid = tx_dliponlyestate_domain_model_report.estate '.$addEstateNoReportWhere.'
+            )
+            AND estate.hidden = 0 AND estate.deleted = 0 
+            AND feuser.username IS NOT NULL
+        '.$addAND;
+        $estateUidRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery($estateUidSelect, $estateUidFrom, $estateUidWhere);
+        $debugQuery = 'SELECT '.$estateUidSelect. ' FROM '.$estateUidFrom.' WHERE '.$estateUidWhere;
+//print($debugQuery);
         $reportUids = [];
         $reportsByEstate = [];
-        //$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-        //$estateRepository = $objectManager->get('DanLundgren\\DlIponlyestate\\Domain\\Repository\\EstateRepository');
-        //$reportRepository = $objectManager->get('DanLundgren\\DlIponlyestate\\Domain\\Repository\\ReportRepository');
-        //$estates = $estateRepository->findAll();
-        //$reports = $reportRepository->findAll();
         $rowArr=[];        
+        
+        while ($estateUidRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($estateUidRes)) {
+            //$estateUidArr[] = $estateUidRow['uid'];
+            $reportsByEstate[$estateUidRow['uid']][] = $estateUidRow;
+        }
+        
         while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($searchRes)) {
-            if((int)$row['estate']>0) {
+            if((int)$row['estate']>0) {                
                 $reportsByEstate[$row['estate']][] = $row;
             }
             /*
@@ -207,6 +262,7 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     private function getSearchedReports($reportsByEstate) {
         $returnArr = [];
         foreach($reportsByEstate as $estateArr) {
+            $hasReports = true;
             $totalNoOfCriticalRemarks = 0;
             $totalNoOfRemarks = 0;
             $totalNoOfPurchases = 0;
@@ -221,18 +277,26 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                 */
                 $noOfScannedNotesAndMeas = 0;
                 $isAtLeastPartlyChecked = FALSE;
+                $levelOneIdentifier = 'estate_'.$reportsArr['estate'];                
+                if($reportsArr['noReport']) {
+                    $returnArr['level1'][$levelOneIdentifier]['nodeTypeName'] = $reportsArr['nodeTypeName'];
+                    $returnArr['level1'][$levelOneIdentifier]['estateName'] = $reportsArr['estateName'];
+                    $returnArr['level1'][$levelOneIdentifier]['estateUid'] = $reportsArr['estateUid'];
+                    $returnArr['level1'][$levelOneIdentifier]['noReport'] = $reportsArr['noReport'];
+                    $returnArr['level1'][$levelOneIdentifier]['pageLink'] = $reportsArr['pageLink'];
+                    $returnArr['level1'][$levelOneIdentifier]['respTechnicianName'] = $reportsArr['respTechnicianName'];                    
+                    //$returnArr['level1'][$levelOneIdentifier]['respTechnicianName'] = 'ZZZ';
+                    $hasReports = false;                    
+                    continue;
+                }
                 $totalNoOfCriticalRemarks += $reportsArr['no_of_critical_remarks']; //->getNoOfCriticalRemarks();
-                //$reportsArr['totalNoOfCriticalRemarks'] = $totalNoOfCriticalRemarks;
                 $totalNoOfRemarks += $reportsArr['no_of_remarks'];
-                //$reportsArr['totalNoOfRemarks'] = $totalNoOfRemarks;
                 $totalNoOfPurchases += $reportsArr['no_of_purchases'];
-                //$reportsArr['totalNoOfPurchases'] = $totalNoOfPurchases;
                 //TODO: Implement in main query
                 $noteRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery('notes.*', 'tx_dliponlyestate_domain_model_note notes', 'report = '.$reportsArr['uid'].' and is_complete = 1 ','','');
                 //$totalNoOfCompletedNotes += $GLOBALS['TYPO3_DB']->sql_num_rows($noteRes);
                 $totalNoOfCompletedNotes = $GLOBALS['TYPO3_DB']->sql_num_rows($noteRes);
                 $reportsArr['totalNoOfCompletedNotes'] = $totalNoOfCompletedNotes;
-                $levelOneIdentifier = 'estate_'.$reportsArr['estate'];
                 $returnArr['level1'][$levelOneIdentifier]['estateUid'] = $reportsArr['estateUid']; //$estate->getUid();
                 $returnArr['level1'][$levelOneIdentifier]['pageLink'] = $reportsArr['pageLink']; //$estate->getPageLink();
                 $returnArr['level1'][$levelOneIdentifier]['nodeTypeName'] = $reportsArr['nodeTypeName']; //$estate->getNodeType()->getName();
@@ -245,7 +309,7 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                 $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['totalNoOfCriticalRemarks'] = $totalNoOfCriticalRemarks;
                 $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['totalNoOfRemarks'] = $totalNoOfRemarks;
                 $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['totalNoOfPurchases'] = $totalNoOfPurchases;
-                $returnArr['level1'][$levelOneIdentifier]['estateName'] = $reportsArr['estateName'];;
+                $returnArr['level1'][$levelOneIdentifier]['estateName'] = $reportsArr['estateName'];
                 $returnArr['level1'][$levelOneIdentifier]['estateUid'] = $reportsArr['estateUid'];
                 $returnArr['level1'][$levelOneIdentifier]['pageLink'] = $reportsArr['pageLink'];
                 $returnArr['level1'][$levelOneIdentifier]['nodeTypeName'] = $reportsArr['nodeTypeName'];
@@ -344,12 +408,22 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
                 $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['noOfMeasurements'] = $noOfMeasurements;
                 $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['noOfScannedNotesAndMeas'] = $noOfScannedNotesAndMeas;
+                $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['NoOfReportedNotesAndMeas']=$reportsArr['NoOfReportedNotesAndMeas'];
                 $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['noOfTotalNotesAndMeas']=$reportsArr['noOfTotalNotesAndMeas'];
                 $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['allCheckedAndOk'] = FALSE;
                 $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['partlyCheckedAndOk'] = FALSE;
                 //$reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['newOrNotCheckedAtAll'] = FALSE;
-
+                if((int)$reportsArr['NoOfReportedNotesAndMeas']>=(int)$reportsArr['noOfTotalNotesAndMeas']) {
+                    $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['allCheckedAndOk'] = TRUE;    
+                }
+                else if((int)$reportsArr['NoOfReportedNotesAndMeas']>0 && (int)$reportsArr['NoOfReportedNotesAndMeas']<(int)$reportsArr['noOfTotalNotesAndMeas']) {
+                    $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['partlyCheckedAndOk'] = TRUE; 
+                }
+                else if(!$isAtLeastPartlyChecked) {
+                    $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['newOrNotCheckedAtAll'] = TRUE;   
+                }
                 $tmpNoOfOk = $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['getNoOfOk'];
+                /*
                 if((int)$tmpNoOfOk+(int)$noOfMeasurements==(int)$noOfTotalNotesAndMeas) {
                     $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['allCheckedAndOk'] = TRUE;    
                 }
@@ -359,8 +433,9 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                 else if(!$isAtLeastPartlyChecked) {
                     $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['newOrNotCheckedAtAll'] = TRUE;   
                 }
+                */
                 //$returnArr[]['level1'] = $reportsArr['level1'];
-            }
+            }            
         }
         return $returnArr;
     }

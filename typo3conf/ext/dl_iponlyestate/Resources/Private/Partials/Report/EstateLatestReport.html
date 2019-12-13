@@ -7,10 +7,16 @@
 	<v:variable.set name="reportColor" value="remarksExists" />
 	<v:variable.set name="dataColor" value="b" />
 </f:if>	
+<f:if condition="{report.allCheckedAndOk}">
+	<v:variable.set name="reportColor" value="allCpIsOk" />
+	<v:variable.set name="dataColor" value="c" />
+</f:if>
+<f:comment>
 <f:if condition="{report.noOfScannedNotesAndMeas}=={report.noOfTotalNotesAndMeas}">
 	<v:variable.set name="reportColor" value="allCpIsOk" />
 	<v:variable.set name="dataColor" value="c" />
 </f:if>
+</f:comment>
 <div class="latest-report" data-reportstatus="{v:variable.get(name: 'reportColor')}" data-report="{report.reportUid}"  data-estate="{estate.estateUid}">
 	<div class="col-md-1 handle" data-colour="{v:variable.get(name: 'dataColor')}">
 		<a role="button" data-toggle="collapse" data-parent="#accordion" href="#report-{estate.estateUid}-1-history" aria-expanded="true" aria-controls="report-{estate.estateUid}-1-history">

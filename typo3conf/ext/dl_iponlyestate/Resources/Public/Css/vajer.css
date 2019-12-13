@@ -9,6 +9,12 @@
 
 }
 */
+/*
+.noChecksDone .resptech {
+    color:transparent;
+}
+*/
+
 .modal-open .modal {
     top:40px;
 }
@@ -24,6 +30,12 @@ body .tx-dl-iponlyestate h1, body .tx-dl-iponlyestate .tabpanel h5 {
 }
 .note-date {
     padding-left:15px;
+}
+.note-date.desc {
+    font-weight: bold;
+}
+.note-date.desc p {
+    font-size: 16px;
 }
 [data-reportstatus="allCpIsOk"] {
     background-color: #e3edc6;
@@ -81,10 +93,15 @@ body h4.modal-title a {
 .jumbotron.checked-4 {
     background-color:#DDDDDD;
 }
-.jumbotron.not-checked {
-    background-color: #cecece;
+.modal-content .jumbotron.not-checked .col-md-6 {
+    width:100%;
 }
-
+.modal-content .jumbotron.not-checked {
+    background-color:#f8c8d3;
+}
+.modal-content .jumbotron.not-checked .not-reported {
+    color:red;
+}
  .report-modal .item-img {
     float: right;   
 }

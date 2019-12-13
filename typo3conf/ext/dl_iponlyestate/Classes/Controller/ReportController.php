@@ -225,6 +225,7 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
                 $cities[$estate->getCity()] = $estate->getCity();
             }
         }
+        ksort($cities);
         return $cities;
     }
     

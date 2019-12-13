@@ -105,6 +105,8 @@ class ReportUtility {
 	                            $reportsArr['controlPoints'][$cpIdentifier]['cpName'] = $note->getControlPoint()->getHeader();
 	                            $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['type'] = 'note';
 	                            $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionName'] = $note->getQuestion()->getHeader();
+                                $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionDesc'] = $note->getQuestion()->getDescription();
+                                $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionUid'] = $note->getQuestion()->getUid();
                                 $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['noteUid'] = $note->getUid();
 	                            $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['noteIsComplete'] = $note->getIsComplete();
 	                            $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['comment'] = $note->getComment();
@@ -150,6 +152,8 @@ class ReportUtility {
 	                                $reportsArr['controlPoints'][$cpIdentifier]['cpName'] = $meas->getControlPoint()->getHeader();
 	    							$reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['type'] = 'measure';
 	                                $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionName'] = $meas->getQuestion()->getHeader();
+                                    $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionDesc'] = $note->getQuestion()->getDescription();
+                                    $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionUid'] = $note->getQuestion()->getUid();
 	                                $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['measName'] = $meas->getName();
 	                                $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['unit'] = $meas->getUnit();
 	                                $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['value'] = $meas->getValue();
@@ -163,6 +167,8 @@ class ReportUtility {
 	                        $reportsArr['noOfQuestionsLeft'] = $noOfQuestionsLeft;
 	                        $reportsArr['controlPoints'][$cpIdentifier]['cpName'] = $cp->getHeader();
 	                        $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionName'] = $q->getHeader();
+                            $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionDesc'] = $note->getQuestion()->getDescription();
+                            $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionUid'] = $note->getQuestion()->getUid();
 	                        $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['status'] = 'not-checked';
 	                        $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['message'] = 'Ej kontrollerad';
 	                    }
@@ -250,6 +256,8 @@ class ReportUtility {
                         $reportsArr['controlPoints'][$cpIdentifier]['cpName'] = $note->getControlPoint()->getHeader();
                         $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['type'] = 'note';
                         $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionName'] = $note->getQuestion()->getHeader();
+                        $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionDesc'] = $note->getQuestion()->getDescription();
+                        $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionUid'] = $note->getQuestion()->getUid();
                         $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['noteUid'] = $note->getUid();
                         $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['noteIsComplete'] = $note->getIsComplete();
                         $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['comment'] = $note->getComment();
@@ -294,6 +302,8 @@ class ReportUtility {
                             $reportsArr['controlPoints'][$cpIdentifier]['cpName'] = $meas->getControlPoint()->getHeader();
                             $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['type'] = 'measure';
                             $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionName'] = $meas->getQuestion()->getHeader();
+                            $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionDesc'] = $note->getQuestion()->getDescription();
+                            $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionUid'] = $note->getQuestion()->getUid();
                             $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['measName'] = $meas->getName();
                             $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['unit'] = $meas->getUnit();
                             $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['value'] = $meas->getValue();
@@ -307,6 +317,8 @@ class ReportUtility {
                     $reportsArr['noOfQuestionsLeft'] = $noOfQuestionsLeft;
                     $reportsArr['controlPoints'][$cpIdentifier]['cpName'] = $cp->getHeader();
                     $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionName'] = $q->getHeader();
+                    $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionDesc'] = $note->getQuestion()->getDescription();
+                    $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionUid'] = $note->getQuestion()->getUid();
                     $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['status'] = 'not-checked';
                     $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['message'] = 'Ej kontrollerad';
                 }
@@ -390,6 +402,8 @@ class ReportUtility {
                         $reportsArr['controlPoints'][$cpIdentifier]['cpName'] = $note->getControlPoint()->getHeader();
                         $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['type'] = 'note';
                         $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionName'] = $note->getQuestion()->getHeader();
+                        $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionDesc'] = $note->getQuestion()->getDescription();
+                        $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionUid'] = $note->getQuestion()->getUid();
                         $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['noteUid'] = $note->getUid();
                         $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['noteIsComplete'] = $note->getIsComplete();
                         $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['comment'] = $note->getComment();
@@ -432,6 +446,8 @@ class ReportUtility {
                             $reportsArr['controlPoints'][$cpIdentifier]['cpName'] = $meas->getControlPoint()->getHeader();
                             $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['type'] = 'measure';
                             $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionName'] = $meas->getQuestion()->getHeader();
+                            $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionDesc'] = $note->getQuestion()->getDescription();
+                            $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionUid'] = $note->getQuestion()->getUid();
                             $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['measName'] = $meas->getName();
                             $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['unit'] = $meas->getUnit();
                             $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['value'] = $meas->getValue();
@@ -445,6 +461,8 @@ class ReportUtility {
                     $reportsArr['noOfQuestionsLeft'] = $noOfQuestionsLeft;
                     $reportsArr['controlPoints'][$cpIdentifier]['cpName'] = $cp->getHeader();
                     $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionName'] = $q->getHeader();
+                    $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionDesc'] = $note->getQuestion()->getDescription();
+                    $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionUid'] = $note->getQuestion()->getUid();
                     $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['status'] = 'not-checked';
                     $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['message'] = 'Ej kontrollerad';
                 }
@@ -563,6 +581,7 @@ class ReportUtility {
                     //$reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['noOfPurchases'] = $report->getNoOfPurchases();
                     $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['cpName'] = $note->getControlPoint()->getHeader();
                     $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['level4'][$levelFourIdentifier]['questionName'] = $note->getQuestion()->getHeader();
+                    $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['level4'][$levelFourIdentifier]['questionName'] = $note->getQuestion()->getDescription();                    
                     $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['level4'][$levelFourIdentifier]['comment'] = $note->getComment();
                     $reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['level4'][$levelFourIdentifier]['remarkType'] = $note->getRemarkType();
                     //$reportsArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['image'] = $note->getImages();
