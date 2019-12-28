@@ -211,3 +211,9 @@ config.tx_extbase {
 		TYPO3\CMS\Extbase\Domain\Model\FileReference.className = DanLundgren\DlIponlyestate\Domain\Model\FileReference
 	}
 }
+
+page = PAGE
+page.11 = USER_INT
+page.11 {
+  userFunc = DanLundgren\DlIponlyestate\Utility\LogintUtility->isLoggedIn
+}
