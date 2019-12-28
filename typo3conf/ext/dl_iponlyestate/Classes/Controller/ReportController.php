@@ -112,6 +112,14 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * @inject
      */
     protected $technicianRepository = NULL;
+
+
+    /**
+     * estateAreaPIDs
+     *
+     * @var array
+     */
+    protected $estateAreaPIDs = NULL;
     
     /**
      * @param $a
@@ -145,7 +153,7 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $reportsByEstate = array();
         $arguments = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('tx_dliponlyestate_reportsearch');
         if ($arguments && count($arguments)>1) {
-            $searchCriterias = new \DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias($arguments['fromDate'], $arguments['endDate'], $arguments['nodeTypes'], $arguments['estates'], $arguments['cities'], $arguments['notes'], $arguments['technicians'], $arguments['freeSearch']);
+            $searchCriterias = new \DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias($arguments['fromDate'], $arguments['endDate'], $arguments['nodeTypes'], $arguments['estates'], $arguments['cities'], $arguments['notes'], $arguments['technicians'], $arguments['freeSearch'], $arguments['areas']);
             /*
             $searchResults = $this->reportRepository->searchReports($searchCriterias);
             if (($arguments['fromDate'] || $arguments['endDate']) && $arguments['nodeTypes'] < 0 && $arguments['cities'] < 0 && $arguments['technicians'] < 0 && $arguments['notes'] <= 0 && $arguments['freeSearch'] == '') {
@@ -198,6 +206,7 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $arguments = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('tx_dliponlyestate_reportsearch');
         $this->view->assign('arguments', $arguments);
         $this->view->assign('estates', $this->getEstates());
+        $this->view->assign('areas', $this->getAreas());
         $this->view->assign('cities', $this->getEstateCities());
         //$estate = $this->estateRepository->findByUid(13);
         //$this->view->assign('technicians', $this->getTechnicians($estate));
@@ -277,11 +286,32 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         return $technicians;
     }
     
+    public function getAreas()
+    {
+      $areaArr = array('-1' => 'Alla');
+      if(is_array($this->estateAreaPIDs) && count($this->estateAreaPIDs)>0) {
+        $estateAreaPIDs = join(",",$this->estateAreaPIDs);  
+        $select = ' title,uid ';
+        $from = ' pages ';
+        $where = ' hidden = 0 AND deleted = 0 AND uid IN ('.$estateAreaPIDs.')';
+        $orderBy = ' title ASC ';
+        $areaRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery($select, $from, $where,'',$orderBy);
+        while ($areaRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($areaRes)) {
+          $areaArr[$areaRow['uid']] = $areaRow['title'];
+        }
+      }
+      return $areaArr;
+    }    
+
     public function getEstates()
     {
-        $estates = $this->estateRepository->findAll();
+        $this->estateAreaPIDs = [];
+        $estates = $this->estateRepository->findAll();        
         $estatesArr = array('-1' => 'Alla');
         foreach ($estates as $estate) {
+            if(!in_array($estate->getPid(), $this->estateAreaPIDs)) {
+              $this->estateAreaPIDs[] = $estate->getPid();
+            }
             $estatesArr[$estate->getUid()] = $estate->getName();
         }
         return $estatesArr;

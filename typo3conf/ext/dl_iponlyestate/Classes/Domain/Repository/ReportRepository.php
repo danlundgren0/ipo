@@ -101,6 +101,13 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             $additionalWhere .= ' AND estate.city =  "'.$searchCriterias->getCity().'"';
             $addAND .= ' AND estate.city = "'.$searchCriterias->getCity().'"';
         }
+        if($searchCriterias->getArea()!='-1') {         
+            //$from = ' tx_dliponlyestate_domain_model_report reports, tx_dliponlyestate_domain_model_note note, tx_dliponlyestate_domain_model_estate estate ';
+            //$from .= ' AND estate.city = \''.$searchCriterias->getCity().'\'';
+            //$and = ' AND ';
+            $additionalWhere .= ' AND estate.pid =  "'.$searchCriterias->getArea().'"';
+            $addAND .= ' AND estate.pid = "'.$searchCriterias->getArea().'"';
+        }
         if((int)$searchCriterias->getTechnician()>0) {         
             //$from = ' tx_dliponlyestate_domain_model_report reports, tx_dliponlyestate_domain_model_note note, tx_dliponlyestate_domain_model_estate estate ';
             //$from .= ' AND estate.responsible_technician = '.$searchCriterias->getTechnician();

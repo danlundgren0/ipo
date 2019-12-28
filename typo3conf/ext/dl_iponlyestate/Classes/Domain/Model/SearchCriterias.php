@@ -111,10 +111,18 @@ class SearchCriterias extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     protected $freeSearch = '';    
 
+
+    /**
+     * area
+     *
+     * @var int
+     */
+    protected $area = 0;
+
     /**
      * __construct
      */
-    public function __construct($fromDate='',$toDate='',$nodeType=-1,$estate=-1,$city=-1,$noteType=0,$technician=-1,$freeSearch = '')
+    public function __construct($fromDate='',$toDate='',$nodeType=-1,$estate=-1,$city=-1,$noteType=0,$technician=-1,$freeSearch = '',$area=-1)
     {
         //Do not remove the next line: It would break the functionality        
         $this->initStorageObjects();
@@ -126,7 +134,7 @@ class SearchCriterias extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->noteType = $noteType;
         $this->technician = $technician;
      	$this->freeSearch = $freeSearch;
-
+        $this->area = $area;
      	//$this->getNotes();
     }
     
@@ -255,6 +263,26 @@ class SearchCriterias extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->city = $city;
     }
 
+    /**
+     * Returns the area
+     *
+     * @return string $area
+     */
+    public function getArea()
+    {
+        return $this->area;
+    }
+    
+    /**
+     * Sets the area
+     *
+     * @param string $area
+     * @return void
+     */
+    public function setArea($area)
+    {
+        $this->area = $area;
+    }
 
     /**
      * Sets the noteType

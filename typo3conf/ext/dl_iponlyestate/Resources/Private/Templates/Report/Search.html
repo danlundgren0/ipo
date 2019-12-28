@@ -51,6 +51,8 @@ Otherwise your changes will be overwritten the next time you save the extension 
             </f:comment>
     		<div class="col-md-2 lbl">Noteringar</div>
     		<div class="col-md-10"><f:form.select value="{arguments.notes}" name="notes" options="{notes}" optionValueField="uid" optionLabelField="comment" class="form-control" /></div>
+            <div class="col-md-2 lbl">Områden</div>
+            <div class="col-md-10"><f:form.select value="{arguments.areas}" name="areas" options="{areas}" optionValueField="uid" optionLabelField="title" class="form-control" /></div>
     		<div class="col-md-2 lbl">Sök</div>
 			<div class="col-md-8"><f:form.textfield value="{arguments.freeSearch}" name="freeSearch" class="form-control" /></div>
     		<div class="col-md-2"><f:form.submit class="btn btn-secondary" value="Sök" /></div>
