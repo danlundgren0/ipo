@@ -5,7 +5,7 @@ namespace DanLundgren\DlIponlyestate\Tests\Unit\Domain\Model;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2017 Dan Lundgren <danlundgren0@gmail.com>, Dan Lundgren
+ *  (c) 2020 Dan Lundgren <danlundgren0@gmail.com>, Dan Lundgren
  *
  *  All rights reserved
  *

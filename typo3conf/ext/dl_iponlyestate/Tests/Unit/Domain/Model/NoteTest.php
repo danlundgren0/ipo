@@ -5,7 +5,7 @@ namespace DanLundgren\DlIponlyestate\Tests\Unit\Domain\Model;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2017 Dan Lundgren <danlundgren0@gmail.com>, Dan Lundgren
+ *  (c) 2020 Dan Lundgren <danlundgren0@gmail.com>, Dan Lundgren
  *
  *  All rights reserved
  *
@@ -260,6 +260,58 @@ class NoteTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 		$this->assertAttributeEquals(
 			TRUE,
 			'uploadedImage',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getUploadImages1ReturnsInitialValueForFileReference()
+	{
+		$this->assertEquals(
+			NULL,
+			$this->subject->getUploadImages1()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setUploadImages1ForFileReferenceSetsUploadImages1()
+	{
+		$fileReferenceFixture = new \TYPO3\CMS\Extbase\Domain\Model\FileReference();
+		$this->subject->setUploadImages1($fileReferenceFixture);
+
+		$this->assertAttributeEquals(
+			$fileReferenceFixture,
+			'uploadImages1',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getUploadImages2ReturnsInitialValueForFileReference()
+	{
+		$this->assertEquals(
+			NULL,
+			$this->subject->getUploadImages2()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setUploadImages2ForFileReferenceSetsUploadImages2()
+	{
+		$fileReferenceFixture = new \TYPO3\CMS\Extbase\Domain\Model\FileReference();
+		$this->subject->setUploadImages2($fileReferenceFixture);
+
+		$this->assertAttributeEquals(
+			$fileReferenceFixture,
+			'uploadImages2',
 			$this->subject
 		);
 	}

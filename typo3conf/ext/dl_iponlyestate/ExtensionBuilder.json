@@ -901,6 +901,26 @@
                             "propertyName": "uploadedImage",
                             "propertyType": "Boolean",
                             "uid": "42644775160"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": true,
+                            "propertyName": "uploadImages1",
+                            "propertyType": "Image",
+                            "uid": "726875380743"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": true,
+                            "propertyName": "uploadImages2",
+                            "propertyType": "Image",
+                            "uid": "873402713956"
                         }
                     ]
                 },
@@ -1411,7 +1431,7 @@
         }
     ],
     "log": {
-        "last_modified": "2017-07-13 08:33",
+        "last_modified": "2020-02-05 06:54",
         "extension_builder_version": "7.6.0",
         "be_user": " (1)"
     }

@@ -124,6 +124,22 @@ class Note extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $question = null;
     
     /**
+     * uploadImages1
+     *
+     * @var \TYPO3\CMS\Extbase\Domain\Model\FileReference
+     * @validate NotEmpty
+     */
+    protected $uploadImages1 = null;
+    
+    /**
+     * uploadImages2
+     *
+     * @var \TYPO3\CMS\Extbase\Domain\Model\FileReference
+     * @validate NotEmpty
+     */
+    protected $uploadImages2 = null;
+    
+    /**
      * __construct
      */
     public function __construct()
@@ -432,6 +448,48 @@ class Note extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function isUploadedImage()
     {
         return $this->uploadedImage;
+    }
+    
+    /**
+     * Returns the uploadImages1
+     *
+     * @return \TYPO3\CMS\Extbase\Domain\Model\FileReference $uploadImages1
+     */
+    public function getUploadImages1()
+    {
+        return $this->uploadImages1;
+    }
+    
+    /**
+     * Sets the uploadImages1
+     *
+     * @param \TYPO3\CMS\Extbase\Domain\Model\FileReference $uploadImages1
+     * @return void
+     */
+    public function setUploadImages1(\TYPO3\CMS\Extbase\Domain\Model\FileReference $uploadImages1)
+    {
+        $this->uploadImages1 = $uploadImages1;
+    }
+    
+    /**
+     * Returns the uploadImages2
+     *
+     * @return \TYPO3\CMS\Extbase\Domain\Model\FileReference $uploadImages2
+     */
+    public function getUploadImages2()
+    {
+        return $this->uploadImages2;
+    }
+    
+    /**
+     * Sets the uploadImages2
+     *
+     * @param \TYPO3\CMS\Extbase\Domain\Model\FileReference $uploadImages2
+     * @return void
+     */
+    public function setUploadImages2(\TYPO3\CMS\Extbase\Domain\Model\FileReference $uploadImages2)
+    {
+        $this->uploadImages2 = $uploadImages2;
     }
 
 }

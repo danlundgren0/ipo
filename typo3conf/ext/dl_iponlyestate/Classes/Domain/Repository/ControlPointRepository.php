@@ -51,13 +51,13 @@ class ControlPointRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         }
         return $subPages;
     }
-
+    
     /**
      * @param $estate
      */
     public function findCpByPid($pid)
     {
-        $cpRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid,pi_flexform', 'tt_content', 'list_type="dliponlyestate_cp" AND pid=' . $pid.' AND hidden=0 AND deleted=0');
+        $cpRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid,pi_flexform', 'tt_content', 'list_type="dliponlyestate_cp" AND pid=' . $pid . ' AND hidden=0 AND deleted=0');
         $cp = NULL;
         while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($cpRes)) {
             $cp = $row;

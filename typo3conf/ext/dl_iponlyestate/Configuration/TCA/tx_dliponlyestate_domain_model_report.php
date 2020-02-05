@@ -139,12 +139,12 @@ return array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_report.date',
 			'config' => array(
-				'dbType' => 'datetime',
+				'dbType' => 'date',
 				'type' => 'input',
-				'size' => 12,
-				'eval' => 'datetime',
+				'size' => 7,
+				'eval' => 'date',
 				'checkbox' => 0,
-				'default' => '0000-00-00 00:00:00'
+				'default' => '0000-00-00'
 			),
 		),
 		'is_complete' => array(
@@ -223,24 +223,24 @@ return array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_report.start_date',
 			'config' => array(
-				'dbType' => 'datetime',
+				'dbType' => 'date',
 				'type' => 'input',
-				'size' => 12,
-				'eval' => 'datetime',
+				'size' => 7,
+				'eval' => 'date',
 				'checkbox' => 0,
-				'default' => '0000-00-00 00:00:00'
+				'default' => '0000-00-00'
 			),
 		),
 		'end_date' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_report.end_date',
 			'config' => array(
-				'dbType' => 'datetime',
+				'dbType' => 'date',
 				'type' => 'input',
-				'size' => 12,
-				'eval' => 'datetime',
+				'size' => 7,
+				'eval' => 'date',
 				'checkbox' => 0,
-				'default' => '0000-00-00 00:00:00'
+				'default' => '0000-00-00'
 			),
 		),
 		'no_of_critical_remarks' => array(

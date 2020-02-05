@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2017-07-13T08:33:56Z" product-name="dl_iponlyestate">
+	<file source-language="en" datatype="plaintext" original="messages" date="2020-02-05T18:54:51Z" product-name="dl_iponlyestate">
 		<header/>
 		<body>
 			<trans-unit id="comment.description">
@@ -32,6 +32,12 @@
 			</trans-unit>
 			<trans-unit id="uploaded_image.description">
 				<source>uploadedImage</source>
+			</trans-unit>
+			<trans-unit id="upload_images1.description">
+				<source>uploadImages1</source>
+			</trans-unit>
+			<trans-unit id="upload_images2.description">
+				<source>uploadImages2</source>
 			</trans-unit>
 			<trans-unit id="control_point.description">
 				<source>controlPoint</source>
