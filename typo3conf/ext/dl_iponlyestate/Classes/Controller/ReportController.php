@@ -152,8 +152,18 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
         $reportsByEstate = array();
         $arguments = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('tx_dliponlyestate_reportsearch');
-        if ($arguments && count($arguments)>1) {
-            $searchCriterias = new \DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias($arguments['fromDate'], $arguments['endDate'], $arguments['nodeTypes'], $arguments['estates'], $arguments['cities'], $arguments['notes'], $arguments['technicians'], $arguments['freeSearch'], $arguments['areas']);
+        //$fromDate='',$toDate='',$nodeType=-1,$estate=-1,$city=-1,$noteType=0,$technician=-1,$freeSearch = '',$area=-1)
+        $gpParams['fromDate'] = isset($arguments['fromDate'])?$arguments['fromDate']:'';
+        $gpParams['endDate'] = isset($arguments['endDate'])?$arguments['endDate']:'';
+        $gpParams['nodeTypes'] = isset($arguments['nodeTypes'])?$arguments['nodeTypes']:-1;
+        $gpParams['estates'] = isset($arguments['estates'])?$arguments['estates']:-1;
+        $gpParams['cities'] = isset($arguments['cities'])?$arguments['cities']:-1;
+        $gpParams['notes'] = isset($arguments['notes'])?$arguments['notes']:0;
+        $gpParams['technicians'] = isset($arguments['technicians'])?$arguments['technicians']:-1;
+        $gpParams['freeSearch'] = isset($arguments['freeSearch'])?$arguments['freeSearch']:'';
+        $gpParams['areas'] = isset($arguments['areas'])?$arguments['areas']:-1;
+        if ($gpParams && count($gpParams)>1) {
+            $searchCriterias = new \DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias($gpParams['fromDate'], $gpParams['endDate'], $gpParams['nodeTypes'], $gpParams['estates'], $gpParams['cities'], $gpParams['notes'], $gpParams['technicians'], $gpParams['freeSearch'], $gpParams['areas']);
             /*
             $searchResults = $this->reportRepository->searchReports($searchCriterias);
             if (($arguments['fromDate'] || $arguments['endDate']) && $arguments['nodeTypes'] < 0 && $arguments['cities'] < 0 && $arguments['technicians'] < 0 && $arguments['notes'] <= 0 && $arguments['freeSearch'] == '') {
@@ -173,10 +183,11 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
               }*/
             
             //$latestReports = ReportUtil::adaptPostedReportsForOutput($searchResults);
-            $latestReports = $this->reportRepository->searchReports($searchCriterias);  
+            $latestReports = $this->reportRepository->searchReports($searchCriterias);
         } 
-        else if(!$arguments || (count($arguments)==1 && $arguments['xls']=='1')) {
-            $searchCriterias = new \DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias();
+        else if(!$arguments || $arguments['xls']=='1') {
+            //$searchCriterias = new \DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias();
+            $searchCriterias = new \DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias($arguments['fromDate'], $arguments['endDate'], $arguments['nodeTypes'], $arguments['estates'], $arguments['cities'], $arguments['notes'], $arguments['technicians'], $arguments['freeSearch'], $arguments['areas']);
             /*
             $searchResults = $this->reportRepository->searchReports($searchCriterias);            
             $allEstates = $this->estateRepository->findAll();
@@ -187,12 +198,27 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
             }
             $latestReports = ReportUtil::adaptPostedReportsForOutput($searchResults);            
             */
-            $latestReports = $this->reportRepository->searchReports($searchCriterias);  
+            $latestReports = $this->reportRepository->searchReports($searchCriterias);
         }
+\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
+ array(
+  'class' => __CLASS__,
+  'function' => __FUNCTION__,
+  'latestReports1' => $latestReports,
+ ),'',20
+);
         if ($arguments['xls']=='1') {
-            $this->excelAction($latestReports, $arguments);
+\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
+ array(
+  'class' => __CLASS__,
+  'function' => __FUNCTION__,
+  'latestReports2' => $latestReports,
+ ),'',20
+);
+            $this->excelAction($latestReports, $gpParams);
             //$this->redirect('excel'); //, $controllerName = null, $extensionName = null,array   $arguments = null, $pageUid = null, $delay = 0, $statusCode = 303);   
         }
+        $this->view->assign('gpParams', $gpParams);
         $this->view->assign('latestReports', $latestReports);
     }
     
@@ -203,9 +229,19 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      */
     public function searchAction()
     {
-        $arguments = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('tx_dliponlyestate_reportsearch');
-        $this->view->assign('arguments', $arguments);
-        $this->view->assign('estates', $this->getEstates());
+        $arguments = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('tx_dliponlyestate_reportsearch');        
+        //$fromDate='',$toDate='',$nodeType=-1,$estate=-1,$city=-1,$noteType=0,$technician=-1,$freeSearch = '',$area=-1)
+        $gpParams['fromDate'] = isset($arguments['fromDate'])?$arguments['fromDate']:'';
+        $gpParams['endDate'] = isset($arguments['endDate'])?$arguments['endDate']:'';
+        $gpParams['nodeTypes'] = isset($arguments['nodeTypes'])?$arguments['nodeTypes']:-1;
+        $gpParams['estates'] = isset($arguments['estates'])?$arguments['estates']:-1;
+        $gpParams['cities'] = isset($arguments['cities'])?$arguments['cities']:-1;
+        $gpParams['notes'] = isset($arguments['notes'])?$arguments['notes']:0;
+        $gpParams['technicians'] = isset($arguments['technicians'])?$arguments['technicians']:-1;
+        $gpParams['freeSearch'] = isset($arguments['freeSearch'])?$arguments['freeSearch']:'';
+        $gpParams['areas'] = isset($arguments['areas'])?$arguments['areas']:-1;
+        $this->view->assign('gpParams', $gpParams);
+        $this->view->assign('estates', $this->getEstates());        
         $this->view->assign('areas', $this->getAreas());
         $this->view->assign('cities', $this->getEstateCities());
         //$estate = $this->estateRepository->findByUid(13);
@@ -363,13 +399,139 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     {
         
     }
-    
+
     /**
      * action excel
      *
      * @return void
      */
     public function excelAction($latestReports, $arguments=NULL)
+    {
+\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
+ array(
+  'class' => __CLASS__,
+  'function' => __FUNCTION__,
+  'latestReports' => $latestReports,
+ ),'',20
+);
+        $tmpexcelArr = array();
+        $i=0;
+        if(!$latestReports['level1']) {
+          exit;
+        }
+        foreach($latestReports['level1'] as $estate) {
+            /*
+            if($estate['noReport']) {
+              $tmpexcelArr[$i]['Fastighet'] = $estate['estateName'];
+              $tmpexcelArr[$i]['Nodtyp'] = $estate['nodeTypeName'];
+              $tmpexcelArr[$i]['Rapport'] = 'Ingen rapport';
+              $tmpexcelArr[$i]['Kontrollpunkt'] = '';
+              $tmpexcelArr[$i]['Delpunkt'] = '';
+              $tmpexcelArr[$i]['Typ'] = '';
+              $tmpexcelArr[$i]['Notering'] = '';
+              $i+=1;              
+              continue;
+            }
+            */
+            if(!$estate['level2']) {
+              continue;
+            }
+\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
+ array(
+  'class' => __CLASS__,
+  'function' => __FUNCTION__,
+  'estate with report' => $estate,
+ ),'',20
+);
+            //has Estate data          
+            foreach($estate['level2'] as $report) {
+                //has Reportdata
+                if(!$report['level3']) {
+                  continue;
+                }
+                foreach($report['level3'] as $controlPoint) {
+                    if(!$controlPoint['level4']) {
+                      continue;
+                    }
+\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
+ array(
+  'class' => __CLASS__,
+  'function' => __FUNCTION__,
+  'complete estate' => $estate,
+ ),'',20
+);                    
+                    //has Controlpoint data
+                    foreach($controlPoint['level4'] as $question) {
+                        $tmpexcelArr[$i]['Fastighet'] = $estate['estateName'];
+                        $tmpexcelArr[$i]['Nodtyp'] = $estate['nodeTypeName'];
+                        $tmpexcelArr[$i]['Rapport'] = $report['reportName'];
+                        $tmpexcelArr[$i]['Kontrollpunkt'] = $controlPoint['cpName'];
+                        $tmpexcelArr[$i]['Delpunkt'] = $question['questionName'];
+                        switch ($question['remarkType']) {
+                          case '1':  
+                          $tmpexcelArr[$i]['Typ'] = 'Ok';
+                          break;
+                          case '2':  
+                          $tmpexcelArr[$i]['Typ'] = 'Kritisk';
+                          break;
+                          case '3':  
+                          $tmpexcelArr[$i]['Typ'] = 'Anmärkning';
+                          break;
+                          case '4':  
+                          $tmpexcelArr[$i]['Typ'] = 'Meddelande';
+                          break;
+                          default:
+                          $tmpexcelArr[$i]['Typ'] = 'Ej kontrollerad';
+                        }
+                        $tmpexcelArr[$i]['Notering'] = $question['comment'];
+                        $i+=1;
+                    }
+                }
+            }
+        }
+        // filename for download
+        $filename = "website_data_" . date('Ymd') . ".xls";
+        //header("Content-Disposition: attachment; filename=\"$filename\"");
+        //header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        $flag = false;
+        foreach($tmpexcelArr as $row) {
+          if(!$flag) {
+              // display field/column names as first row
+              echo implode("\t", array_keys($row)) . "\r\n";
+              $flag = true;
+          }
+          //array_walk($row, __NAMESPACE__ . '\cleanData');
+          //array_walk($row, '$this->cleanData';
+          array_walk($row, array($this, 'cleanData'));
+          echo implode("\t", array_values($row)) . "\r\n";
+        }
+\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
+ array(
+  'class' => __CLASS__,
+  'function' => __FUNCTION__,
+  'tmpexcelArr' => $tmpexcelArr,
+ ),'',20
+);
+        die('excelAction');
+        exit;
+    }
+
+    private function cleanData(&$str) {
+        $str = preg_replace("/\t/", "\\t", $str);        
+        $str = preg_replace("/\r?\n/", "\\n", $str);
+        if(strstr($str, '"')) $str = '"' . str_replace('"', '""', $str) . '"';
+        //echo $str;
+        //$str = mb_convert_encoding($str,'utf-16','utf-8');
+        $str = mb_convert_encoding($str,'utf-8');
+        //$str = utf8_encode($str);
+    } 
+
+    /**
+     * action excel
+     *
+     * @return void
+     */
+    public function excelAction_old($latestReports, $arguments=NULL)
     {
         $tmpexcelArr = array();
         $i=0;
@@ -442,12 +604,4 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         }
         exit;
     }
-    private function cleanData(&$str) {
-        $str = preg_replace("/\t/", "\\t", $str);
-        $str = preg_replace("/\r?\n/", "\\n", $str);
-        if(strstr($str, '"')) $str = '"' . str_replace('"', '""', $str) . '"';
-        //echo $str;
-        $str = mb_convert_encoding($str,'utf-16','utf-8');
-        //$str = utf8_encode($str);
-    }    
 }

@@ -363,6 +363,7 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                             ';
                 $noteWhere = ' report='.$reportsArr['uid'];
                 $debugSQL = 'SELECT '.$noteSelect.' FROM '. $noteFrom.' WHERE '.$noteWhere;
+print($debugSQL.'<br>');
                 $noteRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery($noteSelect, $noteFrom, $noteWhere,'','');
                 while ($note = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($noteRes)) {
                     $isAtLeastPartlyChecked = TRUE;

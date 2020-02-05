@@ -54,30 +54,28 @@
         					<f:if condition="{q.type}=='note'">
         						<f:then>
                                     <f:for each="{q.notes}" as="n">
-                                        <f:if condition="{n.noteIsComplete}!=1">
-                							<f:if condition="{n.remarkType}=='4'">
-        	        							<div class="cp-container">
-        											<div class="jumbotron {n.status}-nocolor">                                            
-        							        			<h2>Kontroll-punkt: {cp.cpName}</h2>
-        							        			<h3>Del-punkt: {q.questionName}</h3>
-                                                        <div class="note-date desc">Beskrivning: <f:format.html>{q.questionDesc}</f:format.html></div>
-                                                        <div class="note-date">Datum: {n.date}</div>
-                                                        <div class="note-date">Tekniker: {n.exeTech}</div>
-        				        						<div class="col-md-6" style="color:red;">
-        				        							{n.comment}
-        				        						</div>
-        								        		<div class="col-md-6">
-        								        			<f:if condition="{n.image}">
-        											            <div class="item-img">
-        											                <img src="{n.image}" class="img-responsive" />
-        											            </div>		        				
-        								        			</f:if>
-        								        		</div>
-        								        		<div style="clear:both;"></div>	
-        								        	</div>
-        								        </div>
-                							</f:if>
-                                    </f:if>
+            							<f:if condition="{n.remarkType}=='4'">
+    	        							<div class="cp-container">
+    											<div class="jumbotron {n.status}-nocolor">                                            
+    							        			<h2>Kontroll-punkt: {cp.cpName}</h2>
+    							        			<h3>Del-punkt: {q.questionName}</h3>
+                                                    <div class="note-date desc">Beskrivning: <f:format.html>{q.questionDesc}</f:format.html></div>
+                                                    <div class="note-date">Datum: {n.date}</div>
+                                                    <div class="note-date">Tekniker: {n.exeTech}</div>
+    				        						<div class="col-md-6" style="color:red;">
+    				        							{n.comment}
+    				        						</div>
+    								        		<div class="col-md-6">
+    								        			<f:if condition="{n.image}">
+    											            <div class="item-img">
+    											                <img src="{n.image}" class="img-responsive" />
+    											            </div>		        				
+    								        			</f:if>
+    								        		</div>
+    								        		<div style="clear:both;"></div>	
+    								        	</div>
+    								        </div>                                            
+            							</f:if>
                                     </f:for>
         						</f:then>
         						<f:else>

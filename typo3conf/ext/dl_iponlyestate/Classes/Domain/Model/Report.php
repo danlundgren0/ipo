@@ -890,7 +890,8 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $no = 0;
         foreach ($this->getNotes() as $note) {
-            if ($note->getState() == 4 && !$note->getIsComplete()) {
+            //if ($note->getState() == 4 && !$note->getIsComplete()) {
+            if ($note->getState() == 4) {
                 $no += 1;
             }
         }

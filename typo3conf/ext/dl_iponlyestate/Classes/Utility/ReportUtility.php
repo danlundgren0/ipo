@@ -286,7 +286,7 @@ class ReportUtility {
                 }
                 if(!$qIsReported) {
                     foreach($clickedReport->getReportedMeasurement() as $meas) {
-                        if($meas->getQuestion()->getUid() == $q->getUid()) {
+                        if($meas && $meas->getQuestion() && $meas->getQuestion()->getUid() == $q->getUid()) {
                             $noteIdentifier = 'meas_'.$meas->getUid();
                             $noOfQuestionsReported += 1;
                             $noOfPostedMeasure += 1;
