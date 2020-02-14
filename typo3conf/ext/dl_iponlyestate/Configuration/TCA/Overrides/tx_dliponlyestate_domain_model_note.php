@@ -25,3 +25,33 @@ $GLOBALS['TCA']['tx_dliponlyestate_domain_model_note']['columns']['remark_type']
                     array('photo', 5),
 				);
 $GLOBALS['TCA']['tx_dliponlyestate_domain_model_note']['columns']['images']['config']['maxitems'] = 999;
+$GLOBALS['TCA']['tx_dliponlyestate_domain_model_note']['columns']['upload_images1']['config']['minitems'] = 0;
+$GLOBALS['TCA']['tx_dliponlyestate_domain_model_note']['columns']['upload_images2']['config']['minitems'] = 0;
+
+$GLOBALS['TCA']['tx_dliponlyestate_domain_model_note']['columns']['upload_images1']['config']['foreign_match_fields'] = array(
+    'fieldname' => 'upload_images1',
+    'tablenames' => 'tx_dliponlyestate_domain_model_note',
+    'table_local' => 'sys_file',
+);
+$GLOBALS['TCA']['tx_dliponlyestate_domain_model_note']['columns']['upload_images2']['config']['foreign_match_fields'] = array(
+    'fieldname' => 'upload_images2',
+    'tablenames' => 'tx_dliponlyestate_domain_model_note',
+    'table_local' => 'sys_file',
+);
+/*
+$GLOBALS['TCA']['tx_dliponlyestate_domain_model_note']['columns']['upload_images3']['config']['foreign_match_fields'] = array(
+    'fieldname' => 'upload_images3',
+    'tablenames' => 'tx_dliponlyestate_domain_model_note',
+    'table_local' => 'sys_file',
+);
+$GLOBALS['TCA']['tx_dliponlyestate_domain_model_note']['columns']['upload_images4']['config']['foreign_match_fields'] = array(
+    'fieldname' => 'upload_images4',
+    'tablenames' => 'tx_dliponlyestate_domain_model_note',
+    'table_local' => 'sys_file',
+);
+$GLOBALS['TCA']['tx_dliponlyestate_domain_model_note']['columns']['upload_images5']['config']['foreign_match_fields'] = array(
+    'fieldname' => 'upload_images5',
+    'tablenames' => 'tx_dliponlyestate_domain_model_note',
+    'table_local' => 'sys_file',
+);
+*/

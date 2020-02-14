@@ -954,6 +954,22 @@ class ReportUtility {
         $persistenceManager->persistAll();
         return $reportedMeasurement;
     }
+
+    /**
+     * @param $argumentName
+     */
+    public function setTypeConverterConfigurationForImageUpload($argumentName)
+    {
+        $uploadConfiguration = [
+            \DanLundgren\DlIponlyestate\Property\TypeConverter\UploadedFileReferenceConverter::CONFIGURATION_ALLOWED_FILE_EXTENSIONS => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
+            \DanLundgren\DlIponlyestate\Property\TypeConverter\UploadedFileReferenceConverter::CONFIGURATION_UPLOAD_FOLDER => '1:/content/'
+        ];
+        /** @var PropertyMappingConfiguration $newExampleConfiguration */
+        $newExampleConfiguration = $this->arguments[$argumentName]->getPropertyMappingConfiguration();
+        $newExampleConfiguration->forProperty('image')->setTypeConverterOptions('DanLundgren\\DlIponlyestate\\Property\\TypeConverter\\UploadedFileReferenceConverter', $uploadConfiguration);
+        $newExampleConfiguration->forProperty('imageCollection.0')->setTypeConverterOptions('DanLundgren\\DlIponlyestate\\Property\\TypeConverter\\UploadedFileReferenceConverter', $uploadConfiguration);
+    }
+
     public static function saveNote($report, $cpUid, $questUid, $noteUid, $noteText, $noteState, $curVer, $pid, $isPost=0) {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
         $persistenceManager = $objectManager->get('TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface');
@@ -996,6 +1012,7 @@ class ReportUtility {
         */
 		//$note->setVersion($newVerNo+=1);
         if($isPost>0) {
+            self::setTypeConverterConfigurationForImageUpload('note');
             $note->setUploadedImage(true);
         }
         $note->setPageId($pid);

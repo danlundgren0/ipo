@@ -437,6 +437,22 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 		$this->status = TRUE;
 		$this->message = '';
 	}
+
+    /**
+     * @param $argumentName
+     */
+    public function setTypeConverterConfigurationForImageUpload($argumentName)
+    {
+        $uploadConfiguration = [
+            \DanLundgren\DlIponlyestate\Property\TypeConverter\UploadedFileReferenceConverter::CONFIGURATION_ALLOWED_FILE_EXTENSIONS => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
+            \DanLundgren\DlIponlyestate\Property\TypeConverter\UploadedFileReferenceConverter::CONFIGURATION_UPLOAD_FOLDER => '1:/content/'
+        ];
+        /** @var PropertyMappingConfiguration $newExampleConfiguration */
+        $newExampleConfiguration = $this->arguments[$argumentName]->getPropertyMappingConfiguration();
+        $newExampleConfiguration->forProperty('image')->setTypeConverterOptions('DanLundgren\\DlIponlyestate\\Property\\TypeConverter\\UploadedFileReferenceConverter', $uploadConfiguration);
+        $newExampleConfiguration->forProperty('imageCollection.0')->setTypeConverterOptions('DanLundgren\\DlIponlyestate\\Property\\TypeConverter\\UploadedFileReferenceConverter', $uploadConfiguration);
+    }
+
 	public function saveNote() {
 		//TODO: Come up with good versioning handling
 		$pid = (int)$this->arguments['pid'];
