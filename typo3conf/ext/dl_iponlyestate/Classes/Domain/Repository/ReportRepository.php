@@ -241,12 +241,12 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $reportUids = [];
         $reportsByEstate = [];
         $rowArr=[];        
-        
-        while ($estateUidRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($estateUidRes)) {
-            //$estateUidArr[] = $estateUidRow['uid'];
-            $reportsByEstate[$estateUidRow['uid']][] = $estateUidRow;
+        if($searchCriterias->getSearchAll()) {
+            while ($estateUidRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($estateUidRes)) {
+                //$estateUidArr[] = $estateUidRow['uid'];
+                $reportsByEstate[$estateUidRow['uid']][] = $estateUidRow;
+            }
         }
-        
         while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($searchRes)) {
             if((int)$row['estate']>0) {                
                 $reportsByEstate[$row['estate']][] = $row;
@@ -312,6 +312,7 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                 $returnArr['level1'][$levelOneIdentifier]['hasReports'] = count($reportsArr);
 
                 $levelTwoIdentifier = 'report_'.$reportsArr['uid'];
+                $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['reportUid'] = $reportsArr['uid'];
                 $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['totalNoOfCompletedNotes'] = $totalNoOfCompletedNotes;
                 $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['totalNoOfCriticalRemarks'] = $totalNoOfCriticalRemarks;
                 $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['totalNoOfRemarks'] = $totalNoOfRemarks;
@@ -350,6 +351,8 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                 $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['hasNotes'] = $reportsArr['no_of_notes'];
                 $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['getNoOfOk'] = $reportsArr['getNoOfOk'];
 
+                /*
+                //With images - comented because it only select those with images
                 $noteSelect = ' note.control_point AS cpUid, 
                                 note.question AS quUid, note.comment AS comment, 
                                 note.remark_type AS remarkType, 
@@ -361,8 +364,19 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                             RIGHT JOIN sys_file_reference ref ON note.uid = ref.uid_foreign AND ref.tablenames = "tx_dliponlyestate_domain_model_note"
                             RIGHT JOIN sys_file image ON image.uid = ref.uid_local 
                             ';
+                */
+                $noteSelect = ' note.control_point AS cpUid, 
+                                note.question AS quUid, note.comment AS comment, 
+                                note.remark_type AS remarkType, note.is_complete as isComplete, 
+                                cp.NAME AS cpName, 
+                                qu.NAME AS questionName ';
+                $noteFrom = ' tx_dliponlyestate_domain_model_note note 
+                            RIGHT JOIN tx_dliponlyestate_domain_model_controlpoint cp ON note.control_point = cp.uid
+                            RIGHT JOIN tx_dliponlyestate_domain_model_question qu ON note.question = qu.uid
+                            ';
                 $noteWhere = ' report='.$reportsArr['uid'];
                 $debugSQL = 'SELECT '.$noteSelect.' FROM '. $noteFrom.' WHERE '.$noteWhere;
+//print($debugSQL);
                 $noteRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery($noteSelect, $noteFrom, $noteWhere,'','');
                 while ($note = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($noteRes)) {
                     $isAtLeastPartlyChecked = TRUE;
@@ -378,7 +392,13 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                     $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['cpName'] = $note['cpName'];
                     $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['level4'][$levelFourIdentifier]['questionName'] = $note['questionName'];
                     $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['level4'][$levelFourIdentifier]['comment'] = $note['comment'];
-                    $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['level4'][$levelFourIdentifier]['remarkType'] = $note['remarkType'];
+                    if($note['isComplete']==0) {
+                        $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['level4'][$levelFourIdentifier]['remarkType'] = $note['remarkType'];
+                    }
+                    else {
+                        $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['level4'][$levelFourIdentifier]['remarkType'] = '88';
+                    }
+                    
                     if($note['image'] && strlen($note['image'])>0) {
                         $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['level4'][$levelFourIdentifier]['image'] = 'fileadmin'.$note['image'];    
                     }                    
@@ -403,6 +423,18 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                     $isAtLeastPartlyChecked = TRUE;
                     $noOfMeasurements+=1;
                     $noOfScannedNotesAndMeas+=1;
+                    if($measurement['cpUid']===null || (int)$measurement['cpUid']==0) {
+                        continue;
+                    }
+                    $levelThreeIdentifier = 'cp_'.$measurement['cpUid'];
+                    if($measurement['quUid']===null || (int)$measurement['quUid']==0) {
+                        continue;
+                    }
+                    $levelFourIdentifier = 'quest_'.$measurement['quUid'];
+                    $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['cpName'] = $measurement['cpName'];
+                    $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['level4'][$levelFourIdentifier]['questionName'] = $measurement['questionName'];
+                    $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['level4'][$levelFourIdentifier]['comment'] = $measurement['value'];
+                    $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['level3'][$levelThreeIdentifier]['level4'][$levelFourIdentifier]['remarkType'] = '99';
                 }
 
                 /*
