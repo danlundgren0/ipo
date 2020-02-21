@@ -52,14 +52,14 @@
 	<div class="critical col-md-1">
 		<a data-report="{report.reportUid}" data-estate="{estate.estateUid}" data-method="getCriticalReport" class="show-more estate-link" data-toggle="modal" data-target="#criticalModalReport">
     		<div class="square {v:variable.get(name: 'criticalColor')}">
-    			{report.totalNoOfCriticalRemarks}
+    			{report.noOfCriticalRemarks}
     		</div>
 		</a>
 	</div>
 	<div class="remark col-md-1">
 		<a data-report="{report.reportUid}" data-estate="{estate.estateUid}" data-method="getRemarkReport" class="show-more estate-link" data-toggle="modal" data-target="#remarkModalReport">
     		<div class="square  {v:variable.get(name: 'remarkColor')}">
-    			{report.totalNoOfRemarks}
+    			{report.noOfRemarks}
     		</div>
 		</a>
 	</div>
@@ -74,7 +74,7 @@
 	<div class="purchase col-md-1">
 		<a data-report="{report.reportUid}" data-estate="{estate.estateUid}" data-method="getPurchaseReport" class="show-more estate-link" data-toggle="modal" data-target="#purchaseModalReport">
     		<div class="square {v:variable.get(name: 'purchaseColor')}">
-    			{report.totalNoOfPurchases}
+    			{report.noOfPurchases}
     		</div>
 		</a>
 	</div>
