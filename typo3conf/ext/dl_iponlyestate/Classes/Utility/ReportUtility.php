@@ -130,7 +130,7 @@ class ReportUtility {
 	                                    $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['image'] = '/fileadmin/'.$sysFile['identifier'];
 	                                }
 	                            }
-                                if($note->getImages2() && $note->getImages3()->getUid()>0) {
+                                if($note->getImages2() && $note->getImages2()->getUid()>0) {
                                     $fileRefUidRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid_local', 'sys_file_reference', 'uid='.$note->getImages2()->getUid());
                                     while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($fileRefUidRes)) {
                                         $uidLocal = $row['uid_local'];
