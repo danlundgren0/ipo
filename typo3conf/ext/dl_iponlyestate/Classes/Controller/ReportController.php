@@ -191,7 +191,19 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
                 $latestReports = $this->reportRepository->searchReports($searchCriterias);
             }
         }
-        if ($arguments['xls'] == '1') {
+//if($report['reportUid']==1062) {
+/*
+ \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
+ array(
+  'class' => __CLASS__,
+  'function' => __FUNCTION__,
+  'estate_492' => $latestReports['estate_492'],
+  'level2' => $latestReports['level1']['estate_492']['level2'],
+ ),'',20
+);
+*/ 
+//}
+        if ($arguments['xls']=='1') {
             $this->excelAction($latestReports, $arguments);
         }
         $this->view->assign('latestReports', $latestReports);
@@ -376,76 +388,104 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     public function excelAction($latestReports, $arguments = NULL)
     {
         $tmpexcelArr = array();
-        $i = 0;
-        foreach ($latestReports['level1'] as $estate) {
-            //has Estate data
-            foreach ($estate['level2'] as $report) {
-                //has Reportdata
-                foreach ($report['level3'] as $controlPoint) {
-                    //has Controlpoint data
-                    foreach ($controlPoint['level4'] as $question) {
-                        if ($estate['estateName'] == 'SEANTEST001-Anders') {
-                            
-                        }
-                        $tmpexcelArr[$i]['Fastighet'] = $estate['estateName'];
-                        $tmpexcelArr[$i]['Nodtyp'] = $estate['nodeTypeName'];
+        $i=0;
+        foreach($latestReports['level1'] as $estate) {            
+            if(!$estate['level2']) {
+              $tmpexcelArr[$i]['Typ'] = $estate['nodeTypeName'];
+              $tmpexcelArr[$i]['Benämning'] = $estate['estateName'];
+              $tmpexcelArr[$i]['Rapport'] = 'Ingen rapport';              
+              $tmpexcelArr[$i]['Ansvarig tekniker'] = $report['respTechnicianName'];
+              $tmpexcelArr[$i]['Utförande tekniker'] = '';
+              $tmpexcelArr[$i]['Kontrollpunkt'] = '';
+              $tmpexcelArr[$i]['Delpunkt'] = '';
+              $tmpexcelArr[$i]['Status'] = '';
+              $tmpexcelArr[$i]['Notering'] = '';
+              $i+=1;
+            }
+            else {
+              foreach($estate['level2'] as $report) {
+                  if(!$report['level3']) {
+                    unset($tmpexcelArr[$i]);
+                    continue;
+                  }
+                  foreach($report['level3'] as $controlPoint) {
+                      foreach($controlPoint['level4'] as $question) {
+                        $tmpexcelArr[$i]['Typ'] = $estate['nodeTypeName'];
+                        $tmpexcelArr[$i]['Benämning'] = $estate['estateName'];
                         $tmpexcelArr[$i]['Rapport'] = $report['reportName'];
+                        $tmpexcelArr[$i]['Ansvarig tekniker'] = $report['respTechnicianName'];
+                        $tmpexcelArr[$i]['Utförande tekniker'] = $report['execTechnicianName'];
                         $tmpexcelArr[$i]['Kontrollpunkt'] = $controlPoint['cpName'];
-                        $tmpexcelArr[$i]['Delpunkt'] = $question['questionName'];
+                        $tmpexcelArr[$i]['Delpunkt'] = $question['questionName'];                        
                         switch ($question['remarkType']) {
-                            case '1':    $tmpexcelArr[$i]['Typ'] = 'Ok';
-                                break;
-                            case '2':    $tmpexcelArr[$i]['Typ'] = 'Kritisk';
-                                break;
-                            case '3':    $tmpexcelArr[$i]['Typ'] = 'Anmärkning';
-                                break;
-                            case '4':    $tmpexcelArr[$i]['Typ'] = 'Meddelande';
-                                break;
-                            default:    $tmpexcelArr[$i]['Typ'] = 'Ej kontrollerad';
+                          case '1':  
+                          $tmpexcelArr[$i]['Status'] = 'Ok';
+                          break;
+                          case '2':  
+                          $tmpexcelArr[$i]['Status'] = 'Kritisk';
+                          break;
+                          case '3':  
+                          $tmpexcelArr[$i]['Status'] = 'Anmärkning';
+                          break;
+                          case '4':  
+                          $tmpexcelArr[$i]['Status'] = 'Meddelande';
+                          break;
+                          case '88':  
+                          $tmpexcelArr[$i]['Status'] = 'Tidigare anmärkning';
+                          break;
+                          case '99':  
+                          $tmpexcelArr[$i]['Status'] = 'Mätvärde';
+                          break;
+                          default:
+                          $tmpexcelArr[$i]['Status'] = 'Ej kontrollerad';
                         }
                         $tmpexcelArr[$i]['Notering'] = $question['comment'];
-                        $i += 1;
-                    }
-                }
+                        $i+=1;
+                      }
+                  }
+              }
             }
         }
-        //die('excelAction');
-        // filename for download
-        $filename = 'website_data_' . date('Ymd') . '.xls';
-        header("Content-Disposition: attachment; filename=\"{$filename}\"");
-        //header("Content-Type: application/vnd.ms-excel");
-        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        //echo pack("CCC",0xef,0xbb,0xbf);
+/*
+\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
+ array(
+  'class' => __CLASS__,
+  'function' => __FUNCTION__,
+  'tmpexcelArr' => $tmpexcelArr,
+ ),'',20
+);
+*/
+        
+        $filename = "website_data_" . date('Ymd') . ".xls";
+        header("Content-Disposition: attachment; filename=\"$filename\"");
+        ////header("Content-Type: application/vnd.ms-excel");
+        header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        ////echo pack("CCC",0xef,0xbb,0xbf);
         $flag = false;
-        foreach ($tmpexcelArr as $row) {
-            if (!$flag) {
+        foreach($tmpexcelArr as $row) {
+          if(!$flag) {
                 // display field/column names as first row
-                echo implode('	', array_keys($row)) . '
-';
+                echo implode("\t", array_keys($row)) . "\r\n";
+                ////echo '<br>';
                 $flag = true;
             }
-            //array_walk($row, __NAMESPACE__ . '\cleanData');
-            //array_walk($row, '$this->cleanData';
+            ////array_walk($row, __NAMESPACE__ . '\cleanData');
+            ////array_walk($row, '$this->cleanData';
             array_walk($row, array($this, 'cleanData'));
-            echo implode('	', array_values($row)) . '
-';
+            echo implode("\t", array_values($row)) . "\r\n";
+            ////echo '<br>';
         }
-        die;
+        exit;
+        
     }
-    
-    /**
-     * @param $str
-     */
-    private function cleanData($str)
-    {
-        $str = preg_replace('/	/', '\\t', $str);
-        $str = preg_replace('/?
-/', '\\n', $str);
-        if (strstr($str, '"')) {
-            $str = '"' . str_replace('"', '""', $str) . '"';
-        }
-        //echo $str;
-        $str = mb_convert_encoding($str, 'utf-16', 'utf-8');
-    }
-
+    private function cleanData(&$str) {
+        $str = preg_replace("/\t/", "\\t", $str);
+        $str = preg_replace("/\r?\n/", "\\n", $str);
+        $str = str_replace(",", " ", $str);
+        if(strstr($str, '"')) $str = '"' . str_replace('"', '""', $str) . '"';
+        ////echo $str;
+        //$str = mb_convert_encoding($str,'utf-16','utf-8');
+        ////$str = utf8_encode($str);
+        $str = mb_convert_encoding($str,'utf-8');
+    }    
 }

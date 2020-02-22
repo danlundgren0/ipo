@@ -120,6 +120,13 @@ class SearchCriterias extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $area = 0;
 
     /**
+     * area
+     *
+     * @var int
+     */
+    protected $searchAll = 0;
+
+    /**
      * __construct
      */
     public function __construct($fromDate='',$toDate='',$nodeType=-1,$estate=-1,$city=-1,$noteType=0,$technician=-1,$freeSearch = '',$area=-1)
@@ -128,14 +135,37 @@ class SearchCriterias extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->initStorageObjects();
         $this->fromDate = $fromDate;
         $this->toDate = $toDate;
-        $this->nodeType = $nodeType;
-        $this->estate = $estate;
-        $this->city = $city;
-        $this->noteType = $noteType;
-        $this->technician = $technician;
+        $this->nodeType = ((int)$nodeType>0)?$nodeType:-1;
+        $this->estate = ((int)$estate>0)?$estate:-1;
+        $this->city = ((int)$city>0)?$city:-1;
+        $this->noteType = ((int)$noteType>0)?$noteType:0;
+        $this->technician = ((int)$technician>0)?$technician:-1;
      	$this->freeSearch = $freeSearch;
-        $this->area = $area;
+        $this->area = ((int)$area>0)?$area:-1;
+        $this->setSearchAll();
      	//$this->getNotes();
+    }
+
+    private function setSearchAll() {
+        if($this->fromDate=='' && 
+            $this->toDate=='' && 
+            $this->nodeType==-1 && 
+            $this->estate==-1 && 
+            $this->city==-1 && 
+            $this->noteType==0 && 
+            $this->technician==-1 && 
+            $this->freeSearch=='' &&
+            $this->area==-1            
+        ) {
+            $this->searchAll = 1;
+        }
+        else {
+            $this->searchAll = 0;
+        }        
+    }
+
+    public function getSearchAll() {        
+        return $this->searchAll;
     }
     
     /**
