@@ -103,7 +103,8 @@ body h4.modal-title a {
     color:red;
 }
  .report-modal .item-img {
-    float: right;   
+    float: right; 
+    margin-bottom:20px;  
 }
 #genericModalReport {
     margin-top: 30px;

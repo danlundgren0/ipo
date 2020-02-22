@@ -837,6 +837,46 @@
                             "maxItems": "1",
                             "propertyDescription": "",
                             "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "images2",
+                            "propertyType": "Image",
+                            "uid": "589943905464"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "images3",
+                            "propertyType": "Image",
+                            "uid": "474771682484"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "images4",
+                            "propertyType": "Image",
+                            "uid": "826773442442"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "images5",
+                            "propertyType": "Image",
+                            "uid": "659672463341"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
                             "propertyIsRequired": true,
                             "propertyName": "remarkType",
                             "propertyType": "Select",
@@ -1411,7 +1451,7 @@
         }
     ],
     "log": {
-        "last_modified": "2017-07-13 08:33",
+        "last_modified": "2020-02-22 07:55",
         "extension_builder_version": "7.6.0",
         "be_user": " (1)"
     }

@@ -112,8 +112,7 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * @inject
      */
     protected $technicianRepository = NULL;
-
-
+    
     /**
      * estateAreaPIDs
      *
@@ -147,12 +146,12 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $completeReportArr = ReportUtil::getCompleteReport($report, $estate);
         $completeReportArr2 = ReportUtil::getCompleteReport($report2, $estate);
         */
+        
         //header("Content-Type: text/html");
-        //header_remove('Content-Disposition'); 
-
+        //header_remove('Content-Disposition');
         $reportsByEstate = array();
         $arguments = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('tx_dliponlyestate_reportsearch');
-        if ($arguments && count($arguments)>1) {
+        if ($arguments && count($arguments) > 1) {
             $searchCriterias = new \DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias($arguments['fromDate'], $arguments['endDate'], $arguments['nodeTypes'], $arguments['estates'], $arguments['cities'], $arguments['notes'], $arguments['technicians'], $arguments['freeSearch'], $arguments['areas']);
             /*
             $searchResults = $this->reportRepository->searchReports($searchCriterias);
@@ -165,6 +164,7 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
                 }
             }
             */
+            
             /*$allEstates = $this->estateRepository->findAll();
               foreach($allEstates as $estate) {
               if(!array_key_exists($estate->getUid(),$searchResults)) {
@@ -173,37 +173,39 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
               }*/
             
             //$latestReports = ReportUtil::adaptPostedReportsForOutput($searchResults);
-            $latestReports = $this->reportRepository->searchReports($searchCriterias);  
-        } 
-        else if(!$arguments || (count($arguments)==1 && $arguments['xls']=='1')) {
-            $searchCriterias = new \DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias();
-            /*
-            $searchResults = $this->reportRepository->searchReports($searchCriterias);            
-            $allEstates = $this->estateRepository->findAll();
-            foreach ($allEstates as $estate) {
-                if (!array_key_exists($estate->getUid(), $searchResults)) {
-                    $searchResults[$estate->getUid()] = $estate;
+            $latestReports = $this->reportRepository->searchReports($searchCriterias);
+        } else {
+            if (!$arguments || count($arguments) == 1 && $arguments['xls'] == '1') {
+                $searchCriterias = new \DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias();
+                /*
+                $searchResults = $this->reportRepository->searchReports($searchCriterias);
+                $allEstates = $this->estateRepository->findAll();
+                foreach ($allEstates as $estate) {
+                    if (!array_key_exists($estate->getUid(), $searchResults)) {
+                        $searchResults[$estate->getUid()] = $estate;
+                    }
                 }
+                $latestReports = ReportUtil::adaptPostedReportsForOutput($searchResults);
+                */
+                
+                $latestReports = $this->reportRepository->searchReports($searchCriterias);
             }
-            $latestReports = ReportUtil::adaptPostedReportsForOutput($searchResults);            
-            */
-            $latestReports = $this->reportRepository->searchReports($searchCriterias);  
         }
-//if($report['reportUid']==1062) {
-/*
- \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
- array(
-  'class' => __CLASS__,
-  'function' => __FUNCTION__,
-  'estate_492' => $latestReports['estate_492'],
-  'level2' => $latestReports['level1']['estate_492']['level2'],
- ),'',20
-);
-*/ 
-//}
-        if ($arguments['xls']=='1') {
+        //if($report['reportUid']==1062) {
+        /*
+         \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
+         array(
+          'class' => __CLASS__,
+          'function' => __FUNCTION__,
+          'estate_492' => $latestReports['estate_492'],
+          'level2' => $latestReports['level1']['estate_492']['level2'],
+         ),'',20
+        );
+        */
+        
+        //}
+        if ($arguments['xls'] == '1') {
             $this->excelAction($latestReports, $arguments);
-            //$this->redirect('excel'); //, $controllerName = null, $extensionName = null,array   $arguments = null, $pageUid = null, $delay = 0, $statusCode = 303);   
         }
         $this->view->assign('latestReports', $latestReports);
     }
@@ -278,51 +280,52 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
             }
         }
         /*
-        $reports = $this->reportRepository->findAll();
-        foreach ($reports as $report) {
-            if ($report->getEstate() === $estate || $estate === NULL) {
-                if ($report->getResponsibleTechnicians() > 0) {
-                    $technician = $technicianRepository->findByUid((int) $report->getResponsibleTechnicians());
-                    if (!in_array($technician->getName(), $technicians)) {
-                        $technicians[$technician->getUid()] = $technician->getName();
-                    }
-                }
-                if ($report->getExecutiveTechnician() > 0) {
-                    $technician = $technicianRepository->findByUid((int) $report->getExecutiveTechnician());
-                    if (!in_array($technician->getName(), $technicians)) {
-                        $technicians[$technician->getUid()] = $technician->getName();
-                    }
-                }
-            }
-        }*/
+                                $reports = $this->reportRepository->findAll();
+                                foreach ($reports as $report) {
+                                   if ($report->getEstate() === $estate || $estate === NULL) {
+                                   if ($report->getResponsibleTechnicians() > 0) {
+                                   $technician = $technicianRepository->findByUid((int) $report->getResponsibleTechnicians());
+                                   if (!in_array($technician->getName(), $technicians)) {
+                                   $technicians[$technician->getUid()] = $technician->getName();
+                                   }
+                                   }
+                                   if ($report->getExecutiveTechnician() > 0) {
+                                   $technician = $technicianRepository->findByUid((int) $report->getExecutiveTechnician());
+                                   if (!in_array($technician->getName(), $technicians)) {
+                                   $technicians[$technician->getUid()] = $technician->getName();
+                                   }
+                                   }
+                                   }
+                                }*/
+        
         return $technicians;
     }
     
     public function getAreas()
     {
-      $areaArr = array('-1' => 'Alla');
-      if(is_array($this->estateAreaPIDs) && count($this->estateAreaPIDs)>0) {
-        $estateAreaPIDs = join(",",$this->estateAreaPIDs);  
-        $select = ' title,uid ';
-        $from = ' pages ';
-        $where = ' hidden = 0 AND deleted = 0 AND uid IN ('.$estateAreaPIDs.')';
-        $orderBy = ' title ASC ';
-        $areaRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery($select, $from, $where,'',$orderBy);
-        while ($areaRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($areaRes)) {
-          $areaArr[$areaRow['uid']] = $areaRow['title'];
+        $areaArr = array('-1' => 'Alla');
+        if (is_array($this->estateAreaPIDs) && count($this->estateAreaPIDs) > 0) {
+            $estateAreaPIDs = join(',', $this->estateAreaPIDs);
+            $select = ' title,uid ';
+            $from = ' pages ';
+            $where = ' hidden = 0 AND deleted = 0 AND uid IN (' . $estateAreaPIDs . ')';
+            $orderBy = ' title ASC ';
+            $areaRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery($select, $from, $where, '', $orderBy);
+            while ($areaRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($areaRes)) {
+                $areaArr[$areaRow['uid']] = $areaRow['title'];
+            }
         }
-      }
-      return $areaArr;
-    }    
-
+        return $areaArr;
+    }
+    
     public function getEstates()
     {
-        $this->estateAreaPIDs = [];
-        $estates = $this->estateRepository->findAll();        
+        $this->estateAreaPIDs = array();
+        $estates = $this->estateRepository->findAll();
         $estatesArr = array('-1' => 'Alla');
         foreach ($estates as $estate) {
-            if(!in_array($estate->getPid(), $this->estateAreaPIDs)) {
-              $this->estateAreaPIDs[] = $estate->getPid();
+            if (!in_array($estate->getPid(), $this->estateAreaPIDs)) {
+                $this->estateAreaPIDs[] = $estate->getPid();
             }
             $estatesArr[$estate->getUid()] = $estate->getName();
         }
@@ -379,109 +382,114 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     /**
      * action excel
      *
+     * @param $latestReports
+     * @param $arguments
      * @return void
      */
-    public function excelAction($latestReports, $arguments=NULL)
+    public function excelAction($latestReports, $arguments = NULL)
     {
         $tmpexcelArr = array();
-        $i=0;
-        foreach($latestReports['level1'] as $estate) {            
-            if(!$estate['level2']) {
-              $tmpexcelArr[$i]['Typ'] = $estate['nodeTypeName'];
-              $tmpexcelArr[$i]['Benämning'] = $estate['estateName'];
-              $tmpexcelArr[$i]['Rapport'] = 'Ingen rapport';              
-              $tmpexcelArr[$i]['Ansvarig tekniker'] = $report['respTechnicianName'];
-              $tmpexcelArr[$i]['Utförande tekniker'] = '';
-              $tmpexcelArr[$i]['Kontrollpunkt'] = '';
-              $tmpexcelArr[$i]['Delpunkt'] = '';
-              $tmpexcelArr[$i]['Status'] = '';
-              $tmpexcelArr[$i]['Notering'] = '';
-              $i+=1;
-            }
-            else {
-              foreach($estate['level2'] as $report) {
-                  if(!$report['level3']) {
-                    unset($tmpexcelArr[$i]);
-                    continue;
-                  }
-                  foreach($report['level3'] as $controlPoint) {
-                      foreach($controlPoint['level4'] as $question) {
-                        $tmpexcelArr[$i]['Typ'] = $estate['nodeTypeName'];
-                        $tmpexcelArr[$i]['Benämning'] = $estate['estateName'];
-                        $tmpexcelArr[$i]['Rapport'] = $report['reportName'];
-                        $tmpexcelArr[$i]['Ansvarig tekniker'] = $report['respTechnicianName'];
-                        $tmpexcelArr[$i]['Utförande tekniker'] = $report['execTechnicianName'];
-                        $tmpexcelArr[$i]['Kontrollpunkt'] = $controlPoint['cpName'];
-                        $tmpexcelArr[$i]['Delpunkt'] = $question['questionName'];                        
-                        switch ($question['remarkType']) {
-                          case '1':  
-                          $tmpexcelArr[$i]['Status'] = 'Ok';
-                          break;
-                          case '2':  
-                          $tmpexcelArr[$i]['Status'] = 'Kritisk';
-                          break;
-                          case '3':  
-                          $tmpexcelArr[$i]['Status'] = 'Anmärkning';
-                          break;
-                          case '4':  
-                          $tmpexcelArr[$i]['Status'] = 'Meddelande';
-                          break;
-                          case '88':  
-                          $tmpexcelArr[$i]['Status'] = 'Tidigare anmärkning';
-                          break;
-                          case '99':  
-                          $tmpexcelArr[$i]['Status'] = 'Mätvärde';
-                          break;
-                          default:
-                          $tmpexcelArr[$i]['Status'] = 'Ej kontrollerad';
+        $i = 0;
+        foreach ($latestReports['level1'] as $estate) {
+            if (!$estate['level2']) {
+                $tmpexcelArr[$i]['Typ'] = $estate['nodeTypeName'];
+                $tmpexcelArr[$i]['Benämning'] = $estate['estateName'];
+                $tmpexcelArr[$i]['Rapport'] = 'Ingen rapport';
+                $tmpexcelArr[$i]['Ansvarig tekniker'] = $report['respTechnicianName'];
+                $tmpexcelArr[$i]['Utförande tekniker'] = '';
+                $tmpexcelArr[$i]['Kontrollpunkt'] = '';
+                $tmpexcelArr[$i]['Delpunkt'] = '';
+                $tmpexcelArr[$i]['Status'] = '';
+                $tmpexcelArr[$i]['Notering'] = '';
+                $i += 1;
+            } else {
+                foreach ($estate['level2'] as $report) {
+                    if (!$report['level3']) {
+                        unset($tmpexcelArr[$i]);
+                        continue;
+                    }
+                    foreach ($report['level3'] as $controlPoint) {
+                        foreach ($controlPoint['level4'] as $question) {
+                            $tmpexcelArr[$i]['Typ'] = $estate['nodeTypeName'];
+                            $tmpexcelArr[$i]['Benämning'] = $estate['estateName'];
+                            $tmpexcelArr[$i]['Rapport'] = $report['reportName'];
+                            $tmpexcelArr[$i]['Ansvarig tekniker'] = $report['respTechnicianName'];
+                            $tmpexcelArr[$i]['Utförande tekniker'] = $report['execTechnicianName'];
+                            $tmpexcelArr[$i]['Kontrollpunkt'] = $controlPoint['cpName'];
+                            $tmpexcelArr[$i]['Delpunkt'] = $question['questionName'];
+                            switch ($question['remarkType']) {
+                                case '1':    $tmpexcelArr[$i]['Status'] = 'Ok';
+                                    break;
+                                case '2':    $tmpexcelArr[$i]['Status'] = 'Kritisk';
+                                    break;
+                                case '3':    $tmpexcelArr[$i]['Status'] = 'Anmärkning';
+                                    break;
+                                case '4':    $tmpexcelArr[$i]['Status'] = 'Meddelande';
+                                    break;
+                                case '88':    $tmpexcelArr[$i]['Status'] = 'Tidigare anmärkning';
+                                    break;
+                                case '99':    $tmpexcelArr[$i]['Status'] = 'Mätvärde';
+                                    break;
+                                default:    $tmpexcelArr[$i]['Status'] = 'Ej kontrollerad';
+                            }
+                            $tmpexcelArr[$i]['Notering'] = $question['comment'];
+                            $i += 1;
                         }
-                        $tmpexcelArr[$i]['Notering'] = $question['comment'];
-                        $i+=1;
-                      }
-                  }
-              }
+                    }
+                }
             }
         }
-/*
-\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
- array(
-  'class' => __CLASS__,
-  'function' => __FUNCTION__,
-  'tmpexcelArr' => $tmpexcelArr,
- ),'',20
-);
-*/
+        /*
+        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump(
+         array(
+          'class' => __CLASS__,
+          'function' => __FUNCTION__,
+          'tmpexcelArr' => $tmpexcelArr,
+         ),'',20
+        );
+        */
         
-        $filename = "website_data_" . date('Ymd') . ".xls";
-        header("Content-Disposition: attachment; filename=\"$filename\"");
+        $filename = 'website_data_' . date('Ymd') . '.xls';
+        header("Content-Disposition: attachment; filename=\"{$filename}\"");
         ////header("Content-Type: application/vnd.ms-excel");
-        header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         ////echo pack("CCC",0xef,0xbb,0xbf);
         $flag = false;
-        foreach($tmpexcelArr as $row) {
-          if(!$flag) {
+        foreach ($tmpexcelArr as $row) {
+            if (!$flag) {
                 // display field/column names as first row
-                echo implode("\t", array_keys($row)) . "\r\n";
+                echo implode('	', array_keys($row)) . '
+';
                 ////echo '<br>';
                 $flag = true;
             }
             ////array_walk($row, __NAMESPACE__ . '\cleanData');
             ////array_walk($row, '$this->cleanData';
             array_walk($row, array($this, 'cleanData'));
-            echo implode("\t", array_values($row)) . "\r\n";
-            ////echo '<br>';
+            echo implode('	', array_values($row)) . '
+';
         }
-        exit;
-        
+        die;
     }
-    private function cleanData(&$str) {
-        $str = preg_replace("/\t/", "\\t", $str);
-        $str = preg_replace("/\r?\n/", "\\n", $str);
-        $str = str_replace(",", " ", $str);
-        if(strstr($str, '"')) $str = '"' . str_replace('"', '""', $str) . '"';
+    
+    /**
+     * @param $str
+     */
+    private function cleanData($str)
+    {
+        $str = preg_replace('/	/', '\\t', $str);
+        $str = preg_replace('/?
+/',
+            '\\n', $str
+        );
+        $str = str_replace(',', ' ', $str);
+        if (strstr($str, '"')) {
+            $str = '"' . str_replace('"', '""', $str) . '"';
+        }
         ////echo $str;
         //$str = mb_convert_encoding($str,'utf-16','utf-8');
         ////$str = utf8_encode($str);
-        $str = mb_convert_encoding($str,'utf-8');
-    }    
+        $str = mb_convert_encoding($str, 'utf-8');
+    }
+
 }

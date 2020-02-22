@@ -24,6 +24,74 @@
                     </div>
                 </div>
             </f:if>
+            <f:if condition="{note.images2}">
+                <div class="item">
+                    <h2>{note.controlPoint.name} - {note.question.name}</h2>
+                    <div style="font-weight:bold;">{note.comment}</div>
+                    <div class="item-img">
+                        <f:image
+                            src="{note.images2.uid}"
+                            class="img-responsive"
+                            alt=""
+                            title=""
+                            width=""
+                            height=""
+                            treatIdAsReference="1"
+                        />
+                    </div>
+                </div>
+            </f:if>
+            <f:if condition="{note.images3}">
+                <div class="item">
+                    <h2>{note.controlPoint.name} - {note.question.name}</h2>
+                    <div style="font-weight:bold;">{note.comment}</div>
+                    <div class="item-img">
+                        <f:image
+                            src="{note.images3.uid}"
+                            class="img-responsive"
+                            alt=""
+                            title=""
+                            width=""
+                            height=""
+                            treatIdAsReference="1"
+                        />
+                    </div>
+                </div>
+            </f:if>
+            <f:if condition="{note.images4}">
+                <div class="item">
+                    <h2>{note.controlPoint.name} - {note.question.name}</h2>
+                    <div style="font-weight:bold;">{note.comment}</div>
+                    <div class="item-img">
+                        <f:image
+                            src="{note.images4.uid}"
+                            class="img-responsive"
+                            alt=""
+                            title=""
+                            width=""
+                            height=""
+                            treatIdAsReference="1"
+                        />
+                    </div>
+                </div>
+            </f:if>
+            <f:if condition="{note.images5}">
+                <div class="item">
+                    <h2>{note.controlPoint.name} - {note.question.name}</h2>
+                    <div style="font-weight:bold;">{note.comment}</div>
+                    <div class="item-img">
+                        <f:image
+                            src="{note.images5.uid}"
+                            class="img-responsive"
+                            alt=""
+                            title=""
+                            width=""
+                            height=""
+                            treatIdAsReference="1"
+                        />
+                    </div>
+                </div>
+            </f:if>
         </f:for>
         <f:comment>
         <f:for each="{postedReports}" as="report">

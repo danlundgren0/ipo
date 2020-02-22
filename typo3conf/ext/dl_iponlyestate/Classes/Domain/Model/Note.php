@@ -110,6 +110,34 @@ class Note extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $uploadedImage = false;
     
     /**
+     * images2
+     *
+     * @var \TYPO3\CMS\Extbase\Domain\Model\FileReference
+     */
+    protected $images2 = null;
+    
+    /**
+     * images3
+     *
+     * @var \TYPO3\CMS\Extbase\Domain\Model\FileReference
+     */
+    protected $images3 = null;
+    
+    /**
+     * images4
+     *
+     * @var \TYPO3\CMS\Extbase\Domain\Model\FileReference
+     */
+    protected $images4 = null;
+    
+    /**
+     * images5
+     *
+     * @var \TYPO3\CMS\Extbase\Domain\Model\FileReference
+     */
+    protected $images5 = null;
+    
+    /**
      * controlPoint
      *
      * @var \DanLundgren\DlIponlyestate\Domain\Model\ControlPoint
@@ -432,6 +460,90 @@ class Note extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function isUploadedImage()
     {
         return $this->uploadedImage;
+    }
+    
+    /**
+     * Returns the images2
+     *
+     * @return \TYPO3\CMS\Extbase\Domain\Model\FileReference $images2
+     */
+    public function getImages2()
+    {
+        return $this->images2;
+    }
+    
+    /**
+     * Sets the images2
+     *
+     * @param \TYPO3\CMS\Extbase\Domain\Model\FileReference $images2
+     * @return void
+     */
+    public function setImages2(\TYPO3\CMS\Extbase\Domain\Model\FileReference $images2)
+    {
+        $this->images2 = $images2;
+    }
+    
+    /**
+     * Returns the images3
+     *
+     * @return \TYPO3\CMS\Extbase\Domain\Model\FileReference $images3
+     */
+    public function getImages3()
+    {
+        return $this->images3;
+    }
+    
+    /**
+     * Sets the images3
+     *
+     * @param \TYPO3\CMS\Extbase\Domain\Model\FileReference $images3
+     * @return void
+     */
+    public function setImages3(\TYPO3\CMS\Extbase\Domain\Model\FileReference $images3)
+    {
+        $this->images3 = $images3;
+    }
+    
+    /**
+     * Returns the images4
+     *
+     * @return \TYPO3\CMS\Extbase\Domain\Model\FileReference $images4
+     */
+    public function getImages4()
+    {
+        return $this->images4;
+    }
+    
+    /**
+     * Sets the images4
+     *
+     * @param \TYPO3\CMS\Extbase\Domain\Model\FileReference $images4
+     * @return void
+     */
+    public function setImages4(\TYPO3\CMS\Extbase\Domain\Model\FileReference $images4)
+    {
+        $this->images4 = $images4;
+    }
+    
+    /**
+     * Returns the images5
+     *
+     * @return \TYPO3\CMS\Extbase\Domain\Model\FileReference $images5
+     */
+    public function getImages5()
+    {
+        return $this->images5;
+    }
+    
+    /**
+     * Sets the images5
+     *
+     * @param \TYPO3\CMS\Extbase\Domain\Model\FileReference $images5
+     * @return void
+     */
+    public function setImages5(\TYPO3\CMS\Extbase\Domain\Model\FileReference $images5)
+    {
+        $this->images5 = $images5;
     }
 
 }

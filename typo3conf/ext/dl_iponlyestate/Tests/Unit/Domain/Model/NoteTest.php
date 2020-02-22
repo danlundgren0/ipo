@@ -5,7 +5,7 @@ namespace DanLundgren\DlIponlyestate\Tests\Unit\Domain\Model;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2017 Dan Lundgren <danlundgren0@gmail.com>, Dan Lundgren
+ *  (c) 2020 Dan Lundgren <danlundgren0@gmail.com>, Dan Lundgren
  *
  *  All rights reserved
  *
@@ -123,6 +123,110 @@ class NoteTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 		$this->assertAttributeEquals(
 			$fileReferenceFixture,
 			'images',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getImages2ReturnsInitialValueForFileReference()
+	{
+		$this->assertEquals(
+			NULL,
+			$this->subject->getImages2()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setImages2ForFileReferenceSetsImages2()
+	{
+		$fileReferenceFixture = new \TYPO3\CMS\Extbase\Domain\Model\FileReference();
+		$this->subject->setImages2($fileReferenceFixture);
+
+		$this->assertAttributeEquals(
+			$fileReferenceFixture,
+			'images2',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getImages3ReturnsInitialValueForFileReference()
+	{
+		$this->assertEquals(
+			NULL,
+			$this->subject->getImages3()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setImages3ForFileReferenceSetsImages3()
+	{
+		$fileReferenceFixture = new \TYPO3\CMS\Extbase\Domain\Model\FileReference();
+		$this->subject->setImages3($fileReferenceFixture);
+
+		$this->assertAttributeEquals(
+			$fileReferenceFixture,
+			'images3',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getImages4ReturnsInitialValueForFileReference()
+	{
+		$this->assertEquals(
+			NULL,
+			$this->subject->getImages4()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setImages4ForFileReferenceSetsImages4()
+	{
+		$fileReferenceFixture = new \TYPO3\CMS\Extbase\Domain\Model\FileReference();
+		$this->subject->setImages4($fileReferenceFixture);
+
+		$this->assertAttributeEquals(
+			$fileReferenceFixture,
+			'images4',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getImages5ReturnsInitialValueForFileReference()
+	{
+		$this->assertEquals(
+			NULL,
+			$this->subject->getImages5()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setImages5ForFileReferenceSetsImages5()
+	{
+		$fileReferenceFixture = new \TYPO3\CMS\Extbase\Domain\Model\FileReference();
+		$this->subject->setImages5($fileReferenceFixture);
+
+		$this->assertAttributeEquals(
+			$fileReferenceFixture,
+			'images5',
 			$this->subject
 		);
 	}
