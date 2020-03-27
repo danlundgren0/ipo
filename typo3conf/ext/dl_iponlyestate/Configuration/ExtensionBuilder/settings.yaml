@@ -41,10 +41,10 @@
 
 overwriteSettings:
   Classes:
-    Controller: merge
+    Controller: keep
     Domain:
       Model: merge
-      Repository: merge
+      Repository: keep
 
   Configuration:
     TCA: merge

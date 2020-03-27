@@ -54,6 +54,34 @@ class Note extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $images = null;
     
     /**
+     * images2
+     *
+     * @var \TYPO3\CMS\Extbase\Domain\Model\FileReference
+     */
+    protected $images2 = null;
+    
+    /**
+     * images3
+     *
+     * @var \TYPO3\CMS\Extbase\Domain\Model\FileReference
+     */
+    protected $images3 = null;
+    
+    /**
+     * images4
+     *
+     * @var \TYPO3\CMS\Extbase\Domain\Model\FileReference
+     */
+    protected $images4 = null;
+    
+    /**
+     * images5
+     *
+     * @var \TYPO3\CMS\Extbase\Domain\Model\FileReference
+     */
+    protected $images5 = null;
+    
+    /**
      * remarkType
      *
      * @var int
@@ -108,34 +136,6 @@ class Note extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @validate NotEmpty
      */
     protected $uploadedImage = false;
-    
-    /**
-     * images2
-     *
-     * @var \TYPO3\CMS\Extbase\Domain\Model\FileReference
-     */
-    protected $images2 = null;
-    
-    /**
-     * images3
-     *
-     * @var \TYPO3\CMS\Extbase\Domain\Model\FileReference
-     */
-    protected $images3 = null;
-    
-    /**
-     * images4
-     *
-     * @var \TYPO3\CMS\Extbase\Domain\Model\FileReference
-     */
-    protected $images4 = null;
-    
-    /**
-     * images5
-     *
-     * @var \TYPO3\CMS\Extbase\Domain\Model\FileReference
-     */
-    protected $images5 = null;
     
     /**
      * controlPoint

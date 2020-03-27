@@ -40,7 +40,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
 					  <strong>Rapport påbörjad</strong>
 					</div>
 				</f:if>
-			</div>
+			</div>			
 			<f:if condition="{hasImages}>0">
 			<div class="cp-container">				
 				<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Visa bilder</button>
@@ -73,6 +73,10 @@ Otherwise your changes will be overwritten the next time you save the extension 
 						</f:if>
 					</f:if>
 				</f:for>
+			</div>
+			<div class="cp-container">
+				<h2>Viktig information</h2>			
+				<f:render partial="Report/AdminNote" arguments="{report:report, hasOngoingReport:hasOngoingReport, estateAdminNote: estateAdminNote}" />
 			</div>
 			<div class="cp-container">
 				<h2>Tidigare anmärkningar på denna fastighet</h2>			

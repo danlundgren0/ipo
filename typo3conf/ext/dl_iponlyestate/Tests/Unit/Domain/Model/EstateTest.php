@@ -104,6 +104,56 @@ class EstateTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 	/**
 	 * @test
 	 */
+	public function getAdminNoteReturnsInitialValueForString()
+	{
+		$this->assertSame(
+			'',
+			$this->subject->getAdminNote()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setAdminNoteForStringSetsAdminNote()
+	{
+		$this->subject->setAdminNote('Conceived at T3CON10');
+
+		$this->assertAttributeEquals(
+			'Conceived at T3CON10',
+			'adminNote',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getEnableAdminNoteReturnsInitialValueForBool()
+	{
+		$this->assertSame(
+			FALSE,
+			$this->subject->getEnableAdminNote()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setEnableAdminNoteForBoolSetsEnableAdminNote()
+	{
+		$this->subject->setEnableAdminNote(TRUE);
+
+		$this->assertAttributeEquals(
+			TRUE,
+			'enableAdminNote',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
 	public function getPageLinkReturnsInitialValueForString()
 	{
 		$this->assertSame(

@@ -40,6 +40,20 @@ class Estate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $name = '';
     
     /**
+     * adminNote
+     *
+     * @var string
+     */
+    protected $adminNote = '';
+    
+    /**
+     * enableAdminNote
+     *
+     * @var bool
+     */
+    protected $enableAdminNote = false;
+    
+    /**
      * estateDescription
      *
      * @var string
@@ -523,6 +537,58 @@ class Estate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setPageLink($pageLink)
     {
         $this->pageLink = $pageLink;
+    }
+    
+    /**
+     * Returns the adminNote
+     *
+     * @return string $adminNote
+     */
+    public function getAdminNote()
+    {
+        return $this->adminNote;
+    }
+    
+    /**
+     * Sets the adminNote
+     *
+     * @param string $adminNote
+     * @return void
+     */
+    public function setAdminNote($adminNote)
+    {
+        $this->adminNote = $adminNote;
+    }
+    
+    /**
+     * Returns the enableAdminNote
+     *
+     * @return bool $enableAdminNote
+     */
+    public function getEnableAdminNote()
+    {
+        return $this->enableAdminNote;
+    }
+    
+    /**
+     * Sets the enableAdminNote
+     *
+     * @param bool $enableAdminNote
+     * @return void
+     */
+    public function setEnableAdminNote($enableAdminNote)
+    {
+        $this->enableAdminNote = $enableAdminNote;
+    }
+    
+    /**
+     * Returns the boolean state of enableAdminNote
+     *
+     * @return bool
+     */
+    public function isEnableAdminNote()
+    {
+        return $this->enableAdminNote;
     }
 
 }
