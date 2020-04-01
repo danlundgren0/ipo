@@ -74,10 +74,15 @@ Otherwise your changes will be overwritten the next time you save the extension 
 					</f:if>
 				</f:for>
 			</div>
-			<div class="cp-container">
-				<h2>Viktig information</h2>			
-				<f:render partial="Report/AdminNote" arguments="{report:report, hasOngoingReport:hasOngoingReport, estateAdminNote: estateAdminNote}" />
-			</div>
+			<f:if condition="{enableAdminNote}">
+				<div class="cp-container">
+					<h2>Viktig information</h2>			
+					<f:render partial="Report/AdminNote" arguments="{report:reportWithVersion, hasOngoingReport:hasOngoingReport, estateAdminNote: estateAdminNote}" />
+					<div class="save-admin-note">
+						<button type="button" class="btn btn-success hidden">Spara</button>
+					</div>	
+				</div>
+			</f:if>
 			<div class="cp-container">
 				<h2>Tidigare anmärkningar på denna fastighet</h2>			
 				<f:for each="{postedReports}" as="report">

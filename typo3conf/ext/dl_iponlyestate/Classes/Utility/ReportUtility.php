@@ -946,12 +946,13 @@ class ReportUtility {
         $reportPid = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dliponlyestate.']['persistence.']['reportPid'];
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
         $estateRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\EstateRepository');
-        if((int)$estateUid>0) {
-            $estate = $estateRepository->findByUid((int) $estateUid);    
-        }        
+        $estate = $estateRepository->findByUid((int) $estateUid);    
         $persistenceManager = $objectManager->get('TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface');
         $reportRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
         $report = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DanLundgren\DlIponlyestate\Domain\Model\Report');
+        if($estate->getEnableAdminNote()) {
+            $report->setHasAdminNote(true);    
+        }
         $report->setVersion($highestVersion);
 		$datetime = new \DateTime();
 		$datetime->format('Y-m-d H:i:s');
@@ -980,6 +981,7 @@ class ReportUtility {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
         $persistenceManager = $objectManager->get('TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface');
         $reportRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
+        $estateRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\EstateRepository');
         $purchaseRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\PurchaseRepository');
         $messageRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\MessageRepository');
         $purchaseObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DanLundgren\DlIponlyestate\Domain\Model\Purchase');
@@ -1018,11 +1020,18 @@ class ReportUtility {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
         $persistenceManager = $objectManager->get('TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface');
         $reportRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
+        $estateRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\EstateRepository');
         $report = $reportRepository->findByUid((int) $reportUid);
+        $estate = $report->getEstate();
+        $estate->setEnableAdminNote(false);        
+        if(!$report->getAdminNoteIsChecked()) {
+            $report->setAdminNoteIsChecked(false);
+        }
         $datetime = new \DateTime();
 		$datetime->format('Y-m-d H:i:s');
         $report->setEndDate($datetime);
         $report->setReportIsPosted(true);
+        $estateRepository->update($estate);
         $reportRepository->update($report);
         $persistenceManager->persistAll();
         return $report;
@@ -1037,6 +1046,23 @@ class ReportUtility {
             $noteRepository->update($note);
         }
         $persistenceManager->persistAll();
+    }
+    public static function saveAdminNoteChecked($reportUid) {
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+        $estateRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\EstateRepository');
+        $reportRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
+        $persistenceManager = $objectManager->get('TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface');
+        $report = $reportRepository->findByUid($reportUid);
+        $estate = $report->getEstate();
+        if($estate->getEnableAdminNote()) {
+            $report->setHasAdminNote(true);    
+        }
+        $report->setAdminNoteIsChecked(true);
+        $estate->setEnableAdminNote(false);
+        $reportRepository->update($report);
+        $estateRepository->update($estate);
+        $persistenceManager->persistAll();
+        return $report->getAdminNoteIsChecked();        
     }
     public static function getNextMeasureVersion($estate) {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');

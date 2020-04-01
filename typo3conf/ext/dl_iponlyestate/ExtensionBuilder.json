@@ -740,6 +740,26 @@
                             "propertyName": "noOfPurchases",
                             "propertyType": "Integer",
                             "uid": "1217805396707"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "hasAdminNote",
+                            "propertyType": "Boolean",
+                            "uid": "332910595021"
+                        },
+                        {
+                            "allowedFileTypes": "",
+                            "maxItems": "1",
+                            "propertyDescription": "",
+                            "propertyIsExcludeField": true,
+                            "propertyIsRequired": false,
+                            "propertyName": "adminNoteIsChecked",
+                            "propertyType": "Boolean",
+                            "uid": "451379751352"
                         }
                     ]
                 },
@@ -1471,7 +1491,7 @@
         }
     ],
     "log": {
-        "last_modified": "2020-03-27 04:11",
+        "last_modified": "2020-03-27 05:07",
         "extension_builder_version": "7.6.0",
         "be_user": " (1)"
     }

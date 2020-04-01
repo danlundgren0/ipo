@@ -292,6 +292,51 @@ DanL.Note = {
 			console.log('getNewNoteTmpl failed: ' + textStatus);
 		});
     },
+    checkAdminNoteclicked: function() {
+        var isFixed = false;
+        if($(this).is(':checked')) {
+            isFixed = true;
+            $('.save-admin-note button').removeClass('hidden');
+            $('.save-admin-note button').on('click', { reportUid: $(this).data('reportuid') }, DanL.Note.saveAdminNoteChecked);
+            console.log('isFixed: '+isFixed);            
+        }
+        if(isFixed == false) {
+            $('.save-admin-note button').addClass('hidden');
+            return;
+        }
+        /*
+        str = JSON.stringify(noteUids);
+        DanL.ajax.fetch({
+            command: 'saveNoteFixed',
+            arguments: {
+                noteUids: JSON.stringify(noteUids)
+            }
+        }).done(function(data, textStatus, jqXHR) {
+            $('.save-fixed-btn button').addClass('hidden');
+        }).fail(function( jqXHR, textStatus, errorThrown ) {
+            console.log('getNewNoteTmpl failed: ' + textStatus);
+        });
+        */
+    },
+    saveAdminNoteChecked: function(event) {
+        console.log(event.data.reportUid);
+        console.log($(this));
+        if(typeof event !== 'undefined' && typeof event.data !== 'undefined'  && typeof event.data.reportUid !== 'undefined' && parseInt(event.data.reportUid)>0) {
+            console.log('start saving');
+            DanL.ajax.fetch({
+                command: 'saveAdminNoteChecked',
+                arguments: {
+                    reportUid: event.data.reportUid
+                }
+            }).done(function(data, textStatus, jqXHR) {
+                console.log(data);
+                $('.save-fixed-btn button').addClass('hidden');
+            }).fail(function( jqXHR, textStatus, errorThrown ) {
+                console.log('saveAdminNoteChecked failed: ' + textStatus);
+                console.log('errorThrown: ' + errorThrown);
+            });
+        }
+    },
     setNoteFixed: function() {
         var isFixed = false;
         $('.note-fixed').each(function(index) {
@@ -524,7 +569,8 @@ $(function() {
     $('.btn-save-report').on('click', DanL.Note.saveReport);
     $('.note-fixed').on('change', DanL.Note.setNoteFixed);
     $('.save-fixed-btn button').on('click', DanL.Note.saveNoteFixed);
-    $('.save-measure-value').on('click', DanL.Note.saveMeasureValue);  
+    $('.save-measure-value').on('click', DanL.Note.saveMeasureValue);
+    $('.admin-note').on('click', DanL.Note.checkAdminNoteclicked);
     $('.enable-buttons').on('click', DanL.Note.enableButtons);
     $('.js_search-date').datepicker({
       dateFormat: "yy-mm-dd"

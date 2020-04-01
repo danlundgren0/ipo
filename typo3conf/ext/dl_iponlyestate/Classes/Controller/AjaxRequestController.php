@@ -382,6 +382,11 @@ class AjaxRequestController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 		$success = \DanLundgren\DlIponlyestate\Utility\ReportUtility::saveNoteFixed($noteUids);
 		$this->data['noteUids'] = $noteUids;
 	}
+	public function saveAdminNoteChecked() {
+		$reportUid = json_decode($this->arguments['reportUid']);
+		$success = \DanLundgren\DlIponlyestate\Utility\ReportUtility::saveAdminNoteChecked($reportUid);
+		$this->data['isSaved'] = $success;
+	}
 	public function saveMeasureValue() {
 		$pid = (int)$this->arguments['pid'];
 		$estateUid = (int)$this->arguments['estateUid'];

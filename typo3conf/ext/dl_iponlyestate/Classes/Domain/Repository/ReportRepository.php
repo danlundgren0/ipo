@@ -320,6 +320,10 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                 $returnArr['level1'][$levelOneIdentifier]['newOrNotCheckedAtAll'] = FALSE;
                 $returnArr['level1'][$levelOneIdentifier]['hasReports'] = count($reportsArr);
                 $levelTwoIdentifier = 'report_' . $reportsArr['uid'];
+
+                $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['hasAdminNote'] = $reportsArr['has_admin_note'];
+                $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['adminNoteIsChecked'] = $reportsArr['admin_note_is_checked'];
+
                 $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['reportUid'] = $reportsArr['uid'];
                 $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['totalNoOfCompletedNotes'] = $totalNoOfCompletedNotes;
                 $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['totalNoOfCriticalRemarks'] = $totalNoOfCriticalRemarks;

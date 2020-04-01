@@ -20,14 +20,14 @@ return array(
 			'starttime' => 'starttime',
 			'endtime' => 'endtime',
 		),
-		'searchFields' => 'name,estate_description,admin_note,enable_admin_note,page_link,adress,image,postal_code,city,width,length,door_position,latitude,longitude,responsible_technician,control_points,node_type,',
+		'searchFields' => 'name,estate_description,page_link,adress,image,postal_code,city,width,length,door_position,latitude,longitude,responsible_technician,admin_note,enable_admin_note,control_points,node_type,',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('dl_iponlyestate') . 'Resources/Public/Icons/tx_dliponlyestate_domain_model_estate.gif'
 	),
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, estate_description, admin_note, enable_admin_note, page_link, adress, image, postal_code, city, width, length, door_position, latitude, longitude, responsible_technician, control_points, node_type',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, estate_description, page_link, adress, image, postal_code, city, width, length, door_position, latitude, longitude, responsible_technician, admin_note, enable_admin_note, control_points, node_type',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, estate_description;;;richtext:rte_transform[mode=ts_links], admin_note;;;richtext:rte_transform[mode=ts_links], enable_admin_note, page_link, adress, image, postal_code, city, width, length, door_position, latitude, longitude, responsible_technician, control_points, node_type, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, estate_description;;;richtext:rte_transform[mode=ts_links], page_link, adress, image, postal_code, city, width, length, door_position, latitude, longitude, responsible_technician, admin_note, enable_admin_note, control_points, node_type, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -151,40 +151,6 @@ return array(
 					)
 				)
 			),
-		),
-		'admin_note' => array(
-			'exclude' => 1,
-			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_estate.admin_note',
-			'config' => array(
-				'type' => 'text',
-				'cols' => 40,
-				'rows' => 15,
-				'eval' => 'trim',
-				'wizards' => array(
-					'RTE' => array(
-						'icon' => 'wizard_rte2.gif',
-						'notNewRecords'=> 1,
-						'RTEonly' => 1,
-						'module' => array(
-							'name' => 'wizard_rich_text_editor',
-							'urlParameters' => array(
-								'mode' => 'wizard',
-								'act' => 'wizard_rte.php'
-							)
-						),
-						'title' => 'LLL:EXT:cms/locallang_ttc.xlf:bodytext.W.RTE',
-						'type' => 'script'
-					)
-				)
-			),
-		),
-		'enable_admin_note' => array(
-			'exclude' => 1,
-			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_estate.enable_admin_note',
-			'config' => array(
-				'type' => 'check',
-				'default' => 0
-			)
 		),
 		'page_link' => array(
 			'exclude' => 1,
@@ -326,6 +292,24 @@ return array(
 				'maxitems' => 1,
 				'eval' => ''
 			),
+		),
+		'admin_note' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_estate.admin_note',
+			'config' => array(
+				'type' => 'text',
+				'cols' => 40,
+				'rows' => 15,
+				'eval' => 'trim'
+			)
+		),
+		'enable_admin_note' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:dl_iponlyestate/Resources/Private/Language/locallang_db.xlf:tx_dliponlyestate_domain_model_estate.enable_admin_note',
+			'config' => array(
+				'type' => 'check',
+				'default' => 0
+			)
 		),
 		'control_points' => array(
 			'exclude' => 1,

@@ -206,7 +206,8 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
             //$ellapsed = microtime(true) - $controlPointsStart;
             //echo 'controlPointsStart: ' . $ellapsed;
             //echo '<br>';
-            $this->view->assign('estateAdminNote', ($estate->getEnableAdminNote())?$estate->getAdminNote():'');
+            $this->view->assign('estateAdminNote', $estate->getAdminNote());
+            $this->view->assign('enableAdminNote', $estate->getEnableAdminNote());
             $this->view->assign('estateUid', $estate->getUid());
             $this->view->assign('nextReportVersion', $nextReportVersion);
             $this->view->assign('hasOngoingReport', $hasOngoingReport);

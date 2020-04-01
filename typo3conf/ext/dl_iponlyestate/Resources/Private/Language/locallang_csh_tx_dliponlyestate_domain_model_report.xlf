@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2020-03-27T16:11:05Z" product-name="dl_iponlyestate">
+	<file source-language="en" datatype="plaintext" original="messages" date="2020-03-27T17:07:30Z" product-name="dl_iponlyestate">
 		<header/>
 		<body>
 			<trans-unit id="name.description">
@@ -50,6 +50,12 @@
 			</trans-unit>
 			<trans-unit id="no_of_purchases.description">
 				<source>noOfPurchases</source>
+			</trans-unit>
+			<trans-unit id="has_admin_note.description">
+				<source>hasAdminNote</source>
+			</trans-unit>
+			<trans-unit id="admin_note_is_checked.description">
+				<source>adminNoteIsChecked</source>
 			</trans-unit>
 			<trans-unit id="dynamic_column.description">
 				<source>dynamicColumn</source>

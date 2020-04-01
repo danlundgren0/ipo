@@ -327,6 +327,56 @@ class ReportTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 	/**
 	 * @test
 	 */
+	public function getHasAdminNoteReturnsInitialValueForBool()
+	{
+		$this->assertSame(
+			FALSE,
+			$this->subject->getHasAdminNote()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setHasAdminNoteForBoolSetsHasAdminNote()
+	{
+		$this->subject->setHasAdminNote(TRUE);
+
+		$this->assertAttributeEquals(
+			TRUE,
+			'hasAdminNote',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getAdminNoteIsCheckedReturnsInitialValueForBool()
+	{
+		$this->assertSame(
+			FALSE,
+			$this->subject->getAdminNoteIsChecked()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setAdminNoteIsCheckedForBoolSetsAdminNoteIsChecked()
+	{
+		$this->subject->setAdminNoteIsChecked(TRUE);
+
+		$this->assertAttributeEquals(
+			TRUE,
+			'adminNoteIsChecked',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
 	public function getDynamicColumnReturnsInitialValueForDynamicColumn()
 	{
 		$newObjectStorage = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();

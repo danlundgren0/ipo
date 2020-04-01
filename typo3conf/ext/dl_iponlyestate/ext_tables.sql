@@ -252,6 +252,8 @@ CREATE TABLE tx_dliponlyestate_domain_model_report (
 	no_of_old_remarks int(11) DEFAULT '0' NOT NULL,
 	no_of_notes int(11) DEFAULT '0' NOT NULL,
 	no_of_purchases int(11) DEFAULT '0' NOT NULL,
+	has_admin_note tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	admin_note_is_checked tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	dynamic_column int(11) unsigned DEFAULT '0' NOT NULL,
 	notes int(11) unsigned DEFAULT '0' NOT NULL,
 	estate int(11) unsigned DEFAULT '0',

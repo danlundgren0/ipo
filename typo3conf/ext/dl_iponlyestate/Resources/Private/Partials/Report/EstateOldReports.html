@@ -71,6 +71,15 @@
     		</div>
 		</a>
 	</div>
-	<div class="vacant1_old col-md-1"></div>
-	<div class="vacant2_oldcol-md-1"></div>
+	<div class="admin-note col-md-1">
+		<f:if condition="{report.hasAdminNote}">			
+			<f:then>
+				<f:if condition="{report.adminNoteIsChecked}">
+					<f:then><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></f:then>
+					<f:else><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></f:else>
+				</f:if>
+			</f:then>
+		</f:if>		
+	</div>
+	<div class="vacant2_old col-md-1"></div>
 </div>

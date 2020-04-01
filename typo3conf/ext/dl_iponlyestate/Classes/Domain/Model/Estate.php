@@ -40,6 +40,13 @@ class Estate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $name = '';
     
     /**
+     * estateDescription
+     *
+     * @var string
+     */
+    protected $estateDescription = '';
+    
+    /**
      * adminNote
      *
      * @var string
@@ -52,13 +59,6 @@ class Estate extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var bool
      */
     protected $enableAdminNote = false;
-    
-    /**
-     * estateDescription
-     *
-     * @var string
-     */
-    protected $estateDescription = '';
     
     /**
      * pageLink

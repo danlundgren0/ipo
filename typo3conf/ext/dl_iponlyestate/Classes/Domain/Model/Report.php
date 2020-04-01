@@ -206,6 +206,20 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $reportedMeasurement = null;
     
     /**
+     * hasAdminNote
+     *
+     * @var bool
+     */
+    protected $hasAdminNote = false;
+    
+    /**
+     * adminNoteIsChecked
+     *
+     * @var bool
+     */
+    protected $adminNoteIsChecked = false;
+    
+    /**
      * __construct
      */
     public function __construct()
@@ -1070,6 +1084,68 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setReportedMeasurement(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $reportedMeasurement)
     {
         $this->reportedMeasurement = $reportedMeasurement;
+    }
+    
+    /**
+     * Returns the hasAdminNote
+     *
+     * @return bool $hasAdminNote
+     */
+    public function getHasAdminNote()
+    {
+        return $this->hasAdminNote;
+    }
+    
+    /**
+     * Sets the hasAdminNote
+     *
+     * @param bool $hasAdminNote
+     * @return void
+     */
+    public function setHasAdminNote($hasAdminNote)
+    {
+        $this->hasAdminNote = $hasAdminNote;
+    }
+    
+    /**
+     * Returns the boolean state of hasAdminNote
+     *
+     * @return bool
+     */
+    public function isHasAdminNote()
+    {
+        return $this->hasAdminNote;
+    }
+    
+    /**
+     * Returns the adminNoteIsChecked
+     *
+     * @return bool $adminNoteIsChecked
+     */
+    public function getAdminNoteIsChecked()
+    {
+        return $this->adminNoteIsChecked;
+    }
+    
+    /**
+     * Sets the adminNoteIsChecked
+     *
+     * @param bool $adminNoteIsChecked
+     * @return void
+     */
+    public function setAdminNoteIsChecked($adminNoteIsChecked)
+    {
+        $this->adminNoteIsChecked = $adminNoteIsChecked;
+    }
+    
+    /**
+     * Returns the boolean state of adminNoteIsChecked
+     *
+     * @return bool
+     */
+    public function isAdminNoteIsChecked()
+    {
+        return $this->adminNoteIsChecked;
     }
 
 }
