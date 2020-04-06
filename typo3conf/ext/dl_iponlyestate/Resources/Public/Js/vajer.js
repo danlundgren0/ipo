@@ -80,6 +80,7 @@ DanL.Note = {
         }).done(function(data, textStatus, jqXHR) {
             $('.btn-new-report').fadeOut();
             $('.report-status').append('<div class="alert alert-info report-started"><strong>Rapport påbörjad</strong></div>');
+            $('.cb-admin-note .admin-note').attr('data-reportuid', data.data['response']);
             DanL.Note.checkReportStatus();
             //$('.note-fixed').prop("disabled", false);
         }).fail(function( jqXHR, textStatus, errorThrown ) {
