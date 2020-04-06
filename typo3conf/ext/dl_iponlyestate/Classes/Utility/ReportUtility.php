@@ -64,6 +64,9 @@ class ReportUtility {
         $reportsArr['noOfNotes'] = $clickedReport->getNoOfNotes();
         $reportsArr['noOfPurchases'] = $clickedReport->getNoOfPurchases();
         $reportsArr['noOfReportedMeasurements'] = $clickedReport->getNoOfReportedMeasurements();
+        $reportsArr['adminNote'] = $clickedReport->getAdminNote();
+        $reportsArr['hasAdminNote'] = $clickedReport->getHasAdminNote();
+        $reportsArr['adminNoteIsChecked'] = $clickedReport->getAdminNoteIsChecked();
         $reportsArr['noOfQuestionsLeft'] = 0;
         $reportsArr['allCheckedAndOk'] = FALSE;	
         $noOfPostedMeasure = 0;
@@ -90,6 +93,9 @@ class ReportUtility {
                 	if($clickedReport->getDate()->format('Y-m-d')>=$report->getDate()->format('Y-m-d')) {                                                
 	                    foreach($report->getNotes() as $note) {
 	                        $noteIdentifier = 'note_'.$note->getUid();
+                            if(!$note->getQuestion() || !$q) {
+                                continue;
+                            }
 	                        if($note->getQuestion()->getUid() == $q->getUid()) {
 	                            $qIsReported = true;
 	                            $noOfQuestionsReported += 1;
@@ -282,6 +288,9 @@ class ReportUtility {
         $reportsArr['noOfNotes'] = $clickedReport->getNoOfNotes();
         $reportsArr['noOfPurchases'] = $clickedReport->getNoOfPurchases();
         $reportsArr['noOfReportedMeasurements'] = $clickedReport->getNoOfReportedMeasurements();
+        $reportsArr['adminNote'] = $clickedReport->getAdminNote();
+        $reportsArr['hasAdminNote'] = $clickedReport->getHasAdminNote();
+        $reportsArr['adminNoteIsChecked'] = $clickedReport->getAdminNoteIsChecked();
         $reportsArr['noOfQuestionsLeft'] = 0;
         $reportsArr['allCheckedAndOk'] = FALSE; 
         $noOfPostedMeasure = 0;
@@ -492,6 +501,9 @@ class ReportUtility {
         $reportsArr['noOfPurchases'] = $clickedReport->getNoOfPurchases();
         $reportsArr['noOfRemarks'] = $clickedReport->getNoOfRemarks();
         $reportsArr['noOfReportedMeasurements'] = $clickedReport->getNoOfReportedMeasurements();
+        $reportsArr['adminNote'] = $clickedReport->getAdminNote();
+        $reportsArr['hasAdminNote'] = $clickedReport->getHasAdminNote();
+        $reportsArr['adminNoteIsChecked'] = $clickedReport->getAdminNoteIsChecked();
         $reportsArr['noOfQuestionsLeft'] = 0;
         $reportsArr['allCheckedAndOk'] = FALSE; 
         $noOfPostedMeasure = 0;
@@ -519,12 +531,15 @@ class ReportUtility {
                         }
                         elseif($note->getRemarkType()!=1) {
                             $noOfOngoingNotes+=1;
-                        }
+                        }                        
                         $reportsArr['noOfQuestionsReported'] = $noOfQuestionsReported;
                         $reportsArr['noOfOngoingNotes'] = $noOfOngoingNotes;
                         $reportsArr['noOfPostedNotes'] = $noOfPostedNotes;
+                        $reportsArr['controlPoints'][$cpIdentifier]['noteUid'] = $note->getUid();
+                        $reportsArr['controlPoints'][$cpIdentifier]['cpUid'] = $note->getControlPoint()->getUid();
                         $reportsArr['controlPoints'][$cpIdentifier]['cpName'] = $note->getControlPoint()->getHeader();
                         $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['type'] = 'note';
+                        $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['qUid'] = $note->getQuestion()->getUid();
                         $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionName'] = $note->getQuestion()->getHeader();
                         $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionDesc'] = $note->getQuestion()->getDescription();
                         $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionUid'] = $note->getQuestion()->getUid();
@@ -630,8 +645,8 @@ class ReportUtility {
                             $reportsArr['controlPoints'][$cpIdentifier]['cpName'] = $meas->getControlPoint()->getHeader();
                             $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['type'] = 'measure';
                             $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionName'] = $meas->getQuestion()->getHeader();
-                            $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionDesc'] = $note->getQuestion()->getDescription();
-                            $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionUid'] = $note->getQuestion()->getUid();
+                            $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionDesc'] = $meas->getQuestion()->getDescription();
+                            $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionUid'] = $meas->getQuestion()->getUid();
                             $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['measName'] = $meas->getName();
                             $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['unit'] = $meas->getUnit();
                             $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['notes'][$noteIdentifier]['value'] = $meas->getValue();
@@ -645,8 +660,8 @@ class ReportUtility {
                     $reportsArr['noOfQuestionsLeft'] = $noOfQuestionsLeft;
                     $reportsArr['controlPoints'][$cpIdentifier]['cpName'] = $cp->getHeader();
                     $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionName'] = $q->getHeader();
-                    $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionDesc'] = $note->getQuestion()->getDescription();
-                    $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionUid'] = $note->getQuestion()->getUid();
+                    $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionDesc'] = $q->getDescription();
+                    $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['questionUid'] = $q->getUid();
                     $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['status'] = 'not-checked';
                     $reportsArr['controlPoints'][$cpIdentifier]['questions'][$questIdentifier]['message'] = 'Ej kontrollerad';
                 }
@@ -951,7 +966,8 @@ class ReportUtility {
         $reportRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\ReportRepository');
         $report = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DanLundgren\DlIponlyestate\Domain\Model\Report');
         if($estate->getEnableAdminNote()) {
-            $report->setHasAdminNote(true);    
+            $report->setHasAdminNote(true);
+            $report->setAdminNote($estate->getAdminNote());
         }
         $report->setVersion($highestVersion);
 		$datetime = new \DateTime();
@@ -1023,7 +1039,7 @@ class ReportUtility {
         $estateRepository = $objectManager->get('DanLundgren\DlIponlyestate\Domain\Repository\EstateRepository');
         $report = $reportRepository->findByUid((int) $reportUid);
         $estate = $report->getEstate();
-        $estate->setEnableAdminNote(false);        
+        //$estate->setEnableAdminNote(false);        
         if(!$report->getAdminNoteIsChecked()) {
             $report->setAdminNoteIsChecked(false);
         }

@@ -22,35 +22,67 @@
         </h4>        
       </div>
       <div class="modal-body">
-        		<div class="jumbotron">
-        			<h2>Rapport påbörjad {report.startDate} - Rapport inskickad {report.endDate}</h2>
-	        		<div class="col-md-4">Version: {report.reportVersion} </div>
-	        		<div class="col-md-4">Datum: {report.reportDate}</div>
-	        		<div class="col-md-4">Nod: {report.nodeTypeName}</div>
+    		<div class="jumbotron">
+    			<h2>Rapport påbörjad {report.startDate} - Rapport inskickad {report.endDate}</h2>
+        		<div class="col-md-4">Version: {report.reportVersion} </div>
+        		<div class="col-md-4">Datum: {report.reportDate}</div>
+        		<div class="col-md-4">Nod: {report.nodeTypeName}</div>
 
-	        		<div class="col-md-4">Ansvarig tekniker: {report.respTechnicianName} </div>
-	        		<div class="col-md-4">Utförande tekniker: {report.execTechnicianName}</div>
-	        		<div class="col-md-4">Rapport id: {report.reportUid}</div>
-	        		
+        		<div class="col-md-4">Ansvarig tekniker: {report.respTechnicianName} </div>
+        		<div class="col-md-4">Utförande tekniker: {report.execTechnicianName}</div>
+        		<div class="col-md-4">Rapport id: {report.reportUid}</div>
+        		
 
-	        		<div class="col-md-4">Kritiska anm: {report.noOfCriticalRemarks} </div>
-	        		<div class="col-md-4">Anmärkningar: {report.noOfRemarks}</div>
-	        		<div class="col-md-4">Inköp/Med.: {report.noOfPurchases}</div>
+        		<div class="col-md-4">Kritiska anm: {report.noOfCriticalRemarks} </div>
+        		<div class="col-md-4">Anmärkningar: {report.noOfRemarks}</div>
+        		<div class="col-md-4">Inköp/Med.: {report.noOfPurchases}</div>
 
-	        		<div class="col-md-4">Ok: {report.getNoOfOk} </div>
-	        		<div class="col-md-4">Tidigare anmärkningar: {report.noOfPostedNotes}</div>
-	        		<div class="col-md-4">Ej åtgärdade punkter: {report.noOfOngoingNotes}</div>
+        		<div class="col-md-4">Ok: {report.getNoOfOk} </div>
+        		<div class="col-md-4">Tidigare anmärkningar: {report.noOfPostedNotes}</div>
+        		<div class="col-md-4">Ej åtgärdade punkter: {report.noOfOngoingNotes}</div>
 
-	        		<div class="col-md-4">Rapporterade mätvärden: {report.noOfPostedMeasure} </div>
-	        		<div class="col-md-4">Rapporterade Punkter: {report.noOfQuestionsReported}</div>
-	        		<div class="col-md-4">Ej Rapporterade Punkter: {report.noOfQuestionsLeft}</div>
-	        		<div style="clear:both;"></div>
-        		</div>
+        		<div class="col-md-4">Rapporterade mätvärden: {report.noOfPostedMeasure} </div>
+        		<div class="col-md-4">Rapporterade Punkter: {report.noOfQuestionsReported}</div>
+        		<div class="col-md-4">Ej Rapporterade Punkter: {report.noOfQuestionsLeft}</div>
+        		<div style="clear:both;"></div>
+    		</div>
+    		<f:if condition="{report.hasAdminNote}">
+				<div class="cp-container">
+		        	<h2>Admin note</h2>	        	
+			      	<f:format.html>{report.adminNote}</f:format.html>
+			      	<f:if condition="{report.adminNoteIsChecked}">
+			      		<f:then>
+							<div class="jumbotron">
+				        		<div class="col-md-6">		        					
+				        			<h2 class="not-reported">Kontrollerad</h2>
+				        		</div>
+				        		<div class="col-md-6"></div>
+			        			<div style="clear:both;"></div>	
+				        	</div>	
+			      		</f:then>
+			      		<f:else>
+							<div class="jumbotron not-checked">
+				        		<div class="col-md-6">		        					
+				        			<h2 class="not-reported">Ej kontrollerad</h2>
+				        		</div>
+				        		<div class="col-md-6"></div>
+			        			<div style="clear:both;"></div>	
+				        	</div>			      			
+			      		</f:else>
+			      	</f:if>
+			    </div>    			
+    		</f:if>
         	<f:for each="{report.controlPoints}" as="cp">
         		<div class="cp-container">
-	        		<h2>Kontrollpunkt: {cp.cpName}</h2>
+	        		<h2>Kontrollpunkt: {cp.cpName} (ID: {cp.cpUid})</h2>
 		        	<f:for each="{cp.questions}" as="q">
-		        		<h3>Delpunkt: {q.questionName}</h3>
+		        		<f:if condition="{q.qUid}">
+		        			<f:then>
+		        				
+		        			</f:then>
+		        			<f:else></f:else>
+		        		</f:if>
+		        		<h3>Delpunkt: {q.questionName} (ID: {q.qUid})</h3>
 		        		<div class="note-date desc">Beskrivning: <f:format.html>{q.questionDesc}</f:format.html></div>
 		        		<div class="jumbotron {q.status}">
 			        		<div class="col-md-6">
@@ -65,6 +97,7 @@
 			        					<f:if condition="{q.type}=='note'">
 			        						<f:then>			        							
 			        							<f:for each="{q.notes}" as="n">
+			        								NoteId: {n.noteUid}
 			        								<f:if condition="{n.remarkType}==1">
 			        									<div>
 			        									Version: {report.reportVersion}<br>
@@ -146,7 +179,7 @@
 			        			</f:for>
 			        		</div>
 		        			<div style="clear:both;"></div>	
-		        		</div>	        		
+		        		</div>
 		        	</f:for>  
 	        	</div>      		
         	</f:for>

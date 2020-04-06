@@ -377,6 +377,31 @@ class ReportTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 	/**
 	 * @test
 	 */
+	public function getAdminNoteReturnsInitialValueForString()
+	{
+		$this->assertSame(
+			'',
+			$this->subject->getAdminNote()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setAdminNoteForStringSetsAdminNote()
+	{
+		$this->subject->setAdminNote('Conceived at T3CON10');
+
+		$this->assertAttributeEquals(
+			'Conceived at T3CON10',
+			'adminNote',
+			$this->subject
+		);
+	}
+
+	/**
+	 * @test
+	 */
 	public function getDynamicColumnReturnsInitialValueForDynamicColumn()
 	{
 		$newObjectStorage = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();

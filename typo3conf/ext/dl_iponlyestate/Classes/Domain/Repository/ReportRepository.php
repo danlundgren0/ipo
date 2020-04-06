@@ -240,26 +240,17 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         //print($debugQuery);
         $reportUids = array();
         $reportsByEstate = array();
-        $rowArr = array();
-        if ($searchCriterias->getSearchAll()) {
+        //if ($searchCriterias->getSearchAll()) {
             while ($estateUidRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($estateUidRes)) {
                 //$estateUidArr[] = $estateUidRow['uid'];
                 $reportsByEstate[$estateUidRow['uid']][] = $estateUidRow;
             }
-        }
+        //}
+        
         while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($searchRes)) {
             if ((int) $row['estate'] > 0) {
                 $reportsByEstate[$row['estate']][] = $row;
             }
-            /*
-            $report = $reportRepository->findByUid($row['uid']);
-            if($report->getEstate()) {
-                $reportsByEstate[$report->getEstate()->getUid()][] = $report;
-            }
-            */
-            
-            //$reportArr[] = $row['uid'];
-            $rowArr[] = $row;
         }
         $searchedReports = $this->getSearchedReports($reportsByEstate);
         return $searchedReports;
@@ -323,6 +314,7 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
                 $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['hasAdminNote'] = $reportsArr['has_admin_note'];
                 $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['adminNoteIsChecked'] = $reportsArr['admin_note_is_checked'];
+                $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['adminNote'] = $reportsArr['admin_note'];
 
                 $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['reportUid'] = $reportsArr['uid'];
                 $returnArr['level1'][$levelOneIdentifier]['level2'][$levelTwoIdentifier]['totalNoOfCompletedNotes'] = $totalNoOfCompletedNotes;

@@ -45,6 +45,32 @@
         		<div class="col-md-4">Ej Rapporterade Punkter: {report.noOfQuestionsLeft}</div>
         		<div style="clear:both;"></div>
     		</div>
+            <f:if condition="{report.hasAdminNote}">
+                <div class="cp-container">
+                    <h2>Admin note</h2>             
+                    <f:format.html>{report.adminNote}</f:format.html>
+                    <f:if condition="{report.adminNoteIsChecked}">
+                        <f:then>
+                            <div class="jumbotron">
+                                <div class="col-md-6">                                  
+                                    <h2 class="not-reported">Kontrollerad</h2>
+                                </div>
+                                <div class="col-md-6"></div>
+                                <div style="clear:both;"></div> 
+                            </div>  
+                        </f:then>
+                        <f:else>
+                            <div class="jumbotron not-checked">
+                                <div class="col-md-6">                                  
+                                    <h2 class="not-reported">Ej kontrollerad</h2>
+                                </div>
+                                <div class="col-md-6"></div>
+                                <div style="clear:both;"></div> 
+                            </div>                          
+                        </f:else>
+                    </f:if>
+                </div>              
+            </f:if>
         	<f:for each="{report.controlPoints}" as="cp">
 	        	<f:for each="{cp.questions}" as="q">		        		
         			<f:if condition="{q.type}=='measure'">

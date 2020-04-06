@@ -79,7 +79,8 @@ DanL.Note = {
             }
         }).done(function(data, textStatus, jqXHR) {
             $('.btn-new-report').fadeOut();
-            $('.report-status').append('<div class="alert alert-info"><strong>Rapport påbörjad</strong></div>');
+            $('.report-status').append('<div class="alert alert-info report-started"><strong>Rapport påbörjad</strong></div>');
+            DanL.Note.checkReportStatus();
             //$('.note-fixed').prop("disabled", false);
         }).fail(function( jqXHR, textStatus, errorThrown ) {
             console.log('createNewReport failed: ' + textStatus);
@@ -105,6 +106,12 @@ DanL.Note = {
             return;
         }
     },
+    checkReportStatus: function() {
+        if($('.report-started').length>0) {
+            $('.cb-admin-note').removeClass('visibility-hidden');
+        }
+        
+    },
     saveMeasureValue: function() {
         $('#modal').css('display','block');
         if($(this).hasClass('disabled')) {
@@ -116,6 +123,7 @@ DanL.Note = {
         var estateUid = $(noteObj).attr('data-estateuid'); 
         var questUid = $(noteObj).attr('data-questionuid');
         var measureUid = $(noteObj).attr('data-measureuid');
+
         //var ver = $(noteObj).attr('data-notever');
         var ver = -1; 
         $('[data-notever]').each(function() {
@@ -152,6 +160,7 @@ DanL.Note = {
 
 			}
 		}).done(function(data, textStatus, jqXHR) {
+            console.log(data);
             $(me).closest('.noteContainer').attr('data-measureuid',data.data['noteUid']);
             $(me).closest('.noteContainer').attr('data-notever',data.data['curVer']);
             $(me).addClass('disabled');
@@ -298,7 +307,6 @@ DanL.Note = {
             isFixed = true;
             $('.save-admin-note button').removeClass('hidden');
             $('.save-admin-note button').on('click', { reportUid: $(this).data('reportuid') }, DanL.Note.saveAdminNoteChecked);
-            console.log('isFixed: '+isFixed);            
         }
         if(isFixed == false) {
             $('.save-admin-note button').addClass('hidden');
@@ -319,8 +327,6 @@ DanL.Note = {
         */
     },
     saveAdminNoteChecked: function(event) {
-        console.log(event.data.reportUid);
-        console.log($(this));
         if(typeof event !== 'undefined' && typeof event.data !== 'undefined'  && typeof event.data.reportUid !== 'undefined' && parseInt(event.data.reportUid)>0) {
             console.log('start saving');
             DanL.ajax.fetch({
@@ -329,8 +335,8 @@ DanL.Note = {
                     reportUid: event.data.reportUid
                 }
             }).done(function(data, textStatus, jqXHR) {
-                console.log(data);
-                $('.save-fixed-btn button').addClass('hidden');
+                $('.save-admin-note button').addClass('hidden');
+                $(".cb-admin-note .admin-note").attr("disabled", true);
             }).fail(function( jqXHR, textStatus, errorThrown ) {
                 console.log('saveAdminNoteChecked failed: ' + textStatus);
                 console.log('errorThrown: ' + errorThrown);
@@ -526,7 +532,7 @@ DanL.Note = {
     }
 }
 $(function() {
-	console.log($(window).width());
+	DanL.Note.checkReportStatus();
 	if ($(window).width() <= 458) {
 		$('._js_cp-image').find('img').each(function(){
 			$(this).appendTo($(this).closest('.row').find('._js_cp-container').find('._js_cp-description'));

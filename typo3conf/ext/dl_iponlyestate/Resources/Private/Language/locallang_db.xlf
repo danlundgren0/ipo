@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2020-03-27T17:07:30Z" product-name="dl_iponlyestate">
+	<file source-language="en" datatype="plaintext" original="messages" date="2020-04-01T15:22:30Z" product-name="dl_iponlyestate">
 		<header/>
 		<body>
 			<trans-unit id="tx_dliponlyestate_domain_model_estate">
@@ -176,6 +176,9 @@
 			</trans-unit>
 			<trans-unit id="tx_dliponlyestate_domain_model_report.admin_note_is_checked">
 				<source>Admin Note Is Checked</source>
+			</trans-unit>
+			<trans-unit id="tx_dliponlyestate_domain_model_report.admin_note">
+				<source>Admin Note</source>
 			</trans-unit>
 			<trans-unit id="tx_dliponlyestate_domain_model_report.dynamic_column">
 				<source>Dynamic Column</source>

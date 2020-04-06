@@ -175,6 +175,20 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $noOfPurchases = false;
     
     /**
+     * hasAdminNote
+     *
+     * @var bool
+     */
+    protected $hasAdminNote = false;
+    
+    /**
+     * adminNoteIsChecked
+     *
+     * @var bool
+     */
+    protected $adminNoteIsChecked = false;
+    
+    /**
      * dynamicColumn
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\DanLundgren\DlIponlyestate\Domain\Model\DynamicColumn>
@@ -206,18 +220,11 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $reportedMeasurement = null;
     
     /**
-     * hasAdminNote
+     * adminNote
      *
-     * @var bool
+     * @var string
      */
-    protected $hasAdminNote = false;
-    
-    /**
-     * adminNoteIsChecked
-     *
-     * @var bool
-     */
-    protected $adminNoteIsChecked = false;
+    protected $adminNote = '';
     
     /**
      * __construct
@@ -1146,6 +1153,27 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function isAdminNoteIsChecked()
     {
         return $this->adminNoteIsChecked;
+    }
+    
+    /**
+     * Returns the adminNote
+     *
+     * @return string $adminNote
+     */
+    public function getAdminNote()
+    {
+        return $this->adminNote;
+    }
+    
+    /**
+     * Sets the adminNote
+     *
+     * @param string $adminNote
+     * @return void
+     */
+    public function setAdminNote($adminNote)
+    {
+        $this->adminNote = $adminNote;
     }
 
 }

@@ -26,6 +26,7 @@ DanL.Search = {
         });
     },
     getCompleteReport: function(el) {
+        $('.loader-wrp').css('display','block');
         DanL.ajax.fetch({
             command: 'getCompleteReport',
             arguments: {
@@ -33,8 +34,7 @@ DanL.Search = {
                 estateUid: $(el).data('estate')
             }
         }).done(function(data, textStatus, jqXHR) {
-            //$('#genericModalReport').remove();
-            //$('.modal-backdrop').remove();
+            $('.loader-wrp').css('display','none');
             $('body').append(data.data.response);
             $('#genericModalReport').modal({
               keyboard: false
@@ -45,10 +45,12 @@ DanL.Search = {
             })
             console.log(data);
         }).fail(function( jqXHR, textStatus, errorThrown ) {
+            $('.loader-wrp').css('display','none');
             console.log('getReportData failed: ' + textStatus);
         }); 
     },
     getCriticalReport: function(el) {
+        $('.loader-wrp').css('display','block');
         DanL.ajax.fetch({
             command: 'getCriticalReport',
             arguments: {
@@ -56,8 +58,7 @@ DanL.Search = {
                 estateUid: $(el).data('estate')
             }
         }).done(function(data, textStatus, jqXHR) {
-            //$('#genericModalReport').remove();
-            //$('.modal-backdrop').remove();
+            $('.loader-wrp').css('display','none');
             $('body').append(data.data.response);
             $('#criticalModalReport').modal({
               keyboard: false
@@ -68,10 +69,12 @@ DanL.Search = {
             })
             console.log(data);
         }).fail(function( jqXHR, textStatus, errorThrown ) {
+            $('.loader-wrp').css('display','none');
             console.log('getReportData failed: ' + textStatus);
         }); 
     },
     getRemarkReport: function(el) {
+        $('.loader-wrp').css('display','block');
         DanL.ajax.fetch({
             command: 'getRemarkReport',
             arguments: {
@@ -79,8 +82,7 @@ DanL.Search = {
                 estateUid: $(el).data('estate')
             }
         }).done(function(data, textStatus, jqXHR) {
-            //$('#genericModalReport').remove();
-            //$('.modal-backdrop').remove();
+            $('.loader-wrp').css('display','none');
             $('body').append(data.data.response);
             $('#remarkModalReport').modal({
               keyboard: false
@@ -90,10 +92,12 @@ DanL.Search = {
                 $('.modal-backdrop').remove();
             })
         }).fail(function( jqXHR, textStatus, errorThrown ) {
+            $('.loader-wrp').css('display','none');
             console.log('getReportData failed: ' + textStatus);
         }); 
     },
     getPurchaseReport: function(el) {
+        $('.loader-wrp').css('display','block');
         DanL.ajax.fetch({
             command: 'getPurchaseReport',
             arguments: {
@@ -101,8 +105,7 @@ DanL.Search = {
                 estateUid: $(el).data('estate')
             }
         }).done(function(data, textStatus, jqXHR) {
-            //$('#genericModalReport').remove();
-            //$('.modal-backdrop').remove();
+            $('.loader-wrp').css('display','none');
             $('body').append(data.data.response);
             $('#purchaseModalReport').modal({
               keyboard: false
@@ -112,10 +115,12 @@ DanL.Search = {
                 $('.modal-backdrop').remove();
             })
         }).fail(function( jqXHR, textStatus, errorThrown ) {
+            $('.loader-wrp').css('display','none');
             console.log('getReportData failed: ' + textStatus);
         }); 
     },
     getAllCompletedRemarksReport: function(el) {
+        $('.loader-wrp').css('display','block');
         DanL.ajax.fetch({
             command: 'getAllCompletedRemarksReport',
             arguments: {
@@ -123,8 +128,7 @@ DanL.Search = {
                 estateUid: $(el).data('estate')
             }
         }).done(function(data, textStatus, jqXHR) {
-            //$('#genericModalReport').remove();
-            //$('.modal-backdrop').remove();
+            $('.loader-wrp').css('display','none');
             $('body').append(data.data.response);
             $('#CompletedRemarksModalReport').modal({
               keyboard: false
@@ -134,6 +138,7 @@ DanL.Search = {
                 $('.modal-backdrop').remove();
             })
         }).fail(function( jqXHR, textStatus, errorThrown ) {
+            $('.loader-wrp').css('display','none');
             console.log('getReportData failed: ' + textStatus);
         }); 
     }    
@@ -168,6 +173,10 @@ $(function() {
         event.preventDefault();
         DanL.Search.getPurchaseReport($(this));
     });
+    $('.search-trigger').on('click', function(event) {
+        $('.loader-wrp').css('display','block');
+    });
+
     $('[name="tx_dliponlyestate_reportsearch[estates]"]').on('change', function() {
         DanL.Search.getSearchOptionsByEstate($(this));
         DanL.ajax.fetch({

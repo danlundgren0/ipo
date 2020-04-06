@@ -175,7 +175,8 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
             //$latestReports = ReportUtil::adaptPostedReportsForOutput($searchResults);
             $latestReports = $this->reportRepository->searchReports($searchCriterias);
         } else {
-            if (!$arguments || count($arguments) == 1 && $arguments['xls'] == '1') {
+            //if (!$arguments || count($arguments) == 1 && $arguments['xls'] == '1') {
+            if (count($arguments) == 1 && $arguments['xls'] == '1') {
                 $searchCriterias = new \DanLundgren\DlIponlyestate\Domain\Model\SearchCriterias();
                 /*
                 $searchResults = $this->reportRepository->searchReports($searchCriterias);
@@ -478,7 +479,8 @@ class ReportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     private function cleanData($str)
     {
         $str = preg_replace('/	/', '\\t', $str);
-        $str = preg_replace('/?
+        $str = preg_replace('/
+?
 /',
             '\\n', $str
         );
