@@ -13,9 +13,33 @@ in /Configuration/ExtensionBuilder/settings.yaml:
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
 
 <f:section name="main">
-<h1>Sökresultat</h1>
+
+
+<h2>Statistik</h2>
+<table  class="tx_dliponlyestate" >
+    <tr>
+        <th>Typ </th>
+        <th>Antal siter</th>
+        <th>Inskickade rapporter</th>
+        <th>Saknade rapporter</th>
+    </tr>
+
+    <f:for each="{latestReports.statistics}" as="s">
+        <tr>
+            <td>{s.nodeTypeName}</td>
+            <td>{s.noOfEstates}</td>
+            <td>{s.noOfEstatesWithReport}</td>
+            <td>{s.noOfEstatesNoReport}</td>
+        </tr>
+    </f:for>
+</table>
+
+<h2>Sökresultat</h2>
 
 <f:flashMessages /> 
+
+<f:flashMessages />
+
 <div class="col-md-12 affix-header">
 <!-- div class="col-md-12 js_search-header" -->
     <div class="row sort-header">

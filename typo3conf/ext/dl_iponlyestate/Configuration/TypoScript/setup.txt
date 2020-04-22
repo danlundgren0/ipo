@@ -140,6 +140,13 @@ plugin.tx_dliponlyestate_reportlist {
 	}
 }
 
+plugin.tx_dliponlyestate_statistics {
+	persistence {
+		storagePid = {$plugin.tx_dliponlyestate.persistence.storagePid}
+		recursive = 99
+	}
+}
+
 plugin.tx_dliponlyestate_pdf {
 	persistence {
 		completePdfPid = {$plugin.tx_dliponlyestate_pdf.persistence.completePdfPid}

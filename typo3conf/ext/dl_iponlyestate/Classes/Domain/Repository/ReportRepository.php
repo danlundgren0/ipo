@@ -220,7 +220,7 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         }
         //THIS SQL selects all estates without any report within the set daterange
         $estateUidArr = array();
-        $estateUidSelect = 'estate.uid AS estate,estate.name AS estateName, nodeType.name AS nodeTypeName, estate.page_link AS pageLink, feuser.name AS respTechnicianName, "noReport"';
+        $estateUidSelect = 'estate.uid AS estate,estate.name AS estateName, nodeType.uid AS nodeTypeUid, nodeType.name AS nodeTypeName, estate.page_link AS pageLink, feuser.name AS respTechnicianName, "noReport"';
         $estateUidFrom = '
                 tx_dliponlyestate_domain_model_estate AS estate 
                 LEFT JOIN tx_dliponlyestate_domain_model_nodetype nodeType ON nodeType.uid = estate.node_type
@@ -235,8 +235,10 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             AND estate.hidden = 0 AND estate.deleted = 0 
             AND feuser.username IS NOT NULL
         ' . $addAND;
-        $estateUidRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery($estateUidSelect, $estateUidFrom, $estateUidWhere);
+        $estateUidRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery($estateUidSelect, $estateUidFrom, $estateUidWhere);        
         $debugQuery = 'SELECT ' . $estateUidSelect . ' FROM ' . $estateUidFrom . ' WHERE ' . $estateUidWhere;
+        //print('<br>-------------<br>');
+        $nodeTypeArr = $this->getNodeTypes();
         //print($debugQuery);
         $reportUids = array();
         $reportsByEstate = array();
@@ -244,16 +246,61 @@ class ReportRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             while ($estateUidRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($estateUidRes)) {
                 //$estateUidArr[] = $estateUidRow['uid'];
                 $reportsByEstate[$estateUidRow['uid']][] = $estateUidRow;
+
+				$nodeTypeUid = $estateUidRow['nodeTypeUid'];
+				$estateUid = $estateUidRow['estate'];
+				if(!isset($nodeTypeArr[$nodeTypeUid]['noOfEstates'])) {
+					$nodeTypeArr[$nodeTypeUid]['noOfEstates'] = 0;
+				}
+				if(!isset($nodeTypeArr[$nodeTypeUid]['noOfEstatesNoReport'])) {
+					$nodeTypeArr[$nodeTypeUid]['noOfEstatesNoReport'] = 0;
+				}
+                if(!in_array($estateUid, $nodeTypeArr[$nodeTypeUid]['estateUids'])) {
+                	$nodeTypeArr[$nodeTypeUid]['estateUids'][] = $estateUid;
+                	$nodeTypeArr[$nodeTypeUid]['noOfEstates'] += 1;
+                	$nodeTypeArr[$nodeTypeUid]['noOfEstatesNoReport'] += 1;
+                }
             }
         //}
         
         while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($searchRes)) {
             if ((int) $row['estate'] > 0) {
                 $reportsByEstate[$row['estate']][] = $row;
+				$nodeTypeUid = $row['nodeTypeUid'];
+				$estateUid = $row['estate'];
+				if(!isset($nodeTypeArr[$nodeTypeUid]['noOfEstates'])) {
+					$nodeTypeArr[$nodeTypeUid]['noOfEstates'] = 0;
+				}
+				if(!isset($nodeTypeArr[$nodeTypeUid]['noOfEstatesNoReport'])) {
+					$nodeTypeArr[$nodeTypeUid]['noOfEstatesNoReport'] = 0;
+				}
+                if(!in_array($estateUid, $nodeTypeArr[$nodeTypeUid]['estateUids'])) {
+                	$nodeTypeArr[$nodeTypeUid]['estateUids'][] = $estateUid;
+                	$nodeTypeArr[$nodeTypeUid]['noOfEstates'] += 1;
+                	$nodeTypeArr[$nodeTypeUid]['noOfEstatesWithReport'] += 1;
+                }
+                
+                
             }
         }
         $searchedReports = $this->getSearchedReports($reportsByEstate);
+        $searchedReports['statistics'] = $nodeTypeArr;
         return $searchedReports;
+    }
+
+    private function getNodeTypes() {
+    	$nodeTypeArr = [];
+    	$nodeTypeRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery('name, uid', 'tx_dliponlyestate_domain_model_nodetype', 'deleted = 0 and hidden = 0');    	
+        while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($nodeTypeRes)) {
+            if (!array_key_exists($row['uid'], $nodeTypeArr)) {
+                $nodeTypeArr[$row['uid']]['nodeTypeName'] = $row['name'];
+                $nodeTypeArr[$row['uid']]['estateUids'] = [];
+            	$nodeTypeArr[$row['uid']]['noOfEstates'] = 0;
+            	$nodeTypeArr[$row['uid']]['noOfEstatesWithReport'] = 0;
+            	$nodeTypeArr[$row['uid']]['noOfEstatesNoReport'] = 0;
+            }
+        }
+        return $nodeTypeArr;
     }
     
     /**

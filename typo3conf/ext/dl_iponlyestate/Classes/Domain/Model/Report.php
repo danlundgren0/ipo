@@ -189,6 +189,13 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $adminNoteIsChecked = false;
     
     /**
+     * adminNote
+     *
+     * @var string
+     */
+    protected $adminNote = '';
+    
+    /**
      * dynamicColumn
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\DanLundgren\DlIponlyestate\Domain\Model\DynamicColumn>
@@ -218,13 +225,6 @@ class Report extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @cascade remove
      */
     protected $reportedMeasurement = null;
-    
-    /**
-     * adminNote
-     *
-     * @var string
-     */
-    protected $adminNote = '';
     
     /**
      * __construct
