@@ -481,40 +481,25 @@ class ControlPointController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
             $note->removeImage($imagesToRemove);
             $this->noteRepository->update($note);
         }
-        //$_FILES['tx_dliponlyestate_domain_model_note'] = $_FILES['tx_dliponlyestate_domain_model_controlpoint'];
-        //unset($_FILES['tx_dliponlyestate_domain_model_controlpoint']);
-        /*if($note === NULL) {
-          return $uploadError = 'Note is NULL';
-          }
-          $nodeTypeFolder = $note->getControlPoint()->getNodeType()->getName();
-          $estateFolder = ($estate->getName()!='')?$estate->getName():$estate->getHeader();*/
-        
-        //$targetFalDirectory = $this->createFolders($nodeTypeFolder, $estateFolder);
         $targetFalDirectory = '1:/user_upload/';
-        $overwriteExistingFiles = TRUE;
+        //Changed to rename new file 2020-05-15
+        //$overwriteExistingFiles = TRUE;
         $data = array();
         $namespace = key($_FILES);
-        /*
-        if(strlen($nodeTypePath)>0 && strlen($estatePath)>0) {
-            $targetFalDirectory = '1:/'.$nodeTypePath.'/'.$estatePath.'/';
-        }
-        else {
-            $targetFalDirectory = '1:/user_upload/';
-        }
-        */
-        
-        // Register every upload field from the form:
         $this->registerUploadField($data, $namespace, 'image', $targetFalDirectory);
         $this->registerUploadField($data, $namespace, 'image2', $targetFalDirectory);
         $this->registerUploadField($data, $namespace, 'image3', $targetFalDirectory);
         $this->registerUploadField($data, $namespace, 'image4', $targetFalDirectory);
         $this->registerUploadField($data, $namespace, 'image5', $targetFalDirectory);
+
         // Initializing:
         /** @var \TYPO3\CMS\Core\Utility\File\ExtendedFileUtility $fileProcessor */
         $fileProcessor = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Utility\\File\\ExtendedFileUtility');
         $fileProcessor->init(array(), $GLOBALS['TYPO3_CONF_VARS']['BE']['fileExtensions']);
         $fileProcessor->setActionPermissions(array('addFile' => TRUE));
-        $fileProcessor->dontCheckForUnique = $overwriteExistingFiles ? 1 : 0;
+        $fileProcessor->setExistingFilesConflictMode(\TYPO3\CMS\Core\Resource\DuplicationBehavior::RENAME);
+        //Changed to rename new file 2020-05-15
+        //$fileProcessor->dontCheckForUnique = $overwriteExistingFiles ? 1 : 0;
         // Actual upload
         $fileProcessor->start($data);
         $result = $fileProcessor->processData();
